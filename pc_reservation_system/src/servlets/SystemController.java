@@ -56,46 +56,53 @@ public class SystemController extends HttpServlet {
 	}
 
 	private void Login(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, NullPointerException{
-		// TODO Auto-generated method stub
-		
-		System.out.print("HEK");
-		
 		int id = -1;
 		String password = "";
-		String link = "index.html?error=yes";
+		String link = "index.html?error=";
+		String errors = "";
+		boolean success = false;
 		
 		try {
 			id = Integer.parseInt(request.getParameter("id"));
 			
 			password = request.getParameter("password");
-			
-			System.out.println("ID: " + id);
-			System.out.println("Password: " + password);
 		
-		User user = SystemService.getUser(id);
+			User user = SystemService.getUser(id);
 		
-		if(user == null || !user.getPassword().equals(password)) {
-			System.out.println("USER INVALID");
-		}
-		else {
-			System.out.println("USER VALID");
-			request.getSession().setAttribute("id", id);
-			
-			if(user.getPosition().equals("admin")) {
-				link = "admin_front_page.html";
+			if(id == null || id == -1) {
+				errors+="BU";
 			}
-			else {
-				link = "user_front_page.html";
+			if(password == null || password == ""){
+				errors+="BP";
 			}
-		}
+			if(!user.getPassword().equals(password)){
+				errors+="WP";
+			}
+			if(user == null){
+				errors+="WU";
+			}
+			if(user != null && user.getPassword().equals(password)){//user n pass is correct
+				System.out.println("USER VALID");
+				request.getSession().setAttribute("id", id);
+				
+				if(user.getPosition().equals("admin")) {
+					link = "admin_front_page.html";
+				}
+				else {
+					link = "user_front_page.html";
+				}
+				success = true;
+			}
 		
 		}
 		catch(Exception e) {
 			System.out.println(e);
 			e.printStackTrace();
 		}
-		
-		System.out.println("END");
+		//if login failed, append the error codes to the link
+		if(!success){
+			link+=errors;
+		}
 		//request.getRequestDispatcher(link).forward(request,response);
 		response.sendRedirect(link);
 	}
