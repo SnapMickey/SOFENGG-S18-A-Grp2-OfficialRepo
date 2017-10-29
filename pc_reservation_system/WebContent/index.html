@@ -86,7 +86,7 @@
             margin:3px;
             font-family:'Avenir Next',sans-serif;
             font-size:12px;
-            margin-left:35%;
+            margin-left:33%;
         }
         .footer{
             position: absolute;
@@ -110,7 +110,7 @@
     <body>
         <div class = "container-fluid mainDiv">
             
-            <!-- Header eyyy -->
+            <!-- Header -->
             <div class = "row header">
                 <div class = "col-sm-1" style = "padding:0px;">
                     <img src = "DLSU_Logo_Clear_Background.png" style = "width:60px;height:60px">
@@ -119,7 +119,7 @@
                     <h4 style = "margin-top:15px; color:#278347; font-family:'Futura',sans-serif;font-size:30px; font-weight:500">Computer Reservation</h4>
                 </div>
             </div>
-            <!-- Header end xd -->
+            <!-- Header end-->
             
             <!-- The login thingy -->
             <div class="container">
@@ -142,11 +142,11 @@
             
             
             
-            <!-- f00ter xd -->
+            <!-- footer -->
             <div class = "row footer">
                 <h3 class = "copyright">Copyright De La Salle University</h3>
             </div>
-            <!-- f00ter enD xd-->
+            <!-- footer end-->
             
         </div>
     </body>
@@ -162,14 +162,38 @@
         integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
         crossorigin="anonymous"></script>
         <script>
-            //insert code here haha
+     
+            //check if theres error in login
             
-            var err = window.location.search.substring(1);
+            //error will contain a string of codes telling which errors there are
+            //e.g. error "BUBP" means blank username blank password etc
+            var err = window.location.search.substring(1).split("err=")[1];
             console.log(err);
             if(err != ""){
-            	$(".errorLogin").css("visibility", "visible");	
-            }
+            	var head = $(".errorLogin");
+                var errorMessage = "";
+                //check if error codes are in string, if yes, append error message to errorMessage
+                if(err.indexOf("DNE")!= -1){
+                    errorMessage+= "• User does not exist<br/>"
+                }
+                if(err.indexOf("BU")!= -1){
+                    errorMessage+= "• Username cannot be blank<br/>"
+                }
+                if(err.indexOf("BP")!= -1){
+                    errorMessage+= "• Password cannot be blank<br/>"
+                }
+                if(err.indexOf("WU")!= -1){
+                    errorMessage+= "• Invalid Username<br/>"
+                }
+                if(err.indexOf("WP")!= -1){
+                    errorMessage+= "• Invalid Password<br/>"
+                }
+                
+                //display the error message(s)
+                head.html(errorMessage);
+                head.css("visibility", "visible");
             
+            }
             
             
         </script>
