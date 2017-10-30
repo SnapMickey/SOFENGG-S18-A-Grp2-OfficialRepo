@@ -11,16 +11,16 @@ public class User {
 	@Column(name = "userID")
 	private int id;
 	
-	@Column
+	@Column(name = "name")
 	private String name;
 	
-	@Column
+	@Column(name = "password")
 	private String password;
 	
-	@Column
+	@Column(name = "email")
 	private String email;
 	
-	@Column
+	@Column(name = "position")
 	private String position;
 
 	public int getId() {

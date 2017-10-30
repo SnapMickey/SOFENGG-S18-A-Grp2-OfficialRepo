@@ -15,7 +15,7 @@ import services.SystemService;
 /**
  * Servlet implementation class SystemController
  */
-@WebServlet(urlPatterns = {"/login", "/logout"})
+@WebServlet(urlPatterns = {"/login", "/logout", "/adminpage", "/userpage"})
 @MultipartConfig
 public class SystemController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -43,11 +43,29 @@ public class SystemController extends HttpServlet {
 			case "/logout":
 				Logout(request, response);
 				break;
+			case "/adminpage":
+				AdminPage(request, response);
+				break;
+			case "/userpage":
+				UserPage(request, response);
+				break;
 		}
 
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
+	private void AdminPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		request.getRequestDispatcher("admin_front_page.html").forward(request, response);
+		//redirect to login page
+	}
+	
+	private void UserPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		request.getRequestDispatcher("user_front_page.html").forward(request, response);
+		//redirect to login page
+	}
+	
 	private void Logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.getSession().invalidate();
@@ -69,7 +87,7 @@ public class SystemController extends HttpServlet {
 		
 			User user = SystemService.getUser(id);
 		
-			if(id == null || id == -1) {
+			if(user == null || id == -1) {
 				errors+="BU";
 			}
 			if(password == null || password == ""){
@@ -84,12 +102,13 @@ public class SystemController extends HttpServlet {
 			if(user != null && user.getPassword().equals(password)){//user n pass is correct
 				System.out.println("USER VALID");
 				request.getSession().setAttribute("id", id);
+				request.getSession().setAttribute("position", user.getPosition());
 				
 				if(user.getPosition().equals("admin")) {
-					link = "admin_front_page.html";
+					link = "adminpage";
 				}
 				else {
-					link = "user_front_page.html";
+					link = "userpage";
 				}
 				success = true;
 			}
