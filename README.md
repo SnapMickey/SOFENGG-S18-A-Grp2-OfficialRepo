@@ -1,6 +1,6 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
-Lominoque, Jerome October 10, 2017
+Lominoque, Jerome October 30, 2017
 Changes made:
 - Applied Filters in filter package
 - Edited SystemController.java
