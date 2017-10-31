@@ -1,5 +1,13 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Rivera, Jared October 31, 2017
+Changes made:
+- Modified Filters in filter package
+
+Error/Problems:
+- Still requires code to display an error alert. Line  58 & 62.
+
+
 Lominoque, Jerome October 30, 2017
 Changes made:
 - Applied Filters in filter package

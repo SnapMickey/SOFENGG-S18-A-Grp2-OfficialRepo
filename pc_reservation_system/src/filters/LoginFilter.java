@@ -32,23 +32,37 @@ public class LoginFilter implements Filter {
     @Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		// TODO Auto-generated method stub
-		// place your code here
-    	System.out.print("filtering");
+
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
+		
+		httpResponse.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); 
+		httpResponse.setHeader("Pragma", "no-cache"); 
+		httpResponse.setDateHeader("Expires", 0); 
+		
 		// pass the request along the filter chain
-		String link = "index.html?error=yes";
-		String position = (String)httpRequest.getSession().getAttribute("position");
-		System.out.println(position);
-		if (position == null) {
-			System.out.print("no id");
-			// person is null means the user is not logged in. 
-			// forward user to login page
-			httpResponse.sendRedirect(link);
-		} else {
-			System.out.println("ok");
-			// if person is logged in then continue with the request
-			chain.doFilter(request, response);
+		String link = "index.html?error=";
+		
+		String path = httpRequest.getServletPath();
+		
+		int id = -1;
+		String position = null;
+		
+		try {
+		id = Integer.parseInt((String)httpRequest.getSession().getAttribute("id"));
+		position = (String)httpRequest.getSession().getAttribute("position");
+		}
+		catch(Exception e) {}
+		
+		if (id == -1) {
+			//display Alert
+		}
+		else {		
+			if(position.equals("admin") && !path.contains("admin")) {
+				//display Alert
+			}
+			else
+				chain.doFilter(request, response);
 		}
 	}
 
