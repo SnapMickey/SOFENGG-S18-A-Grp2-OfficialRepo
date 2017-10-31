@@ -1,5 +1,13 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Rivera, Jared November 1, 2017
+Changes made:
+- Filters work. Page security is accounted for
+- Fixed displaying of alert for restricted access in index.html
+Error / Problems:
+- Background does not display
+
+
 Bornales, Amiel October 31, 2017
 Changes made:
 - Background works now
