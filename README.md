@@ -4,6 +4,7 @@ Rivera, Jared November 1, 2017
 Changes made:
 - Filters work. Page security is accounted for
 - Fixed displaying of alert for restricted access in index.html
+
 Error / Problems:
 - Background does not display
 
