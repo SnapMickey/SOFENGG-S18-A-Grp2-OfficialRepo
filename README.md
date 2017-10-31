@@ -1,5 +1,14 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Bornales, Amiel October 31, 2017
+Changes made:
+- Background works now
+- Fixed displaying of proper error messages
+- Added Restricted Access alert
+
+Error / Problems:
+- Filter needs to redirect to "index.html?error=RA" for alert to work 
+
 Rivera, Jared October 31, 2017
 Changes made:
 - Modified Filters in filter package
