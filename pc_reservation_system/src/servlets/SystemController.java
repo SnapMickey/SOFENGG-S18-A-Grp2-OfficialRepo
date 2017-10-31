@@ -69,7 +69,7 @@ public class SystemController extends HttpServlet {
 	private void Logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.getSession().invalidate();
-		request.getRequestDispatcher("index.html").forward(request, response);
+		response.sendRedirect("index.html");
 		//redirect to login page
 	}
 
@@ -79,43 +79,42 @@ public class SystemController extends HttpServlet {
 		String link = "index.html?error=";
 		String errors = "";
 		boolean success = false;
+		User user = null;
 		
 		try{
 			id = Integer.parseInt(request.getParameter("id"));
 			if(id<=8000000 || id >= 30000000 && id != -1){
 				errors+="WU";
-				//setting id to 0 so error code BU wont be added
-				id = 0;
 			}
-		}catch(Exception e){
-			
+		}catch(NumberFormatException e){
 			//number format exception,i.e. input wasnt an int
 			errors+="WU";
-			//setting id to 0 so error code BU wont be added
-			id = 0;
+		}
+		catch(NullPointerException e){
+			//null pointer exception,i.e. input was left blank
+			errors+="BU";
 		}
 		password = request.getParameter("password");
 	
 		
 	
 		//Changed id -> user just to prevent unwanted error (Edited by: Jerome)
-		if(password == null || password == ""){
-			errors+="BP";
-		}
 		
 		//check first if id isnt blank, if it isnt blank, do stuff
-		if(id != -1){
-			User user = SystemService.getUser(id);
-			
+			if(id != -1){
+				user = SystemService.getUser(id);
+				
 			//check first if user is null / doesnt exist before comparing password
 			if(user == null ){
 				errors+="DNE";
+			}
+			else if(password == null || password == "") {
+				errors+="BP";
 			}
 			else if(!user.getPassword().equals(password)){
 				errors+="WP";
 			}
 			else if(user != null && user.getPassword().equals(password)){//user n pass is correct
-				System.out.println("USER VALID");
 				request.getSession().setAttribute("id", id);
 				request.getSession().setAttribute("position", user.getPosition());
 				

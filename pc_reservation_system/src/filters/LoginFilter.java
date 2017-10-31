@@ -49,17 +49,21 @@ public class LoginFilter implements Filter {
 		String position = null;
 		
 		try {
-		id = Integer.parseInt((String)httpRequest.getSession().getAttribute("id"));
+		id = (Integer)httpRequest.getSession().getAttribute("id");
 		position = (String)httpRequest.getSession().getAttribute("position");
 		}
-		catch(Exception e) {}
+		catch(Exception e) {e.printStackTrace();}
 		
 		if (id == -1) {
-			//display Alert
+			httpResponse.sendRedirect(link + "RA");
 		}
 		else {		
+			
 			if(position.equals("admin") && !path.contains("admin")) {
-				//display Alert
+				httpResponse.sendRedirect("adminpage");
+			}
+			else if((position.equals("student") || position.equals("faculty")) && !path.contains("user")) {
+				httpResponse.sendRedirect("userpage");
 			}
 			else
 				chain.doFilter(request, response);
