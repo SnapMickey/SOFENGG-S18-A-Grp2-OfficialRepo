@@ -80,31 +80,47 @@ public class SystemController extends HttpServlet {
 		String errors = "";
 		boolean success = false;
 		
-		try {
+		try{
 			id = Integer.parseInt(request.getParameter("id"));
+			if(id<=8000000 || id >= 30000000 && id != -1){
+				errors+="WU";
+				//setting id to 0 so error code BU wont be added
+				id = 0;
+			}
+		}catch(Exception e){
 			
-			password = request.getParameter("password");
+			//number format exception,i.e. input wasnt an int
+			errors+="WU";
+			//setting id to 0 so error code BU wont be added
+			id = 0;
+		}
+		password = request.getParameter("password");
+	
 		
+	
+		//Changed id -> user just to prevent unwanted error (Edited by: Jerome)
+		if(password == null || password == ""){
+			errors+="BP";
+		}
+		
+		//check first if id isnt blank, if it isnt blank, do stuff
+		if(id != -1){
 			User user = SystemService.getUser(id);
-		
-			if(user == null || id == -1) {
-				errors+="BU";
+			
+			//check first if user is null / doesnt exist before comparing password
+			if(user == null ){
+				errors+="DNE";
 			}
-			if(password == null || password == ""){
-				errors+="BP";
-			}
-			if(!user.getPassword().equals(password)){
+			else if(!user.getPassword().equals(password)){
 				errors+="WP";
 			}
-			if(user == null){
-				errors+="WU";
-			}
-			if(user != null && user.getPassword().equals(password)){//user n pass is correct
+			else if(user != null && user.getPassword().equals(password)){//user n pass is correct
 				System.out.println("USER VALID");
 				request.getSession().setAttribute("id", id);
 				request.getSession().setAttribute("position", user.getPosition());
 				
 				if(user.getPosition().equals("admin")) {
+					//changed admin_front_page.html -> adminpage (note: check doGet method) (Edited by: Jerome)
 					link = "adminpage";
 				}
 				else {
@@ -112,12 +128,9 @@ public class SystemController extends HttpServlet {
 				}
 				success = true;
 			}
+		}
 		
-		}
-		catch(Exception e) {
-			System.out.println(e);
-			e.printStackTrace();
-		}
+		
 		//if login failed, append the error codes to the link
 		if(!success){
 			link+=errors;
