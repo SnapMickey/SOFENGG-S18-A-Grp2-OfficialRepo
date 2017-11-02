@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import beans.Pc;
+
 @Entity(name = "lab")
 public class Lab {
 	

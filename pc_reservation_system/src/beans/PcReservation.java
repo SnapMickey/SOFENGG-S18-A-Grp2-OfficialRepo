@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.sql.Timestamp;
 
-@Entity(name = "pc_reservation")
+@Entity(name = "pc_reservations")
 public class PcReservation {
 
 	@Id
@@ -33,6 +33,12 @@ public class PcReservation {
 	@Column(name = "eConfirmedTime")
 	Timestamp eConfirmTime;
 	
+	@Column(name = "emailConfirmed")
+	boolean emailConfirmed;
+	
+	@Column(name = "adminConfirmed")
+	boolean adminConfirmed;
+	
 	public void setCheckInTime(Timestamp checkInTime) {
 		this.checkInTime = checkInTime;
 	}
@@ -49,11 +55,6 @@ public class PcReservation {
 		this.adminConfirmed = adminConfirmed;
 	}
 
-	@Column(name = "emailConfirmed")
-	boolean emailConfirmed;
-	
-	@Column(name = "adminConfirmed")
-	boolean adminConfirmed;
 
 	public int getBorrowID() {
 		return borrowID;
@@ -94,4 +95,14 @@ public class PcReservation {
 	public boolean isAdminConfirmed() {
 		return adminConfirmed;
 	}
+
+	@Override
+	public String toString() {
+		return "PcReservation [borrowID=" + borrowID + ", userID=" + userID + ", pcID=" + pcID + ", dateTimeStart="
+				+ dateTimeStart + ", dateTimeEnd=" + dateTimeEnd + ", checkInTime=" + checkInTime + ", reserveTime="
+				+ reserveTime + ", eConfirmTime=" + eConfirmTime + ", emailConfirmed=" + emailConfirmed
+				+ ", adminConfirmed=" + adminConfirmed + "]";
+	}
+	
+	
 }

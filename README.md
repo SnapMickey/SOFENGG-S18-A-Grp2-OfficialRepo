@@ -1,4 +1,10 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+
+Rivera, Jared November 2, 2017
+Changes made:
+- System Service, finished database getters: Pc, Lab, PcReservation.
+
+
 Bornales, Amiel James November 2, 2017
 Changes made:
 - Finished layout of admin_home_page
