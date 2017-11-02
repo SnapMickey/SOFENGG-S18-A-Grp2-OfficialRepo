@@ -1,11 +1,11 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 Bornales, Amiel James November 2, 2017
 Changes made:
--Finished layout of admin_home_page
--Finished layout of user_home_page
--added functions for adding data to the tables in admin home page
--added functions for adding data to the tables in user home page
--fixed footer
+- Finished layout of admin_home_page
+- Finished layout of user_home_page
+- added functions for adding data to the tables in admin home page
+- added functions for adding data to the tables in user home page
+- fixed footer
 
 Errors / Problems:
 - Header alignment
