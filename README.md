@@ -1,5 +1,12 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Lominoque, Jerome November 2, 2017
+Changes made:
+- Edited the sql.
+    - Changed all boolean (VARCHAR) to boolean (TINYINT)
+    - removed year in faculty table
+    - changed year to status in student table
+
 Rivera, Jared November 2, 2017
 Changes made:
 - Added Pc, Lab, Pc Reservation Beans

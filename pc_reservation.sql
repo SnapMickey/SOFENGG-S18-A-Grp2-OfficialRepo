@@ -24,7 +24,6 @@ DROP TABLE IF EXISTS `faculty`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `faculty` (
   `userID` int(11) NOT NULL,
-  `year` varchar(45) NOT NULL,
   `faculty` varchar(45) NOT NULL,
   `slotsRemaining` int(11) NOT NULL,
   PRIMARY KEY (`userID`)
@@ -37,7 +36,7 @@ CREATE TABLE `faculty` (
 
 LOCK TABLES `faculty` WRITE;
 /*!40000 ALTER TABLE `faculty` DISABLE KEYS */;
-INSERT INTO `faculty` VALUES (10912312,'1st/2nd/3rd','Chemistry',3),(11012344,'4th','History',3),(11123451,'2nd/3rd/4th','Software Technology',3),(11251234,'1st/2nd/3rd','Marketing',3),(11322213,'2nd/3rd','Chem. Engineering',3),(11542311,'1st','Mech. Engineering',3);
+INSERT INTO `faculty` VALUES (10912312,'Chemistry',3),(11012344,'History',3),(11123451,'Software Technology',3),(11251234,'Marketing',3),(11322213,'Chem. Engineering',3),(11542311,'Mech. Engineering',3);
 /*!40000 ALTER TABLE `faculty` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -52,7 +51,7 @@ CREATE TABLE `lab` (
   `locationID` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
   `building` varchar(45) NOT NULL,
-  `isAvailable` varchar(45) NOT NULL,
+  `isAvailable` tinyint(4) NOT NULL,
   PRIMARY KEY (`locationID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -63,7 +62,7 @@ CREATE TABLE `lab` (
 
 LOCK TABLES `lab` WRITE;
 /*!40000 ALTER TABLE `lab` DISABLE KEYS */;
-INSERT INTO `lab` VALUES (1,'Henry Sy - 6th Floor','Henry Sy','False'),(2,'Henry Sy - 7th Floor','Henry Sy','False'),(3,'Henry Sy - 8th Floor','Henry Sy','False'),(4,'Gokongwei Lab - G301A','Gokongwei','False'),(5,'Gokongwei Lab - G302B','Gokongwei','True'),(6,'Gokongwei Lab - G301B','Gokongwei','False'),(7,'Gokongwei Lab - G302A','Gokongwei','True');
+INSERT INTO `lab` VALUES (1,'Henry Sy - 6th Floor','Henry Sy',0),(2,'Henry Sy - 7th Floor','Henry Sy',0),(3,'Henry Sy - 8th Floor','Henry Sy',0),(4,'Gokongwei Lab - G301A','Gokongwei',0),(5,'Gokongwei Lab - G302B','Gokongwei',1),(6,'Gokongwei Lab - G301B','Gokongwei',0),(7,'Gokongwei Lab - G302A','Gokongwei',1);
 /*!40000 ALTER TABLE `lab` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -77,7 +76,7 @@ DROP TABLE IF EXISTS `pc_info`;
 CREATE TABLE `pc_info` (
   `pcID` int(11) NOT NULL,
   `locationID` int(11) NOT NULL,
-  `isAvailable` varchar(45) NOT NULL,
+  `isAvailable` tinyint(4) NOT NULL,
   PRIMARY KEY (`pcID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -88,7 +87,7 @@ CREATE TABLE `pc_info` (
 
 LOCK TABLES `pc_info` WRITE;
 /*!40000 ALTER TABLE `pc_info` DISABLE KEYS */;
-INSERT INTO `pc_info` VALUES (1,1,'False'),(2,1,'True'),(3,1,'True'),(4,1,'False'),(5,1,'True'),(6,2,'True'),(7,2,'False'),(8,2,'True'),(9,2,'False'),(10,2,'True'),(11,2,'True'),(12,2,'True'),(13,2,'True');
+INSERT INTO `pc_info` VALUES (1,1,0),(2,1,1),(3,1,1),(4,1,0),(5,1,1),(6,2,1),(7,2,0),(8,2,1),(9,2,0),(10,2,1),(11,2,1),(12,2,1),(13,2,1);
 /*!40000 ALTER TABLE `pc_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -108,8 +107,8 @@ CREATE TABLE `pc_reservations` (
   `checkInTime` datetime NOT NULL,
   `reserveTime` datetime NOT NULL,
   `eConfirmTime` datetime NOT NULL,
-  `emailConfirmed` varchar(45) NOT NULL,
-  `adminConfirmed` varchar(45) NOT NULL,
+  `emailConfirmed` tinyint(4) NOT NULL,
+  `adminConfirmed` tinyint(4) NOT NULL,
   PRIMARY KEY (`borrowID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -137,7 +136,7 @@ CREATE TABLE `statistics` (
   `status` varchar(45) NOT NULL,
   `dateTimeReserved` datetime NOT NULL,
   `dateTimeUsed` datetime NOT NULL,
-  `isUsed` varchar(45) NOT NULL,
+  `isUsed` tinyint(4) NOT NULL,
   PRIMARY KEY (`pcID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -161,7 +160,7 @@ DROP TABLE IF EXISTS `student`;
 CREATE TABLE `student` (
   `userID` int(11) NOT NULL,
   `course/college` varchar(45) NOT NULL,
-  `year` varchar(45) NOT NULL,
+  `status` varchar(45) NOT NULL,
   `blacklistDays` int(11) NOT NULL,
   `slotsRemaining` int(11) NOT NULL,
   PRIMARY KEY (`userID`)
@@ -174,7 +173,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES (11265423,'AB-HIS/CLA','Grad',0,3),(11324215,'BSCS/CCS','Grad',0,3),(11412345,'BSED-BIO/COE','4th',2,3),(11425232,'BSIT/CCS','4th',0,3),(11534567,'AB-LIT/CLA','3rd',0,3),(11634521,'BSA/COB','2nd',4,3);
+INSERT INTO `student` VALUES (11265423,'AB-HIS/CLA','Graduate',0,3),(11324215,'BSCS/CCS','Graduate',0,3),(11412345,'BSED-BIO/COE','Undergraduate',2,3),(11425232,'BSIT/CCS','Undergraduate',0,3),(11534567,'AB-LIT/CLA','Undergraduate',0,3),(11634521,'BSA/COB','Undergraduate',4,3);
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,4 +213,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-30 21:36:24
+-- Dump completed on 2017-11-02 15:37:36
