@@ -6,7 +6,11 @@ Changes made:
     - Changed all boolean (VARCHAR) to boolean (TINYINT)
     - removed year in faculty table
     - changed year to status in student table
-
+- Added Admin Reservation Page (Filename: admin_reservation_page)
+ 
+Error / Problems:
+    - Header spacings must be fixed
+    
 Rivera, Jared November 2, 2017
 Changes made:
 - Added Pc, Lab, Pc Reservation Beans
