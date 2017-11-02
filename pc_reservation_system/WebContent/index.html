@@ -131,7 +131,7 @@
                             <h4 class = "loginTxt">Before you can reserve, please log in</h4>
                             <input type = "text" name = "id" class = "username" placeholder="ID Number">
                             <input type = "password" name = "password" class = "password" placeholder = "Password">
-                            <p class = "errorLogin"></p>
+                            <p class = "errorLogin">Incorrect ID or Password</p>
                             <button id = "btn" class = "loginBtn">LOGIN</button>                        
                         </form>
                     </div>
@@ -167,30 +167,31 @@
             
             //error will contain a string of codes telling which errors there are
             //e.g. error "BUBP" means blank username blank password etc
-            var err = window.location.search.substring(1).split("error=")[1];
+            var err = window.location.search.substring(1).split("err=")[1];
             console.log(err);
             if(err != ""){
             	var head = $(".errorLogin");
                 var errorMessage = "";
                 //check if error codes are in string, if yes, append error message to errorMessage
                 if(err.indexOf("DNE")!= -1){
-                    errorMessage+= "* User does not exist<br/>"
+                    errorMessage+= "• User does not exist<br/>"
                 }
                 if(err.indexOf("BU")!= -1){
-                    errorMessage+= "* Username cannot be blank<br/>"
+                    errorMessage+= "• Username cannot be blank<br/>"
                 }
                 if(err.indexOf("BP")!= -1){
-                    errorMessage+= "* Password cannot be blank<br/>"
+                    errorMessage+= "• Password cannot be blank<br/>"
                 }
                 if(err.indexOf("WU")!= -1){
-                    errorMessage+= "* Invalid Username<br/>"
+                    errorMessage+= "• Invalid Username<br/>"
                 }
                 if(err.indexOf("WP")!= -1){
-                    errorMessage+= "* Invalid Password<br/>"
+                    errorMessage+= "• Invalid Password<br/>"
                 }
-                if(err.indexOf("RA")!= -1){
-                    alert("Restricted Access");
+                if(err.indexof("RA")!= -1){
+                	errorMessage+= "• Restricted Access"
                 }
+                
                 //display the error message(s)
                 head.html(errorMessage);
                 head.css("visibility", "visible");
