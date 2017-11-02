@@ -1,5 +1,9 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Rivera, Jared November 2, 2017
+Changes made:
+- Added Pc, Lab, Pc Reservation Beans
+
 Rivera, Jared November 1, 2017
 Changes made:
 - Filters work. Page security is accounted for

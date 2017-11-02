@@ -7,7 +7,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import beans.User;
+import beans.*;
 
 public class SystemService {
 
@@ -27,4 +27,22 @@ public class SystemService {
 		
 		return user;
 	}
+	
+	public static Pc getPc(int id) {
+		Pc pc = null;
+		
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction trans = em.getTransaction();
+		
+		trans.begin();
+		pc = em.find(Pc.class, id);
+		trans.commit();
+		
+
+		em.close();
+		
+		return pc;
+	}
+	
 }

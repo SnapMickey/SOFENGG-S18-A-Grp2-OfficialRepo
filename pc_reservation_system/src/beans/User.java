@@ -9,7 +9,7 @@ public class User {
 
 	@Id
 	@Column(name = "userID")
-	private int id;
+	private int userID;
 	
 	@Column(name = "name")
 	private String name;
@@ -23,8 +23,8 @@ public class User {
 	@Column(name = "position")
 	private String position;
 
-	public int getId() {
-		return id;
+	public int getUserID() {
+		return userID;
 	}
 
 	public String getName() {
@@ -45,7 +45,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", password=" + password + ", email=" + email + ", position="
+		return "User [id=" + userID + ", name=" + name + ", password=" + password + ", email=" + email + ", position="
 				+ position + "]";
 	}
 	

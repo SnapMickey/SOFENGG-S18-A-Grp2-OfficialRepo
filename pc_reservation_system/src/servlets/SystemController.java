@@ -38,42 +38,42 @@ public class SystemController extends HttpServlet {
 		
 		switch(path) {
 			case "/login":
-				Login(request, response);
+				doLogin(request, response);
 				break;
 			case "/logout":
-				Logout(request, response);
+				doLogout(request, response);
 				break;
 			case "/adminpage":
-				AdminPage(request, response);
+				doAdminPage(request, response);
 				break;
 			case "/userpage":
-				UserPage(request, response);
+				doUserPage(request, response);
 				break;
 		}
 
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	private void AdminPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void doAdminPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.getRequestDispatcher("admin_front_page.html").forward(request, response);
 		//redirect to login page
 	}
 	
-	private void UserPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void doUserPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.getRequestDispatcher("user_front_page.html").forward(request, response);
 		//redirect to login page
 	}
 	
-	private void Logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void doLogout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.getSession().invalidate();
 		response.sendRedirect("index.html");
 		//redirect to login page
 	}
 
-	private void Login(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, NullPointerException{
+	private void doLogin(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, NullPointerException{
 		int id = -1;
 		String password = "";
 		String link = "index.html?error=";
