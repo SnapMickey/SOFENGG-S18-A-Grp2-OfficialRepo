@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <style>
+        /*COPY PASTE HERE*/
         .mainDiv{
             background-image: url(background.png);
             height:100%;
@@ -10,12 +11,20 @@
         .header{
             padding:5px;
         }
+        .headerTitle{
+            margin-top:15px;
+            color:#278347;
+            font-family:'Futura',sans-serif;
+            font-size:30px;
+            font-weight:500;
+        }
         .footer{
-            position: absolute;
+            position: static;
             bottom:0;
             background-color: #4A4A4A;
             width:100%;
             padding:2px;
+            margin:0px;
         }
         .copyright{
             margin-top:5px;
@@ -47,7 +56,7 @@
         }
         .space{
             margin-top:15px;
-            margin-right:10px;
+            margin-right:7px;
             padding:0px;
             margin-left:0px;
         }
@@ -76,6 +85,95 @@
             font-weight:600;
             color:white;
         }
+        .bgwhite{
+            background: rgba(255,255,255,0.47);
+            width: 100%;
+            margin-top:7px;
+            padding-top:65px;
+        }
+        .contentBox{
+            background: #F8F3EB;
+            /*
+            margin-left: 3%;
+            margin-right: 3%;
+            margin-bottom: 2%;
+            margin-top: 1%;
+            */
+            margin-bottom: 25px;
+            padding:5px;
+        }
+        .boxHeader{
+            font-family:'Avenir Next',sans-serif;
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+        .boxTitle{
+            color: #278347;
+            font-family:'Avenir Next',sans-serif;
+            font-size: 25px;
+            font-weight:600;
+            margin-bottom: 25px;
+            margin-top:3px;
+        }
+        /*COPY PASTE HERE*/
+        .reserveTable{
+            width:100%;
+            border-top: solid;
+            border-bottom: solid;
+            border-width: 1.5px;
+            padding:15px;
+            border-color: #DDDDDD;
+            font-family:'Avenir Next',sans-serif;
+            color: #4A4A4A;
+        }
+        .tableHeader{
+            border-bottom: solid;
+            border-width: 1.5px;
+            border-color: #DDDDDD;
+            
+            width: 100px;
+            text-align: center;
+            
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+        .tableCell{
+            width:100px;
+            text-align: center;
+            border-bottom: solid;
+            border-width: 1.5px;
+            border-color: #DDDDDD;
+            font-family:'Avenir Next',sans-serif;
+            
+            padding-left: 2px;
+            padding-right: 2px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+        .dropdown{
+            margin-top: 10px;
+            border-radius: 3px;
+            padding: 3px;
+            font-size: 14px;
+            width:115px;
+            background-color: #EEEEEE;
+            margin-top:18px;
+            margin-right: 10px;
+        }
+        .checkinBox{
+            display: inline-block;
+        }
+        .checkbox{
+            background-color: white;
+            float:left;
+            padding-right:5px;
+        }
+        .reserveX{
+            float:right;
+            margin:0px;
+            padding:0px;
+            color:blue;
+        }
     </style>
     <head>
       
@@ -84,7 +182,7 @@
     <body>
         <div class = "container-fluid mainDiv">
             
-            <!-- Header eyyy -->
+            <!-- Header -->
             <div class = "row header">
                 <div class = "col-xs-1" style = "padding:0px;">
                     <img src = "DLSU_Logo_Clear_Background.png" style = "width:60px;height:60px">
@@ -117,21 +215,133 @@
                         <button class = "question">?</button>
                     </div>
                     
+                </div>  
+            </div>
+            <!-- Header end -->
+            
+            
+            <div class = "row">
+                <div class = "container-fluid bgwhite" style = "padding-top:30px;">
+                    <h3 style = "color:#4A4A4A">Welcome Admin!</h3>
+                    <div class = "row">
+                        <div class = "col">
+                            
+                            
+                            <!-- Reservations, Small upper left -->
+                            <div class = "container contentBox" style = "padding:0px;">
+                                
+                                <!--Box Header Start-->
+                                <div class = "row">
+                                    <div class = "col">
+                                        <h3 class = "boxTitle" style = "margin-left:10px;margin-top:20px;margin-bottom:15px;">Recent Reservations</h3>
+                                    </div>
+                                    <div class = "col" style = "text-align:right;">
+                                        <select class = "dropdown">
+                                            <option>All Locations</option>
+                                            <option>Gokongwei</option>
+                                            <option>Velasco</option>
+                                            <option>Miguel</option>
+                                            <option>Henry Sy</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--Box Header End--> 
+                                <table class = "reserveTable">
+                                    <tbody id = "recentTable">
+                                        <tr>
+                                            <th class = "tableHeader">Name</th>
+                                            <th class = "tableHeader">ID</th>
+                                            <th class = "tableHeader">Location</th>
+                                            <th class = "tableHeader">PC No.</th>
+                                            <th class = "tableHeader">Date</th>
+                                            <th class = "tableHeader">Start</th>
+                                            <th class = "tableHeader">End</th>
+                                            <th class = "tableHeader">Check-In</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            
+                            <!-- Statistics,Small Lower Left -->
+                            <div class = "container contentBox" style = "padding:0px;">
+                                
+                                <!--Box Header Start-->
+                                
+                                <div class = "row">
+                                    <div class = "col">
+                                        <h3 class = "boxTitle" style = "margin-left:10px;margin-top:15px;margin-bottom:15px;">Statistics</h3>
+                                    </div>
+                                    <div class = "col" style = "text-align:right;">
+                                        <select class = "dropdown">
+                                            <option>Weekly</option>
+                                            <option>Daily</option>
+                                            <option>Monthly</option>
+                                            <option>Annual</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <!--Box Header End-->
+                                
+                                <canvas id = "statisticsBox" width="100%" height = "300px">
+                                    <!--Content is placed from javascript code-->
+                                </canvas>
+                                
+                            </div>
+                        </div>
+                        <!-- Computer Schedules, Big Right Box -->
+                        <div class = "col">
+                            <div class = "container contentBox" style = "padding:0px;">
+                                
+                                <!--Box Header Start-->
+                                
+                                <div class = "row">
+                                    <div class = "col">
+                                        <h3 class = "boxTitle" style = "margin-left:10px;margin-top:20px;margin-bottom:15px;">Computer Schedules</h3>
+                                    </div>
+                                    <div class = "col" style = "text-align:right;">
+                                        <select class = "dropdown">
+                                            <option>All Locations</option>
+                                            <option>Gokongwei</option>
+                                            <option>Velasco</option>
+                                            <option>Miguel</option>
+                                            <option>Henry Sy</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <!--Box Header End-->
+                                
+                                <table class = "reserveTable">
+                                    <tbody id = "schedBody">
+                                        <tr>
+                                            <th class = "tableHeader">Location</th>
+                                            <th class = "tableHeader">Slots Available</th>
+                                            <th class = "tableHeader">Location Status</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                
                 </div>
                 
             </div>
-            <!-- Header end xd -->
-            
-            
-            <!-- f00ter xd -->
-            <div class = "row footer">
-                <h3 class = "copyright">Copyright De La Salle University</h3>
+            <!-- footer -->
+            <div class = "row">
+                <div class = "footer">
+                    <h3 class = "copyright">Copyright De La Salle University</h3>
+                </div>
             </div>
-            <!-- f00ter enD xd-->
+            <!-- footer end -->
             
         </div>
     </body>
-    <meta charset="utf-8">
+        
+        <!--Copy paste here-->
+        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
@@ -142,38 +352,121 @@
         src="http://code.jquery.com/jquery-3.2.1.js"
         integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
         crossorigin="anonymous"></script>
+        <!--End copy paste-->
+        
         <script>
+            var canvas;
+            var canvasContext;
             //insert code here haha
             $("#logout").click(function(){
-                var form = document.createElement('form');
-                form.method = "GET";
-                form.action = "logout";
-                document.body.appendChild(form);
-                form.submit();
+                $.get("/logout",function(){
+                    //nothing haha
+                }); 
             });
+            
+            $(document).ready(function(){
+                //for drawing statistics like bars etc
+                canvas = document.getElementById('statisticsBox');
+                canvasContext = canvas.getContext('2d');
+                
+                var reserveArr = [];
+                var schedArr = [];
+                
+                var res = {
+                    name: 'adsdf',
+                    id: 'd',
+                    location: 'heaven',
+                    pcno: '9999',
+                    date: 'tomrorow',
+                    start: '123',
+                    end: 'dsf34'
+                }
+                
+                var sched = {
+                    location:'aasd',
+                    slots:'99',
+                    status: 'yes'
+                }
+                
+                for(var i = 0 ; i < 6 ; i ++){
+                    reserveArr.push(res);
+                    
+                }
+                for(var i = 0 ; i < 16 ; i ++){
+                    schedArr.push(sched);
+                }
+                
+                
+                console.log(schedArr);
+                add_data_to_recent_reserve(reserveArr);
+                add_data_to_computer_schedules(schedArr);
+            });
+            
+            function add_data_to_recent_reserve(jasonarr){
+                /*
+                Expected parameter is a JSON array, JSON format is as follows:
+                    {
+                        name:
+                        id:
+                        location:
+                        pcno:
+                        date:
+                        start:
+                        end:
+                    }
+                */
+                for(var i = 0 ; i < jasonarr.length ; i++){
+                    var jason = jasonarr[i];
+                    var row = $("<tr>");
+                    
+                    for(var key in jason){
+                        var col = $("<td>");
+                        col.addClass("tableCell");
+                        console.log(key);
+                        if(jason.hasOwnProperty(key)){
+                            col.html(jason[key]);
+                        }
+                        row.append(col);
+                    }
+                    //append the [] and X thing on table
+                    row.append("<td class = 'tableCell' id = 'deleteReserve'><div class = 'checkinBox'><input type = 'checkbox' id = 'checkBox' class = 'checkBox'><p id = 'recent_X' class = 'reserveX'>X</p></div></td>");
+                    
+                    $("#recentTable").after(row);
+                }
+                
+            }
+            function add_data_to_computer_schedules(jasonarr){
+                /*
+                Expected parameter is a JSON array, JSON format is as follows:
+                    {
+                        location:
+                        slots:
+                        status:
+                    }
+                */
+                for(var i = 0 ; i < jasonarr.length ; i++){
+                    var jason = jasonarr[i];
+                    var row = $("<tr>");
+                    
+                    for(var key in jason){
+                        var col = $("<td>");
+                        col.addClass("tableCell");
+                        
+                        if(jason.hasOwnProperty(key)){
+                            col.html(jason[key]);
+                        }
+                        row.append(col);
+                    }
+                    $("#schedBody").after(row);
+                }
+                
+            }
+            
+            
+            
+            
         </script>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
