@@ -1,5 +1,9 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Lominoque, Jerome November 2, 2017
+Changes made:
+- Added an updated version of sql
+
 Rivera, Jared November 2, 2017
 Changes made:
 - System Service, finished database getters: Pc, Lab, PcReservation.
