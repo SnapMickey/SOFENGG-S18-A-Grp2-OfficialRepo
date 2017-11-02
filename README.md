@@ -9,7 +9,7 @@ Changes made:
 - Added Admin Reservation Page (Filename: admin_reservation_page)
  
 Error / Problems:
-    - Header spacings must be fixed
+- Header spacings must be fixed
     
 Rivera, Jared November 2, 2017
 Changes made:
