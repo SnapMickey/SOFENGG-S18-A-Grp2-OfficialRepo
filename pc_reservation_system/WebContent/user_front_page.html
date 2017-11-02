@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <style>
+        /*COPY PASTE HERE*/
         .mainDiv{
             background-image: url(background.png);
             height:100%;
@@ -10,12 +11,20 @@
         .header{
             padding:5px;
         }
+        .headerTitle{
+            margin-top:15px;
+            color:#278347;
+            font-family:'Futura',sans-serif;
+            font-size:30px;
+            font-weight:500;
+        }
         .footer{
-            position: absolute;
+            position: static;
             bottom:0;
             background-color: #4A4A4A;
             width:100%;
             padding:2px;
+            margin:0px;
         }
         .copyright{
             margin-top:5px;
@@ -76,6 +85,76 @@
             font-weight:600;
             color:white;
         }
+        .bgwhite{
+            background: rgba(255,255,255,0.47);
+            width: 100%;
+            margin-top:7px;
+            padding-top:50px;
+        }
+        .contentBox{
+            background: #F8F3EB;
+            /*
+            margin-left: 3%;
+            margin-right: 3%;
+            margin-bottom: 2%;
+            margin-top: 1%;
+            */
+            margin-bottom: 25px;
+            padding:5px;
+        }
+        .boxHeader{
+            font-family:'Avenir Next',sans-serif;
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+        .boxTitle{
+            color: #278347;
+            font-family:'Avenir Next',sans-serif;
+            font-size: 25px;
+            font-weight:600;
+            margin-bottom: 25px;
+            margin-top:3px;
+        }
+        /*COPY PASTE HERE*/
+        .right{
+            text-align: right;
+            color: #4A4A4A;
+        }
+        .note{
+            font-size: 15px;
+            font-style: italic;
+            margin-bottom: 25px;
+        }
+        .reserveTable{
+            width:100%;
+            border-top: solid;
+            border-bottom: solid;
+            border-width: 1.5px;
+            padding:15px;
+            border-color: #DDDDDD;
+            font-family:'Avenir Next',sans-serif;
+            color: #4A4A4A;
+        }
+        .tableHeader{
+            border-bottom: solid;
+            border-width: 1.5px;
+            border-color: #DDDDDD;
+            
+            width: 100px;
+            text-align: center;
+        }
+        .tableCell{
+            width:100px;
+            text-align: center;
+            border-bottom: solid;
+            border-width: 1.5px;
+            border-color: #DDDDDD;
+            
+            padding-left: 2px;
+            padding-right: 2px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
     </style>
     <head>
       
@@ -84,13 +163,13 @@
     <body>
         <div class = "container-fluid mainDiv">
             
-            <!-- Header eyyy -->
+            <!-- Header start-->
             <div class = "row header">
                 <div class = "col-xs-1" style = "padding:0px;">
                     <img src = "DLSU_Logo_Clear_Background.png" style = "width:60px;height:60px">
                 </div>
-                <div class = "col-sm-3" style = "padding-left:10px;">
-                    <h4 style = "margin-top:15px; color:#278347; font-family:'Futura',sans-serif;font-size:30px; font-weight:500">Computer Reservation</h4>
+                <div class = "col-sm-3">
+                    <h4 class = "headerTitle">Computer Reservation</h4>
                 </div>
                 
                 <div class = "col-md-4"></div>
@@ -112,14 +191,108 @@
                 </div>
                 
             </div>
-            <!-- Header end xd -->
-            
-            
-            <!-- f00ter xd -->
-            <div class = "row footer">
-                <h3 class = "copyright">Copyright De La Salle University</h3>
+            <!-- Header end-->
+            <div class = "row">
+                <div class = "container-fluid bgwhite">
+                    <h3>Welcome!</h3>
+                    <div class = "row">
+                        <div class = "col-md-6">
+                            <div class = "container contentBox">
+                                <h3 class = "boxTitle">User Information</h3>
+                                <div class = "row">
+                                    <div class = "col-sm-6">
+                                        <h2 class = "boxHeader" style="font-weight:600;">Name:</h2>
+                                    </div>
+                                    <div class = "col-sm-6 right">
+                                        <h2 class = "boxHeader" id = "user_name">name</h2>
+                                    </div>
+                                </div>
+                                <div class = "row">
+                                    <div class = "col-sm-6">
+                                        <h2 class = "boxHeader" style="font-weight:600;">ID Number:</h2>
+                                    </div>
+                                    <div class = "col-sm-6 right">
+                                        <h2 class = "boxHeader" id = "id_number">number</h2>
+                                    </div>
+                                </div>
+                                <div class = "row">
+                                    <div class = "col-sm-6">
+                                        <h2 class = "boxHeader" style="font-weight:600;">College:</h2>
+                                    </div>
+                                    <div class = "col-sm-6 right">
+                                        <h2 class = "boxHeader" id = "college">college</h2>
+                                    </div>
+                                </div>
+                                <div class = "row">
+                                    <div class = "col-sm-6">
+                                        <h2 class = "boxHeader" style="font-weight:600;">Last Login:</h2>
+                                    </div>
+                                    <div class = "col-sm-6 right">
+                                        <h2 class = "boxHeader" id = "last_login">last login</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class = "col-md-6">
+                            <div class = "container contentBox">
+                                <h3 class = "boxTitle">Reservations Remaining</h3>
+                                <div class = "row">
+                                    <div class = "col-sm-6">
+                                        <h2 class = "boxHeader" style="font-weight:600;">Reservations left for today:</h2>
+                                    </div>
+                                    <div class = "col-sm-6 right">
+                                        <h2 class = "boxHeader" id = "today_reserve">99 out of 0</h2>
+                                    </div>
+                                </div>
+                                <div class = "row">
+                                    <div class = "col-sm-6">
+                                        <h2 class = "boxHeader" style="font-weight:600;">Reservations left for tomorrow:</h2>
+                                    </div>
+                                    <div class = "col-sm-6 right">
+                                        <h2 class = "boxHeader" id = "tomorrow_reserve">0 out of 99</h2>
+                                    </div>
+                                </div>
+                                <div class = "row">
+                                    <div class = "col">
+                                        <p style = "visibility:hidden">hidden</p>
+                                    </div>
+                                </div>
+                                <div class = "row">
+                                    <div class = "col">
+                                        <p class = "note right">A maximum of 3 reservations are allowed in one day</p>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "contentBox" style = "padding:0px;">
+                        <h3 class = "boxTitle" style = "padding-top:15px;padding-left:15px;" id = "reserveTable">Reservations Information</h3>
+                        <table class = "reserveTable">
+                            <tbody id = "tbody">
+                                <tr>
+                                    <th class = "tableHeader">Location</th>
+                                    <th class = "tableHeader">Room/Floor</th>
+                                    <th class = "tableHeader">PC No.</th>
+                                    <th class = "tableHeader">Date</th>
+                                    <th class = "tableHeader">Start</th>
+                                    <th class = "tableHeader">End</th>
+                                    <th class = "tableHeader">Confirmed via email</th>
+                                    <th class = "tableHeader">Confirmed before time scheduled</th>
+                                    <th class = "tableHeader">Cancel</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <!-- f00ter enD xd-->
+            <!-- footer-->
+            <div class = "row">
+                <div class = "footer">
+                    <h3 class = "copyright">Copyright De La Salle University</h3>
+                </div>
+            </div>
+            <!-- footer end-->
             
         </div>
     </body>
@@ -137,34 +310,98 @@
         <script>
             //insert code here haha
             $("#logout").click(function(){
-            	console.log("xd");
-            	var form = document.createElement('form');
-                form.method = "GET";
-                form.action = "logout";
-                document.body.appendChild(form);
-                form.submit();
+                $.get("/logout",function(){
+                    //nothing haha
+                }); 
             });
+            var jasonarr = [];
+            jason = {
+                location:'goks',
+                room:'G999',
+                pc_no:'999',
+                date:'tomorrow haha',
+                start:'9am',
+                end:'11pm',
+                cfm_email:'yes',
+                cfm_sched: 'yes'
+            }
+            jasonarr.push(jason);
+            $(document).ready(add_data_to_reserve_table(jasonarr));
+            
+            function add_data_to_user_info(jason){
+                /*
+                    Receives a JSON object, format is as follows:
+                    {
+                        name:
+                        id:
+                        college:
+                        last_login:
+                    }
+                */
+                $("#user_name").html(jason.name);
+                $("#id_number").html(jason.id);
+                $("#college").html(jason.college);
+                $("#last_login").html(jason.last_login);
+            }
+            
+            function add_data_to_reserve_count(jason){
+                /*
+                    Receives JSON object, format is as follows:
+                    {
+                        today:
+                        tom:
+                    }
+                */
+                $("#today_reserve").html(jason.today);
+                $("#tomorrow_reserve").html(jason.tom);
+            }
+            
+            function add_data_to_reserve_table(jasonarr){
+                /*
+                    Expected parameter is a JSON array, JSON format is as follows:
+                    {
+                        location:
+                        room:
+                        pc_no:
+                        date:
+                        start:
+                        end:
+                        cfm_email:
+                        cfm_sched:
+                    }
+                */
+                
+                //---WARNING---//
+                /*
+                    For efficient code, I just iterated through all properties in the JSON obj,
+                    so it will add to the column whatever property it has,
+                    so for safety or something, please pass only JSON objects that follow the 
+                    format above, thanks!
+                
+                */ 
+                for(var i = 0 ; i < jasonarr.length ; i++){
+                    var jason = jasonarr[i];
+                    var row = $("<tr>");
+                    
+                    
+                    for(var key in jason){
+                        var col = $("<td>");
+                        col.addClass("tableCell");
+                        
+                        if(jason.hasOwnProperty(key)){
+                            col.html(jason[key]);
+                        }
+                        row.append(col);
+                    }
+                    //append the X thing on table
+                    row.append("<td class = 'tableCell' id = 'deleteReserve'>X</td>");
+                    
+                    $("#tbody").after(row);
+                }
+                
+            }
         </script>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
