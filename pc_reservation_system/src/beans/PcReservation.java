@@ -3,11 +3,11 @@ package beans;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity(name = "pc_reservations")
 public class PcReservation {
-
+	
 	@Id
 	@Column(name = "borrowId")
 	int borrowID;
@@ -19,19 +19,19 @@ public class PcReservation {
 	int pcID;
 	
 	@Column(name = "dateTimeStart")
-	Timestamp dateTimeStart;
+	Date dateTimeStart;
 	
 	@Column(name = "dateTimeEnd")
-	Timestamp dateTimeEnd;
+	Date dateTimeEnd;
 	
 	@Column(name = "checkInTime")
-	Timestamp checkInTime;
+	Date checkInTime;
 	
 	@Column(name = "reserveTime")
-	Timestamp reserveTime;
+	Date reserveTime;
 	
 	@Column(name = "eConfirmedTime")
-	Timestamp eConfirmTime;
+	Date eConfirmTime;
 	
 	@Column(name = "emailConfirmed")
 	boolean emailConfirmed;
@@ -39,12 +39,20 @@ public class PcReservation {
 	@Column(name = "adminConfirmed")
 	boolean adminConfirmed;
 	
-	public void setCheckInTime(Timestamp checkInTime) {
-		this.checkInTime = checkInTime;
-	}
+	
 
-	public void seteConfirmTime(Timestamp eConfirmTime) {
+	public PcReservation(int userID, int pcID, Date dateTimeStart, Date dateTimeEnd, Date checkInTime, Date reserveTime,
+			Date eConfirmTime, boolean emailConfirmed, boolean adminConfirmed) {
+		super();
+		this.userID = userID;
+		this.pcID = pcID;
+		this.dateTimeStart = dateTimeStart;
+		this.dateTimeEnd = dateTimeEnd;
+		this.checkInTime = checkInTime;
+		this.reserveTime = reserveTime;
 		this.eConfirmTime = eConfirmTime;
+		this.emailConfirmed = emailConfirmed;
+		this.adminConfirmed = adminConfirmed;
 	}
 
 	public void setEmailConfirmed(boolean emailConfirmed) {
@@ -54,7 +62,46 @@ public class PcReservation {
 	public void setAdminConfirmed(boolean adminConfirmed) {
 		this.adminConfirmed = adminConfirmed;
 	}
+	
+	public Date getDateTimeStart() {
+		return dateTimeStart;
+	}
 
+	public void setDateTimeStart(Date dateTimeStart) {
+		this.dateTimeStart = dateTimeStart;
+	}
+
+	public Date getDateTimeEnd() {
+		return dateTimeEnd;
+	}
+
+	public void setDateTimeEnd(Date dateTimeEnd) {
+		this.dateTimeEnd = dateTimeEnd;
+	}
+
+	public Date getCheckInTime() {
+		return checkInTime;
+	}
+
+	public void setCheckInTime(Date checkInTime) {
+		this.checkInTime = checkInTime;
+	}
+
+	public Date getReserveTime() {
+		return reserveTime;
+	}
+
+	public void setReserveTime(Date reserveTime) {
+		this.reserveTime = reserveTime;
+	}
+
+	public Date geteConfirmTime() {
+		return eConfirmTime;
+	}
+
+	public void seteConfirmTime(Date eConfirmTime) {
+		this.eConfirmTime = eConfirmTime;
+	}
 
 	public int getBorrowID() {
 		return borrowID;
@@ -66,26 +113,6 @@ public class PcReservation {
 
 	public int getPcID() {
 		return pcID;
-	}
-
-	public Timestamp getDateTimeStart() {
-		return dateTimeStart;
-	}
-
-	public Timestamp getDateTimeEnd() {
-		return dateTimeEnd;
-	}
-
-	public Timestamp getCheckInTime() {
-		return checkInTime;
-	}
-
-	public Timestamp getReserveTime() {
-		return reserveTime;
-	}
-
-	public Timestamp geteConfirmTime() {
-		return eConfirmTime;
 	}
 
 	public boolean isEmailConfirmed() {

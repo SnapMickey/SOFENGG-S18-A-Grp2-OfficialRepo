@@ -7,6 +7,7 @@ import javax.persistence.Id;
 @Entity(name = "pc_info")
 public class Pc {
 
+	
 	@Id
 	@Column(name = "pcID")
 	int pcID;

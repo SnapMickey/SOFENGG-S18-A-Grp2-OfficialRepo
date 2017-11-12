@@ -1,6 +1,8 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -45,6 +47,58 @@ public class SystemService {
 		em.close();
 		
 		return pc;
+	}
+	
+	public static ArrayList<Pc> getAllFreePcs(Date date, 
+												Date startTime, 
+												Date endTime,
+												String building,
+												String room) {
+		ArrayList<Pc> pcs = new ArrayList<>();
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction trans = em.getTransaction();
+		
+		String statement = "select pc from pc_info pc, lab lb";
+		
+		statement += " where pc.isAvailable = 1";
+			
+		if(building != null) {
+			statement += " and pc.locationID = lb.locationID and lb.building = " + building;
+		}
+		
+		if(room != null) {
+			statement += " and pc.locationID = lb.locationID and lb.isAvailable = 1 and lb.name = " + room;
+		}
+		
+		statement += " and pc.pcID not in (select pc.pcID from pc_info pc, pc_reservations pr "
+				+ "where pc.pcID = pr.pcID and HOUR(pr.dateTimeStart) = " + startTime.getHours()
+					+ " and HOUR(pr.dateTimeEnd) = " + endTime.getHours();
+		
+		if(date != null) {
+			statement += " and DATE(pr.dateTimeStart) = " + startTime.getDate();
+		}
+		
+		statement += ")";
+		
+		try{
+			trans.begin();
+			
+			TypedQuery<Pc> query = em.createQuery(statement, Pc.class);
+			pcs.addAll(query.getResultList());
+			
+			trans.commit();
+		}catch(Exception e){
+			if(trans!=null){
+				trans.rollback();
+			}
+			e.printStackTrace();
+		}finally{
+			if(em!=null){
+				em.close();
+			}
+		}
+		return pcs;
 	}
 	
 	public static ArrayList<Pc> getAllPcs() {
