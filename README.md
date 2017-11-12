@@ -1,5 +1,8 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Rivera, Jared November 12, 2017
+- Checked for Testing
+
 Rivera, Jared November 2, 2017
 Changes made:
 - Added Pc, Lab, Pc Reservation Beans
