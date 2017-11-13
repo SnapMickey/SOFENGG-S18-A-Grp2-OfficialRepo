@@ -1,4 +1,15 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+Bornales, Amiel James November 13, 2017
+Changes made:
+- updated headers
+- updated layouts for admin and user home pages
+- added scroll for table data
+- removed backgrounds in admin and user home pages
+- updated table format
+
+Errors / Problems:
+- No Icons yet for admin home, still waiting for BA reply
+- index.html not yet updated, still waiting for BA reply
 
 Lominoque, Jerome November 2, 2017
 Changes made:
