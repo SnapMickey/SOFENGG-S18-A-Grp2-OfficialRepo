@@ -2,24 +2,29 @@
 <html lang="en">
     <style>
         /*COPY PASTE HERE*/
+        html, body {
+            height: 100%;
+        }
+        .container-fluid{
+            height: 100%;
+            overflow-y: hidden; /* don't show content that exceeds my height */
+        }
         .mainDiv{
-            background-image: url(background.png);
-            height:100%;
-            position: absolute;
-            background-size:cover;
+            background-color:#CCCCCC;
         }
         .header{
-            padding:5px;
+            padding:8px;
+            background-color:#4A4A4A;
         }
         .headerTitle{
             margin-top:15px;
-            color:#278347;
+            color:white;
             font-family:'Futura',sans-serif;
             font-size:30px;
             font-weight:500;
         }
         .footer{
-            position: static;
+            position: fixed;
             bottom:0;
             background-color: #4A4A4A;
             width:100%;
@@ -46,17 +51,15 @@
             font-family:'Avenir Next',sans-serif;
             font-size:18px;
             font-weight:600;
-            color:#278347;
-            
+            color:white;
         }
         .headerButtonDiv:hover{
             border-radius: 5px;
             background: #278347;
-            color:white;
         }
         .space{
             margin-top:15px;
-            margin-right:7px;
+            margin-right:0px;
             padding:0px;
             margin-left:0px;
         }
@@ -70,10 +73,10 @@
             border-left-width: 2px;
         }
         .question{
-            padding-top:2px;
-            padding-bottom: 2px;
-            padding-left:11px;
-            padding-right:11px;
+            padding-top:4px;
+            padding-bottom: 3px;
+            padding-left:13px;
+            padding-right:13px;
             background: #278347;
             border:none;
             border-radius: 100%;
@@ -88,8 +91,9 @@
         .bgwhite{
             background: rgba(255,255,255,0.47);
             width: 100%;
-            margin-top:7px;
             padding-top:50px;
+            display:flex;
+            flex-direction: column;
         }
         .contentBox{
             background: #F8F3EB;
@@ -99,6 +103,7 @@
             margin-bottom: 2%;
             margin-top: 1%;
             */
+            flex-grow:2;
             margin-bottom: 25px;
             padding:5px;
         }
@@ -155,6 +160,19 @@
             padding-top: 8px;
             padding-bottom: 8px;
         }
+        #footer {
+            margin-bottom: 0 !important;
+        }
+        .pending{
+            padding-bottom: 7px;
+        }
+        .pending .boxHeader{
+            margin-bottom:10px;
+        }
+        .scrollable{
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
     </style>
     <head>
       
@@ -184,7 +202,7 @@
                     <button class = "headerButtonDiv" id="logout">LOGOUT</button>
                 </div>
                 <div class = "col-md-1 space">
-                    <div class = "questionLine">
+                    <div class = "questionLine" style = "float:right;">
                         <button class = "question">?</button>
                     </div>
                     
@@ -192,82 +210,106 @@
                 
             </div>
             <!-- Header end-->
+            
             <div class = "row">
                 <div class = "container-fluid bgwhite">
                     <h3>Welcome!</h3>
-                    <div class = "row">
-                        <div class = "col-md-6">
-                            <div class = "container contentBox">
-                                <h3 class = "boxTitle">User Information</h3>
-                                <div class = "row">
-                                    <div class = "col-sm-6">
-                                        <h2 class = "boxHeader" style="font-weight:600;">Name:</h2>
+                    <div class = "contentBox">
+                        <div class = "row">
+                            <div class = "col-md-6">
+                                <div class = "container">
+                                    <h3 class = "boxTitle">User Information</h3>
+                                    <div class = "row">
+                                        <div class = "col-sm-6">
+                                            <h2 class = "boxHeader" style="font-weight:600;">Name:</h2>
+                                        </div>
+                                        <div class = "col-sm-6 right">
+                                            <h2 class = "boxHeader" id = "user_name">name</h2>
+                                        </div>
                                     </div>
-                                    <div class = "col-sm-6 right">
-                                        <h2 class = "boxHeader" id = "user_name">name</h2>
+                                    <div class = "row">
+                                        <div class = "col-sm-6">
+                                            <h2 class = "boxHeader" style="font-weight:600;">ID Number:</h2>
+                                        </div>
+                                        <div class = "col-sm-6 right">
+                                            <h2 class = "boxHeader" id = "id_number">number</h2>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class = "row">
-                                    <div class = "col-sm-6">
-                                        <h2 class = "boxHeader" style="font-weight:600;">ID Number:</h2>
+                                    <div class = "row">
+                                        <div class = "col-sm-6">
+                                            <h2 class = "boxHeader" style="font-weight:600;">College:</h2>
+                                        </div>
+                                        <div class = "col-sm-6 right">
+                                            <h2 class = "boxHeader" id = "college">college</h2>
+                                        </div>
                                     </div>
-                                    <div class = "col-sm-6 right">
-                                        <h2 class = "boxHeader" id = "id_number">number</h2>
-                                    </div>
-                                </div>
-                                <div class = "row">
-                                    <div class = "col-sm-6">
-                                        <h2 class = "boxHeader" style="font-weight:600;">College:</h2>
-                                    </div>
-                                    <div class = "col-sm-6 right">
-                                        <h2 class = "boxHeader" id = "college">college</h2>
-                                    </div>
-                                </div>
-                                <div class = "row">
-                                    <div class = "col-sm-6">
-                                        <h2 class = "boxHeader" style="font-weight:600;">Last Login:</h2>
-                                    </div>
-                                    <div class = "col-sm-6 right">
-                                        <h2 class = "boxHeader" id = "last_login">last login</h2>
+                                    <div class = "row">
+                                        <div class = "col-sm-6">
+                                            <h2 class = "boxHeader" style="font-weight:600;">Last Login:</h2>
+                                        </div>
+                                        <div class = "col-sm-6 right">
+                                            <h2 class = "boxHeader" id = "last_login">last login</h2>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class = "col-md-6">
-                            <div class = "container contentBox">
-                                <h3 class = "boxTitle">Reservations Remaining</h3>
-                                <div class = "row">
-                                    <div class = "col-sm-6">
-                                        <h2 class = "boxHeader" style="font-weight:600;">Reservations left for today:</h2>
+                            <div class = "col-md-6">
+                                <div class = "container pending">
+                                    <h3 class = "boxTitle">Pending Reservation</h3>
+                                    <div class = "row">
+                                        <div class = "col-sm-6">
+                                            <h2 class = "boxHeader">Location:</h2>
+                                        </div>
+                                        <div class = "col-sm-6 right">
+                                            <h2 class = "boxHeader" id = "location">guks</h2>
+                                        </div>
                                     </div>
-                                    <div class = "col-sm-6 right">
-                                        <h2 class = "boxHeader" id = "today_reserve">99 out of 0</h2>
+                                    <div class = "row">
+                                        <div class = "col-sm-6">
+                                            <h2 class = "boxHeader">Room / Floor:</h2>
+                                        </div>
+                                        <div class = "col-sm-6 right">
+                                            <h2 class = "boxHeader" id = "room">G204</h2>
+                                        </div>
+                                    </div>
+                                    <div class = "row">
+                                        <div class = "col-sm-6">
+                                            <h2 class = "boxHeader">PC No:</h2>
+                                        </div>
+                                        <div class = "col-sm-6 right">
+                                            <h2 class = "boxHeader" id = "pcnum">04</h2>
+                                        </div>
+                                    </div>
+                                    <div class = "row">
+                                        <div class = "col-sm-6">
+                                            <h2 class = "boxHeader">Date:</h2>
+                                        </div>
+                                        <div class = "col-sm-6 right">
+                                            <h2 class = "boxHeader" id = "date">04/42/24</h2>
+                                        </div>
+                                    </div>
+                                    <div class = "row">
+                                        <div class = "col-sm-6">
+                                            <h2 class = "boxHeader">Start:</h2>
+                                        </div>
+                                        <div class = "col-sm-6 right">
+                                            <h2 class = "boxHeader" id = "start">234</h2>
+                                        </div>
+                                    </div>
+                                    <div class = "row">
+                                        <div class = "col-sm-6">
+                                            <h2 class = "boxHeader">End:</h2>
+                                        </div>
+                                        <div class = "col-sm-6 right">
+                                            <h2 class = "boxHeader" id = "end">678</h2>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class = "row">
-                                    <div class = "col-sm-6">
-                                        <h2 class = "boxHeader" style="font-weight:600;">Reservations left for tomorrow:</h2>
-                                    </div>
-                                    <div class = "col-sm-6 right">
-                                        <h2 class = "boxHeader" id = "tomorrow_reserve">0 out of 99</h2>
-                                    </div>
-                                </div>
-                                <div class = "row">
-                                    <div class = "col">
-                                        <p style = "visibility:hidden">hidden</p>
-                                    </div>
-                                </div>
-                                <div class = "row">
-                                    <div class = "col">
-                                        <p class = "note right">A maximum of 3 reservations are allowed in one day</p>
-                                    </div>
-                                </div>
-                                
                             </div>
                         </div>
                     </div>
-                    <div class = "contentBox" style = "padding:0px;">
-                        <h3 class = "boxTitle" style = "padding-top:15px;padding-left:15px;" id = "reserveTable">Reservations Information</h3>
+                    <div class = "contentBox scrollable" style = "padding:0px;height:170px;">
+                        <h3 class = "boxTitle" style = "padding-top:15px;padding-left:15px;" id = "reserveTable">Previous Reservations</h3>
                         <table class = "reserveTable">
                             <tbody id = "tbody">
                                 <tr>
@@ -277,17 +319,15 @@
                                     <th class = "tableHeader">Date</th>
                                     <th class = "tableHeader">Start</th>
                                     <th class = "tableHeader">End</th>
-                                    <th class = "tableHeader">Confirmed via email</th>
-                                    <th class = "tableHeader">Confirmed before time scheduled</th>
-                                    <th class = "tableHeader">Cancel</th>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+            
             <!-- footer-->
-            <div class = "row">
+            <div class = "row" id = "footer">
                 <div class = "footer">
                     <h3 class = "copyright">Copyright De La Salle University</h3>
                 </div>
@@ -322,11 +362,12 @@
                 date:'tomorrow haha',
                 start:'9am',
                 end:'11pm',
-                cfm_email:'yes',
-                cfm_sched: 'yes'
             }
-            jasonarr.push(jason);
-            $(document).ready(add_data_to_reserve_table(jasonarr));
+            for(var i = 0 ; i < 20 ;i++){
+                jasonarr.push(jason);
+            }
+            
+            //$(document).ready(add_data_to_reserve_table(jasonarr));
             
             function add_data_to_user_info(jason){
                 /*
@@ -344,16 +385,25 @@
                 $("#last_login").html(jason.last_login);
             }
             
-            function add_data_to_reserve_count(jason){
+            function add_data_to_pending(jason){
                 /*
                     Receives JSON object, format is as follows:
                     {
-                        today:
-                        tom:
+                        loc:
+                        room:
+                        pc:
+                        date:
+                        start:
+                        end:
                     }
                 */
-                $("#today_reserve").html(jason.today);
-                $("#tomorrow_reserve").html(jason.tom);
+                
+                $("#location").html(jason.loc);
+                $("#room").html(jason.room);
+                $("#pcnum").html(jason.pc);
+                $("#date").html(jason.date);
+                $("#start").html(jason.start);
+                $("#end").html(jason.end);
             }
             
             function add_data_to_reserve_table(jasonarr){
@@ -366,8 +416,6 @@
                         date:
                         start:
                         end:
-                        cfm_email:
-                        cfm_sched:
                     }
                 */
                 
@@ -393,8 +441,6 @@
                         }
                         row.append(col);
                     }
-                    //append the X thing on table
-                    row.append("<td class = 'tableCell' id = 'deleteReserve'>X</td>");
                     
                     $("#tbody").after(row);
                 }
@@ -402,6 +448,25 @@
             }
         </script>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
