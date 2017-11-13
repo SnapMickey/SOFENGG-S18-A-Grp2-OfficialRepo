@@ -2,14 +2,22 @@
 <html lang="en">
     <style>
         /*COPY PASTE HERE*/
+        html, body {
+            height: 100%;
+        }
+        .container-fluid{
+            height: 100%;
+            overflow-y: hidden; /* don't show content that exceeds my height */
+        }
         .mainDiv{
-            background-image: url(background.png);
-            height:100%;
-            position: absolute;
-            background-size:cover;
+            background-color:#CCCCCC;
         }
         .header{
-            padding:5px;
+            padding-bottom: 10px;
+            padding-top: 10px;
+            padding-right: 8px;
+            padding-left: 8px;
+            background-color:#4A4A4A;   
         }
         .headerTitle{
             margin-top:15px;
@@ -19,7 +27,7 @@
             font-weight:500;
         }
         .footer{
-            position: static;
+            position: fixed;
             bottom:0;
             background-color: #4A4A4A;
             width:100%;
@@ -46,7 +54,7 @@
             font-family:'Avenir Next',sans-serif;
             font-size:18px;
             font-weight:600;
-            color:#278347;
+            color:white;
             
         }
         .headerButtonDiv:hover{
@@ -56,9 +64,9 @@
         }
         .space{
             margin-top:15px;
-            margin-right:7px;
             padding:0px;
             margin-left:0px;
+            margin-right: 0px;
         }
         .questionLine{
             position:inherit;
@@ -68,12 +76,13 @@
             border-left: solid;
             border-left-color: #278347;
             border-left-width: 2px;
+            float:right;
         }
         .question{
-            padding-top:2px;
-            padding-bottom: 2px;
-            padding-left:11px;
-            padding-right:11px;
+            padding-top:4px;
+            padding-bottom: 3px;
+            padding-left:13px;
+            padding-right:13px;
             background: #278347;
             border:none;
             border-radius: 100%;
@@ -88,8 +97,10 @@
         .bgwhite{
             background: rgba(255,255,255,0.47);
             width: 100%;
-            margin-top:7px;
             padding-top:65px;
+            height:100%;
+            padding-left:20px;  
+            padding-right:20px;
         }
         .contentBox{
             background: #F8F3EB;
@@ -131,7 +142,7 @@
             border-width: 1.5px;
             border-color: #DDDDDD;
             
-            width: 100px;
+            width: 80px;
             text-align: center;
             
             padding-top: 8px;
@@ -174,6 +185,20 @@
             padding:0px;
             color:blue;
         }
+        .timeDetails{
+            padding-top:5px;
+            font-family:'Avenir Next',sans-serif;
+            font-size: 18px;
+        }
+        #deleteReserve{
+            color:red;
+        }
+        .tableContainer{
+            overflow-y: scroll;
+            padding:0px;
+            margin:0px;
+            height:158px;
+        }
     </style>
     <head>
       
@@ -184,51 +209,60 @@
             
             <!-- Header -->
             <div class = "row header">
-                <div class = "col-xs-1" style = "padding:0px;">
-                    <img src = "DLSU_Logo_Clear_Background.png" style = "width:60px;height:60px">
-                </div>
-                <div class = "col-sm-3" style = "padding-left:10px;">
-                    <h4 style = "margin-top:15px; color:#278347; font-family:'Futura',sans-serif;font-size:30px; font-weight:500">Computer Reservation</h4>
-                </div>
-                
-                
-                <div class = "col-md-1.5 space" style="margin-left:4%;">
-                    <button class = "headerButtonDiv">DASHBOARD</button>
-                </div>
-                <div class = "col-md-1 space">
-                    <button class = "headerButtonDiv">RESERVE</button>
-                </div>
-                <div class = "col-md-1 space">
-                    <button class = "headerButtonDiv">HISTORY</button>
-                </div>
-                <div class = "col-md-1 space">
-                    <button class = "headerButtonDiv">LAYOUT</button>
-                </div>
-                <div class = "col-md-1.5 space">
-                    <button class = "headerButtonDiv">STATISTICS</button>
-                </div>
-                <div class = "col-md-1 space">
-                    <button class = "headerButtonDiv" id = "logout">LOGOUT</button>
-                </div>
-                <div class = "col-md-1 space">
-                    <div class = "questionLine">
-                        <button class = "question">?</button>
+                <div class = "col-md-4">
+                    <div class = "row">
+                        <div class = "col-xs-6" style = "padding:0px;">
+                            <img src = "DLSU_Logo_Clear_Background.png" style = "width:60px;height:60px">
+                        </div>
+                        <div class = "col-xs-6" style = "padding-left:10px;">
+                            <h4 style = "margin-top:15px; color:white; font-family:'Futura',sans-serif;font-size:30px; font-weight:500">Computer Reservation</h4>
+                        </div>
                     </div>
-                    
-                </div>  
+                </div>
+                <div class = "col-md-8">
+                    <div class = "row" style = "float:right;padding-right:10px;">
+                        <div class = "col-md-2.5 space">
+                            <button class = "headerButtonDiv">DASHBOARD</button>
+                        </div>
+                        <div class = "col-md-2.5 space">
+                            <button class = "headerButtonDiv" id = "reserveBtn">RESERVE</button>
+                        </div>
+                        <div class = "col-md-2.5 space">
+                            <button class = "headerButtonDiv" id = "historyBtn">HISTORY</button>
+                        </div>
+                        <div class = "col-md-2.5 space">
+                            <button class = "headerButtonDiv" id = "logout">LOG OUT</button>
+                        </div>
+                        <div class = "col-md-2.5 space">
+                            <div class = "questionLine">
+                                <button class = "question" id = "questionBtn">?</button>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                
             </div>
             <!-- Header end -->
             
             
             <div class = "row">
-                <div class = "container-fluid bgwhite" style = "padding-top:30px;">
-                    <h3 style = "color:#4A4A4A">Welcome Admin!</h3>
+                <div class = "bgwhite" style = "padding-top:30px;">
                     <div class = "row">
-                        <div class = "col">
-                            
-                            
-                            <!-- Reservations, Small upper left -->
-                            <div class = "container contentBox" style = "padding:0px;">
+                        <div class = "col-md-6">
+                            <h3 style = "color:#4A4A4A">Welcome Admin!</h3>
+                        </div>
+                        <div class = "col-md-3">
+                            <p id = "currTime" class = "timeDetails">Current System Time: 12:30 PM</p>
+                        </div>
+                        <div class = "col-md-3">
+                            <p id = "currTime" class = "timeDetails" style="float:right;text-decoration:underline;" >Refresh</p>
+                        </div>
+                    </div>
+                    
+                    <div class = "row">
+                        <div class = "col-md-6" style = "margin-bottom:0px;padding-bottom:0px;height:auto;" >
+                            <!-- PC, Small upper left -->
+                            <div class = "contentBox" style = "padding:0px;">
                                 
                                 <!--Box Header Start-->
                                 <div class = "row">
@@ -236,7 +270,7 @@
                                         <h3 class = "boxTitle" style = "margin-left:10px;margin-top:20px;margin-bottom:15px;">Recent Reservations</h3>
                                     </div>
                                     <div class = "col" style = "text-align:right;">
-                                        <select class = "dropdown">
+                                        <select class = "dropdown" id = "reservationsDrop">
                                             <option>All Locations</option>
                                             <option>Gokongwei</option>
                                             <option>Velasco</option>
@@ -246,53 +280,70 @@
                                     </div>
                                 </div>
                                 <!--Box Header End--> 
-                                <table class = "reserveTable">
-                                    <tbody id = "recentTable">
-                                        <tr>
-                                            <th class = "tableHeader">Name</th>
-                                            <th class = "tableHeader">ID</th>
-                                            <th class = "tableHeader">Location</th>
-                                            <th class = "tableHeader">PC No.</th>
-                                            <th class = "tableHeader">Date</th>
-                                            <th class = "tableHeader">Start</th>
-                                            <th class = "tableHeader">End</th>
-                                            <th class = "tableHeader">Check-In</th>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                
+                                <div class = "tableContainer">
+                                    <table class = "reserveTable">
+                                        <tbody id = "recentTable">
+                                            <tr>
+                                                <th class = "tableHeader"> </th>
+                                                <th class = "tableHeader">Name</th>
+                                                <th class = "tableHeader">ID</th>
+                                                <th class = "tableHeader">Location</th>
+                                                <th class = "tableHeader">PC No.</th>
+                                                <th class = "tableHeader">Date</th>
+                                                <th class = "tableHeader">Start</th>
+                                                <th class = "tableHeader">End</th>
+                                                <th class = "tableHeader"> </th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                             
                             
-                            <!-- Statistics,Small Lower Left -->
-                            <div class = "container contentBox" style = "padding:0px;">
+                            <!-- Lab,Small Lower Left -->
+                            <div class = "contentBox" style = "padding:0px;">
                                 
                                 <!--Box Header Start-->
                                 
                                 <div class = "row">
                                     <div class = "col">
-                                        <h3 class = "boxTitle" style = "margin-left:10px;margin-top:15px;margin-bottom:15px;">Statistics</h3>
+                                        <h3 class = "boxTitle" style = "margin-left:10px;margin-top:15px;margin-bottom:15px;">Lab Reservations</h3>
                                     </div>
                                     <div class = "col" style = "text-align:right;">
-                                        <select class = "dropdown">
-                                            <option>Weekly</option>
-                                            <option>Daily</option>
-                                            <option>Monthly</option>
-                                            <option>Annual</option>
+                                        <select class = "dropdown" id = "reservationsDrop">
+                                            <option>All Locations</option>
+                                            <option>Gokongwei</option>
+                                            <option>Velasco</option>
+                                            <option>Miguel</option>
+                                            <option>Henry Sy</option>
                                         </select>
                                     </div>
                                 </div>
-                                
                                 <!--Box Header End-->
-                                
-                                <canvas id = "statisticsBox" width="100%" height = "300px">
-                                    <!--Content is placed from javascript code-->
-                                </canvas>
+                                <div class = "tableContainer">
+                                    <table class = "reserveTable">
+                                        <tbody id = "labTable">
+                                            <tr>
+                                                <th class = "tableHeader"> </th>
+                                                <th class = "tableHeader">Name</th>
+                                                <th class = "tableHeader">ID</th>
+                                                <th class = "tableHeader">Location</th>
+                                                <th class = "tableHeader">Event</th>
+                                                <th class = "tableHeader">Date</th>
+                                                <th class = "tableHeader">Start</th>
+                                                <th class = "tableHeader">End</th>
+                                                <th class = "tableHeader"> </th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                                 
                             </div>
                         </div>
                         <!-- Computer Schedules, Big Right Box -->
-                        <div class = "col">
-                            <div class = "container contentBox" style = "padding:0px;">
+                        <div class = "col-md-6"  style = "margin-bottom:0px;padding-bottom:0px;height:auto;">
+                            <div class = "contentBox" style = "padding:0px;">
                                 
                                 <!--Box Header Start-->
                                 
@@ -301,7 +352,7 @@
                                         <h3 class = "boxTitle" style = "margin-left:10px;margin-top:20px;margin-bottom:15px;">Computer Schedules</h3>
                                     </div>
                                     <div class = "col" style = "text-align:right;">
-                                        <select class = "dropdown">
+                                        <select class = "dropdown" id = "schedulesDrop">
                                             <option>All Locations</option>
                                             <option>Gokongwei</option>
                                             <option>Velasco</option>
@@ -312,16 +363,17 @@
                                 </div>
                                 
                                 <!--Box Header End-->
-                                
-                                <table class = "reserveTable">
-                                    <tbody id = "schedBody">
-                                        <tr>
-                                            <th class = "tableHeader">Location</th>
-                                            <th class = "tableHeader">Slots Available</th>
-                                            <th class = "tableHeader">Location Status</th>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div class = "tableContainer" style = "height:400px;">
+                                    <table class = "reserveTable">
+                                        <tbody id = "schedBody">
+                                            <tr>
+                                                <th class = "tableHeader">Location</th>
+                                                <th class = "tableHeader">Slots Available</th>
+                                                <th class = "tableHeader">Location Status</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -355,53 +407,174 @@
         <!--End copy paste-->
         
         <script>
-            var canvas;
-            var canvasContext;
-            //insert code here haha
+            var reserveArr = [];
+            var schedArr = [];
+            
+            //Button Listeners
             $("#logout").click(function(){
                 $.get("/logout",function(){
-                    //nothing haha
+                    //Empty, logout is handled by the servlet
                 }); 
             });
             
-            $(document).ready(function(){
-                //for drawing statistics like bars etc
-                canvas = document.getElementById('statisticsBox');
-                canvasContext = canvas.getContext('2d');
-                
-                var reserveArr = [];
-                var schedArr = [];
-                
-                var res = {
-                    name: 'adsdf',
-                    id: 'd',
-                    location: 'heaven',
-                    pcno: '9999',
-                    date: 'tomrorow',
-                    start: '123',
-                    end: 'dsf34'
-                }
-                
-                var sched = {
-                    location:'aasd',
-                    slots:'99',
-                    status: 'yes'
-                }
-                
-                for(var i = 0 ; i < 6 ; i ++){
-                    reserveArr.push(res);
-                    
-                }
-                for(var i = 0 ; i < 16 ; i ++){
-                    schedArr.push(sched);
-                }
+            $("#reserveBtn").click(function(){
                 
                 
-                console.log(schedArr);
-                add_data_to_recent_reserve(reserveArr);
-                add_data_to_computer_schedules(schedArr);
             });
             
+            $("#historyBtn").click(function(){
+                
+                
+            });
+            
+            $("#layoutBtn").click(function(){
+                
+                
+            });
+            
+            $("#statisticsBtn").click(function(){
+                
+                
+            });
+            
+            $("#questionBtn").click(function(){
+                
+                
+            });
+            //End of Button Listeners
+            
+            
+            //Dropdown Listeners
+            $("#reservationsDrop").on('change', function(){
+                switch($(this).val()){
+                        
+                    case "All Locations":
+                        //TODO filter results
+                        break;
+                    case "Gokongwei":
+                        //TODO filter results
+                        break;
+                    case "Velasco":
+                        //TODO filter results
+                        break;
+                    case "Miguel":
+                        //TODO filter results
+                        break;
+                    case "Henry Sy":
+                        //TODO filter results
+                        break;
+                }
+            });
+            
+            $("#statisticsDrop").on('change', function(){
+                switch($(this).val()){
+                    case "Daily":
+                        
+                        break;
+                    case "Weekly":
+                        
+                        break;
+                    case "Monthly":
+                        
+                        break;
+                    case "Annual":
+                        
+                        break;
+                }
+            });
+            
+            $("#schedulesDrop").on('change', function(){
+                switch($(this).val()){
+                        
+                    case "All Locations":
+                        //TODO filter results
+                        break;
+                    case "Gokongwei":
+                        //TODO filter results
+                        break;
+                    case "Velasco":
+                        //TODO filter results
+                        break;
+                    case "Miguel":
+                        //TODO filter results
+                        break;
+                    case "Henry Sy":
+                        //TODO filter results
+                        break;
+                }
+            });
+            
+            
+            
+            
+            //function is called when page is fully loaded
+            $(document).ready(function(){
+                
+                var kek = {
+                        name:"something",
+                        id:"something",
+                        location:"something",
+                        pcno:"something",
+                        date:"something",
+                        start:"something",
+                        end:"something"
+                    }
+                for(var i = 0 ; i < 10 ; i++){
+                    reserveArr.push(kek);
+                }
+                //add_data_to_recent_reserve(reserveArr);
+                
+                /*
+                $.get("/getReservations", function(obj){
+                    
+                    add_data_to_recent_reserve(reserveArr);
+                });
+                $.get("/getschedules", function(obj){
+                    
+                    add_data_to_computer_schedules(schedArr); 
+                });
+                */
+                
+                
+                
+                //
+            });
+            function add_data_to_recent_lab(jasonarr){
+                /*
+                Expected parameter is a JSON array, JSON format is as follows:
+                    {
+                        name:
+                        id:
+                        location:
+                        event:
+                        date:
+                        start:
+                        end:
+                    }
+                */
+                for(var i = 0 ; i < jasonarr.length ; i++){
+                    var jason = jasonarr[i];
+                    var row = $("<tr>");
+                    row.append("<td class = 'tableCell' id = 'deleteReserve'>X</td>");
+                    
+                    //Prints all the things, in the order that they came
+                    for(var key in jason){
+                        var col = $("<td>");
+                        col.addClass("tableCell");
+                        console.log(key);
+                        if(jason.hasOwnProperty(key)){
+                            col.html(jason[key]);
+                        }
+                        row.append(col);
+                    }
+                    //append the [] and X thing on table
+                    row.append("<td class = 'tableCell' id = 'cfmReserve'><div class = 'checkinBox'><input type = 'checkbox' id = 'checkBox' class = 'checkBox'></div></td>");
+                    
+                    $("#labTable").after(row);
+                }
+                
+                
+            }
             function add_data_to_recent_reserve(jasonarr){
                 /*
                 Expected parameter is a JSON array, JSON format is as follows:
@@ -415,10 +588,15 @@
                         end:
                     }
                 */
+                
+                //Loops through the whole JSON array and prints it
+                //Optional: add a limit maybe? like 10 recent
                 for(var i = 0 ; i < jasonarr.length ; i++){
                     var jason = jasonarr[i];
                     var row = $("<tr>");
+                    row.append("<td class = 'tableCell' id = 'deleteReserve'>X</td>");
                     
+                    //Prints all the things, in the order that they came
                     for(var key in jason){
                         var col = $("<td>");
                         col.addClass("tableCell");
@@ -429,7 +607,7 @@
                         row.append(col);
                     }
                     //append the [] and X thing on table
-                    row.append("<td class = 'tableCell' id = 'deleteReserve'><div class = 'checkinBox'><input type = 'checkbox' id = 'checkBox' class = 'checkBox'><p id = 'recent_X' class = 'reserveX'>X</p></div></td>");
+                    row.append("<td class = 'tableCell' id = 'cfmReserve'><div class = 'checkinBox'><input type = 'checkbox' id = 'checkBox' class = 'checkBox'></div></td>");
                     
                     $("#recentTable").after(row);
                 }
@@ -467,6 +645,4 @@
             
         </script>
 </html>
-
-
 
