@@ -1,4 +1,8 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+Bornales, Amiel James November 14, 2017
+Changes made:
+- fixed error messages in servlet
+
 Bornales, Amiel James November 13, 2017
 Changes made:
 - updated headers
