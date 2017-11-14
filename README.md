@@ -15,6 +15,7 @@ Reminders:
 Bornales, Amiel James November 14, 2017
 Changes made:
 - fixed error messages in servlet
+- added user_reserve.html
 
 Bornales, Amiel James November 13, 2017
 Changes made:
