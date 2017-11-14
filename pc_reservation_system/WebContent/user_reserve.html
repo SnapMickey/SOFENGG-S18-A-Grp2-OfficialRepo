@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+        /*COPY PASTE HERE*/
+        html, body {
+            height: 100%;
+        }
+        .container-fluid{
+            height: 100%;
+            overflow-y: hidden; /* don't show content that exceeds my height */
+        }
+        .mainDiv{
+            background-color:#CCCCCC;
+        }
+        .header{
+            padding:8px;
+            background-color:#4A4A4A;
+        }
+        .headerTitle{
+            margin-top:15px;
+            color:white;
+            font-family:'Futura',sans-serif;
+            font-size:30px;
+            font-weight:500;
+        }
+        .footer{
+            position: fixed;
+            bottom:0;
+            background-color: #4A4A4A;
+            width:100%;
+            padding:2px;
+            margin:0px;
+        }
+        .copyright{
+            margin-top:5px;
+            font-family:'Avenir Next',sans-serif;
+            margin-left: 41.5%;
+            font-size: 16px;
+            color:#DADADA;
+        }
+        .headerButtonDiv{
+            padding-left: 8px;
+            padding-right: 10px;
+            padding-bottom: 4px;
+            padding-top: 6px;
+            
+            font-size:20px;
+            border:none;
+            background: none;
+            
+            font-family:'Avenir Next',sans-serif;
+            font-size:18px;
+            font-weight:600;
+            color:white;
+        }
+        .headerButtonDiv:hover{
+            border-radius: 5px;
+            background: #278347;
+        }
+        .space{
+            margin-top:15px;
+            margin-right:0px;
+            padding:0px;
+            margin-left:0px;
+        }
+        .questionLine{
+            position:inherit;
+            right:10px;
+            padding:0px;
+            margin:0px;
+            border-left: solid;
+            border-left-color: #278347;
+            border-left-width: 2px;
+        }
+        .question{
+            padding-top:4px;
+            padding-bottom: 3px;
+            padding-left:13px;
+            padding-right:13px;
+            background: #278347;
+            border:none;
+            border-radius: 100%;
+            margin-left:15px;
+            
+            
+            font-family:'Avenir Next',sans-serif;
+            font-size:20px;
+            font-weight:600;
+            color:white;
+        }
+        .bgwhite{
+            background: rgba(255,255,255,0.47);
+            width: 100%;
+            height:100%;
+            padding-top:30px;
+            padding-left: 50px;
+            padding-right: 50px;
+            display:flex;
+            flex-direction: column;
+        }
+        .contentBox{
+            background: #F8F3EB;
+            /*
+            margin-left: 3%;
+            margin-right: 3%;
+            margin-bottom: 2%;
+            margin-top: 1%;
+            */
+            height:100%;
+            flex-grow:2;
+            padding:5px;
+            margin-bottom: 10px;
+        }
+        .boxHeader{
+            font-family:'Avenir Next',sans-serif;
+            font-size: 24px;
+            margin-bottom: 25px;
+            color: white;
+        }
+        .boxTitle{
+            color: #278347;
+            font-family:'Avenir Next',sans-serif;
+            font-size: 25px;
+            font-weight:600;
+            margin-bottom: 25px;
+            margin-top:3px;
+            margin-left:5px;
+        }
+        /*COPY PASTE HERE*/
+        #footer {
+            margin-bottom: 0 !important;
+        }
+        .reserveButtons{
+            background-color: white;
+            border: solid;
+            border-width: 1px;
+            border-radius: 4px;
+            width:130px;
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size:15px;
+        }
+        .reserveTable{
+            width:100%;
+            border-top: solid;
+            border-bottom: solid;
+            border-width: 1.5px;
+            padding:15px;
+            border-color: black;
+            font-family:'Avenir Next',sans-serif;
+            color: #4A4A4A;
+        }
+        .tableHeader{
+            border-bottom: solid;
+            border-width: 1.5px;
+            border-color: black;
+            padding-top:10px;
+            padding-bottom: 10px;
+            width: 100px;
+            text-align: center;
+        }
+        .tableCell{
+            width:100px;
+            text-align: center;
+            border-bottom: solid;
+            border-width: 1.5px;
+            border-color: black;
+            
+            padding-left: 2px;
+            padding-right: 2px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+        .tableContainer{
+            overflow-y: scroll;
+            padding:0px;
+            margin:0px;
+            height:380px;
+        }
+        .filterContainer{
+            margin:30px;
+            
+        }
+        .details{
+            font-size:16px;
+            margin-bottom: 5px;
+        }
+        .dropdown{
+            width:100%;
+            padding:3px;
+            border-radius: 3px;
+            margin-bottom:10px;
+        }
+        .filterButton{
+            width:100%;
+            padding:3px;
+            margin-top:40px;
+            background: #278347;
+            font-family:'Avenir Next',sans-serif;
+            color:white;
+            border-width: 1px;
+            border-radius: 8px;
+            font-weight:600;
+            font-size:15px;
+        }
+        .selected{
+            background-color:#adff96;
+        }
+        td{
+            cursor:pointer;
+        }
+    </style>
+    <head>
+      
+        
+    </head>
+    <body>
+        <div class = "container-fluid mainDiv">
+            
+            <!-- Header start-->
+            <div class = "row header">
+                <div class = "col-xs-1" style = "padding:0px;">
+                    <img src = "DLSU_Logo_Clear_Background.png" style = "width:60px;height:60px">
+                </div>
+                <div class = "col-sm-3">
+                    <h4 class = "headerTitle">Computer Reservation</h4>
+                </div>
+                
+                <div class = "col-md-4"></div>
+                
+                <div class = "col-md-1 space">
+                    <button class = "headerButtonDiv">HOME</button>
+                </div>
+                <div class = "col-md-1 space" style = "margin-right:20px;">
+                    <button class = "headerButtonDiv">RESERVE</button>
+                </div>
+                <div class = "col-md-1 space">
+                    <button class = "headerButtonDiv" id="logout">LOGOUT</button>
+                </div>
+                <div class = "col-md-1 space">
+                    <div class = "questionLine" style = "float:right;">
+                        <button class = "question">?</button>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            <!-- Header end-->
+            
+            <div class = "row" style = "padding-bottom:15px;">
+                <div class = "container-fluid bgwhite">
+                    <div class = "row">
+                        <div class = "col-md-4"style = "padding-right:0px;">
+                            <div class = "contentBox" style = "background-color: #4A4A4A">
+                                <h3 class = "boxTitle" style = "color:white;">1. Search for a PC</h3>
+                                <div class = "filterContainer">
+                                    <h3 class = "boxHeader">Filter By:</h3>
+                                    <p class = "boxHeader details">Building</p>
+                                    <select class = "dropdown" id = "bldgList">
+                                        <option>All</option>
+                                        <option>Gokongwei</option>
+                                        <option>Velasco</option>
+                                        <option>Miguel</option>
+                                        <option>Henry Sy</option>
+                                    </select>
+                                    <p class = "boxHeader details">Room/Floor</p>
+                                    <select class = "dropdown" id = "floorDropdown">
+                                        <option>All</option>
+                                    </select>
+                                    <div class = "row">
+                                        <div class = "col-sm-7">
+                                            <p class = "boxHeader details">Date</p>
+                                        </div>
+                                        <div class = "col-sm-5">
+                                            <p class = "boxHeader details">Start Time</p>
+                                        </div>
+                                    </div>
+                                    <div class = "row">
+                                        <div class = "col-sm-7">
+                                            <select class = "dropdown" id = "dateDropdown">
+                                                <option>--/--/--</option>
+                                            </select>
+                                        </div>
+                                        <div class = "col-sm-5">
+                                            <select class = "dropdown" id = "timeDropDown">
+                                                <option>Any</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class = "filterButton">Find PC</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class = "col-md-8" style = "padding-left:0px;">
+                            <div class = "contentBox">
+                                <div class = "row" style = "padding:0px; margin:0px;">
+                                    <h3 class = "boxTitle">2. Reserve a PC</h3>
+                                    <p style = "padding:0px;padding-top:5px;padding-left:10px;">Select a PC to reserve</p>
+                                </div>
+                                <div class = "tableContainer">
+                                    <table class = "reserveTable">
+                                        <tbody id = "PCtable">
+                                            <tr>
+                                                <th class = "tableHeader">PC No.</th>
+                                                <th class = "tableHeader">Location</th>
+                                                <th class = "tableHeader">Room/Floor</th>
+                                                <th class = "tableHeader">Start Time</th>
+                                                <th class = "tableHeader">End Time</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                
+                                
+                                <div class = "row" style = "padding:0px; margin:0px;margin-top:10px;">
+                                    <div class = "col">
+                                        <button class = "reserveButtons">VIEW LAYOUT</button>
+                                    </div>
+                                    <div class = "col">
+                                        <button class = "reserveButtons" style = "float:right;">RESERVE</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+            
+            <!-- footer-->
+            <div class = "row" id = "footer">
+                <div class = "footer">
+                    <h3 class = "copyright">Copyright De La Salle University</h3>
+                </div>
+            </div>
+            <!-- footer end-->
+            
+        </div>
+    </body>
+    <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+        <script
+        src="http://code.jquery.com/jquery-3.2.1.js"
+        integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+        crossorigin="anonymous"></script>
+        <script>
+            //insert code here haha
+            $("#logout").click(function(){
+                $.get("/logout",function(){
+                    //nothing haha
+                }); 
+            });
+            
+            $(document).ready(function(){
+               var json = {
+                        pcno:'asd',
+                        location:'asd',
+                        room:'asd',
+                        start:'asd',
+                        end:'asd'
+                    }
+               var jasonarr = [];
+                for(var i = 0 ; i < 10 ; i++){
+                    jasonarr.push(json);
+                }
+                
+                add_table_data(jasonarr);
+            });
+            
+            function add_table_data(jasonarr){
+                /*
+                    Function Recieves table data in the form of an JSON array
+                    JSON format is as follows
+                    {
+                        pcno:,
+                        location:,
+                        room:,
+                        start:,
+                        end:
+                    }
+                */
+                for(var i = 0 ; i < jasonarr.length ; i++){
+                    var jason = jasonarr[i];
+                    var row = $("<tr>");
+                    
+                    //Prints all the things, in the order that they came
+                    for(var key in jason){
+                        var col = $("<td>");
+                        col.addClass("tableCell");
+                        if(jason.hasOwnProperty(key)){
+                            col.html(jason[key]);
+                        }
+                        row.append(col);
+                    }
+                    $("#PCtable").after(row);
+                }
+            }
+            $(document).on('click','.reserveTable tr',function(){
+               $(this).addClass('selected').siblings().removeClass('selected');    
+               var value=$(this).find('td:first').html();
+                console.log(value);
+            });
+        </script>
+</html>
