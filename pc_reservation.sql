@@ -25,7 +25,6 @@ DROP TABLE IF EXISTS `faculty`;
 CREATE TABLE `faculty` (
   `userID` int(11) NOT NULL,
   `faculty` varchar(45) NOT NULL,
-  `slotsRemaining` int(11) NOT NULL,
   PRIMARY KEY (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -36,7 +35,7 @@ CREATE TABLE `faculty` (
 
 LOCK TABLES `faculty` WRITE;
 /*!40000 ALTER TABLE `faculty` DISABLE KEYS */;
-INSERT INTO `faculty` VALUES (10912312,'Chemistry',3),(11012344,'History',3),(11123451,'Software Technology',3),(11251234,'Marketing',3),(11322213,'Chem. Engineering',3),(11542311,'Mech. Engineering',3);
+INSERT INTO `faculty` VALUES (10912312,'Chemistry'),(11012344,'History'),(11123451,'Software Technology'),(11251234,'Marketing'),(11322213,'Chem. Engineering'),(11542311,'Mech. Engineering');
 /*!40000 ALTER TABLE `faculty` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -52,6 +51,7 @@ CREATE TABLE `lab` (
   `name` varchar(45) NOT NULL,
   `building` varchar(45) NOT NULL,
   `isAvailable` tinyint(4) NOT NULL,
+  `computers` tinyblob,
   PRIMARY KEY (`locationID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -62,7 +62,7 @@ CREATE TABLE `lab` (
 
 LOCK TABLES `lab` WRITE;
 /*!40000 ALTER TABLE `lab` DISABLE KEYS */;
-INSERT INTO `lab` VALUES (1,'Henry Sy - 6th Floor','Henry Sy',0),(2,'Henry Sy - 7th Floor','Henry Sy',0),(3,'Henry Sy - 8th Floor','Henry Sy',0),(4,'Gokongwei Lab - G301A','Gokongwei',0),(5,'Gokongwei Lab - G302B','Gokongwei',1),(6,'Gokongwei Lab - G301B','Gokongwei',0),(7,'Gokongwei Lab - G302A','Gokongwei',1);
+INSERT INTO `lab` VALUES (1,'Henry Sy - 6th Floor','Henry Sy',0,NULL),(2,'Henry Sy - 7th Floor','Henry Sy',0,NULL),(3,'Henry Sy - 8th Floor','Henry Sy',0,NULL),(4,'Gokongwei Lab - G301A','Gokongwei',0,NULL),(5,'Gokongwei Lab - G302B','Gokongwei',1,NULL),(6,'Gokongwei Lab - G301B','Gokongwei',0,NULL),(7,'Gokongwei Lab - G302A','Gokongwei',1,NULL);
 /*!40000 ALTER TABLE `lab` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,8 +106,6 @@ CREATE TABLE `pc_reservations` (
   `dateTimeEnd` datetime NOT NULL,
   `checkInTime` datetime NOT NULL,
   `reserveTime` datetime NOT NULL,
-  `eConfirmTime` datetime NOT NULL,
-  `emailConfirmed` tinyint(4) NOT NULL,
   `adminConfirmed` tinyint(4) NOT NULL,
   PRIMARY KEY (`borrowID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -119,6 +117,7 @@ CREATE TABLE `pc_reservations` (
 
 LOCK TABLES `pc_reservations` WRITE;
 /*!40000 ALTER TABLE `pc_reservations` DISABLE KEYS */;
+INSERT INTO `pc_reservations` VALUES (1,10912312,2,'2017-11-15 07:00:00','2017-11-15 08:00:00','9999-09-09 09:09:09','2017-11-15 06:30:00',0),(2,11634521,3,'2017-11-15 07:00:00','2017-11-15 08:00:00','9999-09-09 09:09:09','2017-11-15 06:30:00',0),(3,11534567,2,'2017-11-15 08:00:00','2017-11-15 09:00:00','9999-09-09 09:09:09','2017-11-15 07:30:00',0),(4,11265423,5,'2017-11-16 07:00:00','2017-11-16 08:00:00','9999-09-09 09:09:09','2017-11-15 07:00:00',0),(5,11412345,2,'2017-11-15 10:00:00','2017-11-15 11:00:00','9999-09-09 09:09:09','2017-11-15 07:00:00',0),(6,11324215,13,'2017-11-16 07:00:00','2017-11-16 08:00:00','9999-09-09 09:09:09','2017-11-16 07:00:00',0),(7,11425232,11,'2017-11-16 07:00:00','2017-11-16 08:00:00','9999-09-09 09:09:09','2017-11-16 06:00:00',0);
 /*!40000 ALTER TABLE `pc_reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,8 +160,6 @@ CREATE TABLE `student` (
   `userID` int(11) NOT NULL,
   `course/college` varchar(45) NOT NULL,
   `status` varchar(45) NOT NULL,
-  `blacklistDays` int(11) NOT NULL,
-  `slotsRemaining` int(11) NOT NULL,
   PRIMARY KEY (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -173,7 +170,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES (11265423,'AB-HIS/CLA','Graduate',0,3),(11324215,'BSCS/CCS','Graduate',0,3),(11412345,'BSED-BIO/COE','Undergraduate',2,3),(11425232,'BSIT/CCS','Undergraduate',0,3),(11534567,'AB-LIT/CLA','Undergraduate',0,3),(11634521,'BSA/COB','Undergraduate',4,3);
+INSERT INTO `student` VALUES (11265423,'AB-HIS/CLA','Graduate'),(11324215,'BSCS/CCS','Graduate'),(11412345,'BSED-BIO/COE','Undergraduate'),(11425232,'BSIT/CCS','Undergraduate'),(11534567,'AB-LIT/CLA','Undergraduate'),(11634521,'BSA/COB','Undergraduate');
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -188,7 +185,6 @@ CREATE TABLE `user_info` (
   `userID` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
-  `email` varchar(45) NOT NULL,
   `position` varchar(45) NOT NULL,
   PRIMARY KEY (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -200,7 +196,7 @@ CREATE TABLE `user_info` (
 
 LOCK TABLES `user_info` WRITE;
 /*!40000 ALTER TABLE `user_info` DISABLE KEYS */;
-INSERT INTO `user_info` VALUES (10823512,'Tess Poñei','Iloveicecream_9','tess_poñei@dlsu.edu.ph','admin'),(10912312,'Heverly Bien','Bienhev11*','heverly_bien@dlsu.edu.ph','faculty'),(10923123,'Heinrich Lein','Heinlein_109','heinrich_lein@dlsu.edu.ph','admin'),(11012344,'Anna Bell','Bellanna_1','anna_bell@dlsu.edu.ph','faculty'),(11023124,'Larry Port','Larryport110*','larry_port@dlsu.edu.ph','admin'),(11123451,'Nadroj Ajed','Nadrojedi12!','nadroj_ajed@dlsu.edu.ph','faculty'),(11145342,'Perry Mon','dlsuemailpass123.','perry_mon@dlsu.edu.ph','admin'),(11251234,'Gary Go','Gary_dlsu123','gary_go@dlsu.edu.ph','faculty'),(11265423,'Ellie Gomez','Gomellie_12','ellie_gomez@dlsu.edu.ph','student'),(11322213,'Han Cort','Hancortdlsu11!','han_cort@dlsu.edu.ph','faculty'),(11324215,'Adam Tom','adam1_12_123!','adam_tom@dlsu.edu.ph','student'),(11412345,'John Ferry','123456abc!','john_ferry@dlsu.edu.ph','student'),(11425232,'Hagrid Henry','H@grid12','hagrid_henry@dlsu.edu.ph','student'),(11534567,'Mark Martinez','Hello123!','mark_martinez@dlsu.edu.ph','student'),(11542311,'Lambert Alai','Lambertdlsu152!','lambert_alai@dlsu.edu.ph','faculty'),(11634521,'Monique Lauff','Monlauff116*','monique_lauff@dlsu.edu.ph','student');
+INSERT INTO `user_info` VALUES (10823512,'Tess Poñei','Iloveicecream_9','admin'),(10912312,'Heverly Bien','Bienhev11*','faculty'),(10923123,'Heinrich Lein','Heinlein_109','admin'),(11012344,'Anna Bell','Bellanna_1','faculty'),(11023124,'Larry Port','Larryport110*','admin'),(11123451,'Nadroj Ajed','Nadrojedi12!','faculty'),(11145342,'Perry Mon','dlsuemailpass123.','admin'),(11251234,'Gary Go','Gary_dlsu123','faculty'),(11265423,'Ellie Gomez','Gomellie_12','student'),(11322213,'Han Cort','Hancortdlsu11!','faculty'),(11324215,'Adam Tom','adam1_12_123!','student'),(11412345,'John Ferry','123456abc!','student'),(11425232,'Hagrid Henry','H@grid12','student'),(11534567,'Mark Martinez','Hello123!','student'),(11542311,'Lambert Alai','Lambertdlsu152!','faculty'),(11634521,'Monique Lauff','Monlauff116*','student');
 /*!40000 ALTER TABLE `user_info` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -213,4 +209,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-02 23:46:56
+-- Dump completed on 2017-11-14 22:11:10
