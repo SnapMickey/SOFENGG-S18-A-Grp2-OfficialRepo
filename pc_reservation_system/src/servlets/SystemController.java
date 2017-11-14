@@ -15,7 +15,7 @@ import services.SystemService;
 /**
  * Servlet implementation class SystemController
  */
-@WebServlet(urlPatterns = {"/login", "/logout", "/adminpage", "/userpage"})
+@WebServlet(urlPatterns = {"/login", "/logout", "/adminpage", "/userpage", "/adminreservationpage"})
 @MultipartConfig
 public class SystemController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -49,6 +49,9 @@ public class SystemController extends HttpServlet {
 			case "/userpage":
 				doUserPage(request, response);
 				break;
+			case "/adminreservationpage":
+				doAdminReservationPage(request, response);
+				break;
 		}
 
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -60,6 +63,9 @@ public class SystemController extends HttpServlet {
 		//redirect to login page
 	}
 	
+	private void doAdminReservationPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.getRequestDispatcher("admin_reservation_page.html").forward(request, response);
+	}
 	private void doUserPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.getRequestDispatcher("user_front_page.html").forward(request, response);
@@ -69,7 +75,7 @@ public class SystemController extends HttpServlet {
 	private void doLogout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.getSession().invalidate();
-		response.sendRedirect("index.html");
+		request.getRequestDispatcher("index.html").forward(request, response);
 		//redirect to login page
 	}
 
@@ -139,6 +145,7 @@ public class SystemController extends HttpServlet {
 		//request.getRequestDispatcher(link).forward(request,response);
 		response.sendRedirect(link);
 	}
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

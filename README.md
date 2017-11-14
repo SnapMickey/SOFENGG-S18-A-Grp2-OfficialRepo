@@ -1,4 +1,17 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+
+Lominoque, Jerome November 14, 2017
+Changes made:
+- Can now access reservation page
+
+Errors/Problems:
+- Reservation page is not yet finalized and is not yet working properly will fix immediately
+- No data present for reservation table in Database
+
+Reminders:
+- Logs for Database is not yet applied (When Inserting and Deleting or backup logs)
+- Encryption for Database is not yet applied
+
 Bornales, Amiel James November 14, 2017
 Changes made:
 - fixed error messages in servlet
