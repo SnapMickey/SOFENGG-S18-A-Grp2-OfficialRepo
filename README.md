@@ -3,10 +3,11 @@
 Lominoque, Jerome November 14, 2017
 Changes made:
 - Can now access reservation page
+- Updated SQL based on ERD
+- pc_reservations table has data
 
 Errors/Problems:
 - Reservation page is not yet finalized and is not yet working properly will fix immediately
-- No data present for reservation table in Database
 
 Reminders:
 - Logs for Database is not yet applied (When Inserting and Deleting or backup logs)
