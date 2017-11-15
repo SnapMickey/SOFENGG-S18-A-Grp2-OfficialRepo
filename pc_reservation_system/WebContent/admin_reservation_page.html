@@ -3,212 +3,239 @@
     <style>
         
         /* Start of Style(s) for subcontainer */
+        
         .subDiv{
-            height: 80%;
-            width: 95%;
-            padding-top: 20px;
-            margin-top: 15px;
-            margin-left: 30px;
+            height: 83%;
+            margin-top: 7.5px;
+            margin-left: 60px;
         }
         
-            /* Start of Style(s) for Reserve */
-        .reserveDiv{
-            float:right;
-            background-color: floralwhite;
+        .searchDiv{
+            background-color: dimgray;
+            display: inline-block;
             height: 100%;
-            width: 70%;
         }
         
-        .reserveLabel{
-            margin: 5px;
-            font-family:'Futura',sans-serif;
-            color: darkgreen;
+        .reserveDiv{
+            background-color: floralwhite;
+            display:inline-block;
+            float: right;
+            padding: 0px;
+            height: 100%;
+        }
+            /* Start of Style(s) for Reserve */
+        .reserveHeaderDiv{
+            margin-left: 4px;
+            margin-top:  4px;
+        }
+        
+        .mainHeader{
+            color:green;
+            font-family:'Avenir Next',sans-serif;
+            font-size:25px;
+        }
+        
+        .mainHeader2{
+            color:darkgray;
+            font-family:'Avenir Next',sans-serif;
+            font-size:15px;
+        }
+        
+        .reserveTableDiv{
+            overflow-y: scroll;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-top: 5px;
+            width:100%;
+            height:85%;
+            border: solid gray;
+            border-width: 0px 1px 1px 1px;
+            /* no top border */
         }
         
         .reserveTable{
+            
+            margin-top: 0px;
             width: 100%;
-            border-color: gray;
-            font-family:'Futura',sans-serif;
-            color: darkslategray;
         }
         
-        .reserveResults::before{
-            content: "\200B";
+        .reserveTable td{
+            cursor:pointer;
+        }
+
+        
+        .reserveTableHead{
+            height: 20%;
+            width: 20%;
+            font-family:'Avenir Next',sans-serif;
+            border: solid gray;
+            border-width: 1px 0px;
         }
         
-        .reserveResults{
-            border-style: solid none;
+        .reserveTableRows{
+            padding:2px 0px;
+            max-width: 20%;
+            font-family:'Avenir Next',sans-serif;
+            border: solid gray;
+            border-width: 1px 0px;
+            
+        }
+        
+        .reserveButtons{
+            background-color: darkgreen;
+            color: white;
+            border: solid;
             border-width: 1px;
-            height: 450px;
-            width:100%;
-            border-color: gray;
-            overflow: auto;
-        }
-        
-        .footerButton{
-            align-content: center;
-            font-family: 'Avenir Next', 'Futura', sans-serif;
             border-radius: 4px;
-            background-color: white;
-            border: solid 1px gray;
-            color: darkslategray;
-            padding: 5px 20px;
-            margin: 5px;
+            width:130px;
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size:15px;
+            
             cursor: pointer;
             -webkit-transition-duration: 0.4s; /* Safari */
             transition-duration: 0.4s;
         }
         
-        .footerButton:hover{
-            background-color: lightgray;
+        .reserveButtons:hover{
+            background-color: green;
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
         }
-        
-            /* Reserve Button will only be visible if the user picked a slot */
-        
-        .reserveButton{
+        .hideReserve{
             visibility: hidden;
+        }
+        
+        .selected{
+            background-color:#adff96;
         }
         
             /* End of Style(s) for Reserve */
         
-        
-        
             /* Start of Style(s) for Search */
-        .searchDiv{
-            float: left;
-            background-color: dimgray;
-            height: 100%;
-            width: 30%;
-        }
-        
-        .searchLabel{
-            margin: 5px;
-            font-family:'Futura',sans-serif;
+        .searchHeaderFont{
+            margin-left: 4px;
+            margin-top:  4px;
             color: white;
+            font-size: 25px;
+            font-family:'Avenir Next',sans-serif;
+        }
+   
+        .filterByDiv{
+            margin-top: 40px;
+            margin-left: 32px;
+            /*background-color: aquamarine;*/
+            height: 32%;
+            width: 90%;
         }
         
-         .filterComponents{
-            content: "\200b";
-            height: 530px;
+        .filterHeaderFontSize{
+            font-size: 20px;
         }
         
-            /* For dropdown */
-        
-        
-        .dropdownDiv{
-            margin-left: 5%; 
-            margin-top: 4%;
-        }
-        
-        .dropdownDiv2nd{
-            margin-left: 5%; 
-            margin-top: 2%;
-        }
-        
-        .spanDropdown{
-            display:inline-block;
-            color:white;
-        }
-        
-        .dropdownColor{
-            color:darkslategray;
+        .filterHeaderFont{
+            color: white;
+            font-family:'Avenir Next',sans-serif;
         }
         
         .dropdown{
-            margin-left:15px;
-            width:350px;
-            border-radius:4px;
-            background-color: lightgray; /* For browsers that do not support gradients */
-            background: -webkit-linear-gradient(whitesmoke, lightgray, whitesmoke); /* For Safari 5.1 to 6.0 */
-            background: -o-linear-gradient(whitesmoke, lightgray, whitesmoke); /* For Opera 11.1 to 12.0 */
-            background: -moz-linear-gradient(whitesmoke, lightgray, whitesmoke); /* For Firefox 3.6 to 15 */
-            background: linear-gradient(whitesmoke, lightgray, whitesmoke); /* Standard syntax */
+            width:100%;
+            padding:3px;
+            border-radius: 3px;
+            cursor: pointer;
         }
         
-        .roomfloorDropdownDiv{
-            margin-top: 5px;
-            margin-left: 36px;
+        .dateDiv{
+            margin-top: 14px;
+            width: 50%;
+            height:20%;
+            /*background-color: blueviolet;*/
+            float: left;
         }
         
-        .dropdownDivSet{
-            margin-top: 3%;
-            margin-left: 36.5px;
+        .timeDiv{
+            margin-top: 14px;
+            width:30%;
+            height:20%;
+            /*background-color: khaki;*/
+            float:right;
         }
         
-        .dropdownDivSetBlock{
-            display:inline-block;
-            height:65px;
-            width:100px;
+        .infoHeader{
+            margin-top: 40px;
         }
         
-        .dropdownSet{
-            border-radius:4px;
-            background-color: lightgray; /* For browsers that do not support gradients */
-            background: -webkit-linear-gradient(whitesmoke, lightgray, whitesmoke); /* For Safari 5.1 to 6.0 */
-            background: -o-linear-gradient(whitesmoke, lightgray, whitesmoke); /* For Opera 11.1 to 12.0 */
-            background: -moz-linear-gradient(whitesmoke, lightgray, whitesmoke); /* For Firefox 3.6 to 15 */
-            background: linear-gradient(whitesmoke, lightgray, whitesmoke); /* Standard syntax */
+        .infoDiv{
+            margin-left: 32px;
+            height: 30%;
+            width: 90%;
         }
         
-            /* End of Dropdown */
-        
-        .reserveforSet{
-            margin-left:8.5%;
+        .filterSearchButton{
+            border: none;
+            margin-left: 32px;
+            border-width: 1px;
+            border-radius: 4px;
+            width: 90%;
+            color:white;
+            background-color: forestgreen;
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
         }
         
-        .textboxFormat{
-            text-indent: 2px;
-            border-radius:3px;
-            height: 30px;
-            font-size:12px;
-            font-family: 'Avenir Next', 'Futura', sans-serif;
-            border: solid 1px gray; 
+        .filterSearchButton:hover{
+            border-radius: 5px;
+            background-color: darkgreen;
+            color:white;
         }
         
-        .textboxUsername{
-            width:230px;
+        .individualHeader{
+            margin-top:10px;
         }
         
-        .textboxEventname{
-            width:350px;
-            margin-top: 5px;
+        .eventHeader{
+            margin-top:10px;
         }
-        
-        .searchButton{
-            margin-top: 30px;
-            margin-left: 35px;
-            width: 350px;
-            border-radius:4px;
-            color: white;
-            background-color: forestgreen; /* For browsers that do not support gradients */
-            background: -webkit-linear-gradient(darkgreen, green, forestgreen, limegreen); /* For Safari 5.1 to 6.0 */
-            background: -o-linear-gradient(darkgreen, green, forestgreen, limegreen); /* For Opera 11.1 to 12.0 */
-            background: -moz-linear-gradient(darkgreen, green, forestgreen, limegreen); /* For Firefox 3.6 to 15 */
-            background: linear-gradient(darkgreen, green, forestgreen, limegreen); /* Standard syntax */
-        }
-        
             /* End of Style(s) for Search */
         
         /* End of Style(s) for subcontainer */
         
+        html, body {
+            height: 100%;
+        }
+        .container-fluid{
+            height: 100%;
+            overflow-y: hidden; /* don't show content that exceeds my height */
+        }
         .mainDiv{
-            background-image: url(background.png);
-            height:100%;
-            position: absolute;
-            background-size:cover;
-            align: center;
+            background-color:#CCCCCC;
+        }
+        .header{
+            padding-bottom: 10px;
+            padding-top: 10px;
+            padding-right: 8px;
+            padding-left: 8px;
+            background-color:#4A4A4A;   
+        }
+        .headerTitle{
+            margin-top:15px;
+            color:#278347;
+            font-family:'Futura',sans-serif;
+            font-size:30px;
+            font-weight:500;
         }
         
-        .header{
-            padding:5px;
+        #footer {
+            margin-bottom: 0 !important;
         }
+        
         .footer{
-            position: absolute;
+            position: fixed;
             bottom:0;
             background-color: #4A4A4A;
             width:100%;
             padding:2px;
+            margin:0px;
         }
         .copyright{
             margin-top:5px;
@@ -222,18 +249,20 @@
             padding-right: 10px;
             padding-bottom: 4px;
             padding-top: 6px;
+            
             font-size:20px;
             border:none;
             background: none;
+            
             font-family:'Avenir Next',sans-serif;
             font-size:18px;
             font-weight:600;
-            color:#278347;
+            color:white;
+            
             cursor: pointer;
             -webkit-transition-duration: 0.4s; /* Safari */
             transition-duration: 0.4s;
         }
-        
         .headerButtonDiv:hover{
             border-radius: 5px;
             background: #278347;
@@ -241,9 +270,9 @@
         }
         .space{
             margin-top:15px;
-            margin-right:10px;
             padding:0px;
             margin-left:0px;
+            margin-right: 0px;
         }
         .questionLine{
             position:inherit;
@@ -253,23 +282,25 @@
             border-left: solid;
             border-left-color: #278347;
             border-left-width: 2px;
+            float:right;
         }
         .question{
-            padding-top:2px;
-            padding-bottom: 2px;
-            padding-left:11px;
-            padding-right:11px;
+            padding-top:4px;
+            padding-bottom: 3px;
+            padding-left:13px;
+            padding-right:13px;
             background: #278347;
             border:none;
             border-radius: 100%;
             margin-left:15px;
-            cursor: pointer;
+            
             
             font-family:'Avenir Next',sans-serif;
             font-size:20px;
             font-weight:600;
             color:white;
         }
+        
     </style>
     <head>
       
@@ -278,203 +309,178 @@
     <body>
         <div class = "container-fluid mainDiv">
             
-            <!-- Header eyyy -->
+            <!-- Header start -->
             <div class = "row header">
-                <div class = "col-xs-1" style = "padding:0px;">
-                    <img src = "DLSU_Logo_Clear_Background.png" style = "width:60px;height:60px">
-                </div>
-                <div class = "col-sm-3" style = "padding-left:10px;">
-                    <h4 style = "margin-top:15px; color:#278347; font-family:'Futura',sans-serif;font-size:30px; font-weight:500">Computer Reservation</h4>
-                </div>
-                
-                
-                <div class = "col-md-1.5 space" style="margin-left:4%;">
-                    <button class = "headerButtonDiv">DASHBOARD</button>
-                </div>
-                <div class = "col-md-1 space">
-                    <button class = "headerButtonDiv" style="border-radius: 5px;background: #278347;color:white;">RESERVE</button>
-                </div>
-                <div class = "col-md-1 space">
-                    <button class = "headerButtonDiv">HISTORY</button>
-                </div>
-                <div class = "col-md-1 space">
-                    <button class = "headerButtonDiv">LAYOUT</button>
-                </div>
-                <div class = "col-md-1.5 space">
-                    <button class = "headerButtonDiv">STATISTICS</button>
-                </div>
-                <div class = "col-md-1 space">
-                    <button class = "headerButtonDiv" id = "logout">LOGOUT</button>
-                </div>
-                <div class = "col-md-1 space">
-                    <div class = "questionLine">
-                        <button class = "question">?</button>
+                <div class = "col-md-4">
+                    <div class = "row">
+                        <div class = "col-xs-6" style = "padding:0px;">
+                            <img src = "DLSU_Logo_Clear_Background.png" style = "width:60px;height:60px">
+                        </div>
+                        <div class = "col-xs-6" style = "padding-left:10px;">
+                            <h4 style = "margin-top:15px; color:white; font-family:'Futura',sans-serif;font-size:30px; font-weight:500">Computer Reservation</h4>
+                        </div>
                     </div>
-                    
+                </div>
+                <div class = "col-md-8">
+                    <div class = "row" style = "float:right;padding-right:10px;">
+                        <div class = "col-md-2.5 space">
+                            <button class = "headerButtonDiv">DASHBOARD</button>
+                        </div>
+                        <div class = "col-md-2.5 space">
+                            <button class = "headerButtonDiv" id = "reserveBtn">RESERVE</button>
+                        </div>
+                        <div class = "col-md-2.5 space">
+                            <button class = "headerButtonDiv" id = "historyBtn">HISTORY</button>
+                        </div>
+                        <div class = "col-md-2.5 space">
+                            <button class = "headerButtonDiv" id = "logout">LOG OUT</button>
+                        </div>
+                        <div class = "col-md-2.5 space">
+                            <div class = "questionLine">
+                                <button class = "question" id = "questionBtn">?</button>
+                            </div>
+                        </div> 
+                    </div>
                 </div>
                 
             </div>
             <!-- Header end xd -->
             
             <!-- Subcontainer Start -->
-            <div class = "subDiv">
+            <div class = "col-md-11  subDiv">
                 
-                <!-- Start of Search Div -->
-                <div class="searchDiv">
-                    <div class="searchLabel">
-                        <span style="font-size:22px;"><b>Search for a PC </b> </span>
+                <!-- Search Container Start -->
+                <div class="col-md-4 searchDiv">
+                    <div class="searchHeader">
+                        <span class="searchHeaderFont"> 1. Search for a PC</span>
                     </div>
                     
-                    <div style="margin: 25px 10px 0px;">
-                        <span style="font-size:22px;color:white;">&emsp; Filter By:</span>
-                    </div>
-                    
-                    <!-- Name of Dropdown: building
-                         values: b1, b2, b3
-                      -->
-                    <div class="filterComponents">
-                        <div class="dropdownDiv">
-                            <span class="spanDropdown" style="width:11.5px;"></span><span style="color: white;"> Building</span>
-                            <br>
-                            <select name="building" class="dropdown dropdownColor" >
-                                <option value="default">All <span class="caret"></span></option>
-                                <option value="b1">Building 1</option>
-                                <option value="b2">Building 2</option>
-                                <option value="b3">Building 3</option>
+                    <div class="filterByDiv">
+                        <div class="filterHeader filterHeaderFont">
+                            <span class="filterHeaderFontSize"> Filter By:</span>
+                            
+                            <div style="margin-top:10px;">
+                                <span> Building</span>
+                            </div>
+                            
+                            <select class="dropdown" id="bldgLst">
+                                <option>All</option>
+                                <option>Gokongwei</option>
+                                <option>Velasco</option>
+                                <option>Miguel</option>
+                                <option>Henry Sy</option>
+                            </select>
+                            
+                            <div style="margin-top:5px;">
+                                <span> Room/Floor</span>
+                            </div>
+                            <select class="dropdown" id="roomList">
+                                <option>All</option>
                             </select>
                         </div>
                         
-                        <!-- Name of Dropdown: roomfloor
-                         values: r1,r2,r3
-                        -->
-                        <div class="dropdownDiv2nd">
-                            <span class="spanDropdown" style="width:14.5px;"></span><span style="color:white;">Room/Floor</span>
-                            <br>
-                            <select name="roomfloor" class="dropdown dropdownColor" >
-                                <option value="default">All <span class="caret"></span></option>
-                                <option value="r1">Room 1</option>
-                                <option value="r2">Room 2</option>
-                                <option value="f3">Floor 3</option>
-                            </select>
-                        </div>
-                        
-                        <!-- Name of Dropdown: date
-                         values: d1,d2,d3
-                        -->
-                        <div class="dropdownDivSet">
-                            <div class="dropdownDivSetBlock">
-                                <span style="color:white;">Date </span>
-                                <br>
-                                <select name="date" class="dropdownSet dropdownColor" style="width:90px;">
-                                    <option value="default">--/--/-- <span class="caret"></span></option>
-                                    <option value="d1">Date 1</option>
-                                    <option value="d2">Date 2</option>
-                                    <option value="d3">Date 3</option>
+                        <div class="dateDiv filterHeaderFont">
+                            <div class="dateHeader">
+                                <span> Date </span>
+                                <select class = "dropdown" id = "dateDropdown">
+                                    <option>--/--/--</option>
                                 </select>
                             </div>
-                            <!-- Name of Dropdown: sTime
-                                 values: st7, st8, st9
-                            -->
-                            <div class="dropdownDivSetBlock" style="margin-left:5px;">
-                                <span style="color:white;"> Start Time </span>
-                                <br>
-                                <select name="sTime" class="dropdownSet dropdownColor" style="width:110px;">
-                                    <option value="default">Any <span class="caret"></span></option>
-                                    <option value="st7">7:00</option>
-                                    <option value="st8">8:00</option>
-                                    <option value="st9">9:00</option>
-                                </select>
-                            </div>
-                            
-                            <!-- Name of Dropdown: eTime
-                                 values:et8, et9, et10
-                            -->
-                            <div class="dropdownDivSetBlock" style="margin-left:25px;">
-                                <span style="color:white;">End Time</span>
-                                <br>
-                                <select name="eTime" class="dropdownSet dropdownColor" style="width:110px;">
-                                    <option value="default">Any <span class="caret"></span></option>
-                                    <option value="et8">8:00</option>
-                                    <option value="et9">9:00</option>
-                                    <option value="et10">10:00</option>
-                                </select>
-                            </div>
-                            
                         </div>
                         
-                        <div class="reserveforSet">
-                            <span style="color:white;font-size:18px;">Reserve for:</span>
-                            
-                            <!-- Name of textboxes: idNum, username
-                                 Name of checkbox: isIndividual
-                                 note: Checkbox is alignment is a little bit off
-                            -->
-                            <div>
-                                <span style="color:white;vertical-align:middle;"> Individual </span> 
-                                <span style="width:3px;display:inline-block;"> </span>
-                                <input name="isIndividual" type="checkbox" style="cursor:pointer;vertical-align:middle;">
-                                <br>
-                                <input name="idNum" placeholder="Input ID Number" type="text" size="13" class="textboxFormat"> 
-                                <input name="username" placeholder="Name of User" type="text" size="15" class="textboxFormat textboxUsername" style="margin-left:5px;">
+                        <div class="timeDiv filterHeaderFont">
+                            <div class="timeHeader">
+                                <span> Time </span>
+                                <select class = "dropdown" id = "dateDropdown">
+                                    <option>Any</option>
+                                </select>
                             </div>
-                            
-                            <!-- Name of textboxes: specialIDNum, specialUsername, eventName
-                                 Name of checkbox: isEvent
-                                 note: Checkbox is alignment is a little bit off
-                            -->
-                            <div>
-                                <span style="color:white;vertical-align:middle;"> Class/Event </span> 
-                                <span style="width:3px;display:inline-block;"> </span>
-                                <input name="isEvent" type="checkbox" style="cursor:pointer;vertical-align:middle;">
-                                <br>
-                                <input name="specialidNum" placeholder="Input ID Number" type="text" size="13" class="textboxFormat"> 
-                                <input name="specialUsername" placeholder="Name of Supervisor" type="text" class="textboxFormat textboxUsername" style="margin-left:5px;">
-                                <br>
-                                <input name="eventName" placeholder="Input Event Name" type="text" class="textboxFormat textboxEventname">
-                            </div>
-                            
                         </div>
-                        
-                        <button class="searchButton"> <span style="font-size:11px;"> <b>Search </b></span></button>
                     </div>
+                    
+                    <div class="infoHeader">
+                        <span class="searchHeaderFont"> 2. Enter User ID</span>
+                    </div>
+                    <div class="infoDiv filterHeaderFont"> 
+                        <div class="individualHeader">
+                            <span> Individual </span>
+                            <input type="checkbox" name="individual">
+                            <div>
+                            <input style="width:35%;"type="text" placeholder="Input ID Number">
+                            <input style="width:60%;float:right;"type="text" placeholder="Name of User" readonly>
+                            </div>
+                        </div>
+                        
+                        <div class="eventHeader">
+                            <span> Class/Event </span>
+                            <input type="checkbox" name="event">
+                            <div>
+                            <input style="width:35%;"type="text" placeholder="Input ID Number">
+                            <input style="width:60%;float:right;"type="text" placeholder="Name of Supervisor" readonly>
+                            <input style="width:100%;margin-top:10px;"type="text" placeholder="Input Event Name">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="filterSearchButton">Search</button>
                 </div>
+                <!-- Search Container End -->
                 
-                <!-- End of Search Div -->
-                
-                <!-- Start of Reserve Div -->
-                <div class="reserveDiv">
-                    <div class="reserveLabel">
-                        <span style="font-size:22px"> <b>Reserve a PC</b></span> &emsp; <span style="color: gray;">Select a PC to reserve</span>
+                <!-- Reserve Container Start -->
+                <div class="col-md-8 reserveDiv" style="padding-left:0px;padding-right:0px;">
+                    <div class="reserveHeaderDiv">
+                    <span class="mainHeader"> <b>3. Reserve A PC </b> </span> <span class="mainHeader2"> Select a PC to reserve </span>
                     </div>
-                    
+                    <div class="reserveTableDiv">
                     <table class="reserveTable">
                         <thead>
-                            <tr style="border-top: solid; border-width: 1px; border-color:gray;">
-                                <th style="width: 33.33%;padding:10px;"> <center>PC No. </center></th>
-                                <th style="width: 33.33%"> <center>Location </center></th>
-                                <th style="width: 33.33%"> <center>Room/Floor </center></th>
+                            <tr class="reserveTableHead">
+                                <th height="40">
+                                    <center> PC No. </center>
+                                </th>
+                                    
+                                <th>
+                                    <center> Location </center>
+                                </th>
+                                
+                                <th>
+                                    <center> Room/Floor </center>
+                                </th>
+                                
+                                <th>
+                                    <center> Start Time </center>
+                                </th>
+                                
+                                <th>
+                                    <center> End Time </center>
+                                </th>
                             </tr>
                         </thead>
-                           
+                        <tbody id="PCtable" class="reserveTableData">
+                            
+                        </tbody>
                     </table>
-                    
-                    <div class="reserveResults">
                         
                     </div>
-                    
-                    <div class="reserveFooter">
-                        <button class="footerButton" style="float:left;"> <b>VIEW LAYOUT </b></button>
-                        <button class="footerButton reserveButton" style="float:right;"> <b>RESERVE</b> </button>
+                     <div class = "row" style = "padding:0px; margin:10px 0px;">
+                          <div class = "col">
+                              <button class = "reserveButtons">VIEW LAYOUT</button>
+                          </div>
+                          <div class = "col">
+                              <button id="reserveButton" class = "reserveButtons hideReserve" style = "float:right;">RESERVE</button>
+                          </div>
                     </div>
                 </div>
                 
-                <!-- End of Reserve Div -->
-            </div>
+                <!-- Reserve Container End -->
+            </div>        
             <!-- Subcontainer End -->
             
             <!-- f00ter xd -->
-            <div class = "row footer">
-                <h3 class = "copyright">Copyright De La Salle University</h3>
+            <div class = "row" id = "footer">
+                <div class = "footer">
+                    <h3 class = "copyright">Copyright De La Salle University</h3>
+                </div>
             </div>
             <!-- f00ter enD xd-->
             
@@ -495,7 +501,61 @@
     
         <script>
             //insert code here haha
-           
+           $(document).ready(function(){
+               
+               var jasonarr = [];
+                for(var i = 15 ; i > 0 ; i--){
+                    var json = {
+                        pcno: (0 + i) + "",
+                        location:'Building',
+                        room:'G3' + (i),
+                        start: i + ":00",
+                        end:(i+1) + ":00"
+                    }
+                    jasonarr.push(json);
+                }
+                
+                add_table_data(jasonarr);
+            });
+            
+            function add_table_data(jasonarr){
+                /*
+                    Function Recieves table data in the form of an JSON array
+                    JSON format is as follows
+                    {
+                        pcno:,
+                        location:,
+                        room:,
+                        start:,
+                        end:
+                    }
+                */
+                for(var i = 0 ; i < jasonarr.length ; i++){
+                    var jason = jasonarr[i];
+                    var row = $("<tr height=\"40\">");
+                    
+                    //Prints all the things, in the order that they came
+                    for(var key in jason){
+                        var center = $("<center>");
+                        var col = $("<td>");
+                        col.addClass("reserveTableRows");
+                        if(jason.hasOwnProperty(key)){
+                            col.html("<center> " +jason[key] + "</center>");
+                        }
+                        center.append(col);
+                        row.append(col);
+                    }
+                    $("#PCtable").after(row);
+                }
+            }
+            
+            $(document).on('click','.reserveTable tr',function(){
+               $(this).addClass('selected').siblings().removeClass('selected');    
+               var value=$(this).find('td:first').html();
+                console.log(value);
+                
+                document.getElementById('reserveButton').style.visibility = "visible";
+            });
         </script>
 </html>
 

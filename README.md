@@ -1,5 +1,10 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Lominoque, Jerome November 16, 2017
+Changes made:
+- Finalized Admin Reservation Page
+- Added new column in pc_reservations table -> eventName
+
 Lominoque, Jerome November 14, 2017
 Changes made:
 - Can now access reservation page
