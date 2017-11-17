@@ -27,7 +27,7 @@ public class PcReservationBuilder {
 			ArrayList<Pc> availPc = SystemService.getAllFreePcs(date, startTime, endTime, building, room);
 			
 			for(Pc pc : availPc) {
-				pReservations.add(new PcReservation(-1,pc.getPcID(),date,startTime,endTime,null,null,false,false));
+				pReservations.add(new PcReservation(pc.getPcID(),startTime,endTime));
 			}
 		}
 		else {
@@ -52,7 +52,7 @@ public class PcReservationBuilder {
 				ArrayList<Pc> availPc = SystemService.getAllFreePcs(date, sTime, eTime, building, room);
 				
 				for(Pc pc : availPc) {
-					pReservations.add(new PcReservation(-1,pc.getPcID(),sTime,eTime, null, null,null,false,false));
+					pReservations.add(new PcReservation(pc.getPcID(),sTime,eTime));
 				}
 			}
 		}

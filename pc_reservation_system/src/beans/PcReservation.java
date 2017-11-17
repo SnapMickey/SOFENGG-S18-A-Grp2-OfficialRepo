@@ -30,34 +30,35 @@ public class PcReservation {
 	@Column(name = "reserveTime")
 	Date reserveTime;
 	
-	@Column(name = "eConfirmedTime")
-	Date eConfirmTime;
-	
-	@Column(name = "emailConfirmed")
-	boolean emailConfirmed;
-	
 	@Column(name = "adminConfirmed")
 	boolean adminConfirmed;
 	
+	@Column(name = "eventName")
+	String eventName;
+	
 	
 
-	public PcReservation(int userID, int pcID, Date dateTimeStart, Date dateTimeEnd, Date checkInTime, Date reserveTime,
-			Date eConfirmTime, boolean emailConfirmed, boolean adminConfirmed) {
+	public PcReservation(int pcID, Date dateTimeStart, Date dateTimeEnd) {
 		super();
-		this.userID = userID;
+		this.userID = -1;
 		this.pcID = pcID;
 		this.dateTimeStart = dateTimeStart;
 		this.dateTimeEnd = dateTimeEnd;
-		this.checkInTime = checkInTime;
-		this.reserveTime = reserveTime;
-		this.eConfirmTime = eConfirmTime;
-		this.emailConfirmed = emailConfirmed;
-		this.adminConfirmed = adminConfirmed;
+		this.checkInTime = null;
+		this.reserveTime = null;
+		this.adminConfirmed = false;
+		this.eventName = "None";
 	}
 
-	public void setEmailConfirmed(boolean emailConfirmed) {
-		this.emailConfirmed = emailConfirmed;
+	public String getEventName() {
+		return eventName;
 	}
+
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
+	}
+
+
 
 	public void setAdminConfirmed(boolean adminConfirmed) {
 		this.adminConfirmed = adminConfirmed;
@@ -95,14 +96,6 @@ public class PcReservation {
 		this.reserveTime = reserveTime;
 	}
 
-	public Date geteConfirmTime() {
-		return eConfirmTime;
-	}
-
-	public void seteConfirmTime(Date eConfirmTime) {
-		this.eConfirmTime = eConfirmTime;
-	}
-
 	public int getBorrowID() {
 		return borrowID;
 	}
@@ -115,10 +108,6 @@ public class PcReservation {
 		return pcID;
 	}
 
-	public boolean isEmailConfirmed() {
-		return emailConfirmed;
-	}
-
 	public boolean isAdminConfirmed() {
 		return adminConfirmed;
 	}
@@ -127,8 +116,7 @@ public class PcReservation {
 	public String toString() {
 		return "PcReservation [borrowID=" + borrowID + ", userID=" + userID + ", pcID=" + pcID + ", dateTimeStart="
 				+ dateTimeStart + ", dateTimeEnd=" + dateTimeEnd + ", checkInTime=" + checkInTime + ", reserveTime="
-				+ reserveTime + ", eConfirmTime=" + eConfirmTime + ", emailConfirmed=" + emailConfirmed
-				+ ", adminConfirmed=" + adminConfirmed + "]";
+				+ reserveTime + ", adminConfirmed=" + adminConfirmed + "]";
 	}
 	
 	

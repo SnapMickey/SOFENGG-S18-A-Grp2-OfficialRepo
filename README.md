@@ -1,5 +1,16 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Rivera, Jared November 17, 2017
+Changes made:
+- Fixed logout button listener
+- Added listeners for buttons: Home, Dashboard, Reserve.
+- Connected front end pages together in SystemController
+- Updated PcReservation Bean
+- Updated Login Filters, made code cleaner.
+
+Errors/Problems:
+- Occasional error where login redirects but does not enter into servlet. Unsure whether the error will reappear. 
+
 Lominoque, Jerome November 16, 2017
 Changes made:
 - Finalized Admin Reservation Page
