@@ -222,20 +222,20 @@
                 <div class = "col-md-8">
                     <div class = "row" style = "float:right;padding-right:10px;">
                         <div class = "col-md-2.5 space">
-                            <button class = "headerButtonDiv">DASHBOARD</button>
+                            <button class = "headerButtonDiv" id="header_home">DASHBOARD</button>
                         </div>
                         <div class = "col-md-2.5 space">
-                            <button class = "headerButtonDiv" id = "reserveBtn">RESERVE</button>
+                            <button class = "headerButtonDiv" id = "header_reserve">RESERVE</button>
                         </div>
                         <div class = "col-md-2.5 space">
-                            <button class = "headerButtonDiv" id = "historyBtn">HISTORY</button>
+                            <button class = "headerButtonDiv" id = "header_history">HISTORY</button>
                         </div>
                         <div class = "col-md-2.5 space">
                             <button class = "headerButtonDiv" id = "logout">LOG OUT</button>
                         </div>
                         <div class = "col-md-2.5 space">
                             <div class = "questionLine">
-                                <button class = "question" id = "questionBtn">?</button>
+                                <button class = "question" id = "header_question">?</button>
                             </div>
                         </div> 
                     </div>
@@ -410,11 +410,28 @@
             var reserveArr = [];
             var schedArr = [];
             
-            //Button Listeners
+            $("#header_home").click(function(){
+	        	var form = document.createElement('form');
+	            form.method = "GET";
+	            form.action = "adminpage";
+	            document.body.appendChild(form);
+	            form.submit();
+	        });
+	        
+	        $("#header_reserve").click(function(){
+            	var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "adminreservationpage";
+                document.body.appendChild(form);
+                form.submit();
+            });
+        
             $("#logout").click(function(){
-                $.get("/logout",function(){
-                    //Empty, logout is handled by the servlet
-                }); 
+            	var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "logout";
+                document.body.appendChild(form);
+                form.submit();
             });
             
             $("#reserveBtn").click(function(){

@@ -2,6 +2,12 @@
 
 Rivera, Jared November 17, 2017
 Changes made:
+- Implemented functionality of user home page
+- Added SystemService method: findLabOfPc()
+- Added two url patterns and methods: requestUserDetails(), requestUserReservations()
+
+Rivera, Jared November 17, 2017
+Changes made:
 - Fixed logout button listener
 - Added listeners for buttons: Home, Dashboard, Reserve.
 - Connected front end pages together in SystemController

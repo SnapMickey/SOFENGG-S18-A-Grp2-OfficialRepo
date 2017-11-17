@@ -1,21 +1,31 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.google.gson.Gson;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import beans.Lab;
+import beans.Pc;
+import beans.PcReservation;
 import beans.User;
 import services.SystemService;
 
 /**
  * Servlet implementation class SystemController
  */
-@WebServlet (urlPatterns = {"/login", "/logout", "/adminpage", "/userpage", "/adminreservationpage", "/userreservationpage"})
+@WebServlet (urlPatterns = {"/login", "/logout", "/adminpage", "/userpage", "/adminreservationpage", "/userreservationpage"
+							, "/requestUserDetails", "/requestUserReservations"
+							})
 @MultipartConfig
 public class SystemController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -56,11 +66,96 @@ public class SystemController extends HttpServlet {
 			case "/userreservationpage":
 				doUserReservationPage(request, response);
 				break;
+			case "/requestUserDetails":
+				requestUserDetails(request, response);
+				break;
+			case "/requestUserReservations":
+				requestUserReservations(request, response);
+				break;
 			default: 
 				break;
 		}
 
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+	
+	private void requestUserReservations(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// TODO Auto-generated method stub
+		JsonArray userReservations = new JsonArray();
+		
+		int userId = (Integer)request.getSession().getAttribute("id");
+		User user = SystemService.getUser(userId);
+		
+		ArrayList<PcReservation> reservations = SystemService.getUserReservations(userId);
+	
+		for(PcReservation pr : reservations) {
+			JsonObject json = new JsonObject();
+
+			Lab lab = SystemService.getLabOfPc(pr.getPcID());
+			
+			String startTime, endTime;
+			
+			Date startT = pr.getDateTimeStart();
+			Date endT = pr.getDateTimeEnd();
+			
+			if(startT.getHours() % 12 == 0) {
+				startTime = "" + startT.getHours() + ":" + startT.getMinutes();
+				
+				if(startTime.charAt(startTime.length()-2) == ':') startTime += "0";
+				
+				startTime += " AM";
+			}
+			else {
+				startTime = "" + startT.getHours() % 12 + ":" + startT.getMinutes();
+			
+				if(startTime.charAt(startTime.length()-2) == ':') startTime += "0";
+				
+				startTime += " PM";
+			}
+			if(endT.getHours() % 12 == 0) {
+				endTime = "" + endT.getHours() + ":" + endT.getMinutes();
+				
+				if(endTime.charAt(endTime.length()-2) == ':') endTime += "0";
+				
+				endTime += " AM";
+			}
+			else {
+				endTime = "" + endT.getHours() % 12 + ":" + endT.getMinutes();
+			
+				if(endTime.charAt(endTime.length()-2) == ':') endTime += "0";
+				
+				endTime += " PM";
+			}
+			
+			json.addProperty("location", lab.getBuilding());
+			json.addProperty("room", lab.getName());;
+			json.addProperty("pcnum", "" + pr.getPcID());
+			json.addProperty("date", "" + endT.getDate() + "/" + endT.getMonth()
+								+ "/" + (endT.getYear() + 1900));
+			json.addProperty("start", startTime);
+			json.addProperty("end", endTime);
+		
+			userReservations.add(json);
+		}
+		
+		response.setContentType("application/json");
+		response.getWriter().write(userReservations.toString());
+	}
+
+	private void requestUserDetails(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// TODO Auto-generated method stub
+		JsonObject userDetails = new JsonObject();
+		
+		int userId = (Integer)request.getSession().getAttribute("id");
+		User user = SystemService.getUser(userId);
+
+		userDetails.addProperty("name", user.getName());
+		userDetails.addProperty("id", "" + user.getUserID());
+		userDetails.addProperty("college", "n/a");
+		userDetails.addProperty("last_login", "n/a");
+		
+		response.setContentType("application/json");
+		response.getWriter().write(userDetails.toString());
 	}
 
 	private void doUserReservationPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -80,7 +175,6 @@ public class SystemController extends HttpServlet {
 	private void doUserPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.getRequestDispatcher("user_front_page.html").forward(request, response);
-		//redirect to login page
 	}
 	
 	

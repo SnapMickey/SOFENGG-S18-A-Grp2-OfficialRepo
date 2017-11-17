@@ -193,10 +193,10 @@
                 <div class = "col-md-4"></div>
                 
                 <div class = "col-md-1 space">
-                    <button class = "headerButtonDiv">HOME</button>
+                    <button class = "headerButtonDiv" id="header_home">HOME</button>
                 </div>
                 <div class = "col-md-1 space" style = "margin-right:20px;">
-                    <button class = "headerButtonDiv">RESERVE</button>
+                    <button class = "headerButtonDiv" id="header_reserve">RESERVE</button>
                 </div>
                 <div class = "col-md-1 space">
                     <button class = "headerButtonDiv" id="logout">LOGOUT</button>
@@ -213,7 +213,7 @@
             
             <div class = "row">
                 <div class = "container-fluid bgwhite">
-                    <h3>Welcome!</h3>
+                    <h3 id = "welcome">Welcome!</h3>
                     <div class = "contentBox">
                         <div class = "row">
                             <div class = "col-md-6">
@@ -261,7 +261,7 @@
                                             <h2 class = "boxHeader">Location:</h2>
                                         </div>
                                         <div class = "col-sm-6 right">
-                                            <h2 class = "boxHeader" id = "location">guks</h2>
+                                            <h2 class = "boxHeader" id = "location"></h2>
                                         </div>
                                     </div>
                                     <div class = "row">
@@ -269,7 +269,7 @@
                                             <h2 class = "boxHeader">Room / Floor:</h2>
                                         </div>
                                         <div class = "col-sm-6 right">
-                                            <h2 class = "boxHeader" id = "room">G204</h2>
+                                            <h2 class = "boxHeader" id = "room"></h2>
                                         </div>
                                     </div>
                                     <div class = "row">
@@ -277,7 +277,7 @@
                                             <h2 class = "boxHeader">PC No:</h2>
                                         </div>
                                         <div class = "col-sm-6 right">
-                                            <h2 class = "boxHeader" id = "pcnum">04</h2>
+                                            <h2 class = "boxHeader" id = "pcnum"></h2>
                                         </div>
                                     </div>
                                     <div class = "row">
@@ -285,7 +285,7 @@
                                             <h2 class = "boxHeader">Date:</h2>
                                         </div>
                                         <div class = "col-sm-6 right">
-                                            <h2 class = "boxHeader" id = "date">04/42/24</h2>
+                                            <h2 class = "boxHeader" id = "date"></h2>
                                         </div>
                                     </div>
                                     <div class = "row">
@@ -293,7 +293,7 @@
                                             <h2 class = "boxHeader">Start:</h2>
                                         </div>
                                         <div class = "col-sm-6 right">
-                                            <h2 class = "boxHeader" id = "start">234</h2>
+                                            <h2 class = "boxHeader" id = "start"></h2>
                                         </div>
                                     </div>
                                     <div class = "row">
@@ -301,7 +301,7 @@
                                             <h2 class = "boxHeader">End:</h2>
                                         </div>
                                         <div class = "col-sm-6 right">
-                                            <h2 class = "boxHeader" id = "end">678</h2>
+                                            <h2 class = "boxHeader" id = "end"></h2>
                                         </div>
                                     </div>
                                 </div>
@@ -348,28 +348,33 @@
         integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
         crossorigin="anonymous"></script>
         <script>
-            //insert code here haha
-            $("#logout").click(function(){
-                $.get("/logout",function(){
-                    //nothing haha
-                }); 
-            });
-            var jasonarr = [];
-            jason = {
-                location:'goks',
-                room:'G999',
-                pc_no:'999',
-                date:'tomorrow haha',
-                start:'9am',
-                end:'11pm',
-            }
-            for(var i = 0 ; i < 20 ;i++){
-                jasonarr.push(jason);
-            }
+	        $("#header_home").click(function(){
+	        	var form = document.createElement('form');
+	            form.method = "GET";
+	            form.action = "userpage";
+	            document.body.appendChild(form);
+	            form.submit();
+	        });
+	        
+	        $("#header_reserve").click(function(){
+	        	var form = document.createElement('form');
+	            form.method = "GET";
+	            form.action = "userreservationpage";
+	            document.body.appendChild(form);
+	            form.submit();
+	        });
+	    
+	        $("#logout").click(function(){
+	        	var form = document.createElement('form');
+	            form.method = "GET";
+	            form.action = "logout";
+	            document.body.appendChild(form);
+	            form.submit();
+	        });
             
             //$(document).ready(add_data_to_reserve_table(jasonarr));
             
-            function add_data_to_user_info(jason){
+            function add_data_to_user_info(user){
                 /*
                     Receives a JSON object, format is as follows:
                     {
@@ -379,10 +384,11 @@
                         last_login:
                     }
                 */
-                $("#user_name").html(jason.name);
-                $("#id_number").html(jason.id);
-                $("#college").html(jason.college);
-                $("#last_login").html(jason.last_login);
+                $("#welcome").html("Welcome " + user.name.split(" ")[0] + "!");
+                $("#user_name").html(user.name);
+                $("#id_number").html(user.id);
+                $("#college").html(user.college);
+                $("#last_login").html(user.last_login);
             }
             
             function add_data_to_pending(jason){
@@ -398,9 +404,9 @@
                     }
                 */
                 
-                $("#location").html(jason.loc);
+                $("#location").html(jason.location);
                 $("#room").html(jason.room);
-                $("#pcnum").html(jason.pc);
+                $("#pcnum").html(jason.pcnum);
                 $("#date").html(jason.date);
                 $("#start").html(jason.start);
                 $("#end").html(jason.end);
@@ -445,7 +451,13 @@
                     $("#tbody").after(row);
                 }
                 
+                add_data_to_pending(jasonarr[0]);
+                console.log(jasonarr[0]);
             }
+            
+            
+            $.get("requestUserDetails",function(data){add_data_to_user_info(data);});
+            $.get("requestUserReservations",function(data){add_data_to_reserve_table(data);});
         </script>
 </html>
 

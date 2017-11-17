@@ -36,7 +36,7 @@ public class PcReservation {
 	@Column(name = "eventName")
 	String eventName;
 	
-	
+	public PcReservation() {}
 
 	public PcReservation(int pcID, Date dateTimeStart, Date dateTimeEnd) {
 		super();

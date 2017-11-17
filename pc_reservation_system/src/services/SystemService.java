@@ -125,6 +125,63 @@ public class SystemService {
 		return pcs;
 	}
 	
+	public static ArrayList<PcReservation> getUserReservations(int userID){
+		ArrayList<PcReservation> reservations = new ArrayList<>();
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction trans = em.getTransaction();
+		
+		String statement = "select pr from pc_reservations pr where pr.userID = " + userID;
+		
+		try{
+			trans.begin();
+			
+			TypedQuery<PcReservation> query = em.createQuery(statement, PcReservation.class);
+			reservations.addAll(query.getResultList());
+			
+			trans.commit();
+		}catch(Exception e){
+			if(trans!=null){
+				trans.rollback();
+			}
+			e.printStackTrace();
+		}finally{
+			if(em!=null){
+				em.close();
+			}
+		}
+		return reservations;
+	}
+	
+	public static Lab getLabOfPc(int pcID) {
+		Lab lab = null;
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction trans = em.getTransaction();
+		
+		String statement = "select lb from lab lb, pc_info pc where "
+				+ "pc.pcID = " + pcID + " and lb.locationID = pc.locationID";
+		
+		try{
+			trans.begin();
+			
+			TypedQuery<Lab> query = em.createQuery(statement, Lab.class);
+			lab = query.getResultList().get(0);
+			
+			trans.commit();
+		}catch(Exception e){
+			if(trans!=null){
+				trans.rollback();
+			}
+			e.printStackTrace();
+		}finally{
+			if(em!=null){
+				em.close();
+			}
+		}
+		return lab;
+	}
+	
 	public static ArrayList<Pc> getAllPcs(int labID) {
 		ArrayList<Pc> pcs = new ArrayList<>();
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");

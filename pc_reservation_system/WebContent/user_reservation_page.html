@@ -229,10 +229,10 @@
                 <div class = "col-md-4"></div>
                 
                 <div class = "col-md-1 space">
-                    <button class = "headerButtonDiv">HOME</button>
+                    <button class = "headerButtonDiv" id="header_home">HOME</button>
                 </div>
                 <div class = "col-md-1 space" style = "margin-right:20px;">
-                    <button class = "headerButtonDiv">RESERVE</button>
+                    <button class = "headerButtonDiv" id="header_reserve">RESERVE</button>
                 </div>
                 <div class = "col-md-1 space">
                     <button class = "headerButtonDiv" id="logout">LOGOUT</button>
@@ -351,13 +351,30 @@
         integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
         crossorigin="anonymous"></script>
         <script>
-            //insert code here haha
-            $("#logout").click(function(){
-                $.get("/logout",function(){
-                    //nothing haha
-                }); 
+	        $("#header_home").click(function(){
+	        	var form = document.createElement('form');
+	            form.method = "GET";
+	            form.action = "userpage";
+	            document.body.appendChild(form);
+	            form.submit();
+	        });
+	        
+	        $("#header_reserve").click(function(){
+            	var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "userreservationpage";
+                document.body.appendChild(form);
+                form.submit();
             });
-            
+        
+            $("#logout").click(function(){
+            	var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "logout";
+                document.body.appendChild(form);
+                form.submit();
+            });
+
             $(document).ready(function(){
                var json = {
                         pcno:'asd',

@@ -344,7 +344,7 @@
                 </div>
                 
             </div>
-            <!-- Header end xd -->
+            <!-- Header end -->
             
             <!-- Subcontainer Start -->
             <div class = "col-md-11  subDiv">
@@ -476,13 +476,13 @@
             </div>        
             <!-- Subcontainer End -->
             
-            <!-- f00ter xd -->
+            <!-- footer -->
             <div class = "row" id = "footer">
                 <div class = "footer">
                     <h3 class = "copyright">Copyright De La Salle University</h3>
                 </div>
             </div>
-            <!-- f00ter enD xd-->
+            <!-- footer end -->
             
         </div>
     </body>
@@ -500,7 +500,14 @@
         crossorigin="anonymous"></script>
     
         <script>
-            //insert code here haha
+            $("#logout").click(function(){
+            	var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "logout";
+                document.body.appendChild(form);
+                form.submit();
+            });
+            
            $(document).ready(function(){
                
                var jasonarr = [];
