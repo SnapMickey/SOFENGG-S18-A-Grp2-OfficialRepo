@@ -1,4 +1,10 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+Bornales, Amiel James November 18, 2017
+Changes made:
+- Added admin_history.html
+
+Errors / Problems:
+- fixed height of several html, but Jared's functionality wasnt implemented in the html yet. Will fix soon
 
 Lominoque, Jerome November 17, 2017
 Changes made:
