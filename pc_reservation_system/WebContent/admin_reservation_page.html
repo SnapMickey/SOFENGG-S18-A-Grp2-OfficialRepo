@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+        
+        /* Start of Style(s) for subcontainer */
+        .subDiv{
+            height: 80%;
+            width: 95%;
+            padding-top: 20px;
+            margin-top: 15px;
+            margin-left: 30px;
+        }
+        
+            /* Start of Style(s) for Reserve */
+        .reserveDiv{
+            float:right;
+            background-color: floralwhite;
+            height: 100%;
+            width: 70%;
+        }
+        
+        .reserveLabel{
+            margin: 5px;
+            font-family:'Futura',sans-serif;
+            color: darkgreen;
+        }
+        
+        .reserveTable{
+            width: 100%;
+            border-color: gray;
+            font-family:'Futura',sans-serif;
+            color: darkslategray;
+        }
+        
+        .reserveResults::before{
+            content: "\200B";
+        }
+        
+        .reserveResults{
+            border-style: solid none;
+            border-width: 1px;
+            height: 450px;
+            width:100%;
+            border-color: gray;
+            overflow: auto;
+        }
+        
+        .footerButton{
+            align-content: center;
+            font-family: 'Avenir Next', 'Futura', sans-serif;
+            border-radius: 4px;
+            background-color: white;
+            border: solid 1px gray;
+            color: darkslategray;
+            padding: 5px 20px;
+            margin: 5px;
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+        }
+        
+        .footerButton:hover{
+            background-color: lightgray;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        }
+        
+            /* Reserve Button will only be visible if the user picked a slot */
+        
+        .reserveButton{
+            visibility: hidden;
+        }
+        
+            /* End of Style(s) for Reserve */
+        
+        
+        
+            /* Start of Style(s) for Search */
+        .searchDiv{
+            float: left;
+            background-color: dimgray;
+            height: 100%;
+            width: 30%;
+        }
+        
+        .searchLabel{
+            margin: 5px;
+            font-family:'Futura',sans-serif;
+            color: white;
+        }
+        
+         .filterComponents{
+            content: "\200b";
+            height: 530px;
+        }
+        
+            /* For dropdown */
+        
+        
+        .dropdownDiv{
+            margin-left: 5%; 
+            margin-top: 4%;
+        }
+        
+        .dropdownDiv2nd{
+            margin-left: 5%; 
+            margin-top: 2%;
+        }
+        
+        .spanDropdown{
+            display:inline-block;
+            color:white;
+        }
+        
+        .dropdownColor{
+            color:darkslategray;
+        }
+        
+        .dropdown{
+            margin-left:15px;
+            width:350px;
+            border-radius:4px;
+            background-color: lightgray; /* For browsers that do not support gradients */
+            background: -webkit-linear-gradient(whitesmoke, lightgray, whitesmoke); /* For Safari 5.1 to 6.0 */
+            background: -o-linear-gradient(whitesmoke, lightgray, whitesmoke); /* For Opera 11.1 to 12.0 */
+            background: -moz-linear-gradient(whitesmoke, lightgray, whitesmoke); /* For Firefox 3.6 to 15 */
+            background: linear-gradient(whitesmoke, lightgray, whitesmoke); /* Standard syntax */
+        }
+        
+        .roomfloorDropdownDiv{
+            margin-top: 5px;
+            margin-left: 36px;
+        }
+        
+        .dropdownDivSet{
+            margin-top: 3%;
+            margin-left: 36.5px;
+        }
+        
+        .dropdownDivSetBlock{
+            display:inline-block;
+            height:65px;
+            width:100px;
+        }
+        
+        .dropdownSet{
+            border-radius:4px;
+            background-color: lightgray; /* For browsers that do not support gradients */
+            background: -webkit-linear-gradient(whitesmoke, lightgray, whitesmoke); /* For Safari 5.1 to 6.0 */
+            background: -o-linear-gradient(whitesmoke, lightgray, whitesmoke); /* For Opera 11.1 to 12.0 */
+            background: -moz-linear-gradient(whitesmoke, lightgray, whitesmoke); /* For Firefox 3.6 to 15 */
+            background: linear-gradient(whitesmoke, lightgray, whitesmoke); /* Standard syntax */
+        }
+        
+            /* End of Dropdown */
+        
+        .reserveforSet{
+            margin-left:8.5%;
+        }
+        
+        .textboxFormat{
+            text-indent: 2px;
+            border-radius:3px;
+            height: 30px;
+            font-size:12px;
+            font-family: 'Avenir Next', 'Futura', sans-serif;
+            border: solid 1px gray; 
+        }
+        
+        .textboxUsername{
+            width:230px;
+        }
+        
+        .textboxEventname{
+            width:350px;
+            margin-top: 5px;
+        }
+        
+        .searchButton{
+            margin-top: 30px;
+            margin-left: 35px;
+            width: 350px;
+            border-radius:4px;
+            color: white;
+            background-color: forestgreen; /* For browsers that do not support gradients */
+            background: -webkit-linear-gradient(darkgreen, green, forestgreen, limegreen); /* For Safari 5.1 to 6.0 */
+            background: -o-linear-gradient(darkgreen, green, forestgreen, limegreen); /* For Opera 11.1 to 12.0 */
+            background: -moz-linear-gradient(darkgreen, green, forestgreen, limegreen); /* For Firefox 3.6 to 15 */
+            background: linear-gradient(darkgreen, green, forestgreen, limegreen); /* Standard syntax */
+        }
+        
+            /* End of Style(s) for Search */
+        
+        /* End of Style(s) for subcontainer */
+        
+        .mainDiv{
+            background-image: url(background.png);
+            height:100%;
+            position: absolute;
+            background-size:cover;
+            align: center;
+        }
+        
+        .header{
+            padding:5px;
+        }
+        .footer{
+            position: absolute;
+            bottom:0;
+            background-color: #4A4A4A;
+            width:100%;
+            padding:2px;
+        }
+        .copyright{
+            margin-top:5px;
+            font-family:'Avenir Next',sans-serif;
+            margin-left: 41.5%;
+            font-size: 16px;
+            color:#DADADA;
+        }
+        .headerButtonDiv{
+            padding-left: 8px;
+            padding-right: 10px;
+            padding-bottom: 4px;
+            padding-top: 6px;
+            font-size:20px;
+            border:none;
+            background: none;
+            font-family:'Avenir Next',sans-serif;
+            font-size:18px;
+            font-weight:600;
+            color:#278347;
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+        }
+        
+        .headerButtonDiv:hover{
+            border-radius: 5px;
+            background: #278347;
+            color:white;
+        }
+        .space{
+            margin-top:15px;
+            margin-right:10px;
+            padding:0px;
+            margin-left:0px;
+        }
+        .questionLine{
+            position:inherit;
+            right:10px;
+            padding:0px;
+            margin:0px;
+            border-left: solid;
+            border-left-color: #278347;
+            border-left-width: 2px;
+        }
+        .question{
+            padding-top:2px;
+            padding-bottom: 2px;
+            padding-left:11px;
+            padding-right:11px;
+            background: #278347;
+            border:none;
+            border-radius: 100%;
+            margin-left:15px;
+            cursor: pointer;
+            
+            font-family:'Avenir Next',sans-serif;
+            font-size:20px;
+            font-weight:600;
+            color:white;
+        }
+    </style>
+    <head>
+      
+        
+    </head>
+    <body>
+        <div class = "container-fluid mainDiv">
+            
+            <!-- Header -->
+            <div class = "row header">
+                <div class = "col-xs-1" style = "padding:0px;">
+                    <img src = "DLSU_Logo_Clear_Background.png" style = "width:60px;height:60px">
+                </div>
+                <div class = "col-sm-3" style = "padding-left:10px;">
+                    <h4 style = "margin-top:15px; color:#278347; font-family:'Futura',sans-serif;font-size:30px; font-weight:500">Computer Reservation</h4>
+                </div>
+                
+                
+                <div class = "col-md-1.5 space" style="margin-left:4%;">
+                    <button class = "headerButtonDiv">DASHBOARD</button>
+                </div>
+                <div class = "col-md-1 space">
+                    <button class = "headerButtonDiv" style="border-radius: 5px;background: #278347;color:white;">RESERVE</button>
+                </div>
+                <div class = "col-md-1 space">
+                    <button class = "headerButtonDiv">HISTORY</button>
+                </div>
+                <div class = "col-md-1 space">
+                    <button class = "headerButtonDiv">LAYOUT</button>
+                </div>
+                <div class = "col-md-1.5 space">
+                    <button class = "headerButtonDiv">STATISTICS</button>
+                </div>
+                <div class = "col-md-1 space">
+                    <button class = "headerButtonDiv" id = "logout">LOGOUT</button>
+                </div>
+                <div class = "col-md-1 space">
+                    <div class = "questionLine">
+                        <button class = "question">?</button>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            <!-- Header end -->
+            
+            <!-- Subcontainer Start -->
+            <div class = "subDiv">
+                
+                <!-- Start of Search Div -->
+                <div class="searchDiv">
+                    <div class="searchLabel">
+                        <span style="font-size:22px;"><b>Search for a PC </b> </span>
+                    </div>
+                    
+                    <div style="margin: 25px 10px 0px;">
+                        <span style="font-size:22px;color:white;">&emsp; Filter By:</span>
+                    </div>
+                    
+                    <!-- Name of Dropdown: building
+                         values: b1, b2, b3
+                      -->
+                    <div class="filterComponents">
+                        <div class="dropdownDiv">
+                            <span class="spanDropdown" style="width:11.5px;"></span><span style="color: white;"> Building</span>
+                            <br>
+                            <select name="building" class="dropdown dropdownColor" >
+                                <option value="default">All <span class="caret"></span></option>
+                                <option value="b1">Building 1</option>
+                                <option value="b2">Building 2</option>
+                                <option value="b3">Building 3</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Name of Dropdown: roomfloor
+                         values: r1,r2,r3
+                        -->
+                        <div class="dropdownDiv2nd">
+                            <span class="spanDropdown" style="width:14.5px;"></span><span style="color:white;">Room/Floor</span>
+                            <br>
+                            <select name="roomfloor" class="dropdown dropdownColor" >
+                                <option value="default">All <span class="caret"></span></option>
+                                <option value="r1">Room 1</option>
+                                <option value="r2">Room 2</option>
+                                <option value="f3">Floor 3</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Name of Dropdown: date
+                         values: d1,d2,d3
+                        -->
+                        <div class="dropdownDivSet">
+                            <div class="dropdownDivSetBlock">
+                                <span style="color:white;">Date </span>
+                                <br>
+                                <select name="date" class="dropdownSet dropdownColor" style="width:90px;">
+                                    <option value="default">--/--/-- <span class="caret"></span></option>
+                                    <option value="d1">Date 1</option>
+                                    <option value="d2">Date 2</option>
+                                    <option value="d3">Date 3</option>
+                                </select>
+                            </div>
+                            <!-- Name of Dropdown: sTime
+                                 values: st7, st8, st9
+                            -->
+                            <div class="dropdownDivSetBlock" style="margin-left:5px;">
+                                <span style="color:white;"> Start Time </span>
+                                <br>
+                                <select name="sTime" class="dropdownSet dropdownColor" style="width:110px;">
+                                    <option value="default">Any <span class="caret"></span></option>
+                                    <option value="st7">7:00</option>
+                                    <option value="st8">8:00</option>
+                                    <option value="st9">9:00</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Name of Dropdown: eTime
+                                 values:et8, et9, et10
+                            -->
+                            <div class="dropdownDivSetBlock" style="margin-left:25px;">
+                                <span style="color:white;">End Time</span>
+                                <br>
+                                <select name="eTime" class="dropdownSet dropdownColor" style="width:110px;">
+                                    <option value="default">Any <span class="caret"></span></option>
+                                    <option value="et8">8:00</option>
+                                    <option value="et9">9:00</option>
+                                    <option value="et10">10:00</option>
+                                </select>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="reserveforSet">
+                            <span style="color:white;font-size:18px;">Reserve for:</span>
+                            
+                            <!-- Name of textboxes: idNum, username
+                                 Name of checkbox: isIndividual
+                                 note: Checkbox is alignment is a little bit off
+                            -->
+                            <div>
+                                <span style="color:white;vertical-align:middle;"> Individual </span> 
+                                <span style="width:3px;display:inline-block;"> </span>
+                                <input name="isIndividual" type="checkbox" style="cursor:pointer;vertical-align:middle;">
+                                <br>
+                                <input name="idNum" placeholder="Input ID Number" type="text" size="13" class="textboxFormat"> 
+                                <input name="username" placeholder="Name of User" type="text" size="15" class="textboxFormat textboxUsername" style="margin-left:5px;">
+                            </div>
+                            
+                            <!-- Name of textboxes: specialIDNum, specialUsername, eventName
+                                 Name of checkbox: isEvent
+                                 note: Checkbox is alignment is a little bit off
+                            -->
+                            <div>
+                                <span style="color:white;vertical-align:middle;"> Class/Event </span> 
+                                <span style="width:3px;display:inline-block;"> </span>
+                                <input name="isEvent" type="checkbox" style="cursor:pointer;vertical-align:middle;">
+                                <br>
+                                <input name="specialidNum" placeholder="Input ID Number" type="text" size="13" class="textboxFormat"> 
+                                <input name="specialUsername" placeholder="Name of Supervisor" type="text" class="textboxFormat textboxUsername" style="margin-left:5px;">
+                                <br>
+                                <input name="eventName" placeholder="Input Event Name" type="text" class="textboxFormat textboxEventname">
+                            </div>
+                            
+                        </div>
+                        
+                        <button class="searchButton"> <span style="font-size:11px;"> <b>Search </b></span></button>
+                    </div>
+                </div>
+                
+                <!-- End of Search Div -->
+                
+                <!-- Start of Reserve Div -->
+                <div class="reserveDiv">
+                    <div class="reserveLabel">
+                        <span style="font-size:22px"> <b>Reserve a PC</b></span> &emsp; <span style="color: gray;">Select a PC to reserve</span>
+                    </div>
+                    
+                    <table class="reserveTable">
+                        <thead>
+                            <tr style="border-top: solid; border-width: 1px; border-color:gray;">
+                                <th style="width: 33.33%;padding:10px;"> <center>PC No. </center></th>
+                                <th style="width: 33.33%"> <center>Location </center></th>
+                                <th style="width: 33.33%"> <center>Room/Floor </center></th>
+                            </tr>
+                        </thead>
+                           
+                    </table>
+                    
+                    <div class="reserveResults">
+                        
+                    </div>
+                    
+                    <div class="reserveFooter">
+                        <button class="footerButton" style="float:left;"> <b>VIEW LAYOUT </b></button>
+                        <button class="footerButton reserveButton" style="float:right;"> <b>RESERVE</b> </button>
+                    </div>
+                </div>
+                
+                <!-- End of Reserve Div -->
+            </div>
+            <!-- Subcontainer End -->
+            
+            <!-- footer -->
+            <div class = "row footer">
+                <h3 class = "copyright">Copyright De La Salle University</h3>
+            </div>
+            <!-- footer end-->
+            
+        </div>
+    </body>
+    
+    <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+        <script
+        src="http://code.jquery.com/jquery-3.2.1.js"
+        integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+        crossorigin="anonymous"></script>
+    
+        <script>
+
+           
+        </script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -52,7 +52,7 @@ public class LoginFilter implements Filter {
 		id = (Integer)httpRequest.getSession().getAttribute("id");
 		position = (String)httpRequest.getSession().getAttribute("position");
 		}
-		catch(Exception e) {e.printStackTrace();}
+		catch(Exception e) {}
 		
 		if (id == -1) {
 			httpResponse.sendRedirect(link + "RA");
