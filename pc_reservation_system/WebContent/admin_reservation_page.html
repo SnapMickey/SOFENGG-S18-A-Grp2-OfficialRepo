@@ -306,7 +306,7 @@
       
         
     </head>
-    <body>
+    <body onload="setValues()">
         <div class = "container-fluid mainDiv">
             
             <!-- Header start -->
@@ -363,12 +363,12 @@
                                 <span> Building</span>
                             </div>
                             
-                            <select class="dropdown" id="bldgLst">
-                                <option>All</option>
-                                <option>Gokongwei</option>
-                                <option>Velasco</option>
-                                <option>Miguel</option>
-                                <option>Henry Sy</option>
+                            <select class="dropdown" id="bldgList">
+                                <option value="default">All</option>
+                                <option value="G">Gokongwei</option>
+                                <option value="V">Velasco</option>
+                                <option value ="M">Miguel</option>
+                                <option value ="HS">Henry Sy</option>
                             </select>
                             
                             <div style="margin-top:5px;">
@@ -391,7 +391,7 @@
                         <div class="timeDiv filterHeaderFont">
                             <div class="timeHeader">
                                 <span> Time </span>
-                                <select class = "dropdown" id = "dateDropdown">
+                                <select class = "dropdown" id = "timeDropdown">
                                     <option>Any</option>
                                 </select>
                             </div>
@@ -500,6 +500,192 @@
         crossorigin="anonymous"></script>
     
         <script>
+            
+            function setValues(){
+                var dateDropdown = document.getElementById("dateDropdown");
+                dateDropdown.remove(0);
+                
+                var currDate, nextDate;
+                currDate = new Date();
+                nextDate = new Date();
+                nextDate.setDate(currDate.getDate() + 1);
+                
+                //Testing Purposes
+                console.log(currDate);
+                console.log(nextDate);
+                option = document.createElement("option");
+                
+                var day, month, year;
+                day = currDate.getDate();
+                month = currDate.getMonth() + 1;
+                year = currDate.getFullYear();
+                option.value = year +  "/" + month + "/" + day;
+                option.textContent = month + "/" + day + "/" + year;
+                dateDropdown.appendChild(option);
+                
+                option2 = document.createElement("option");
+                
+                day = nextDate.getDate();
+                month = nextDate.getMonth() + 1;
+                year = nextDate.getFullYear();
+                option2.value = year +  "/" + month + "/" + day;
+                option2.textContent = month + "/" + day + "/" + year;
+                dateDropdown.appendChild(option2);
+                
+                var timeDropdown = document.getElementById("timeDropdown");
+                for(var i = 7; i <= 18; i++)
+                {
+                    var timeOpt = document.createElement("option");
+                    if(i < 10){
+                        timeOpt.value = "0" + i + ":00:00";
+                        timeOpt.textContent = i + ":00 AM";
+                    }else{
+                        timeOpt.value = i + ":00:00";
+                        if(i % 12 > 9 && i % 12 < 12){
+                            timeOpt.textContent = i + ":00 AM";
+                        }
+                        else if(i % 12 == 0){
+                            timeOpt.textContent = i + ":00 PM";
+                        }
+                        else{
+                            timeOpt.textContent = (i % 12) + ":00 PM"
+                        }
+                        
+                    }
+                                        
+                    timeDropdown.appendChild(timeOpt);
+                }
+            }
+            
+            $("#bldgList").change(function(){
+                console.log("bldgList changed");
+                
+                var bldgList = document.getElementById("bldgList");
+                var roomList = document.getElementById("roomList");
+                $("#roomList").get(0).selectedIndex = 0;
+                while(roomList.length > 1){
+                    roomList.remove(roomList.length - 1);
+                }
+                
+                if(bldgList.value == "G"){
+                    console.log("Goks Selected");
+                    for(var i = 0; i < 5; i++){
+                        var option = document.createElement("option");
+                        if(i == 0){
+                            option.value = "G201";
+                            option.textContent = "G201";
+                        }
+                        else if(i == 1){
+                            option.value = "G202";
+                            option.textContent = "G202";
+                        }
+                        else if(i == 2){
+                            option.value = "G203";
+                            option.textContent = "G203";
+                        }
+                        else if(i == 3){
+                            option.value = "G301";
+                            option.textContent = "G301";
+                        }
+                        else if(i == 4){
+                            option.value = "G302";
+                            option.textContent = "G302";
+                        }
+                        
+                        roomList.appendChild(option);
+                    }
+                }
+                else if(bldgList.value == "V"){
+                    console.log("Velasco Selected");
+                    for(var i = 0; i < 5; i++){
+                        var option = document.createElement("option");
+                        if(i == 0){
+                            option.value = "V201";
+                            option.textContent = "V201";
+                        }
+                        else if(i == 1){
+                            option.value = "V202";
+                            option.textContent = "V202";
+                        }
+                        else if(i == 2){
+                            option.value = "V203";
+                            option.textContent = "V203";
+                        }
+                        else if(i == 3){
+                            option.value = "V301";
+                            option.textContent = "V301";
+                        }
+                        else if(i == 4){
+                            option.value = "V302";
+                            option.textContent = "V302";
+                        }
+                        
+                        roomList.appendChild(option);
+                    }
+                }
+                else if(bldgList.value == "M"){
+                    console.log("Miguel Selected");
+                    for(var i = 0; i < 5; i++){
+                        var option = document.createElement("option");
+                        if(i == 0){
+                            option.value = "M201";
+                            option.textContent = "M201";
+                        }
+                        else if(i == 1){
+                            option.value = "M202";
+                            option.textContent = "M202";
+                        }
+                        else if(i == 2){
+                            option.value = "M203";
+                            option.textContent = "M203";
+                        }
+                        else if(i == 3){
+                            option.value = "M301";
+                            option.textContent = "M301";
+                        }
+                        else if(i == 4){
+                            option.value = "M302";
+                            option.textContent = "M302";
+                        }
+                        
+                        roomList.appendChild(option);
+                    }
+                }
+                else if(bldgList.value == "HS"){
+                    console.log("Henry Sy Selected");
+                    for(var i = 0; i < 5; i++){
+                        var option = document.createElement("option");
+                        if(i == 0){
+                            option.value = "6th";
+                            option.textContent = "6th Floor";
+                        }
+                        else if(i == 1){
+                            option.value = "7th";
+                            option.textContent = "7th Floor";
+                        }
+                        else if(i == 2){
+                            option.value = "8th";
+                            option.textContent = "8th Floor";
+                        }
+                        else if(i == 3){
+                            option.value = "9th";
+                            option.textContent = "9th Floor";
+                        }
+                        else if(i == 4){
+                            option.value = "10th";
+                            option.textContent = "10th Floor";
+                        }
+                        
+                        roomList.appendChild(option);
+                    }
+                }
+                
+            });
+            
+            $("#filterSearchButton").click(function(){
+                    
+            });
+            
             $("#logout").click(function(){
             	var form = document.createElement('form');
                 form.method = "GET";
