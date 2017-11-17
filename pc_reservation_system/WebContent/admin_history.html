@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+        /*COPY PASTE HERE*/
+        html, body {
+            height: 100%;
+        }
+        .container-fluid{
+            height: 100%;
+        }
+        .mainDiv{
+            background-color:#CCCCCC;
+        }
+        .header{
+            padding-bottom: 10px;
+            padding-top: 10px;
+            padding-right: 8px;
+            padding-left: 8px;
+            background-color:#4A4A4A;   
+        }
+        .headerTitle{
+            margin:15px;
+            color:#278347;
+            font-family:'Futura',sans-serif;
+            font-size:25px;
+            font-weight:600;
+        }
+        .footer{
+            position: fixed;
+            bottom:0;
+            background-color: #4A4A4A;
+            width:100%;
+            padding:2px;
+            margin:0px;
+        }
+        .copyright{
+            margin-top:5px;
+            font-family:'Avenir Next',sans-serif;
+            margin-left: 41.5%;
+            font-size: 16px;
+            color:#DADADA;
+        }
+        .headerButtonDiv{
+            padding-left: 8px;
+            padding-right: 10px;
+            padding-bottom: 4px;
+            padding-top: 6px;
+            
+            font-size:20px;
+            border:none;
+            background: none;
+            
+            font-family:'Avenir Next',sans-serif;
+            font-size:18px;
+            font-weight:600;
+            color:white;
+            
+        }
+        .headerButtonDiv:hover{
+            border-radius: 5px;
+            background: #278347;
+            color:white;
+        }
+        .space{
+            margin-top:15px;
+            padding:0px;
+            margin-left:0px;
+            margin-right: 0px;
+        }
+        .questionLine{
+            position:inherit;
+            right:10px;
+            padding:0px;
+            margin:0px;
+            border-left: solid;
+            border-left-color: #278347;
+            border-left-width: 2px;
+            float:right;
+        }
+        .question{
+            padding-top:4px;
+            padding-bottom: 3px;
+            padding-left:13px;
+            padding-right:13px;
+            background: #278347;
+            border:none;
+            border-radius: 100%;
+            margin-left:15px;
+            
+            
+            font-family:'Avenir Next',sans-serif;
+            font-size:20px;
+            font-weight:600;
+            color:white;
+        }
+        .bgwhite{
+            background: rgba(255,255,255,0.47);
+            width: 100%;
+            padding-top:65px;
+            height:100%;
+            padding-left:20px;  
+            padding-right:20px;
+        }
+        .contentBox{
+            background: #F8F3EB;
+            /*
+            margin-left: 3%;
+            margin-right: 3%;
+            margin-bottom: 2%;
+            margin-top: 1%;
+            */
+            margin:0 auto;
+            display:block;
+            width:94%;
+            margin-bottom:3%;
+            margin-top:3%;
+        }
+        .boxHeader{
+            font-family:'Avenir Next',sans-serif;
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+        .boxTitle{
+            color: #278347;
+            font-family:'Avenir Next',sans-serif;
+            font-size: 25px;
+            font-weight:600;
+            margin-bottom: 25px;
+            margin-top:3px;
+        }
+        /*COPY PASTE HERE*/
+        .historyTable{
+            width:100%;
+            border-top: solid;
+            border-bottom: solid;
+            border-width: 1.5px;
+            border-top-width:3px;
+            padding:15px;
+            border-color: #DDDDDD;
+            font-family:'Avenir Next',sans-serif;
+            color: #4A4A4A;
+        }
+        .tableHeader{
+            border-bottom: solid;
+            border-width: 1.5px;
+            border-color: #DDDDDD;
+            
+            width: 80px;
+            text-align: center;
+            
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+        .tableCell{
+            width:100px;
+            text-align: center;
+            border-bottom: solid;
+            border-width: 1.5px;
+            border-color: #DDDDDD;
+            font-family:'Avenir Next',sans-serif;
+            
+            padding-left: 2px;
+            padding-right: 2px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+        .dropdown{
+            margin: 12px;
+            border-radius: 3px;
+            padding: 3px;
+            font-size: 14px;
+            width:130px;
+            background-color: #EEEEEE;
+            float:right;
+        }
+        .checkinBox{
+            display: inline-block;
+        }
+        .checkbox{
+            background-color: white;
+            float:left;
+            padding-right:5px;
+        }
+        .reserveX{
+            float:right;
+            margin:0px;
+            padding:0px;
+            color:blue;
+        }
+        .timeDetails{
+            padding-top:5px;
+            font-family:'Avenir Next',sans-serif;
+            font-size: 18px;
+        }
+        #deleteReserve{
+            color:red;
+        }
+        .tableContainer{
+            overflow-y: scroll;
+            padding:0px;
+            margin:0px;
+            height: 100%;
+        }
+    </style>
+    <head>
+      
+        
+    </head>
+    <body>
+        <div class = "container-fluid mainDiv">
+            
+            <!-- Header -->
+            <div class = "row header">
+                <div class = "col-md-4">
+                    <div class = "row">
+                        <div class = "col-xs-6" style = "padding:0px;">
+                            <img src = "DLSU_Logo_Clear_Background.png" style = "width:60px;height:60px">
+                        </div>
+                        <div class = "col-xs-6" style = "padding-left:10px;">
+                            <h4 style = "margin-top:15px; color:white; font-family:'Futura',sans-serif;font-size:30px; font-weight:500">Computer Reservation</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class = "col-md-8">
+                    <div class = "row" style = "float:right;padding-right:10px;">
+                        <div class = "col-md-2.5 space">
+                            <button class = "headerButtonDiv">DASHBOARD</button>
+                        </div>
+                        <div class = "col-md-2.5 space">
+                            <button class = "headerButtonDiv" id = "reserveBtn">RESERVE</button>
+                        </div>
+                        <div class = "col-md-2.5 space">
+                            <button class = "headerButtonDiv" id = "historyBtn">HISTORY</button>
+                        </div>
+                        <div class = "col-md-2.5 space">
+                            <button class = "headerButtonDiv" id = "logout">LOG OUT</button>
+                        </div>
+                        <div class = "col-md-2.5 space">
+                            <div class = "questionLine">
+                                <button class = "question" id = "questionBtn">?</button>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                
+            </div>
+            <!-- Header end -->
+            
+            
+            <div class = "row" id = "white" style = "height:100%;">
+                <div class = "contentBox" id = "mainBox">
+                    <div class = "row" id = "contentHeader">
+                        <div class = "col">
+                            <h3 class = "headerTitle">Reservation History</h3>
+                        </div>
+                        <div class = "col">
+                            <select class = "dropdown" id = "bldgDrop">
+                                <option>All Locations</option>
+                                <option>Gokongwei</option>
+                                <option>Velasco</option>
+                                <option>Miguel</option>
+                                <option>Henry Sy</option>
+                            </select>
+                            <select class = "dropdown" id = "timeDrop">
+                                <option>Daily</option>
+                                <option selected="selected">Weekly</option>
+                                <option>Monthly</option>
+                                <option>Annual</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class = "tableContainer">
+                        <table class = "historyTable">
+                            <tbody id = "historyTable">
+                                <tr>
+                                    <th class = "tableHeader">Name</th>
+                                    <th class = "tableHeader">College</th>
+                                    <th class = "tableHeader">ID</th>
+                                    <th class = "tableHeader">Location</th>
+                                    <th class = "tableHeader">PC No</th>
+                                    <th class = "tableHeader">Date</th>
+                                    <th class = "tableHeader">Start</th>
+                                    <th class = "tableHeader">End</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            <!-- footer -->
+            <div class = "row">
+                <div class = "footer">
+                    <h3 class = "copyright">Copyright De La Salle University</h3>
+                </div>
+            </div>
+            <!-- footer end -->
+            
+        </div>
+    </body>
+        
+        <!--Copy paste here-->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+        <script
+        src="http://code.jquery.com/jquery-3.2.1.js"
+        integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+        crossorigin="anonymous"></script>
+        <!--End copy paste-->
+        
+        <script>
+            
+            //Button Listeners
+            $("#logout").click(function(){
+                $.get("/logout",function(){
+                    //Empty, logout is handled by the servlet
+                }); 
+            });
+            
+            $("#reserveBtn").click(function(){
+                
+                
+            });
+            
+            $("#historyBtn").click(function(){
+                
+                
+            });
+            
+            $("#layoutBtn").click(function(){
+                
+                
+            });
+            
+            $("#statisticsBtn").click(function(){
+                
+                
+            });
+            
+            $("#questionBtn").click(function(){
+                
+                
+            });
+            //End of Button Listeners
+            
+            
+            //Dropdown Listeners
+            $("#bldgDrop").on('change', function(){
+                switch($(this).val()){
+                        
+                    case "All Locations":
+                        //TODO filter results
+                        break;
+                    case "Gokongwei":
+                        //TODO filter results
+                        break;
+                    case "Velasco":
+                        //TODO filter results
+                        break;
+                    case "Miguel":
+                        //TODO filter results
+                        break;
+                    case "Henry Sy":
+                        //TODO filter results
+                        break;
+                }
+            });
+            
+            $("#timeDrop").on('change', function(){
+                switch($(this).val()){
+                    case "Daily":
+                        
+                        break;
+                    case "Weekly":
+                        
+                        break;
+                    case "Monthly":
+                        
+                        break;
+                    case "Annual":
+                        
+                        break;
+                }
+            });
+            //end of dropdown listeners
+            
+            function fix_table_heights(){
+                $("#white").height($(".mainDiv").height() - $(".header").height()-50);
+                $(".tableContainer").height($("#mainBox").height() - $("#contentHeader").height());
+            }
+            
+            //function is called when page is fully loaded
+            $(document).ready(function(){
+                //this function is important
+                fix_table_heights();
+                
+                //testing purposes
+                historyArr = [];
+                var kek = {
+                        name:"something",
+                        college:"something",
+                        id:"something",
+                        location:"something",
+                        pcno:"something",
+                        date:"something",
+                        start:"something",
+                        end:"something2"
+                    }
+                for(var i = 0 ; i < 10 ; i++){
+                    historyArr.push(kek);
+                }
+                add_data_history_table(historyArr);
+                //testing end
+                
+                
+            });
+            function add_data_history_table(jasonarr){
+                /*
+                Expected parameter is a JSON array, JSON format is as follows:
+                    {
+                        name:
+                        college:
+                        id:
+                        location:
+                        pcno:
+                        date:
+                        start:
+                        end:
+                    }
+                */
+                for(var i = 0 ; i < jasonarr.length ; i++){
+                    var jason = jasonarr[i];
+                    var row = $("<tr>");
+                    //Prints all the things, in the order that they came
+                    for(var key in jason){
+                        var col = $("<td>");
+                        col.addClass("tableCell");
+                        //console.log(key);
+                        if(jason.hasOwnProperty(key)){
+                            col.html(jason[key]);
+                        }
+                        row.append(col);
+                    }
+                    $("#historyTable").after(row);
+                }
+                
+                
+            }
+        </script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
