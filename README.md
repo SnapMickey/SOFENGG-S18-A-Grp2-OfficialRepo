@@ -1,5 +1,11 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Lominoque, Jerome November 17, 2017
+Changes made:
+- Updated Admin Reservation Page
+    - Made all of the dropboxes dynamic (Values depend on the current date or the other values of other dropboxes)
+
+
 Rivera, Jared November 17, 2017
 Changes made:
 - Implemented functionality of user home page
