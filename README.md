@@ -1,4 +1,19 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+
+Lominoque, Jerome November 18, 2017
+Changes made:
+- Updated admin_reservation_page
+- Added "/requestAdminReservationList" in servlet "SystemController"
+- Added function in "SystemController" named "requestAdminReservationList"
+
+Errors/Problems:
+- Functionality of reserve and getting all possible reservations are not yet working
+- Error handling:
+    - No ID num input
+    - Incorrect ID num input
+- UI Problems:
+    - No pop-up box to show that the user reserved
+    
 Bornales, Amiel James November 18, 2017
 Changes made:
 - Added admin_history.html
