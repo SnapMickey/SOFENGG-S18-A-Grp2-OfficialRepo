@@ -73,8 +73,8 @@ public class SystemController extends HttpServlet {
 			case "/requestUserReservations":
 				requestUserReservations(request, response);
 				break;
-			case "/requestAdminReservationList":
-				requestAdminReservationList(request,response);
+			case "/requestAllSingleReservations":
+				requestAllSingleReservations(request,response);
 				break;
 			default: 
 				break;
@@ -83,34 +83,75 @@ public class SystemController extends HttpServlet {
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 	
-	private void requestAdminReservationList(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		// TODO Auto-generated method stub
-				JsonArray reservationList = new JsonArray();
-				String bldg, room, time, date;
-				bldg = request.getParameter("bldg");
-				room = request.getParameter("room");
-				date = request.getParameter("date");
-				time = request.getParameter("time");
+	private void requestAllSingleReservations(HttpServletRequest request, HttpServletResponse response) throws IOException{
+				// TODO Auto-generated method stub
+				JsonArray userReservations = new JsonArray();
 				
-				System.out.println(bldg + " " + room + " " + date + " " + time);
-			
+				ArrayList<PcReservation> reservations = SystemService.getAllSingleReservations(null);
+				for(PcReservation pr : reservations) {
+					JsonObject json = new JsonObject();
+
+					Lab lab = SystemService.getLabOfPc(pr.getPcID());
+					
+					String startTime, endTime;
+					
+					Date startT = pr.getDateTimeStart();
+					Date endT = pr.getDateTimeEnd();
+					
+					if(startT.getHours() % 12 == 0) {
+						startTime = "" + startT.getHours() + ":" + startT.getMinutes();
+						
+						if(startTime.charAt(startTime.length()-2) == ':') startTime += "0";
+						
+						startTime += " AM";
+					}
+					else {
+						startTime = "" + startT.getHours() % 12 + ":" + startT.getMinutes();
+					
+						if(startTime.charAt(startTime.length()-2) == ':') startTime += "0";
+						
+						startTime += " PM";
+					}
+					if(endT.getHours() % 12 == 0) {
+						endTime = "" + endT.getHours() + ":" + endT.getMinutes();
+						
+						if(endTime.charAt(endTime.length()-2) == ':') endTime += "0";
+						
+						endTime += " AM";
+					}
+					else {
+						endTime = "" + endT.getHours() % 12 + ":" + endT.getMinutes();
+					
+						if(endTime.charAt(endTime.length()-2) == ':') endTime += "0";
+						
+						endTime += " PM";
+					}
+					
+					json.addProperty("location", lab.getBuilding());
+					json.addProperty("room", lab.getName());;
+					json.addProperty("pcnum", "" + pr.getPcID());
+					json.addProperty("date", "" + endT.getDate() + "/" + endT.getMonth()
+										+ "/" + (endT.getYear() + 1900));
+					json.addProperty("start", startTime);
+					json.addProperty("end", endTime);
+				
+					userReservations.add(json);
+				}
 				
 				response.setContentType("application/json");
-				response.getWriter().write(reservationList.toString());
+				response.getWriter().write(userReservations.toString());
 	}
 	
 	private void requestUserReservations(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
 		JsonArray userReservations = new JsonArray();
-		/*
-		//instead of get from session -> get from HTML TEXTBOX
+		
 		int userId = (Integer)request.getSession().getAttribute("id");
 		User user = SystemService.getUser(userId);
 		
-		//get all data from html dropdowns
-		
-		ArrayList<PcReservation> tempReservationList = PcReservationBuilder.generateReservations();
-		for(PcReservation pr : tempReservationList) {
+
+		ArrayList<PcReservation> reservations = SystemService.getUserReservations(userId);
+		for(PcReservation pr : reservations) {
 			JsonObject json = new JsonObject();
 
 			Lab lab = SystemService.getLabOfPc(pr.getPcID());
@@ -162,7 +203,6 @@ public class SystemController extends HttpServlet {
 		
 		response.setContentType("application/json");
 		response.getWriter().write(userReservations.toString());
-		*/
 	}
 
 	private void requestUserDetails(HttpServletRequest request, HttpServletResponse response) throws IOException {
