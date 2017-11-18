@@ -311,7 +311,7 @@
                                         <h3 class = "boxTitle" style = "margin-left:10px;margin-top:15px;margin-bottom:15px;">Lab Reservations</h3>
                                     </div>
                                     <div class = "col" style = "text-align:right;">
-                                        <select class = "dropdown" id = "reservationsDrop">
+                                        <select class = "dropdown" id = "labDrop">
                                             <option>All Locations</option>
                                             <option>Gokongwei</option>
                                             <option>Velasco</option>
@@ -483,19 +483,23 @@
                 }
             });
             
-            $("#statisticsDrop").on('change', function(){
+            $("#labDrop").on('change', function(){
                 switch($(this).val()){
-                    case "Daily":
                         
+                    case "All Locations":
+                        //TODO filter results
                         break;
-                    case "Weekly":
-                        
+                    case "Gokongwei":
+                        //TODO filter results
                         break;
-                    case "Monthly":
-                        
+                    case "Velasco":
+                        //TODO filter results
                         break;
-                    case "Annual":
-                        
+                    case "Miguel":
+                        //TODO filter results
+                        break;
+                    case "Henry Sy":
+                        //TODO filter results
                         break;
                 }
             });
