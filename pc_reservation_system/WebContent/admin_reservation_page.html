@@ -503,6 +503,8 @@
     
         <script>
             
+            var selectedPc, selectedBldg, selectedTime, selectedRoom, selectedDate, selectedId;
+            
             function setValues(){
                 var dateDropdown = document.getElementById("dateDropdown");
                 dateDropdown.remove(0);
@@ -521,7 +523,7 @@
                 day = currDate.getDate();
                 month = currDate.getMonth() + 1;
                 year = currDate.getFullYear();
-                option.value = year +  "/" + month + "/" + day;
+                option.value = year +  "-" + month + "-" + day;
                 option.textContent = month + "/" + day + "/" + year;
                 dateDropdown.appendChild(option);
                 
@@ -530,7 +532,7 @@
                 day = nextDate.getDate();
                 month = nextDate.getMonth() + 1;
                 year = nextDate.getFullYear();
-                option2.value = year +  "/" + month + "/" + day;
+                option2.value = year +  "-" + month + "-" + day;
                 option2.textContent = month + "/" + day + "/" + year;
                 dateDropdown.appendChild(option2);
                 
@@ -684,62 +686,131 @@
                 
             });
             
+            $("#reserveButton").click(function(){
+                var url;
+                if($("#individual").is(':checked')){
+                    url = "singleReserve?"
+                }else if($("#event").is(':checked')){
+                    url = "labReserve?"
+                }
+                
+                console.log("reserving..");
+                var pc, building, room, sTime, eTime, id, date;
+                id = parseInt(selectedId);
+                date = selectedDate;
+                pc = parseInt(selectedPc);
+                building = selectedBldg;
+                room = selectedRoom;
+                
+                var tempTime = parseInt(selectedTime);
+                if(tempTime < 10){
+                    sTime = "0" + tempTime + ":00:00";
+                    eTime = "0" + (tempTime + 1) + ":00:00";
+                }else{
+                    sTime = tempTime + ":00:00";
+                    eTime = (tempTime + 1) + ":00:00";
+                }
+                
+                url += "pc=" + pc + "&building=" + building + "&room=" + room +
+                       "&sTime=" + sTime + "&eTime=" + eTime + "&date=" + date +
+                       "&id=" + id;
+                
+                console.log(id + pc + building + room + sTime + eTime + date);
+                
+                $.get(url, function(data){
+                   console.log("requesting to reserve..");
+                });
+            });
+            
             $("#searchButton").click(function(){
                     
                 refresh_table();
                 
-                var bldg, room, time, date, id, checkbox, eventname, dropdown;
+                var bldg, room, startTime, endTime, date, id, checkbox, eventname, dropdown;
                 dropdown = document.getElementById("bldgList");
                 bldg = dropdown.value;
+                switch(bldg){
+                    case "G":   bldg = "Gokongwei"
+                                break;
+                    case "V":   bldg = "Velasco"
+                                break;
+                    case "HS":  bldg = "Henry Sy"
+                                break;
+                    case "M":   bdlg = "Miguel"
+                                break;
+                        
+                    default:    break;
+                }
                 
                 dropdown = document.getElementById("roomList");
                 room = dropdown.value;
                 
                 dropdown = document.getElementById("timeDropdown");
-                time = dropdown.value;
+                startTime = dropdown.value;
                 
+                console.log("start time=" + startTime);
+                if(startTime != "default"){
+                    var endTimeCompute = parseInt(startTime); 
+                    if(endTimeCompute < 10){
+                        endTime = "0" + (endTimeCompute + 1) + ":00:00";
+                    }
+                    else{
+                        endTime = (endTimeCompute + 1) + ":00:00";
+                    }
+                    console.log("end time=" + endTime);
+                }else{
+                    endTime = "default";
+                    console.log("end time=" + endTime);
+                }
+                console.log("end time=" + endTime);
                 dropdown = document.getElementById("dateDropdown");
                 date = dropdown.value;
-                
+                selectedDate = date;
                 
                 
                 if($("#event").is(':checked')){
                     console.log("eventdetected search");
                     id = document.getElementById("idNumEvent").value;
+                    selectedId = id;
                     eventname = document.getElementById("eventName").value;
                     checkbox = "event";
                     
-                    console.log("" + bldg + room + date + time + id + checkbox + eventname);
+                    console.log("" + bldg + room + date + startTime + endTime + id + checkbox + eventname);
                     
-                    $.get("requestAdminReservationList?bldg=" + bldg + "&room=" + room + "&time=" + time + "&date=" + date + "&id=" + id, function(data){
-                    add_table_data(data);
+                    $.get("requestAdminReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date, function(data){
+                        console.log("adding data");
+                        add_table_data(data);
                     });
                     
                 }else if($("#individual").is(':checked')){
                     console.log("individualdetected search");
                     id = document.getElementById("idNumSolo").value;
+                    selectedId = id;
                     checkbox = "individual";
                     eventname = null;
-                    console.log("" + bldg + room + date + time + id + checkbox + eventname);
+                    console.log("" + bldg + room + date + startTime + endTime + id + checkbox + eventname);
                     
-                    $.get("requestAdminReservationList?bldg=" + bldg + "&room=" + room + "&time=" + time + "&date=" + date + "&id=" + id, function(data){
-                    add_table_data(data);
+                    $.get("requestAdminReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date, function(data){
+                        console.log("adding data");
+                        add_table_data(data);
                     });
                     
                 }
                 
                 
                 
-                $.get("requestUserDetails", function(data){
+                $.get("requestUserDetailsByAdmin?id=" + id, function(data){
+                    console.log("adding username");
                     add_data_to_textbox(data);
                 });
+                
             });
             
             function add_data_to_textbox(user){
                 if($("#individual").is(':checked')){
-                    document.getElementById("individualName").value = user;
+                    document.getElementById("individualName").value = user["name"];
                 }else if($("#event").is(':checked')){
-                    document.getElementById("byGroupName").value = user;
+                    document.getElementById("byGroupName").value = user["name"];
                 }
             }
             
@@ -793,17 +864,16 @@
                 */
                 for(var i = 0 ; i < jasonarr.length ; i++){
                     var jason = jasonarr[i];
-                    var row = $("<tr height=\"40\">");
+                    var row = $("<tr height=\"40\" align=\"center\">");
                     
                     //Prints all the things, in the order that they came
                     for(var key in jason){
-                        var center = $("<center>");
                         var col = $("<td>");
                         col.addClass("reserveTableRows");
                         if(jason.hasOwnProperty(key)){
-                            col.html("<center> " +jason[key] + "</center>");
+                            
+                            col.html(jason[key]);
                         }
-                        center.append(col);
                         row.append(col);
                     }
                     $("#PCtable").after(row);
@@ -815,6 +885,8 @@
                 document.getElementById("idNumSolo").value = null;
                 document.getElementById("idNumEvent").value = null;
                 document.getElementById("eventName").value = null;
+                document.getElementById("individualName").value = null;
+                document.getElementById("byGroupName").value = null;
                 
                 if($("#individual").is(':checked')){
                      console.log("individualticked") ;
@@ -836,6 +908,8 @@
                 document.getElementById("idNumSolo").value = null;
                 document.getElementById("idNumEvent").value = null;
                 document.getElementById("eventName").value = null;
+                document.getElementById("individualName").value = null;
+                document.getElementById("byGroupName").value = null;
                 
                 if($("#event").is(':checked')){
                     
@@ -856,6 +930,12 @@
                var value=$(this).find('td:first').html();
                 console.log(value);
                 
+                selectedPc = $(this).find('td:first').html();
+                selectedBldg = $(this).find('td:eq(1)').text();
+                selectedRoom = $(this).find('td:eq(2)').text();
+                selectedTime = $(this).find('td:eq(3)').text();
+                
+                console.log(selectedPc, selectedBldg, selectedRoom, selectedTime);
                 document.getElementById('reserveButton').style.visibility = "visible";
             });
         </script>
