@@ -375,7 +375,7 @@
                                 <span> Room/Floor</span>
                             </div>
                             <select class="dropdown" id="roomList">
-                                <option>All</option>
+                                <option value="default">All</option>
                             </select>
                         </div>
                         
@@ -392,7 +392,7 @@
                             <div class="timeHeader">
                                 <span> Time </span>
                                 <select class = "dropdown" id = "timeDropdown">
-                                    <option>Any</option>
+                                    <option value="default">Any</option>
                                 </select>
                             </div>
                         </div>
@@ -404,25 +404,25 @@
                     <div class="infoDiv filterHeaderFont"> 
                         <div class="individualHeader">
                             <span> Individual </span>
-                            <input type="checkbox" name="individual">
+                            <input type="checkbox" id="individual" name="individual">
                             <div>
-                            <input style="width:35%;"type="text" placeholder="Input ID Number">
-                            <input style="width:60%;float:right;"type="text" placeholder="Name of User" readonly>
+                            <input style="width:35%;" disabled="true" type="text" placeholder="Input ID Number" id="idNumSolo">
+                            <input style="width:60%;float:right;"type="text" id="individualName"placeholder="Name of User" readonly>
                             </div>
                         </div>
                         
                         <div class="eventHeader">
                             <span> Class/Event </span>
-                            <input type="checkbox" name="event">
+                            <input type="checkbox" id="event" name="event">
                             <div>
-                            <input style="width:35%;"type="text" placeholder="Input ID Number">
-                            <input style="width:60%;float:right;"type="text" placeholder="Name of Supervisor" readonly>
-                            <input style="width:100%;margin-top:10px;"type="text" placeholder="Input Event Name">
+                            <input style="width:35%;"type="text" disabled="true" placeholder="Input ID Number" id="idNumEvent">
+                            <input style="width:60%;float:right;"type="text" id="byGroupName" placeholder="Name of Supervisor" readonly>
+                            <input style="width:100%;margin-top:10px;" disabled="true" type="text" placeholder="Input Event Name" id="eventName">
                             </div>
                         </div>
                     </div>
                     
-                    <button class="filterSearchButton">Search</button>
+                    <button class="filterSearchButton" id="searchButton">Search</button>
                 </div>
                 <!-- Search Container End -->
                 
@@ -432,7 +432,7 @@
                     <span class="mainHeader"> <b>3. Reserve A PC </b> </span> <span class="mainHeader2"> Select a PC to reserve </span>
                     </div>
                     <div class="reserveTableDiv">
-                    <table class="reserveTable">
+                    <table class="reserveTable" id="reserveListTable">
                         <thead>
                             <tr class="reserveTableHead">
                                 <th height="40">
@@ -487,6 +487,8 @@
         </div>
     </body>
     
+    <applet code="PcReservationBuilder.class" name="reservationBuilder" height=0 widht=0>
+    </applet>
     <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         
@@ -533,7 +535,7 @@
                 dateDropdown.appendChild(option2);
                 
                 var timeDropdown = document.getElementById("timeDropdown");
-                for(var i = 7; i <= 18; i++)
+                for(var i = 8; i <= 18; i++)
                 {
                     var timeOpt = document.createElement("option");
                     if(i < 10){
@@ -682,9 +684,64 @@
                 
             });
             
-            $("#filterSearchButton").click(function(){
+            $("#searchButton").click(function(){
                     
+                refresh_table();
+                
+                var bldg, room, time, date, id, checkbox, eventname, dropdown;
+                dropdown = document.getElementById("bldgList");
+                bldg = dropdown.value;
+                
+                dropdown = document.getElementById("roomList");
+                room = dropdown.value;
+                
+                dropdown = document.getElementById("timeDropdown");
+                time = dropdown.value;
+                
+                dropdown = document.getElementById("dateDropdown");
+                date = dropdown.value;
+                
+                
+                
+                if($("#event").is(':checked')){
+                    console.log("eventdetected search");
+                    id = document.getElementById("idNumEvent").value;
+                    eventname = document.getElementById("eventName").value;
+                    checkbox = "event";
+                    
+                    console.log("" + bldg + room + date + time + id + checkbox + eventname);
+                    
+                    $.get("requestAdminReservationList?bldg=" + bldg + "&room=" + room + "&time=" + time + "&date=" + date + "&id=" + id, function(data){
+                    add_table_data(data);
+                    });
+                    
+                }else if($("#individual").is(':checked')){
+                    console.log("individualdetected search");
+                    id = document.getElementById("idNumSolo").value;
+                    checkbox = "individual";
+                    eventname = null;
+                    console.log("" + bldg + room + date + time + id + checkbox + eventname);
+                    
+                    $.get("requestAdminReservationList?bldg=" + bldg + "&room=" + room + "&time=" + time + "&date=" + date + "&id=" + id, function(data){
+                    add_table_data(data);
+                    });
+                    
+                }
+                
+                
+                
+                $.get("requestUserDetails", function(data){
+                    add_data_to_textbox(data);
+                });
             });
+            
+            function add_data_to_textbox(user){
+                if($("#individual").is(':checked')){
+                    document.getElementById("individualName").value = user;
+                }else if($("#event").is(':checked')){
+                    document.getElementById("byGroupName").value = user;
+                }
+            }
             
             $("#logout").click(function(){
             	var form = document.createElement('form');
@@ -710,6 +767,17 @@
                 
                 add_table_data(jasonarr);
             });
+            
+            function refresh_table(){
+                console.log("refreshing table");
+                var elmtTable = document.getElementById('reserveListTable');
+                var tableRows = elmtTable.getElementsByTagName('tr');
+                var rowCount = tableRows.length;
+                
+                for (var x=rowCount-1; x>0; x--) {
+                    elmtTable.removeChild(tableRows[x]);
+                }  
+            }
             
             function add_table_data(jasonarr){
                 /*
@@ -741,6 +809,47 @@
                     $("#PCtable").after(row);
                 }
             }
+            
+            $("#individual").click(function(){
+                $("#event").prop('checked', false);
+                document.getElementById("idNumSolo").value = null;
+                document.getElementById("idNumEvent").value = null;
+                document.getElementById("eventName").value = null;
+                
+                if($("#individual").is(':checked')){
+                     console.log("individualticked") ;
+                    document.getElementById("idNumSolo").disabled = false;
+                    document.getElementById("idNumEvent").disabled = true;
+                    document.getElementById("eventName").disabled = true;
+                }else{
+                    
+                   console.log("individualunticked") ; document.getElementById("idNumSolo").disabled = true;
+                    document.getElementById("idNumEvent").disabled = true;
+                    document.getElementById("eventName").disabled = true;
+                }
+                //checking
+                //$("#event).is(':checked');
+            });
+            
+            $("#event").click(function(){
+                $("#individual").prop('checked', false);
+                document.getElementById("idNumSolo").value = null;
+                document.getElementById("idNumEvent").value = null;
+                document.getElementById("eventName").value = null;
+                
+                if($("#event").is(':checked')){
+                    
+                   console.log("eventticked");
+                    document.getElementById("idNumSolo").disabled = true;
+                    document.getElementById("idNumEvent").disabled = false;
+                    document.getElementById("eventName").disabled = false;
+                }else{
+                    
+                   console.log("eventunticked"); document.getElementById("idNumSolo").disabled = true;
+                    document.getElementById("idNumEvent").disabled = true;
+                    document.getElementById("eventName").disabled = true;
+                }
+            });
             
             $(document).on('click','.reserveTable tr',function(){
                $(this).addClass('selected').siblings().removeClass('selected');    
