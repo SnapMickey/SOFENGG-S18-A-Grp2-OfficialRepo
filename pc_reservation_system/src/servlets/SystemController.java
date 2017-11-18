@@ -18,13 +18,14 @@ import beans.Lab;
 import beans.Pc;
 import beans.PcReservation;
 import beans.User;
+import reservationBuilder.PcReservationBuilder;
 import services.SystemService;
 
 /**
  * Servlet implementation class SystemController
  */
 @WebServlet (urlPatterns = {"/login", "/logout", "/adminpage", "/userpage", "/adminreservationpage", "/userreservationpage"
-							, "/requestUserDetails", "/requestUserReservations"
+							, "/requestUserDetails", "/requestUserReservations", "/requestAdminReservationList"
 							})
 @MultipartConfig
 public class SystemController extends HttpServlet {
@@ -72,6 +73,9 @@ public class SystemController extends HttpServlet {
 			case "/requestUserReservations":
 				requestUserReservations(request, response);
 				break;
+			case "/requestAdminReservationList":
+				requestAdminReservationList(request,response);
+				break;
 			default: 
 				break;
 		}
@@ -79,16 +83,34 @@ public class SystemController extends HttpServlet {
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 	
+	private void requestAdminReservationList(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		// TODO Auto-generated method stub
+				JsonArray reservationList = new JsonArray();
+				String bldg, room, time, date;
+				bldg = request.getParameter("bldg");
+				room = request.getParameter("room");
+				date = request.getParameter("date");
+				time = request.getParameter("time");
+				
+				System.out.println(bldg + " " + room + " " + date + " " + time);
+			
+				
+				response.setContentType("application/json");
+				response.getWriter().write(reservationList.toString());
+	}
+	
 	private void requestUserReservations(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
 		JsonArray userReservations = new JsonArray();
-		
+		/*
+		//instead of get from session -> get from HTML TEXTBOX
 		int userId = (Integer)request.getSession().getAttribute("id");
 		User user = SystemService.getUser(userId);
 		
-		ArrayList<PcReservation> reservations = SystemService.getUserReservations(userId);
-	
-		for(PcReservation pr : reservations) {
+		//get all data from html dropdowns
+		
+		ArrayList<PcReservation> tempReservationList = PcReservationBuilder.generateReservations();
+		for(PcReservation pr : tempReservationList) {
 			JsonObject json = new JsonObject();
 
 			Lab lab = SystemService.getLabOfPc(pr.getPcID());
@@ -140,6 +162,7 @@ public class SystemController extends HttpServlet {
 		
 		response.setContentType("application/json");
 		response.getWriter().write(userReservations.toString());
+		*/
 	}
 
 	private void requestUserDetails(HttpServletRequest request, HttpServletResponse response) throws IOException {
