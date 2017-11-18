@@ -9,7 +9,7 @@ import java.util.Date;
 public class PcReservation {
 	
 	@Id
-	@Column(name = "borrowId")
+	@Column(name = "borrowID")
 	int borrowID;
 	
 	@Column(name = "userID")
@@ -116,7 +116,7 @@ public class PcReservation {
 	public String toString() {
 		return "PcReservation [borrowID=" + borrowID + ", userID=" + userID + ", pcID=" + pcID + ", dateTimeStart="
 				+ dateTimeStart + ", dateTimeEnd=" + dateTimeEnd + ", checkInTime=" + checkInTime + ", reserveTime="
-				+ reserveTime + ", adminConfirmed=" + adminConfirmed + "]";
+				+ reserveTime + ", adminConfirmed=" + adminConfirmed + ", eventName = " + eventName +  "]";
 	}
 	
 	

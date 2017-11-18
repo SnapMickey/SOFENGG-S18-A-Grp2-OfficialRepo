@@ -1,5 +1,14 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Rivera, Jared November 18, 2017
+Changes made:
+- Updated SystemService methods: getAllFreePcs()
+- Created SystemService methods for Lab reservations: getAllFreeLabPcs(), getAllLabReservations()
+- Renamed SystemService method getAllReservations() to getAllSingleReservations. Added location parameter.
+- Created SystemService methods: addReservation(), removeReservation()
+Errors/Problems:
+- with current database settings, cannot return freepcs because pcs are all either not available or the labs they occupy are not available
+
 Lominoque, Jerome November 18, 2017
 Changes made:
 - Updated admin_reservation_page
