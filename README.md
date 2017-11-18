@@ -12,6 +12,7 @@ Errors/Problems:
 Lominoque, Jerome November 18, 2017
 Changes made:
 - Updated admin_reservation_page
+- Updated Database (added more rows/data)
 - Added "/requestAdminReservationList" in servlet "SystemController"
 - Added function in "SystemController" named "requestAdminReservationList"
 
