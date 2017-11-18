@@ -7,7 +7,6 @@
         }
         .container-fluid{
             height: 100%;
-            overflow-y: hidden; /* don't show content that exceeds my height */
         }
         .mainDiv{
             background-color:#CCCCCC;
@@ -30,15 +29,16 @@
             width:100%;
             padding:2px;
             margin:0px;
+            text-align: center;
         }
         .copyright{
             margin-top:5px;
             font-family:'Avenir Next',sans-serif;
-            margin-left: 41.5%;
             font-size: 16px;
             color:#DADADA;
         }
         .headerButtonDiv{
+            cursor:pointer;
             padding-left: 8px;
             padding-right: 10px;
             padding-bottom: 4px;
@@ -139,6 +139,7 @@
             font-family:'Avenir Next',sans-serif;
             font-weight: 600;
             font-size:15px;
+            cursor:pointer;
         }
         .reserveTable{
             width:100%;
@@ -229,10 +230,10 @@
                 <div class = "col-md-4"></div>
                 
                 <div class = "col-md-1 space">
-                    <button class = "headerButtonDiv" id="header_home">HOME</button>
+                    <button class = "headerButtonDiv" id = "homeBtn">HOME</button>
                 </div>
                 <div class = "col-md-1 space" style = "margin-right:20px;">
-                    <button class = "headerButtonDiv" id="header_reserve">RESERVE</button>
+                    <button class = "headerButtonDiv" id = "reserveBtn">RESERVE</button>
                 </div>
                 <div class = "col-md-1 space">
                     <button class = "headerButtonDiv" id="logout">LOGOUT</button>
@@ -247,21 +248,21 @@
             </div>
             <!-- Header end-->
             
-            <div class = "row" style = "padding-bottom:15px;">
+            <div class = "row" id = "white" style = "padding-bottom:15px;">
                 <div class = "container-fluid bgwhite">
-                    <div class = "row">
-                        <div class = "col-md-4"style = "padding-right:0px;">
+                    <div class = "row"  id = "mainbox" style = 'height:90%;'>
+                        <div class = "col-md-4" style = "padding-right:0px;">
                             <div class = "contentBox" style = "background-color: #4A4A4A">
                                 <h3 class = "boxTitle" style = "color:white;">1. Search for a PC</h3>
                                 <div class = "filterContainer">
                                     <h3 class = "boxHeader">Filter By:</h3>
                                     <p class = "boxHeader details">Building</p>
                                     <select class = "dropdown" id = "bldgList">
-                                        <option>All</option>
-                                        <option>Gokongwei</option>
-                                        <option>Velasco</option>
-                                        <option>Miguel</option>
-                                        <option>Henry Sy</option>
+                                        <option value = "A">All</option>
+                                        <option value = "G">Gokongwei</option>
+                                        <option value = "V">Velasco</option>
+                                        <option value = "M">Miguel</option>
+                                        <option value = "H">Henry Sy</option>
                                     </select>
                                     <p class = "boxHeader details">Room/Floor</p>
                                     <select class = "dropdown" id = "floorDropdown">
@@ -292,8 +293,8 @@
                             </div>
                         </div>
                         <div class = "col-md-8" style = "padding-left:0px;">
-                            <div class = "contentBox">
-                                <div class = "row" style = "padding:0px; margin:0px;">
+                            <div class = "contentBox" id = "tableParent">
+                                <div class = "row" id = "tableTitle" style = "padding:0px; margin:0px;">
                                     <h3 class = "boxTitle">2. Reserve a PC</h3>
                                     <p style = "padding:0px;padding-top:5px;padding-left:10px;">Select a PC to reserve</p>
                                 </div>
@@ -313,12 +314,12 @@
                                 
                                 
                                 
-                                <div class = "row" style = "padding:0px; margin:0px;margin-top:10px;">
+                                <div class = "row" id = "buttonHolder" style = "padding:0px; margin:0px;margin-top:10px;">
                                     <div class = "col">
-                                        <button class = "reserveButtons">VIEW LAYOUT</button>
+                                        <button class = "reserveButtons" id = "layout">VIEW LAYOUT</button>
                                     </div>
                                     <div class = "col">
-                                        <button class = "reserveButtons" style = "float:right;">RESERVE</button>
+                                        <button class = "reserveButtons" id = "reserveBtn" style = "float:right;">RESERVE</button>
                                     </div>
                                 </div>
                             </div>
@@ -351,37 +352,17 @@
         integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
         crossorigin="anonymous"></script>
         <script>
-	        $("#header_home").click(function(){
-	        	var form = document.createElement('form');
-	            form.method = "GET";
-	            form.action = "userpage";
-	            document.body.appendChild(form);
-	            form.submit();
-	        });
-	        
-	        $("#header_reserve").click(function(){
-            	var form = document.createElement('form');
-                form.method = "GET";
-                form.action = "userreservationpage";
-                document.body.appendChild(form);
-                form.submit();
-            });
-        
-            $("#logout").click(function(){
-            	var form = document.createElement('form');
-                form.method = "GET";
-                form.action = "logout";
-                document.body.appendChild(form);
-                form.submit();
-            });
-
+            
+            var selected_row = null;
+            //this function is called when page is fully loaded
             $(document).ready(function(){
+                //testing purposes
                var json = {
-                        pcno:'asd',
-                        location:'asd',
-                        room:'asd',
-                        start:'asd',
-                        end:'asd'
+                        pcno:'asd1',
+                        location:'asd2',
+                        room:'asd3',
+                        start:'asd4',
+                        end:'asd5'
                     }
                var jasonarr = [];
                 for(var i = 0 ; i < 10 ; i++){
@@ -389,7 +370,244 @@
                 }
                 
                 add_table_data(jasonarr);
+                //end of testing
+                
+                setValues();
+                
+                fix_table_height();
+                
             });
+            
+            function fix_table_height(){
+                $("#white").height($(".mainDiv").height() - $(".header").height() - 35);
+                //$("#mainbox").height($("").height() - $(""))
+                $(".tableContainer").height($("#tableParent").height() - $("#tableTitle").height() - $("#buttonHolder").height() - 20);
+            }
+            
+            
+            //Buttons
+            $("#logout").click(function(){
+                var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "logout";
+                document.body.appendChild(form);
+                form.submit();
+            });
+            $("#reserveBtn").click(function(){
+                //selected row will contain whatever row was selected, if non was selected, null will be given
+                console.log(selected_row);
+                alert("give me backend functionality :)\n\nLine:396");
+                //if user has selected a row, do this
+                if(selected_row!= null){
+                    
+                }
+            });
+            $(".filterButton").click(function(){
+                var bldg = $("#bldgList").val()
+                var room = $("#floorDropdown").val();
+                var date = $("#dateDropdown").val();
+                var time = $("#timeDropDown").val();
+                console.log(bldg + " " + room + " " + date + " " + time);
+                alert("give me backend functionality :)\n\nLine:408");
+                //do something with the data, a $.get maybe
+            });
+            $("#homeBtn").click(function(){
+                var form = document.createElement('form');
+	            form.method = "GET";
+	            form.action = "userpage";
+	            document.body.appendChild(form);
+	            form.submit(); 
+            });
+            $("#reserveBtn").click(function(){
+                var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "userreservationpage";
+                document.body.appendChild(form);
+                form.submit();
+            });
+            
+            
+            function setValues(){
+                var dateDropdown = document.getElementById("dateDropdown");
+                dateDropdown.remove(0);
+                
+                var currDate, nextDate;
+                currDate = new Date();
+                nextDate = new Date();
+                nextDate.setDate(currDate.getDate() + 1);
+                
+                //Testing Purposes
+                console.log(currDate);
+                console.log(nextDate);
+                option = document.createElement("option");
+                
+                var day, month, year;
+                day = currDate.getDate();
+                month = currDate.getMonth() + 1;
+                year = currDate.getFullYear();
+                option.value = year +  "/" + month + "/" + day;
+                option.textContent = month + "/" + day + "/" + year;
+                dateDropdown.appendChild(option);
+                
+                option2 = document.createElement("option");
+                
+                day = nextDate.getDate();
+                month = nextDate.getMonth() + 1;
+                year = nextDate.getFullYear();
+                option2.value = year +  "/" + month + "/" + day;
+                option2.textContent = month + "/" + day + "/" + year;
+                dateDropdown.appendChild(option2);
+                
+                var timeDropdown = document.getElementById("timeDropDown");
+                for(var i = 7; i <= 18; i++)
+                {
+                    var timeOpt = document.createElement("option");
+                    if(i < 10){
+                        timeOpt.value = "0" + i + ":00:00";
+                        timeOpt.textContent = i + ":00 AM";
+                    }else{
+                        timeOpt.value = i + ":00:00";
+                        if(i % 12 > 9 && i % 12 < 12){
+                            timeOpt.textContent = i + ":00 AM";
+                        }
+                        else if(i % 12 == 0){
+                            timeOpt.textContent = i + ":00 PM";
+                        }
+                        else{
+                            timeOpt.textContent = (i % 12) + ":00 PM"
+                        }
+                        
+                    }
+                                        
+                    timeDropdown.appendChild(timeOpt);
+                }
+            }
+            
+            $("#bldgList").change(function(){
+                console.log("bldgList changed");
+                
+                var bldgList = document.getElementById("bldgList");
+                var roomList = document.getElementById("floorDropdown");
+                $("#floorDropdown").get(0).selectedIndex = 0;
+                //remove all things in roomList
+                while(roomList.length > 1){
+                    roomList.remove(roomList.length - 1);
+                }
+                if(bldgList.value == "G"){
+                    console.log("Goks Selected");
+                    for(var i = 0; i < 5; i++){
+                        var option = document.createElement("option");
+                        if(i == 0){
+                            option.value = "G201";
+                            option.textContent = "G201";
+                        }
+                        else if(i == 1){
+                            option.value = "G202";
+                            option.textContent = "G202";
+                        }
+                        else if(i == 2){
+                            option.value = "G203";
+                            option.textContent = "G203";
+                        }
+                        else if(i == 3){
+                            option.value = "G301";
+                            option.textContent = "G301";
+                        }
+                        else if(i == 4){
+                            option.value = "G302";
+                            option.textContent = "G302";
+                        }
+                        
+                        roomList.appendChild(option);
+                    }
+                }
+                else if(bldgList.value == "V"){
+                    console.log("Velasco Selected");
+                    for(var i = 0; i < 5; i++){
+                        var option = document.createElement("option");
+                        if(i == 0){
+                            option.value = "V201";
+                            option.textContent = "V201";
+                        }
+                        else if(i == 1){
+                            option.value = "V202";
+                            option.textContent = "V202";
+                        }
+                        else if(i == 2){
+                            option.value = "V203";
+                            option.textContent = "V203";
+                        }
+                        else if(i == 3){
+                            option.value = "V301";
+                            option.textContent = "V301";
+                        }
+                        else if(i == 4){
+                            option.value = "V302";
+                            option.textContent = "V302";
+                        }
+                        
+                        roomList.appendChild(option);
+                    }
+                }
+                else if(bldgList.value == "M"){
+                    console.log("Miguel Selected");
+                    for(var i = 0; i < 5; i++){
+                        var option = document.createElement("option");
+                        if(i == 0){
+                            option.value = "M201";
+                            option.textContent = "M201";
+                        }
+                        else if(i == 1){
+                            option.value = "M202";
+                            option.textContent = "M202";
+                        }
+                        else if(i == 2){
+                            option.value = "M203";
+                            option.textContent = "M203";
+                        }
+                        else if(i == 3){
+                            option.value = "M301";
+                            option.textContent = "M301";
+                        }
+                        else if(i == 4){
+                            option.value = "M302";
+                            option.textContent = "M302";
+                        }
+                        
+                        roomList.appendChild(option);
+                    }
+                }
+                else if(bldgList.value == "HS"){
+                    console.log("Henry Sy Selected");
+                    for(var i = 0; i < 5; i++){
+                        var option = document.createElement("option");
+                        if(i == 0){
+                            option.value = "6th";
+                            option.textContent = "6th Floor";
+                        }
+                        else if(i == 1){
+                            option.value = "7th";
+                            option.textContent = "7th Floor";
+                        }
+                        else if(i == 2){
+                            option.value = "8th";
+                            option.textContent = "8th Floor";
+                        }
+                        else if(i == 3){
+                            option.value = "9th";
+                            option.textContent = "9th Floor";
+                        }
+                        else if(i == 4){
+                            option.value = "10th";
+                            option.textContent = "10th Floor";
+                        }
+                        
+                        roomList.appendChild(option);
+                    }
+                }
+                
+             });
+            
             
             function add_table_data(jasonarr){
                 /*
@@ -420,9 +638,19 @@
                 }
             }
             $(document).on('click','.reserveTable tr',function(){
-               $(this).addClass('selected').siblings().removeClass('selected');    
-               var value=$(this).find('td:first').html();
-                console.log(value);
+                $(this).addClass('selected').siblings().removeClass('selected');
+                var temp = $(this).children();
+                selected_row = {
+                        pcno:temp[0].innerHTML,
+                        location:temp[1].innerHTML,
+                        room:temp[2].innerHTML,
+                        start:temp[3].innerHTML,
+                        end:temp[4].innerHTML
+                }
+                console.log(selected_row);
             });
+            
+            
+            
         </script>
 </html>
