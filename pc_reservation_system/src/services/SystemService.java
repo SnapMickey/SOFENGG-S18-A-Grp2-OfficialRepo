@@ -303,7 +303,7 @@ public class SystemService {
 					+ " where pr.eventName = 'none'";
 			
 			if(location != null) 
-				statement += " and pr.pcID = pc.pdID and pc.locationID = lb.locationID and lb.building like '% "+ location +"%'";
+				statement += " and pr.pcID = pc.pdID and pc.locationID = lb.locationID and lb.building like '%"+ location +"%'";
 					
 			statement += " order by reserveTime";
 			

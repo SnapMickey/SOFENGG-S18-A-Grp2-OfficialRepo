@@ -13,11 +13,22 @@ Lominoque, Jerome November 18, 2017
 Changes made:
 - Updated admin_reservation_page
 - Updated Database (added more rows/data)
-- Added "/requestAdminReservationList" in servlet "SystemController"
-- Added function in "SystemController" named "requestAdminReservationList"
+- Edited admin_front_page
+    - can now show data (recent reservations only)
+- Updates on SystemController:
+    - Added "/requestAdminReservationList" in servlet "SystemController"
+    - Added "/getAdminSchedules", "/getLabReserations", "/getRecentReservations"
+    - Added functions:
+        - requestScheduleList
+        - requestLabReservations
+        - requestRecentReservations
+    - Added function in "SystemController" named "requestAdminReservationList"
 
 Errors/Problems:
-- Functionality of reserve and getting all possible reservations are not yet working
+- Reservation Process for Admin
+    - Functionality of reserve and getting all possible reservations are not yet working
+- Admin Front Page
+    - Lab Reservations and Schedules are not yet showing the appriopriate data
 - Error handling:
     - No ID num input
     - Incorrect ID num input

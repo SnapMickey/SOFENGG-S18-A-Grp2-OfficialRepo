@@ -270,19 +270,19 @@
                                         <h3 class = "boxTitle" style = "margin-left:10px;margin-top:20px;margin-bottom:15px;">Recent Reservations</h3>
                                     </div>
                                     <div class = "col" style = "text-align:right;">
-                                        <select class = "dropdown" id = "reservationsDrop">
-                                            <option>All Locations</option>
-                                            <option>Gokongwei</option>
-                                            <option>Velasco</option>
-                                            <option>Miguel</option>
-                                            <option>Henry Sy</option>
+                                        <select class = "dropdown" id = "recentReservationsDrop">
+                                            <option value="default">All Locations</option>
+                                            <option value="Gokongwei">Gokongwei</option>
+                                            <option value="Velasco">Velasco</option>
+                                            <option value="Miguel">Miguel</option>
+                                            <option value="Henry Sy">Henry Sy</option>
                                         </select>
                                     </div>
                                 </div>
                                 <!--Box Header End--> 
                                 
                                 <div class = "tableContainer">
-                                    <table class = "reserveTable">
+                                    <table class = "reserveTable" id="recentReservationsTable">
                                         <tbody id = "recentTable">
                                             <tr>
                                                 <th class = "tableHeader"> </th>
@@ -311,12 +311,12 @@
                                         <h3 class = "boxTitle" style = "margin-left:10px;margin-top:15px;margin-bottom:15px;">Lab Reservations</h3>
                                     </div>
                                     <div class = "col" style = "text-align:right;">
-                                        <select class = "dropdown" id = "labDrop">
-                                            <option>All Locations</option>
-                                            <option>Gokongwei</option>
-                                            <option>Velasco</option>
-                                            <option>Miguel</option>
-                                            <option>Henry Sy</option>
+                                        <select class = "dropdown" id = "reservationsDrop">
+                                            <option value="default">All Locations</option>
+                                            <option value="Gokongwei">Gokongwei</option>
+                                            <option value="Velasco">Velasco</option>
+                                            <option value="Miguel">Miguel</option>
+                                            <option value="Henry Sy">Henry Sy</option>
                                         </select>
                                     </div>
                                 </div>
@@ -353,11 +353,11 @@
                                     </div>
                                     <div class = "col" style = "text-align:right;">
                                         <select class = "dropdown" id = "schedulesDrop">
-                                            <option>All Locations</option>
-                                            <option>Gokongwei</option>
-                                            <option>Velasco</option>
-                                            <option>Miguel</option>
-                                            <option>Henry Sy</option>
+                                            <option value="default">All Locations</option>
+                                            <option value="Gokongwei">Gokongwei</option>
+                                            <option value="Velasco">Velasco</option>
+                                            <option value="Miguel">Miguel</option>
+                                            <option value="Henry Sy">Henry Sy</option>
                                         </select>
                                     </div>
                                 </div>
@@ -462,11 +462,61 @@
             
             
             //Dropdown Listeners
+            $("#recentReservationsDrop").on('change', function(){
+                //recentReservationsDrop
+                refresh_recent_reservations_table();
+                
+                var location = document.getElementById("recentReservationsDrop").value;
+                var url = "getRecentReservations?location=" + location;
+                
+                $.get(url, function(obj){
+                    add_data_to_recent_reserve(obj);
+                });
+                /*
+               switch($(this).val()){
+                        
+                    case "All Locations":
+                        //TODO filter results
+                       url += default;
+                       $.get("getRecentReservations?location=default", function(obj){
+                            add_data_to_recent_lab(obj);
+                        });
+                        break;
+                    case "Gokongwei":
+                        //TODO filter results
+                        break;
+                    case "Velasco":
+                        //TODO filter results
+                        break;
+                    case "Miguel":
+                        //TODO filter results
+                        break;
+                    case "Henry Sy":
+                        //TODO filter results
+                        break;
+                } */
+            });
+            
+            function refresh_recent_reservations_table(){
+                console.log("refreshing table");
+                var elmtTable = document.getElementById('recentReservationsTable');
+                var tableRows = elmtTable.getElementsByTagName('tr');
+                var rowCount = tableRows.length;
+                
+                for (var x=rowCount-1; x>0; x--) {
+                    elmtTable.removeChild(tableRows[x]);
+                }  
+            }
+            
             $("#reservationsDrop").on('change', function(){
+                //reservationsDrop
                 switch($(this).val()){
                         
                     case "All Locations":
                         //TODO filter results
+                        $.get("getLabReservations?location=default", function(obj){
+                            add_data_to_recent_reserve(obj);
+                         });
                         break;
                     case "Gokongwei":
                         //TODO filter results
@@ -483,32 +533,32 @@
                 }
             });
             
-            $("#labDrop").on('change', function(){
+            $("#statisticsDrop").on('change', function(){
                 switch($(this).val()){
+                    case "Daily":
                         
-                    case "All Locations":
-                        //TODO filter results
                         break;
-                    case "Gokongwei":
-                        //TODO filter results
+                    case "Weekly":
+                        
                         break;
-                    case "Velasco":
-                        //TODO filter results
+                    case "Monthly":
+                        
                         break;
-                    case "Miguel":
-                        //TODO filter results
-                        break;
-                    case "Henry Sy":
-                        //TODO filter results
+                    case "Annual":
+                        
                         break;
                 }
             });
             
             $("#schedulesDrop").on('change', function(){
+                var bldg = document.getElementById("schedulesDrop");
                 switch($(this).val()){
                         
                     case "All Locations":
                         //TODO filter results
+                        $.get("getAdminSchedules?location=default", function(obj){
+                            add_data_to_computer_schedules(obj); 
+                        });
                         break;
                     case "Gokongwei":
                         //TODO filter results
@@ -545,14 +595,19 @@
                 }
                 //add_data_to_recent_reserve(reserveArr);
                 
-                /*
-                $.get("/getReservations", function(obj){
-                    
-                    add_data_to_recent_reserve(reserveArr);
+                
+                $.get("getRecentReservations?location=default", function(obj){
+                    console.log("loading recent reservations");
+                    add_data_to_recent_reserve(obj);
                 });
-                $.get("/getschedules", function(obj){
+                /*
+                $.get("getSchedules?location=default", function(obj){
                     
                     add_data_to_computer_schedules(schedArr); 
+                });
+                
+                $.get("getLabReservations?location=default", function(obj){
+                    add_data_to_recent_lab(obj);
                 });
                 */
                 
@@ -596,6 +651,7 @@
                 
                 
             }
+            
             function add_data_to_recent_reserve(jasonarr){
                 /*
                 Expected parameter is a JSON array, JSON format is as follows:
@@ -666,3 +722,4 @@
             
         </script>
 </html>
+
