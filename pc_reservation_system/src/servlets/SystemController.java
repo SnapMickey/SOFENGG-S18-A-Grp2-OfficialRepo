@@ -96,10 +96,105 @@ public class SystemController extends HttpServlet {
 	private void requestScheduleList(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		// TODO Schedules for admin home page	
 		
+		JsonArray schedules = new JsonArray();
+		String location = request.getParameter("location");
+		
+		if(location.equals("default")){
+			location = null;
+		}
+		
+		ArrayList<Lab> labs = SystemService.getAllLabs(location);
+		
+		Date curTime = new Date();
+		Date endTime = new Date();
+		
+		curTime.setMinutes(0);
+		endTime.setHours(curTime.getHours() + 1);
+		endTime.setMinutes(0);
+		
+		for(Lab lb : labs) {
+			int total = SystemService.getAllPcs(lb.getLocationID()).size();
+			int free = SystemService.getAllFreePcs(curTime, curTime, endTime, lb.getBuilding(), lb.getName()).size();
+			String status = "available";
+			if(lb.isAvailable()) status = "unavailable";
+			
+			JsonObject json = new JsonObject();
+			json.addProperty("location", lb.getName());
+			json.addProperty("slots", free + "/" + total);
+			json.addProperty("status", status);
+			
+			schedules.add(json);
+		}
+		
+		response.setContentType("application/json");
+		response.getWriter().write(schedules.toString());
 	}
 	
 	private void requestLabReservations(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		// TODO Lab Reservations for admin home page
+		
+		String location = request.getParameter("location");
+		JsonArray reservations = new JsonArray();
+		
+		
+		if(location.equals("default")){
+			location = null;
+		}
+		
+		ArrayList<PcReservation> reservationsLab = SystemService.getAllLabReservations(location);
+		
+		for(PcReservation pr : reservationsLab) {
+			Lab lab = SystemService.getLabOfPc(pr.getPcID());
+			
+			String startTime, endTime;
+			
+			Date startT = pr.getDateTimeStart();
+			Date endT = pr.getDateTimeEnd();
+			
+			if(startT.getHours() % 12 == 0) {
+				startTime = "" + startT.getHours() + ":" + startT.getMinutes();
+				
+				if(startTime.charAt(startTime.length()-2) == ':') startTime += "0";
+				
+				startTime += " AM";
+			}
+			else {
+				startTime = "" + startT.getHours() % 12 + ":" + startT.getMinutes();
+			
+				if(startTime.charAt(startTime.length()-2) == ':') startTime += "0";
+				
+				startTime += " PM";
+			}
+			if(endT.getHours() % 12 == 0) {
+				endTime = "" + endT.getHours() + ":" + endT.getMinutes();
+				
+				if(endTime.charAt(endTime.length()-2) == ':') endTime += "0";
+				
+				endTime += " AM";
+			}
+			else {
+				endTime = "" + endT.getHours() % 12 + ":" + endT.getMinutes();
+			
+				if(endTime.charAt(endTime.length()-2) == ':') endTime += "0";
+				
+				endTime += " PM";
+			}
+			
+			JsonObject json = new JsonObject();
+			
+			json.addProperty("id", lab.getLocationID());
+			json.addProperty("location", lab.getName());
+			json.addProperty("event", pr.getEventName());
+			json.addProperty("date", "" + endT.getDate() + "/" + endT.getMonth()
+								+ "/" + (endT.getYear() + 1900));
+			json.addProperty("start", startTime);
+			json.addProperty("end", endTime);
+			
+			reservations.add(json);
+		}
+		
+		response.setContentType("application/json");
+		response.getWriter().write(reservations.toString());
 	}
 	
 	private void requestRecentReservations(HttpServletRequest request, HttpServletResponse response) throws IOException{
@@ -185,7 +280,7 @@ public class SystemController extends HttpServlet {
 				response.setContentType("application/json");
 				response.getWriter().write(reservationList.toString());
 	}
-	
+
 	private void requestUserReservations(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
 		JsonArray userReservations = new JsonArray();
@@ -265,6 +360,24 @@ public class SystemController extends HttpServlet {
 		response.getWriter().write(userDetails.toString());
 	}
 
+	
+	private void reserveSinglePc(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PcReservation newReservation = new PcReservation();
+		
+		//please set the attributes in order to add properly
+		
+		SystemService.addReservation(newReservation);
+	}
+	
+	private void reserveLab(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PcReservation newReservation = new PcReservation();
+		
+		//please set the attributes in order to add
+		
+		SystemService.addReservation(newReservation);
+	}
+
+	
 	private void doUserReservationPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.getRequestDispatcher("user_reservation_page.html").forward(request, response);

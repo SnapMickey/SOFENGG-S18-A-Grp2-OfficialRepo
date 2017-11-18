@@ -1,5 +1,13 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Rivera, Jared November 19, 2017
+Changes made:
+- fixed recently added SystemService methods
+- implemented servlet methods for home pages and reserve
+- added new constructor for PcReservation bean
+Errors/Problems
+- reserve is not fully implemented. Still requires parameters from request and transformation into addReservation() parameters
+
 Rivera, Jared November 18, 2017
 Changes made:
 - Updated SystemService methods: getAllFreePcs()

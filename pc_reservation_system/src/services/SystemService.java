@@ -148,6 +148,9 @@ public class SystemService {
 		return labs;
 	}
 	
+	
+	
+	
 	public static ArrayList<Pc> getAllPcs() {
 		ArrayList<Pc> pcs = new ArrayList<>();
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
@@ -356,7 +359,7 @@ public class SystemService {
 	
 	
 	
-	public static ArrayList<Lab> getAllLabs() {
+	public static ArrayList<Lab> getAllLabs(String building) {
 		ArrayList<Lab> labs = new ArrayList<>();
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
 		EntityManager em = emf.createEntityManager();
@@ -365,7 +368,9 @@ public class SystemService {
 		try{
 			trans.begin();
 			
-			TypedQuery<Lab> query = em.createQuery("from lab", Lab.class);
+			String statement = "from lab lb where lb.building = " + building;
+			
+			TypedQuery<Lab> query = em.createQuery(statement, Lab.class);
 			labs.addAll(query.getResultList());
 			
 			for(Lab l : labs) {

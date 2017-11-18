@@ -36,7 +36,16 @@ public class PcReservation {
 	@Column(name = "eventName")
 	String eventName;
 	
-	public PcReservation() {}
+	public PcReservation() {
+		this.userID = -1;
+		this.pcID = -1;
+		this.dateTimeStart = null;
+		this.dateTimeEnd = null;
+		this.checkInTime = null;
+		this.reserveTime = null;
+		this.adminConfirmed = false;
+		this.eventName = "empty";
+	}
 
 	public PcReservation(int pcID, Date dateTimeStart, Date dateTimeEnd) {
 		super();
@@ -48,6 +57,16 @@ public class PcReservation {
 		this.reserveTime = null;
 		this.adminConfirmed = false;
 		this.eventName = "None";
+	}
+	
+	
+
+	public void setUserID(int userID) {
+		this.userID = userID;
+	}
+
+	public void setPcID(int pcID) {
+		this.pcID = pcID;
 	}
 
 	public String getEventName() {
