@@ -1,5 +1,6 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+
 Rivera, Jared November 19, 2017
 Changes made:
 - fixed recently added SystemService methods
@@ -7,6 +8,16 @@ Changes made:
 - added new constructor for PcReservation bean
 Errors/Problems
 - reserve is not fully implemented. Still requires parameters from request and transformation into addReservation() parameters
+
+Bornales, Amiel James November 19, 2017
+Changes made:
+- user_reserve now has complete functions for adding and selecting data in table
+- user_reserve header now works and is connected to servlets
+- user_reserve filters now has basic functionality on filtering rooms
+
+Errors/Problems:
+- applying the filter wont pull from db yet
+- cannot pull data from db yet when displaying available PC's
 
 Rivera, Jared November 18, 2017
 Changes made:
