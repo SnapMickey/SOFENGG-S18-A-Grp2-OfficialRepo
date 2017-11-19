@@ -27,7 +27,8 @@ public class SystemService {
 		trans.commit();
 		
 
-		em.close();
+		em.close(); 
+		emf.close();
 		
 		return user;
 	}
@@ -44,7 +45,8 @@ public class SystemService {
 		trans.commit();
 		
 
-		em.close();
+		em.close(); 
+		emf.close();
 		
 		return pc;
 	}
@@ -78,7 +80,7 @@ public class SystemService {
 					+ " and HOUR(pr.dateTimeEnd) = " + endTime.getHours() 
 					+ " and DATE(pr.dateTimeStart) = " + startTime.getDate() + ")";
 		
-		statement += " and pc.pcID = lb.locationID and lb.locationID not in"
+		statement += " and pc.locationID = lb.locationID and lb.locationID not in"
 				+ "(select lb.locationID from pc_reservations pr, pc_info pc, lab lb"
 				+ " where pr.eventName != 'none' and pr.pcID = pc.pcID and pc.locationID = lb.locationID"
 				+ " and HOUR(pr.dateTimeStart) = " + startTime.getHours() 
@@ -86,7 +88,6 @@ public class SystemService {
 				+ " and DATE(pr.dateTimeStart) = " + startTime.getDate() + ")";
 		
 		
-		System.out.println("");
 		try{
 			trans.begin();
 			
@@ -101,7 +102,8 @@ public class SystemService {
 			e.printStackTrace();
 		}finally{
 			if(em!=null){
-				em.close();
+				em.close(); 
+				emf.close();
 			}
 		}
 		return pcs;
@@ -141,7 +143,8 @@ public class SystemService {
 			e.printStackTrace();
 		}finally{
 			if(em!=null){
-				em.close();
+				em.close(); 
+				emf.close();
 			}
 		}
 
@@ -170,7 +173,8 @@ public class SystemService {
 			}
 			e.printStackTrace();
 		}finally{
-			em.close();
+			em.close(); 
+			emf.close();
 		}
 		return pcs;
 	}
@@ -197,7 +201,8 @@ public class SystemService {
 			e.printStackTrace();
 		}finally{
 			if(em!=null){
-				em.close();
+				em.close(); 
+				emf.close();
 			}
 		}
 		return reservations;
@@ -226,7 +231,8 @@ public class SystemService {
 			e.printStackTrace();
 		}finally{
 			if(em!=null){
-				em.close();
+				em.close(); 
+				emf.close();
 			}
 		}
 		return lab;
@@ -251,7 +257,8 @@ public class SystemService {
 			}
 			e.printStackTrace();
 		}finally{
-			em.close();
+			em.close(); 
+			emf.close();
 		}
 		return pcs;
 	}
@@ -269,7 +276,8 @@ public class SystemService {
 		
 		lab.setComputers(SystemService.getAllPcs(lab.getLocationID()));
 		
-		em.close();
+		em.close(); 
+		emf.close();
 		return lab;
 	}
 	
@@ -288,7 +296,8 @@ public class SystemService {
 		
 		trans.commit();
 
-		em.close();
+		em.close(); 
+		emf.close();
 		
 		return pr;
 	}
@@ -320,7 +329,8 @@ public class SystemService {
 			}
 			e.printStackTrace();
 		}finally{
-			em.close();
+			em.close(); 
+			emf.close();
 		}
 		return reservations;
 	}
@@ -352,7 +362,8 @@ public class SystemService {
 			}
 			e.printStackTrace();
 		}finally{
-			em.close();
+			em.close(); 
+			emf.close();
 		}
 		return reservations;
 	}
@@ -384,7 +395,8 @@ public class SystemService {
 			}
 			e.printStackTrace();
 		}finally{
-			em.close();
+			em.close(); 
+			emf.close();
 		}
 		return labs;
 	}
@@ -405,7 +417,8 @@ public class SystemService {
 			e.printStackTrace();
 		}
 		// close connections
-		em.close();
+		em.close(); 
+		emf.close();
 	}
 	
 	public static void removeReservation(int id) {
@@ -426,7 +439,8 @@ public class SystemService {
 			}
 			e.printStackTrace();
 		}
-		em.close();
+		em.close(); 
+		emf.close();
 	}
 	
 }

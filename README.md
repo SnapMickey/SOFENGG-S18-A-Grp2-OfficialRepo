@@ -1,5 +1,10 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+
+Rivera, Jared November 20, 2017
+- Fixed SystemService methods: getAllFreePcs()
+- Added close methods for the EntityManagerFactory in SystemService to prevent full db connection pool
+
 Lominoque, Jerome November 19, 2017
 Errors fixed:
 - Error handling is now working
