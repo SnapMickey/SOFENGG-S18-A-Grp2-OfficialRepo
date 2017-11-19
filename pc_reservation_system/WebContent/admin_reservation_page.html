@@ -200,6 +200,84 @@
         
         /* End of Style(s) for subcontainer */
         
+        /* Start of Style(s) for pop up */
+        
+        .popupDiv{
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        
+        .popUpFont{
+            font-family:'Avenir Next',sans-serif;
+            color:dimgray;
+            text-align: center;
+        }
+        
+        .popupContent{
+            background-color: lightgray;
+            font-size: 20px;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 50px;
+            border: 1px solid #888;
+            width: 40%; /* Could be more or less, depending on screen size */
+        }
+        
+        .closePopUp {
+            display: block;
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .closePopUp:hover,.closePopUp:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .noReservePopUpBtn{
+            display: none;
+            border-width: .5px;
+            border-radius: 4px;
+            background-color: dimgray;
+            color: snow;
+            font-size: 20px;
+            width: 25%;
+            float:left;
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+        }
+        
+        .yesReservePopUpBtn{
+            display: none;
+            border-width: .5px;
+            border-radius: 4px;
+            background-color: dimgray;
+            color: snow;
+            
+            font-size: 20px;
+            width: 25%;
+            float:right;
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+        }
+        
+        .noReservePopUpBtn:hover, .yesReservePopUpBtn:hover{
+            background-color: forestgreen;
+        }
+        /* End of Style(s) for pop up */
         html, body {
             height: 100%;
         }
@@ -485,6 +563,18 @@
             <!-- footer end -->
             
         </div>
+        
+        <div class="popupDiv" id="popUpID">
+            <div class="popupContent" id="popUpContentID">
+                <span class="closePopUp" id="closePopUpID">&times;</span>
+                <b> <p class="popUpFont" id="popUpMainContent">  </p> </b>
+                <button class="noReservePopUpBtn" id="popNo"> <b>No </b> </button>
+                <button class="yesReservePopUpBtn" id="popYes"> <b>Yes </b></button>
+                
+            </div>
+            
+            
+        </div>
     </body>
     
     <applet code="PcReservationBuilder.class" name="reservationBuilder" height=0 widht=0>
@@ -502,6 +592,13 @@
         crossorigin="anonymous"></script>
     
         <script>
+            var yesBtn, noBtn, closeBtn;
+            closeBtn = document.getElementById("closePopUpID");
+            yesBtn = document.getElementById("popYes");
+            noBtn = document.getElementById("popNo");
+            
+            var popUpMainContent = document.getElementById("popUpMainContent");
+            var popUpDiv = document.getElementById("popUpID");
             
             var selectedPc, selectedBldg, selectedTime, selectedRoom, selectedDate, selectedId;
             
@@ -688,13 +785,14 @@
             
             $("#reserveButton").click(function(){
                 var url;
+                
                 if($("#individual").is(':checked')){
                     url = "singleReserve?"
                 }else if($("#event").is(':checked')){
                     url = "labReserve?"
                 }
                 
-                console.log("reserving..");
+                console.log("preparing reservation..");
                 var pc, building, room, sTime, eTime, id, date;
                 id = parseInt(selectedId);
                 date = selectedDate;
@@ -716,94 +814,196 @@
                        "&id=" + id;
                 
                 console.log(id + pc + building + room + sTime + eTime + date);
+        
+                popUpMainContent.innerHTML = "Are you sure you want to reserve this <br> Computer?";
+                closeBtn.style.display = "none";
+                popUpDiv.style.display = "block";
+                yesBtn.style.display = "block";
+                noBtn.style.display = "block";
                 
+                $("#popYes").click(function(){
+                    popUpDiv.style.display = "none";
+                    yesBtn.style.display = "none";
+                    noBtn.style.display = "none";
+                    closeBtn.style.display = "block";
+                 
                 $.get(url, function(data){
-                   console.log("requesting to reserve..");
+                       console.log("requesting to reserve..");
+                    });
+                    
+                    popUpMainContent.innerHTML = "Reservation is Successful!";
+                    popUpDiv.style.display = "block";
                 });
+                
+                $("#popNo").click(function(){
+                popUpDiv.style.display = "none";
+                yesBtn.style.display = "none";
+                noBtn.style.display = "none";
+                closeBtn.style.display = "block";
+                
+                popUpMainContent.innerHTML = "Reservation cancelled!";
+                popUpDiv.style.display = "block";
+                });
+                
             });
             
+            
+            $("#closePopUpID").click(function(){
+                popUpDiv.style.display = "none";
+            });
+            
+            
             $("#searchButton").click(function(){
-                    
-                refresh_table();
+                var eventName, idNumSolo, idNumEvent;
                 
-                var bldg, room, startTime, endTime, date, id, checkbox, eventname, dropdown;
-                dropdown = document.getElementById("bldgList");
-                bldg = dropdown.value;
-                switch(bldg){
-                    case "G":   bldg = "Gokongwei"
-                                break;
-                    case "V":   bldg = "Velasco"
-                                break;
-                    case "HS":  bldg = "Henry Sy"
-                                break;
-                    case "M":   bdlg = "Miguel"
-                                break;
-                        
-                    default:    break;
-                }
-                
-                dropdown = document.getElementById("roomList");
-                room = dropdown.value;
-                
-                dropdown = document.getElementById("timeDropdown");
-                startTime = dropdown.value;
-                
-                console.log("start time=" + startTime);
-                if(startTime != "default"){
-                    var endTimeCompute = parseInt(startTime); 
-                    if(endTimeCompute < 10){
-                        endTime = "0" + (endTimeCompute + 1) + ":00:00";
-                    }
-                    else{
-                        endTime = (endTimeCompute + 1) + ":00:00";
-                    }
-                    console.log("end time=" + endTime);
-                }else{
-                    endTime = "default";
-                    console.log("end time=" + endTime);
-                }
-                console.log("end time=" + endTime);
-                dropdown = document.getElementById("dateDropdown");
-                date = dropdown.value;
-                selectedDate = date;
-                
-                
+                var passed = false;
+                console.log("search button clicked");
+                console.log(passed);
                 if($("#event").is(':checked')){
-                    console.log("eventdetected search");
-                    id = document.getElementById("idNumEvent").value;
-                    selectedId = id;
-                    eventname = document.getElementById("eventName").value;
-                    checkbox = "event";
+                    console.log("event is checked");
+                    eventName = document.getElementById("eventName").value;
+                    idNumEvent = document.getElementById("idNumEvent").value;
+                    console.log(eventName + idNumEvent);
                     
-                    console.log("" + bldg + room + date + startTime + endTime + id + checkbox + eventname);
+                    if(eventName == "" && idNumEvent == ""){
+                         console.log("event is checked");
+                        popUpMainContent.innerHTML = "Event Name and ID Number is required to proceed. <br> Please try again."  
+                        popUpDiv.style.display = "block";
+                    }else if(idNumEvent == ""){
+                        popUpMainContent.innerHTML = "ID Number is required to proceed.  <br> Please try again."
+                        popUpDiv.style.display = "block";
+                    }
+                    else if(eventName == ""){
+                        popUpMainContent.innerHTML = "Event Name is required to proceed. <br> Please try again."  
+                        popUpDiv.style.display = "block";
+                    }else{
+                        passed = true;
+                        console.log(passed);
+                    }
                     
-                    $.get("requestAdminReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date, function(data){
-                        console.log("adding data");
-                        add_table_data(data);
-                    });
                     
                 }else if($("#individual").is(':checked')){
-                    console.log("individualdetected search");
-                    id = document.getElementById("idNumSolo").value;
-                    selectedId = id;
-                    checkbox = "individual";
-                    eventname = null;
-                    console.log("" + bldg + room + date + startTime + endTime + id + checkbox + eventname);
+                    console.log("individual is checked");
+                    idNumSolo = document.getElementById("idNumSolo").value;
+                    console.log(idNumSolo);
+                    if(idNumSolo == ""){
+                        popUpMainContent.innerHTML = "ID Number is required to proceed. <br> Please try again."
+                        popUpDiv.style.display = "block";
+                    }else{
+                        passed = true;
+                        console.log(passed);
+                    }
                     
-                    $.get("requestAdminReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date, function(data){
-                        console.log("adding data");
-                        add_table_data(data);
-                    });
                     
+                }else if(!($("#individual").is(':checked') && $("#event").is(':checked'))){
+                    popUpMainContent.innerHTML = "Select whether the following reservation <br> would be Individual or Class/Event. <br> Please try again."
+                    popUpDiv.style.display = "block";
                 }
                 
+                if(passed){
+                    var intIdNum;
+                    
+                    if($("#event").is(':checked')){
+                        intIdNum = parseInt(idNumEvent);
+                        console.log(intIdNum);
+                        console.log((''+intIdNum).length );
+                        
+                        if((''+intIdNum).length != 8){
+                            popUpMainContent.innerHTML = "ID Number must be 8 digits. <br> Please try again."
+                            popUpDiv.style.display = "block";
+                            passed = false;
+                        }
+                    }else if($("#individual").is(':checked')){
+                        intIdNum = parseInt(idNumSolo);
+                        console.log(intIdNum);
+                        console.log((''+intIdNum).length );
+                        if((''+intIdNum).length != 8){
+                            popUpMainContent.innerHTML = "ID Number must be 8 digits. <br> Please try again."
+                            popUpDiv.style.display = "block";
+                            passed = false;
+                        }
+                    }
+                }
                 
+                if(passed){
+                    console.log("searching..");
+                    refresh_table();
+
+                    var bldg, room, startTime, endTime, date, id, checkbox, eventname, dropdown;
+                    dropdown = document.getElementById("bldgList");
+                    bldg = dropdown.value;
+                    switch(bldg){
+                        case "G":   bldg = "Gokongwei"
+                                    break;
+                        case "V":   bldg = "Velasco"
+                                    break;
+                        case "HS":  bldg = "Henry Sy"
+                                    break;
+                        case "M":   bdlg = "Miguel"
+                                    break;
+                            
+                        default:    break;
+                    }
+                    
+                    dropdown = document.getElementById("roomList");
+                    room = dropdown.value;
+                    
+                    dropdown = document.getElementById("timeDropdown");
+                    startTime = dropdown.value;
+                    
+                    console.log("start time=" + startTime);
+                    if(startTime != "default"){
+                        var endTimeCompute = parseInt(startTime); 
+                        if(endTimeCompute < 10){
+                            endTime = "0" + (endTimeCompute + 1) + ":00:00";
+                        }
+                        else{
+                            endTime = (endTimeCompute + 1) + ":00:00";
+                        }
+                        console.log("end time=" + endTime);
+                    }else{
+                        endTime = "default";
+                        console.log("end time=" + endTime);
+                    }
+                    console.log("end time=" + endTime);
+                    dropdown = document.getElementById("dateDropdown");
+                    date = dropdown.value;
+                    selectedDate = date;
+                    
+                    
+                    if($("#event").is(':checked')){
+                        console.log("eventdetected search");
+                        id = document.getElementById("idNumEvent").value;
+                        selectedId = id;
+                        eventname = document.getElementById("eventName").value;
+                        checkbox = "event";
+                        
+                        console.log("" + bldg + room + date + startTime + endTime + id + checkbox + eventname);
+                        
+                        $.get("requestAdminReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date, function(data){
+                            console.log("adding data");
+                            add_table_data(data);
+                        });
+                        
+                    }else if($("#individual").is(':checked')){
+                        console.log("individualdetected search");
+                        id = document.getElementById("idNumSolo").value;
+                        selectedId = id;
+                        checkbox = "individual";
+                        eventname = null;
+                        console.log("" + bldg + room + date + startTime + endTime + id + checkbox + eventname);
+                        
+                        $.get("requestAdminReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date, function(data){
+                            console.log("adding data");
+                            add_table_data(data);
+                        });
+                    }          
                 
-                $.get("requestUserDetailsByAdmin?id=" + id, function(data){
-                    console.log("adding username");
-                    add_data_to_textbox(data);
-                });
-                
+                    $.get("requestUserDetailsByAdmin?id=" + id, function(data){
+                        console.log("adding username");
+                        add_data_to_textbox(data);
+                    });
+                }
             });
             
             function add_data_to_textbox(user){

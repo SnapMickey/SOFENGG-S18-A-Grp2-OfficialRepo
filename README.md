@@ -1,6 +1,16 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
 Lominoque, Jerome November 19, 2017
+Errors fixed:
+- Error handling is now working
+- Pop-up box is now working for admin reserve
+
+Errors Remaining:
+- Reservation for class/event is not working
+- Setting "Any" in dropdown "Time" will cause the db connection to crash
+- Setting the dropdown "Time" to any value except "Any" will cause the db connection to crash after 3 attempts of searching
+
+Lominoque, Jerome November 19, 2017
 Major Update:
 - Reservation for Admin (Individual) is now Working!
 Changes made:
