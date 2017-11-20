@@ -1,4 +1,10 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+Lominoque, Jerome November 21, 2017
+Changes made:
+- Finalized admin reservation page
+
+Notes:
+- Started working on user reservation page
 
 Rivera, Jared November 21, 2017
 Changes made:

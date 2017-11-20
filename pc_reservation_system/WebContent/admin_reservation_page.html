@@ -402,7 +402,7 @@
                 <div class = "col-md-8">
                     <div class = "row" style = "float:right;padding-right:10px;">
                         <div class = "col-md-2.5 space">
-                            <button class = "headerButtonDiv">DASHBOARD</button>
+                            <button class = "headerButtonDiv" id="dashboardBtn">DASHBOARD</button>
                         </div>
                         <div class = "col-md-2.5 space">
                             <button class = "headerButtonDiv" id = "reserveBtn">RESERVE</button>
@@ -843,15 +843,6 @@
                 
             });
             
-            /*
-            $("#popYes").click(function(){
-                
-            });
-            
-            $("#popNo").click(function(){
-                
-            });
-            */
             function yesReserveBtn(){
                 popUpSize.style.padding = "50px";
                 popUpDiv.style.display = "none";
@@ -972,7 +963,7 @@
                                     break;
                         case "HS":  bldg = "Henry Sy"
                                     break;
-                        case "M":   bdlg = "Miguel"
+                        case "M":   bldg = "Miguel"
                                     break;
                             
                         default:    break;
@@ -1045,6 +1036,27 @@
                     document.getElementById("byGroupName").value = user["name"];
                 }
             }
+            
+            /* create other header functions */
+            
+            $("dashboardBtn").click(function(){
+            	var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "adminpage";
+                document.body.appendChild(form);
+                form.submit();
+            });
+            
+            $("historyBtn").click(function(){
+                alert("This button is not yet working");
+                /*
+            	var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "logout";
+                document.body.appendChild(form);
+                form.submit();
+                */
+            });
             
             $("#logout").click(function(){
             	var form = document.createElement('form');
