@@ -1,5 +1,18 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Rivera, Jared November 21, 2017
+Changes made:
+- Added LabReservation bean
+- Updated attributes inside PcReservation
+- added methods for connections to lab_reservation table methods in System Service
+- updated methods in SystemService: getAllFreePcs(), getAllFreeLabs(). Replaced old logic
+- Renamed several names to clarify method functionalities
+- Renamed PcReservationBuilder to ReservationBuilder
+- Added static method in PcReservationBuilder: generateLabReservations()
+
+Errors/Problems
+- affected methods of the renaming process, used in SystemController are not yet refactored. 
+
 Lominoque, Jerome November 20, 2017
 Changes made:
 - Added lab_reservations table
