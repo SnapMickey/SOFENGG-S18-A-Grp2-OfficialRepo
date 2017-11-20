@@ -131,7 +131,7 @@ DROP TABLE IF EXISTS `pc_reservations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `pc_reservations` (
-  `borrowID` int(11) NOT NULL AUTO_INCREMENT,
+  `pcReservationsID` int(11) NOT NULL AUTO_INCREMENT,
   `userID` int(11) NOT NULL,
   `pcID` int(11) NOT NULL,
   `dateTimeStart` datetime NOT NULL,
@@ -139,7 +139,7 @@ CREATE TABLE `pc_reservations` (
   `checkInTime` datetime NOT NULL DEFAULT '9999-09-09 09:09:09',
   `reserveTime` datetime NOT NULL,
   `adminConfirmed` tinyint(4) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`borrowID`)
+  PRIMARY KEY (`pcReservationsID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -242,4 +242,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-20 23:45:05
+-- Dump completed on 2017-11-21  0:00:38
