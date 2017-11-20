@@ -68,11 +68,11 @@ public class SystemService {
 		statement += " and pc.locationID = lb.locationID and lb.isAvailable = 1";
 		
 		if(building != null) {
-			statement += " and lb.building = '" + building + "'";
+			statement += " and lb.building like '%" + building + "%'";
 		}
 		
 		if(room != null) {
-			 statement += " and lb.name = '" + room + "'";
+			 statement += " and lb.name like '%" + room + "%'";
 		}
 		
 		statement += " and pc.pcID not in (select pc.pcID from pc_info pc, pc_reservations pr "
@@ -150,9 +150,6 @@ public class SystemService {
 
 		return labs;
 	}
-	
-	
-	
 	
 	public static ArrayList<Pc> getAllPcs() {
 		ArrayList<Pc> pcs = new ArrayList<>();
@@ -367,9 +364,7 @@ public class SystemService {
 		}
 		return reservations;
 	}
-	
-	
-	
+		
 	public static ArrayList<Lab> getAllLabs(String building) {
 		ArrayList<Lab> labs = new ArrayList<>();
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
@@ -379,7 +374,7 @@ public class SystemService {
 		try{
 			trans.begin();
 			
-			String statement = "from lab lb where lb.building = " + building;
+			String statement = "from lab lb where lb.building like '%" + building + "%'";
 			
 			TypedQuery<Lab> query = em.createQuery(statement, Lab.class);
 			labs.addAll(query.getResultList());
