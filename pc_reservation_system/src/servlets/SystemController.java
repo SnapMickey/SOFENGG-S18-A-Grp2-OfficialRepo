@@ -278,12 +278,13 @@ public class SystemController extends HttpServlet {
 	private void requestAdminReservationList(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		// TODO Auto-generated method stub
 				JsonArray reservationList = new JsonArray();
-				String building, room, startTime, endTime, date;
+				String building, room, startTime, endTime, date, checkbox;
 				building = request.getParameter("bldg");
 				room = request.getParameter("room");
 				date = request.getParameter("date");
 				startTime = request.getParameter("startTime");
 				endTime = request.getParameter("endTime");
+				checkbox = request.getParameter("check");
 				
 				if(building .equals("default")){
 					building = null;
@@ -328,7 +329,16 @@ public class SystemController extends HttpServlet {
 				
 				System.out.println("date:" + finalDate + "sTime:" + finalSTime + "eTime:" + finalETime);
 				
-				ArrayList<PcReservation> tempReservationList = PcReservationBuilder.generateReservations(finalDate, finalSTime, finalETime, building, room);
+				ArrayList<PcReservation> tempReservationList = null;
+				if(checkbox.equals("individual")){
+					System.out.println("creating list for individual");
+					tempReservationList = PcReservationBuilder.generateReservations(finalDate, finalSTime, finalETime, building, room);
+				}else if(checkbox.equals("event")){
+					System.out.println("creating list for event");
+					//need to change stuff
+					//tempReservationList = PcReservationBuilder.generateReservations(finalDate, finalSTime, finalETime, building, room);
+				}
+				
 				if(tempReservationList.isEmpty())
 					System.out.println("there are no pcs :---(");
 				
@@ -519,7 +529,6 @@ public class SystemController extends HttpServlet {
 		newReservation.setPcID(pcNum);
 		newReservation.setCheckInTime(checkInTime);
 		newReservation.setReserveTime(currDate);
-		newReservation.setEventName("none");
 		newReservation.setDateTimeStart(start);
 		newReservation.setDateTimeEnd(end);
 		newReservation.setAdminConfirmed(false);
@@ -535,7 +544,50 @@ public class SystemController extends HttpServlet {
 		PcReservation newReservation = new PcReservation();
 		
 		//please set the attributes in order to add
+		String tPc, tBldg, tRoom, tStart, tEnd, tDate, tID, tEventName;
+		/*
+		tPc = request.getParameter("pc");
+		tBldg = request.getParameter("building");
+		tRoom = request.getParameter("room");
+		tStart = request.getParameter("sTime");
+		tEnd = request.getParameter("eTime");
+		tDate = request.getParameter("date");
+		tID = request.getParameter("id");
+		tEventName = request.getParameter("eventName");
 		
+		int pcNum, idNum;
+		
+		pcNum = Integer.parseInt(tPc);
+		idNum = Integer.parseInt(tID);
+		
+		Date date, start, end, checkInTime, currDate;
+		date = null;
+		start = null;
+		end = null;
+		checkInTime = null;
+		currDate = new Date();
+		
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(tDate + " " + tStart);
+			start = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(tDate + " " + tStart);
+			end = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(tDate + " " + tEnd);
+			checkInTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("9999-09-09 09:09:09");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		newReservation.setUserID(idNum);
+		newReservation.setPcID(pcNum);
+		newReservation.setCheckInTime(checkInTime);
+		newReservation.setReserveTime(currDate);
+		newReservation.setEventName(tEventName);
+		newReservation.setDateTimeStart(start);
+		newReservation.setDateTimeEnd(end);
+		newReservation.setAdminConfirmed(false);
+		*/
+		
+		// TODO Change this to LabReservation
 		SystemService.addReservation(newReservation);
 	}
 	

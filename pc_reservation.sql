@@ -48,13 +48,13 @@ DROP TABLE IF EXISTS `lab`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lab` (
-  `locationID` int(11) NOT NULL,
+  `locationID` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `building` varchar(45) NOT NULL,
   `isAvailable` tinyint(4) NOT NULL,
   `computers` tinyblob,
   PRIMARY KEY (`locationID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,6 +68,37 @@ INSERT INTO `lab` VALUES (1,'Henry Sy - 6th Floor','Henry Sy',0,NULL),(2,'Henry 
 UNLOCK TABLES;
 
 --
+-- Table structure for table `lab_reservations`
+--
+
+DROP TABLE IF EXISTS `lab_reservations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `lab_reservations` (
+  `labReservationID` int(11) NOT NULL AUTO_INCREMENT,
+  `userID` int(11) NOT NULL,
+  `locationID` int(11) NOT NULL,
+  `dateTimeStart` datetime NOT NULL,
+  `dateTimeEnd` datetime NOT NULL,
+  `reservetime` datetime NOT NULL,
+  `checkintime` datetime NOT NULL DEFAULT '9999-09-09 09:09:09',
+  `adminconfirmed` tinyint(4) NOT NULL DEFAULT '0',
+  `eventName` varchar(45) NOT NULL,
+  PRIMARY KEY (`labReservationID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `lab_reservations`
+--
+
+LOCK TABLES `lab_reservations` WRITE;
+/*!40000 ALTER TABLE `lab_reservations` DISABLE KEYS */;
+INSERT INTO `lab_reservations` VALUES (1,11012344,3,'2017-11-16 08:00:00','2017-11-16 09:00:00','9999-09-09 09:09:09','2017-11-16 06:00:00',0,'GitHub Seminar'),(2,11123451,3,'2017-11-16 09:00:00','2017-11-16 10:00:00','9999-09-09 09:09:09','2017-11-16 07:00:00',0,'SOFENGG Seminar'),(3,11251234,3,'2017-11-16 12:00:00','2017-11-16 13:00:00','9999-09-09 09:09:09','2017-11-16 10:00:00',0,'Marketing Seminar');
+/*!40000 ALTER TABLE `lab_reservations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `pc_info`
 --
 
@@ -75,11 +106,11 @@ DROP TABLE IF EXISTS `pc_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `pc_info` (
-  `pcID` int(11) NOT NULL,
+  `pcID` int(11) NOT NULL AUTO_INCREMENT,
   `locationID` int(11) NOT NULL,
   `isAvailable` tinyint(4) NOT NULL,
   PRIMARY KEY (`pcID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,17 +131,16 @@ DROP TABLE IF EXISTS `pc_reservations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `pc_reservations` (
-  `borrowID` int(11) NOT NULL,
+  `borrowID` int(11) NOT NULL AUTO_INCREMENT,
   `userID` int(11) NOT NULL,
   `pcID` int(11) NOT NULL,
   `dateTimeStart` datetime NOT NULL,
   `dateTimeEnd` datetime NOT NULL,
-  `checkInTime` datetime NOT NULL,
+  `checkInTime` datetime NOT NULL DEFAULT '9999-09-09 09:09:09',
   `reserveTime` datetime NOT NULL,
-  `adminConfirmed` tinyint(4) NOT NULL,
-  `eventName` varchar(45) NOT NULL,
+  `adminConfirmed` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`borrowID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -119,7 +149,7 @@ CREATE TABLE `pc_reservations` (
 
 LOCK TABLES `pc_reservations` WRITE;
 /*!40000 ALTER TABLE `pc_reservations` DISABLE KEYS */;
-INSERT INTO `pc_reservations` VALUES (1,10912312,2,'2017-11-15 08:00:00','2017-11-15 09:00:00','9999-09-09 09:09:09','2017-11-15 06:30:00',0,'None'),(2,11634521,3,'2017-11-15 08:00:00','2017-11-15 09:00:00','9999-09-09 09:09:09','2017-11-15 06:30:00',0,'None'),(3,11534567,2,'2017-11-15 08:00:00','2017-11-15 09:00:00','9999-09-09 09:09:09','2017-11-15 07:30:00',0,'None'),(4,11265423,5,'2017-11-16 08:00:00','2017-11-16 09:00:00','9999-09-09 09:09:09','2017-11-15 07:00:00',0,'None'),(5,11412345,2,'2017-11-15 10:00:00','2017-11-15 11:00:00','9999-09-09 09:09:09','2017-11-15 07:00:00',0,'None'),(6,11324215,13,'2017-11-16 08:00:00','2017-11-16 09:00:00','9999-09-09 09:09:09','2017-11-16 07:00:00',0,'None'),(7,11425232,11,'2017-11-16 08:00:00','2017-11-16 09:00:00','9999-09-09 09:09:09','2017-11-16 06:00:00',0,'None'),(8,11012344,30,'2017-11-16 08:00:00','2017-11-16 09:00:00','9999-09-09 09:09:09','2017-11-16 06:00:00',0,'GitHub Seminar'),(9,11123451,30,'2017-11-16 09:00:00','2017-11-16 10:00:00','9999-09-09 09:09:09','2017-11-16 07:00:00',0,'SOFENGG Seminar'),(10,11251234,30,'2017-11-16 12:00:00','2017-11-16 13:00:00','9999-09-09 09:09:09','2017-11-16 10:00:00',0,'Marketing Seminar'),(11,11710821,36,'2017-11-16 08:00:00','2017-11-16 09:00:00','9999-09-09 09:09:09','2017-11-16 07:00:00',0,'None'),(12,11719191,48,'2017-11-16 12:00:00','2017-11-16 13:00:00','9999-09-09 09:09:09','2017-11-16 06:00:00',0,'None'),(13,11726351,50,'2017-11-16 12:00:00','2017-11-16 13:00:00','9999-09-09 09:09:09','2017-11-16 07:00:00',0,'None');
+INSERT INTO `pc_reservations` VALUES (1,10912312,2,'2017-11-15 08:00:00','2017-11-15 09:00:00','9999-09-09 09:09:09','2017-11-15 06:30:00',0),(2,11634521,3,'2017-11-15 08:00:00','2017-11-15 09:00:00','9999-09-09 09:09:09','2017-11-15 06:30:00',0),(3,11534567,2,'2017-11-15 08:00:00','2017-11-15 09:00:00','9999-09-09 09:09:09','2017-11-15 07:30:00',0),(4,11265423,5,'2017-11-16 08:00:00','2017-11-16 09:00:00','9999-09-09 09:09:09','2017-11-15 07:00:00',0),(5,11412345,2,'2017-11-15 10:00:00','2017-11-15 11:00:00','9999-09-09 09:09:09','2017-11-15 07:00:00',0),(6,11324215,13,'2017-11-16 08:00:00','2017-11-16 09:00:00','9999-09-09 09:09:09','2017-11-16 07:00:00',0),(7,11425232,11,'2017-11-16 08:00:00','2017-11-16 09:00:00','9999-09-09 09:09:09','2017-11-16 06:00:00',0),(8,11710821,36,'2017-11-16 08:00:00','2017-11-16 09:00:00','9999-09-09 09:09:09','2017-11-16 07:00:00',0),(9,11719191,48,'2017-11-16 12:00:00','2017-11-16 13:00:00','9999-09-09 09:09:09','2017-11-16 06:00:00',0),(10,11726351,50,'2017-11-19 12:00:00','2017-11-19 13:00:00','9999-09-09 09:09:09','2017-11-16 07:00:00',0);
 /*!40000 ALTER TABLE `pc_reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,7 +202,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES (11265423,'AB-HIS/CLA','Graduate'),(11324215,'BSCS/CCS','Graduate'),(11412345,'BSED-BIO/COE','Undergraduate'),(11425232,'BSIT/CCS','Undergraduate'),(11534567,'AB-LIT/CLA','Undergraduate'),(11634521,'BSA/COB','Undergraduate');
+INSERT INTO `student` VALUES (11265423,'ABHIS/CLA','Graduate'),(11324215,'BSCS/CCS','Graduate'),(11412345,'BSED-BIO/COE','Undergraduate'),(11425232,'BSIT/CCS','Undergraduate'),(11490901,'BHBIO/COS','Graduate'),(11509152,'BSSTT/COS','Undergraduate'),(11534567,'ABLIT/CLA','Undergraduate'),(11611223,'BSCHE/GCOE','Undergraduate'),(11624523,'BSNE/CCS','Undergraduate'),(11634521,'BSA/COB','Undergraduate'),(11710821,'BSECE/GCOE','Undergraduate'),(11712345,'BSCPE/GCOE','Undergraduate'),(11719191,'BSENT/COB','Undergraduate'),(11726351,'BSLGL/COB','Undergraduate');
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,4 +242,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-19  0:05:34
+-- Dump completed on 2017-11-20 23:45:05

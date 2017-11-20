@@ -1,5 +1,11 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Lominoque, Jerome November 20, 2017
+Changes made:
+- Added lab_reservations table
+- added auto increment attributes to some tables
+- added default value for adminconfirmed 
+- fixed some bugs in admin reservation page
 
 Rivera, Jared November 20, 2017
 - Fixed SystemService methods: getAllFreePcs()

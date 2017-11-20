@@ -568,8 +568,8 @@
             <div class="popupContent" id="popUpContentID">
                 <span class="closePopUp" id="closePopUpID">&times;</span>
                 <b> <p class="popUpFont" id="popUpMainContent">  </p> </b>
-                <button class="noReservePopUpBtn" id="popNo"> <b>No </b> </button>
-                <button class="yesReservePopUpBtn" id="popYes"> <b>Yes </b></button>
+                <button class="noReservePopUpBtn" id="popNo" onclick="noReserveBtn()"> <b>No </b> </button>
+                <button class="yesReservePopUpBtn" id="popYes" onclick="yesReserveBtn()"> <b>Yes </b></button>
                 
             </div>
             
@@ -599,8 +599,8 @@
             
             var popUpMainContent = document.getElementById("popUpMainContent");
             var popUpDiv = document.getElementById("popUpID");
-            
-            var selectedPc, selectedBldg, selectedTime, selectedRoom, selectedDate, selectedId;
+            var popUpSize = document.getElementById("popUpContentID");
+            var selectedPc, selectedBldg, selectedTime, selectedRoom, selectedDate, selectedId, selectedEventName;
             
             function setValues(){
                 var dateDropdown = document.getElementById("dateDropdown");
@@ -783,22 +783,23 @@
                 
             });
             
+            var reserveUrl = null;
             $("#reserveButton").click(function(){
-                var url;
                 
                 if($("#individual").is(':checked')){
-                    url = "singleReserve?"
+                    reserveUrl = "singleReserve?"
                 }else if($("#event").is(':checked')){
-                    url = "labReserve?"
+                    reserveUrl = "labReserve?"
                 }
                 
                 console.log("preparing reservation..");
-                var pc, building, room, sTime, eTime, id, date;
+                var pc, building, room, sTime, eTime, id, date, eventName;
                 id = parseInt(selectedId);
                 date = selectedDate;
                 pc = parseInt(selectedPc);
                 building = selectedBldg;
                 room = selectedRoom;
+                eventName = selectedEventName;
                 
                 var tempTime = parseInt(selectedTime);
                 if(tempTime < 10){
@@ -809,33 +810,68 @@
                     eTime = (tempTime + 1) + ":00:00";
                 }
                 
-                url += "pc=" + pc + "&building=" + building + "&room=" + room +
+                reserveUrl += "pc=" + pc + "&building=" + building + "&room=" + room +
                        "&sTime=" + sTime + "&eTime=" + eTime + "&date=" + date +
-                       "&id=" + id;
+                       "&id=" + id + "&eventName=" + eventName;
                 
                 console.log(id + pc + building + room + sTime + eTime + date);
         
-                popUpMainContent.innerHTML = "Are you sure you want to reserve this <br> Computer?";
+                popUpMainContent.innerHTML = "Are you sure you want to reserve this <br> computer with the following data?" +
+                                             "<br> <br> ID Number: " + id +
+                                             "<br> PC Number: " + pc +
+                                             "<br> Building: " + building +
+                                             "<br> Room: " + room +
+                                             "<br> Date: " + date +
+                                             "<br> Start Time: " + sTime +
+                                             "<br> End Time: " + eTime;
+                
+                if($("#event").is(':checked')){
+                    popUpMainContent.innerHTML += "<br>Event Name:" + eventName +
+                                                  "<br><br> Note: This is a class/event reservation. <br>";
+                }else{
+                     popUpMainContent.innerHTML += "<br>";
+                }
+                
+                popUpSize.style.padding = "100px 50px";
                 closeBtn.style.display = "none";
                 popUpDiv.style.display = "block";
                 yesBtn.style.display = "block";
                 noBtn.style.display = "block";
                 
-                $("#popYes").click(function(){
-                    popUpDiv.style.display = "none";
-                    yesBtn.style.display = "none";
-                    noBtn.style.display = "none";
-                    closeBtn.style.display = "block";
-                 
-                $.get(url, function(data){
-                       console.log("requesting to reserve..");
-                    });
-                    
-                    popUpMainContent.innerHTML = "Reservation is Successful!";
-                    popUpDiv.style.display = "block";
-                });
                 
-                $("#popNo").click(function(){
+                
+                
+            });
+            
+            /*
+            $("#popYes").click(function(){
+                
+            });
+            
+            $("#popNo").click(function(){
+                
+            });
+            */
+            function yesReserveBtn(){
+                popUpSize.style.padding = "50px";
+                popUpDiv.style.display = "none";
+                yesBtn.style.display = "none";
+                noBtn.style.display = "none";
+                closeBtn.style.display = "block";
+                
+                console.log("yes button clicked");
+                
+            $.get(reserveUrl, function(data){
+                console.log("requesting to reserve..");
+            });
+                
+                popUpMainContent.innerHTML = "Reservation is Successful!";
+                popUpDiv.style.display = "block";
+            }
+            
+            function noReserveBtn(){
+                console.log("no button clicked");
+                popUpSize.style.padding = "50px";
                 popUpDiv.style.display = "none";
                 yesBtn.style.display = "none";
                 noBtn.style.display = "none";
@@ -843,10 +879,7 @@
                 
                 popUpMainContent.innerHTML = "Reservation cancelled!";
                 popUpDiv.style.display = "block";
-                });
-                
-            });
-            
+            }
             
             $("#closePopUpID").click(function(){
                 popUpDiv.style.display = "none";
@@ -854,7 +887,7 @@
             
             
             $("#searchButton").click(function(){
-                var eventName, idNumSolo, idNumEvent;
+                var idNumSolo, idNumEvent;
                 
                 var passed = false;
                 console.log("search button clicked");
@@ -929,7 +962,7 @@
                     console.log("searching..");
                     refresh_table();
 
-                    var bldg, room, startTime, endTime, date, id, checkbox, eventname, dropdown;
+                    var bldg, room, startTime, endTime, date, id, checkbox, dropdown;
                     dropdown = document.getElementById("bldgList");
                     bldg = dropdown.value;
                     switch(bldg){
@@ -970,17 +1003,15 @@
                     date = dropdown.value;
                     selectedDate = date;
                     
-                    
                     if($("#event").is(':checked')){
                         console.log("eventdetected search");
                         id = document.getElementById("idNumEvent").value;
                         selectedId = id;
-                        eventname = document.getElementById("eventName").value;
+                        selectedEventName = document.getElementById("eventName").value;
                         checkbox = "event";
+                        console.log("" + bldg + room + date + startTime + endTime + id + checkbox + selectedEventName);
                         
-                        console.log("" + bldg + room + date + startTime + endTime + id + checkbox + eventname);
-                        
-                        $.get("requestAdminReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date, function(data){
+                        $.get("requestAdminReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date + "&check=" + checkbox, function(data){
                             console.log("adding data");
                             add_table_data(data);
                         });
@@ -990,10 +1021,11 @@
                         id = document.getElementById("idNumSolo").value;
                         selectedId = id;
                         checkbox = "individual";
-                        eventname = null;
-                        console.log("" + bldg + room + date + startTime + endTime + id + checkbox + eventname);
+                        //used to be eventname
+                        selectedEventName = null;
+                        console.log("" + bldg + room + date + startTime + endTime + id + checkbox + selectedEventName);
                         
-                        $.get("requestAdminReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date, function(data){
+                        $.get("requestAdminReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date + "&check=" + checkbox, function(data){
                             console.log("adding data");
                             add_table_data(data);
                         });
