@@ -29,7 +29,7 @@ import services.SystemService;
  */
 @WebServlet (urlPatterns = {"/login", "/logout", "/adminpage", "/userpage", "/adminreservationpage", "/userreservationpage"
 							, "/requestUserDetails", "/requestUserReservations", "/requestPcReservationList", "/requestUserDetailsByAdmin"
-							,"/getAdminSchedules" , "/getLabReservations", "/getRecentReservations", "/singleReserve", "/labReserve"
+							,"/getAdminSchedules" , "/getLabReservations", "/getPcReservations", "/singleReserve", "/labReserve"
 							,"/requestLabReservationList"
 							})
 @MultipartConfig
@@ -283,8 +283,10 @@ public class SystemController extends HttpServlet {
 //		}else if(checkbox.equals("event")){
 //			System.out.println("creating list for event");
 //			//need to change stuff
-//			//tempReservationList = PcReservationBuilder.generateReservations(finalDate, finalSTime, finalETime, building, room);
+//			
 //		}
+		
+		//tempReservationList = ReservationBuilder.generateLabReservations(date, startTime, endTime, building);
 		
 		if(tempReservationList.isEmpty())
 			System.out.println("there are no pcs :---(");
@@ -511,7 +513,6 @@ public class SystemController extends HttpServlet {
 		response.setContentType("application/json");
 		response.getWriter().write(userReservations.toString());
 	}
-	
 	
 	private void requestUserDetailsByAdmin(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub

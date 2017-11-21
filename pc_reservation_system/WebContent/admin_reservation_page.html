@@ -513,7 +513,7 @@
                     <table class="reserveTable" id="reserveListTable">
                         <thead>
                             <tr class="reserveTableHead">
-                                <th height="40">
+                                <th height="40" id="pcHeader">
                                     <center> PC No. </center>
                                 </th>
                                     
@@ -660,6 +660,7 @@
             
             $("#bldgList").change(function(){
                 console.log("bldgList changed");
+                refresh_table();
                 
                 var bldgList = document.getElementById("bldgList");
                 var roomList = document.getElementById("roomList");
@@ -1039,7 +1040,7 @@
             
             /* create other header functions */
             
-            $("dashboardBtn").click(function(){
+            $("#dashboardBtn").click(function(){
             	var form = document.createElement('form');
                 form.method = "GET";
                 form.action = "adminpage";
@@ -1127,8 +1128,15 @@
                 
             }
             
+            var pcHeader = document.getElementById("pcHeader")
+            
             $("#individual").click(function(){
+                pcHeader.innerHTML = "<center> PC No. </center>";
+                
+                refresh_table();
+                
                 $("#event").prop('checked', false);
+                
                 document.getElementById("idNumSolo").value = null;
                 document.getElementById("idNumEvent").value = null;
                 document.getElementById("eventName").value = null;
@@ -1151,7 +1159,11 @@
             });
             
             $("#event").click(function(){
+                pcHeader.innerHTML = "<center> Location ID </center>";
+                
+                refresh_table();
                 $("#individual").prop('checked', false);
+                
                 document.getElementById("idNumSolo").value = null;
                 document.getElementById("idNumEvent").value = null;
                 document.getElementById("eventName").value = null;
@@ -1185,6 +1197,7 @@
                 console.log(selectedPc, selectedBldg, selectedRoom, selectedTime);
                 document.getElementById('reserveButton').style.visibility = "visible";
             });
+            
         </script>
 </html>
 

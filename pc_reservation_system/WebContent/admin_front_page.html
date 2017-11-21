@@ -436,7 +436,6 @@
             
             $("#reserveBtn").click(function(){
                 
-                
             });
             
             $("#historyBtn").click(function(){
@@ -507,8 +506,13 @@
                     elmtTable.removeChild(tableRows[x]);
                 }  
             }
-            
+            /*
+                reservations drop = lab reservations
+                schedules drop = computer scheds
+                recentReservationsDrop = recent reservations
+            */
             $("#reservationsDrop").on('change', function(){
+                //
                 //reservationsDrop
                 switch($(this).val()){
                         
@@ -517,6 +521,7 @@
                         $.get("getLabReservations?location=default", function(obj){
                             add_data_to_recent_reserve(obj);
                          });
+                        
                         break;
                     case "Gokongwei":
                         //TODO filter results
@@ -562,15 +567,27 @@
                         break;
                     case "Gokongwei":
                         //TODO filter results
+                        $.get("getAdminSchedules?location=Gokongwei", function(obj){
+                            add_data_to_computer_schedules(obj); 
+                        });
                         break;
                     case "Velasco":
                         //TODO filter results
+                        $.get("getAdminSchedules?location=Velasco", function(obj){
+                            add_data_to_computer_schedules(obj); 
+                        });
                         break;
                     case "Miguel":
+                        $.get("getAdminSchedules?location=Miguel", function(obj){
+                            add_data_to_computer_schedules(obj); 
+                        });
                         //TODO filter results
                         break;
                     case "Henry Sy":
                         //TODO filter results
+                        $.get("getAdminSchedules?location=Henry Sy", function(obj){
+                            add_data_to_computer_schedules(obj); 
+                        });
                         break;
                 }
             });
@@ -590,17 +607,20 @@
                         start:"something",
                         end:"something"
                     }
+                
                 for(var i = 0 ; i < 10 ; i++){
                     reserveArr.push(kek);
                 }
                 //add_data_to_recent_reserve(reserveArr);
                 
+                console.log("sending loading recent reservations");
                 
                 $.get("getPcReservations?location=default", function(obj){
                     console.log("loading recent reservations");
                     add_data_to_recent_reserve(obj);
                 });
                 
+                console.log("recent reservations done");
                 /*
                 $.get("getSchedules?location=default", function(obj){
                     
@@ -616,6 +636,8 @@
                 
                 //
             });
+            
+            
             function add_data_to_recent_lab(jasonarr){
                 /*
                 Expected parameter is a JSON array, JSON format is as follows:
@@ -664,7 +686,7 @@
                         date:
                         start:
                         end:
-                    }
+                    }s
                 */
                 
                 //Loops through the whole JSON array and prints it
@@ -691,6 +713,7 @@
                 }
                 
             }
+            
             function add_data_to_computer_schedules(jasonarr){
                 /*
                 Expected parameter is a JSON array, JSON format is as follows:
