@@ -596,10 +596,11 @@
                 //add_data_to_recent_reserve(reserveArr);
                 
                 
-                $.get("getRecentReservations?location=default", function(obj){
+                $.get("getPcReservations?location=default", function(obj){
                     console.log("loading recent reservations");
                     add_data_to_recent_reserve(obj);
                 });
+                
                 /*
                 $.get("getSchedules?location=default", function(obj){
                     

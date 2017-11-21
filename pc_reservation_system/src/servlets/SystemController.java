@@ -17,18 +17,20 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import beans.Lab;
+import beans.LabReservation;
 import beans.Pc;
 import beans.PcReservation;
 import beans.User;
-import reservationBuilder.PcReservationBuilder;
+import reservationBuilder.ReservationBuilder;
 import services.SystemService;
 
 /**
  * Servlet implementation class SystemController
  */
 @WebServlet (urlPatterns = {"/login", "/logout", "/adminpage", "/userpage", "/adminreservationpage", "/userreservationpage"
-							, "/requestUserDetails", "/requestUserReservations", "/requestAdminReservationList", "/requestUserDetailsByAdmin"
+							, "/requestUserDetails", "/requestUserReservations", "/requestPcReservationList", "/requestUserDetailsByAdmin"
 							,"/getAdminSchedules" , "/getLabReservations", "/getRecentReservations", "/singleReserve", "/labReserve"
+							,"/requestLabReservationList"
 							})
 @MultipartConfig
 public class SystemController extends HttpServlet {
@@ -76,8 +78,11 @@ public class SystemController extends HttpServlet {
 			case "/requestUserReservations":
 				requestUserReservations(request, response);
 				break;
-			case "/requestAdminReservationList":
-				requestAdminReservationList(request,response);
+			case "/requestPcReservationList":
+				requestPcReservationList(request,response);
+				break;
+			case "/requestLabReservationList":
+				requestLabReservationList(request,response);
 				break;
 			case "/requestUserDetailsByAdmin":
 				requestUserDetailsByAdmin(request,response);
@@ -88,8 +93,8 @@ public class SystemController extends HttpServlet {
 			case "/getLabReservations":
 				requestLabReservations(request, response);
 				break;
-			case "/getRecentReservations":
-				requestRecentReservations(request, response);
+			case "/getPcReservations":
+				requestPcReservations(request, response);
 				break;
 			case "/singleReserve":
 				reserveSinglePc(request,response);
@@ -102,6 +107,238 @@ public class SystemController extends HttpServlet {
 		}
 
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+	
+	private void requestPcReservationList(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// TODO Auto-generated method stub
+		JsonArray reservationList = new JsonArray();
+		String building, room, startTime, endTime, date;
+		building = request.getParameter("bldg");
+		room = request.getParameter("room");
+		date = request.getParameter("date");
+		startTime = request.getParameter("startTime");
+		endTime = request.getParameter("endTime");
+		
+		if(building .equals("default")){
+			building = null;
+		}
+		
+		if(room.equals("default")){
+			room = null;
+		}
+		
+		if(startTime.equals("default")){
+			startTime = null;
+			endTime = null;
+		}
+		
+		System.out.println(startTime + " " + endTime );
+		Date finalDate, finalSTime, finalETime;
+		finalDate = null;				
+		finalSTime = null;
+		finalETime = null;
+		
+		try {
+			if(startTime != null)
+				finalDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date + " " + startTime);
+			else
+				finalDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date + " " + "08:00:00");
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println(building + " " + room + " " + date + " " + startTime + " " + endTime);
+		if(startTime != null){
+			try {
+				finalSTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date + " " + startTime);
+				finalETime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date + " " + endTime);
+			} catch (ParseException e) {
+			// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		System.out.println("date:" + finalDate + "sTime:" + finalSTime + "eTime:" + finalETime);
+		
+		ArrayList<PcReservation> tempReservationList = null;
+		
+		System.out.println("creating list for individual");
+		tempReservationList = ReservationBuilder.generatePcReservations(finalDate, finalSTime, finalETime, building, room);
+		
+		if(tempReservationList.isEmpty())
+			System.out.println("there are no pcs :---(");
+		
+		for(PcReservation pr : tempReservationList) {
+			JsonObject json = new JsonObject();
+			
+			Lab lab = SystemService.getLabOfPc(pr.getPcID());
+			
+			String sTime, eTime;
+			
+			Date startT = pr.getDateTimeStart();
+			Date endT = pr.getDateTimeEnd();
+			
+			if(startT.getHours() % 12 == 0) {
+				sTime = "" + startT.getHours() + ":" + startT.getMinutes();
+				
+				if(sTime.charAt(sTime.length()-2) == ':') sTime += "0";
+				
+				sTime += " AM";
+			}
+			else {
+				sTime = "" + startT.getHours() % 12 + ":" + startT.getMinutes();
+			
+				if(sTime.charAt(sTime.length()-2) == ':') sTime += "0";
+				
+				sTime += " PM";
+			}
+			if(endT.getHours() % 12 == 0) {
+				eTime = "" + endT.getHours() + ":" + endT.getMinutes();
+				
+				if(eTime.charAt(eTime.length()-2) == ':') eTime += "0";
+				
+				eTime += " AM";
+			}
+			else {
+				eTime = "" + endT.getHours() % 12 + ":" + endT.getMinutes();
+			
+				if(eTime.charAt(eTime.length()-2) == ':') eTime += "0";
+				
+				eTime += " PM";
+			}
+			
+			json.addProperty("pcnum", "" + pr.getPcID());
+			json.addProperty("location", lab.getBuilding());
+			json.addProperty("room", lab.getName());
+			json.addProperty("start", startTime);
+			json.addProperty("end", endTime);
+		
+			reservationList.add(json);
+		}
+		
+		response.setContentType("application/json");
+		response.getWriter().write(reservationList.toString());
+	}
+
+	private void requestLabReservationList(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		// TODO Auto-generated method stub
+		JsonArray reservationList = new JsonArray();
+		String building, room, startTime, endTime, date;
+		building = request.getParameter("bldg");
+		room = request.getParameter("room");
+		date = request.getParameter("date");
+		startTime = request.getParameter("startTime");
+		endTime = request.getParameter("endTime");
+		
+		if(building .equals("default")){
+			building = null;
+		}
+		
+		if(room.equals("default")){
+			room = null;
+		}
+		
+		if(startTime.equals("default")){
+			startTime = null;
+			endTime = null;
+		}
+		
+		System.out.println(startTime + " " + endTime );
+		Date finalDate, finalSTime, finalETime;
+		finalDate = null;				
+		finalSTime = null;
+		finalETime = null;
+		
+		try {
+			if(startTime != null)
+				finalDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date + " " + startTime);
+			else
+				finalDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date + " " + "08:00:00");
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println(building + " " + room + " " + date + " " + startTime + " " + endTime);
+		if(startTime != null){
+			try {
+				finalSTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date + " " + startTime);
+				finalETime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date + " " + endTime);
+			} catch (ParseException e) {
+			// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		System.out.println("date:" + finalDate + "sTime:" + finalSTime + "eTime:" + finalETime);
+		
+		ArrayList<PcReservation> tempReservationList = null;
+		
+//		if(checkbox.equals("individual")){
+//			System.out.println("creating list for individual");
+//			tempReservationList = ReservationBuilder.generatePcReservations(finalDate, finalSTime, finalETime, building, room);
+//		}else if(checkbox.equals("event")){
+//			System.out.println("creating list for event");
+//			//need to change stuff
+//			//tempReservationList = PcReservationBuilder.generateReservations(finalDate, finalSTime, finalETime, building, room);
+//		}
+		
+		if(tempReservationList.isEmpty())
+			System.out.println("there are no pcs :---(");
+		
+		for(PcReservation pr : tempReservationList) {
+			JsonObject json = new JsonObject();
+			
+			Lab lab = SystemService.getLabOfPc(pr.getPcID());
+			
+			String sTime, eTime;
+			
+			Date startT = pr.getDateTimeStart();
+			Date endT = pr.getDateTimeEnd();
+			
+			if(startT.getHours() % 12 == 0) {
+				sTime = "" + startT.getHours() + ":" + startT.getMinutes();
+				
+				if(sTime.charAt(sTime.length()-2) == ':') sTime += "0";
+				
+				sTime += " AM";
+			}
+			else {
+				sTime = "" + startT.getHours() % 12 + ":" + startT.getMinutes();
+			
+				if(sTime.charAt(sTime.length()-2) == ':') sTime += "0";
+				
+				sTime += " PM";
+			}
+			if(endT.getHours() % 12 == 0) {
+				eTime = "" + endT.getHours() + ":" + endT.getMinutes();
+				
+				if(eTime.charAt(eTime.length()-2) == ':') eTime += "0";
+				
+				eTime += " AM";
+			}
+			else {
+				eTime = "" + endT.getHours() % 12 + ":" + endT.getMinutes();
+			
+				if(eTime.charAt(eTime.length()-2) == ':') eTime += "0";
+				
+				eTime += " PM";
+			}
+			
+			json.addProperty("pcnum", "" + pr.getPcID());
+			json.addProperty("location", lab.getBuilding());
+			json.addProperty("room", lab.getName());
+			json.addProperty("start", startTime);
+			json.addProperty("end", endTime);
+		
+			reservationList.add(json);
+		}
+		
+		response.setContentType("application/json");
+		response.getWriter().write(reservationList.toString());
 	}
 	
 	private void requestScheduleList(HttpServletRequest request, HttpServletResponse response) throws IOException{
@@ -151,15 +388,15 @@ public class SystemController extends HttpServlet {
 			location = null;
 		}
 		
-		ArrayList<PcReservation> reservationsLab = SystemService.getAllLabReservations(location);
+		ArrayList<LabReservation> reservationsLab = SystemService.getAllLabReservations(location);
 		
-		for(PcReservation pr : reservationsLab) {
-			Lab lab = SystemService.getLabOfPc(pr.getPcID());
+		for(LabReservation lr : reservationsLab) {
+			Lab lab = SystemService.getLab(lr.getLocationID());
 			
 			String startTime, endTime;
 			
-			Date startT = pr.getDateTimeStart();
-			Date endT = pr.getDateTimeEnd();
+			Date startT = lr.getDateTimeStart();
+			Date endT = lr.getDateTimeEnd();
 			
 			if(startT.getHours() % 12 == 0) {
 				startTime = "" + startT.getHours() + ":" + startT.getMinutes();
@@ -194,7 +431,7 @@ public class SystemController extends HttpServlet {
 			
 			json.addProperty("id", lab.getLocationID());
 			json.addProperty("location", lab.getName());
-			json.addProperty("event", pr.getEventName());
+			json.addProperty("event", lr.getEventName());
 			json.addProperty("date", "" + endT.getDate() + "/" + endT.getMonth()
 								+ "/" + (endT.getYear() + 1900));
 			json.addProperty("start", startTime);
@@ -207,7 +444,7 @@ public class SystemController extends HttpServlet {
 		response.getWriter().write(reservations.toString());
 	}
 	
-	private void requestRecentReservations(HttpServletRequest request, HttpServletResponse response) throws IOException{
+	private void requestPcReservations(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		// TODO Recent Reservations for admin home page
 		JsonArray userReservations = new JsonArray();
 		
@@ -217,7 +454,7 @@ public class SystemController extends HttpServlet {
 			location = null;
 		}
 		
-		ArrayList<PcReservation> singleReservationList = SystemService.getAllSingleReservations(location);
+		ArrayList<PcReservation> singleReservationList = SystemService.getAllPcReservations(location);
 		
 		for(PcReservation pr : singleReservationList) {
 			JsonObject json = new JsonObject();
@@ -275,124 +512,6 @@ public class SystemController extends HttpServlet {
 		response.getWriter().write(userReservations.toString());
 	}
 	
-	private void requestAdminReservationList(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		// TODO Auto-generated method stub
-				JsonArray reservationList = new JsonArray();
-				String building, room, startTime, endTime, date, checkbox;
-				building = request.getParameter("bldg");
-				room = request.getParameter("room");
-				date = request.getParameter("date");
-				startTime = request.getParameter("startTime");
-				endTime = request.getParameter("endTime");
-				checkbox = request.getParameter("check");
-				
-				if(building .equals("default")){
-					building = null;
-				}
-				
-				if(room.equals("default")){
-					room = null;
-				}
-				
-				if(startTime.equals("default")){
-					startTime = null;
-					endTime = null;
-				}
-				
-				System.out.println(startTime + " " + endTime );
-				Date finalDate, finalSTime, finalETime;
-				finalDate = null;				
-				finalSTime = null;
-				finalETime = null;
-				
-				try {
-					if(startTime != null)
-						finalDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date + " " + startTime);
-					else
-						finalDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date + " " + "08:00:00");
-					
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				System.out.println(building + " " + room + " " + date + " " + startTime + " " + endTime);
-				if(startTime != null){
-					try {
-						finalSTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date + " " + startTime);
-						finalETime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date + " " + endTime);
-					} catch (ParseException e) {
-					// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				
-				System.out.println("date:" + finalDate + "sTime:" + finalSTime + "eTime:" + finalETime);
-				
-				ArrayList<PcReservation> tempReservationList = null;
-				if(checkbox.equals("individual")){
-					System.out.println("creating list for individual");
-					tempReservationList = PcReservationBuilder.generateReservations(finalDate, finalSTime, finalETime, building, room);
-				}else if(checkbox.equals("event")){
-					System.out.println("creating list for event");
-					//need to change stuff
-					//tempReservationList = PcReservationBuilder.generateReservations(finalDate, finalSTime, finalETime, building, room);
-				}
-				
-				if(tempReservationList.isEmpty())
-					System.out.println("there are no pcs :---(");
-				
-				for(PcReservation pr : tempReservationList) {
-					JsonObject json = new JsonObject();
-					
-					Lab lab = SystemService.getLabOfPc(pr.getPcID());
-					
-					String sTime, eTime;
-					
-					Date startT = pr.getDateTimeStart();
-					Date endT = pr.getDateTimeEnd();
-					
-					if(startT.getHours() % 12 == 0) {
-						sTime = "" + startT.getHours() + ":" + startT.getMinutes();
-						
-						if(sTime.charAt(sTime.length()-2) == ':') sTime += "0";
-						
-						sTime += " AM";
-					}
-					else {
-						sTime = "" + startT.getHours() % 12 + ":" + startT.getMinutes();
-					
-						if(sTime.charAt(sTime.length()-2) == ':') sTime += "0";
-						
-						sTime += " PM";
-					}
-					if(endT.getHours() % 12 == 0) {
-						eTime = "" + endT.getHours() + ":" + endT.getMinutes();
-						
-						if(eTime.charAt(eTime.length()-2) == ':') eTime += "0";
-						
-						eTime += " AM";
-					}
-					else {
-						eTime = "" + endT.getHours() % 12 + ":" + endT.getMinutes();
-					
-						if(eTime.charAt(eTime.length()-2) == ':') eTime += "0";
-						
-						eTime += " PM";
-					}
-					
-					json.addProperty("pcnum", "" + pr.getPcID());
-					json.addProperty("location", lab.getBuilding());
-					json.addProperty("room", lab.getName());
-					json.addProperty("start", startTime);
-					json.addProperty("end", endTime);
-				
-					reservationList.add(json);
-				}
-				
-				response.setContentType("application/json");
-				response.getWriter().write(reservationList.toString());
-	}
 	
 	private void requestUserDetailsByAdmin(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
@@ -419,7 +538,7 @@ public class SystemController extends HttpServlet {
 		User user = SystemService.getUser(userId);
 		
 
-		ArrayList<PcReservation> reservations = SystemService.getUserReservations(userId);
+		ArrayList<PcReservation> reservations = SystemService.getUserPcReservations(userId);
 		for(PcReservation pr : reservations) {
 			JsonObject json = new JsonObject();
 
@@ -537,11 +656,11 @@ public class SystemController extends HttpServlet {
 		
 		//please set the attributes in order to add properly
 		
-		SystemService.addReservation(newReservation);
+		SystemService.addPcReservation(newReservation);
 	}
 	
 	private void reserveLab(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PcReservation newReservation = new PcReservation();
+		LabReservation newReservation = new LabReservation();
 		
 		//please set the attributes in order to add
 		String tPc, tBldg, tRoom, tStart, tEnd, tDate, tID, tEventName;
@@ -588,7 +707,7 @@ public class SystemController extends HttpServlet {
 		*/
 		
 		// TODO Change this to LabReservation
-		SystemService.addReservation(newReservation);
+		SystemService.addLabReservation(newReservation);
 	}
 	
 	private void doUserReservationPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -605,12 +724,11 @@ public class SystemController extends HttpServlet {
 	private void doAdminReservationPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		request.getRequestDispatcher("admin_reservation_page.html").forward(request, response);
 	}
+	
 	private void doUserPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.getRequestDispatcher("user_front_page.html").forward(request, response);
 	}
-	
-	
 	
 	private void doLogout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub

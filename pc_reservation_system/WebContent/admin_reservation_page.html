@@ -1002,7 +1002,7 @@
                         checkbox = "event";
                         console.log("" + bldg + room + date + startTime + endTime + id + checkbox + selectedEventName);
                         
-                        $.get("requestAdminReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date + "&check=" + checkbox, function(data){
+                        $.get("requestLabReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date + "&check=" + checkbox, function(data){
                             console.log("adding data");
                             add_table_data(data);
                         });
@@ -1016,7 +1016,7 @@
                         selectedEventName = null;
                         console.log("" + bldg + room + date + startTime + endTime + id + checkbox + selectedEventName);
                         
-                        $.get("requestAdminReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date + "&check=" + checkbox, function(data){
+                        $.get("requestPcReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date, function(data){
                             console.log("adding data");
                             add_table_data(data);
                         });
@@ -1066,6 +1066,7 @@
                 form.submit();
             });
             
+            
            $(document).ready(function(){
                
                var jasonarr = [];
@@ -1107,7 +1108,8 @@
                     }
                 */
                 for(var i = 0 ; i < jasonarr.length ; i++){
-                    var jason = jasonarr[i];
+                	var jason = jasonarr[i];
+                	console.log(jasonarr[i]);
                     var row = $("<tr height=\"40\" align=\"center\">");
                     
                     //Prints all the things, in the order that they came
@@ -1122,6 +1124,7 @@
                     }
                     $("#PCtable").after(row);
                 }
+                
             }
             
             $("#individual").click(function(){

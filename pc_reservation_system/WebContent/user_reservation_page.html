@@ -213,7 +213,6 @@
     </style>
     <head>
       
-        
     </head>
     <body>
         <div class = "container-fluid mainDiv">
@@ -258,22 +257,22 @@
                                     <h3 class = "boxHeader">Filter By:</h3>
                                     <p class = "boxHeader details">Building</p>
                                     <select class = "dropdown" id = "bldgList">
-                                        <option value = "A">All</option>
+                                        <option value = "default">All</option>
                                         <option value = "G">Gokongwei</option>
                                         <option value = "V">Velasco</option>
                                         <option value = "M">Miguel</option>
-                                        <option value = "H">Henry Sy</option>
+                                        <option value = "HS">Henry Sy</option>
                                     </select>
                                     <p class = "boxHeader details">Room/Floor</p>
                                     <select class = "dropdown" id = "floorDropdown">
-                                        <option>All</option>
+                                        <option value = "default">All</option>
                                     </select>
                                     <div class = "row">
                                         <div class = "col-sm-7">
                                             <p class = "boxHeader details">Date</p>
                                         </div>
                                         <div class = "col-sm-5">
-                                            <p class = "boxHeader details">Start Time</p>
+                                            <p class = "boxHeader details"> Time</p>
                                         </div>
                                     </div>
                                     <div class = "row">
@@ -283,8 +282,8 @@
                                             </select>
                                         </div>
                                         <div class = "col-sm-5">
-                                            <select class = "dropdown" id = "timeDropDown">
-                                                <option>Any</option>
+                                            <select class = "dropdown" id = "timeDropdown">
+                                                <option value = "default">Any</option>
                                             </select>
                                         </div>
                                     </div>
@@ -299,7 +298,7 @@
                                     <p style = "padding:0px;padding-top:5px;padding-left:10px;">Select a PC to reserve</p>
                                 </div>
                                 <div class = "tableContainer">
-                                    <table class = "reserveTable">
+                                    <table class = "reserveTable" id = "pcTable">
                                         <tbody id = "PCtable">
                                             <tr>
                                                 <th class = "tableHeader">PC No.</th>
@@ -354,28 +353,11 @@
         <script>
             
             var selected_row = null;
+            
             //this function is called when page is fully loaded
             $(document).ready(function(){
-                //testing purposes
-               var json = {
-                        pcno:'asd1',
-                        location:'asd2',
-                        room:'asd3',
-                        start:'asd4',
-                        end:'asd5'
-                    }
-               var jasonarr = [];
-                for(var i = 0 ; i < 10 ; i++){
-                    jasonarr.push(json);
-                }
-                
-                add_table_data(jasonarr);
-                //end of testing
-                
-                setValues();
-                
-                fix_table_height();
-                
+            	setValues();
+                fix_table_height();  
             });
             
             function fix_table_height(){
@@ -402,15 +384,59 @@
                     
                 }
             });
+            
             $(".filterButton").click(function(){
-                var bldg = $("#bldgList").val()
-                var room = $("#floorDropdown").val();
-                var date = $("#dateDropdown").val();
-                var time = $("#timeDropDown").val();
-                console.log(bldg + " " + room + " " + date + " " + time);
-                alert("give me backend functionality :)\n\nLine:408");
-                //do something with the data, a $.get maybe
+                console.log("searching..");
+                refresh_table();
+
+                var bldg, room, startTime, endTime, date, id, checkbox, dropdown;
+                dropdown = document.getElementById("bldgList");
+                bldg = dropdown.value;
+                switch(bldg){
+                    case "G":   bldg = "Gokongwei"
+                                break;
+                    case "V":   bldg = "Velasco"
+                                break;
+                    case "HS":  bldg = "Henry Sy"
+                                break;
+                    case "M":   bldg = "Miguel"
+                                break;
+                        
+                    default:    break;
+                }
+                
+                dropdown = document.getElementById("floorDropdown");
+                room = dropdown.value;
+                
+                dropdown = document.getElementById("timeDropdown");
+                startTime = dropdown.value;
+                
+                console.log("start time=" + startTime);
+                if(startTime != "default"){
+                    var endTimeCompute = parseInt(startTime); 
+                    if(endTimeCompute < 10){
+                        endTime = "0" + (endTimeCompute + 1) + ":00:00";
+                    }
+                    else{
+                        endTime = (endTimeCompute + 1) + ":00:00";
+                    }
+                    console.log("end time=" + endTime);
+                }else{
+                    endTime = "default";
+                    console.log("end time=" + endTime);
+                }
+                console.log("end time=" + endTime);
+                dropdown = document.getElementById("dateDropdown");
+                date = dropdown.value;
+                selectedDate = date;
+                
+                $.get("requestPcReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date + "&check=" + checkbox, function(data){
+                    console.log("adding data");
+                    add_table_data(data);
+                });
             });
+            
+            
             $("#homeBtn").click(function(){
                 var form = document.createElement('form');
 	            form.method = "GET";
@@ -426,6 +452,16 @@
                 form.submit();
             });
             
+            function refresh_table(){
+                console.log("refreshing table");
+                var elmtTable = document.getElementById('pcTable');
+                var tableRows = elmtTable.getElementsByTagName('tr');
+                var rowCount = tableRows.length;
+                
+                for (var x=rowCount-1; x>0; x--) {
+                    elmtTable.removeChild(tableRows[x]);
+                }  
+            }
             
             function setValues(){
                 var dateDropdown = document.getElementById("dateDropdown");
@@ -445,7 +481,7 @@
                 day = currDate.getDate();
                 month = currDate.getMonth() + 1;
                 year = currDate.getFullYear();
-                option.value = year +  "/" + month + "/" + day;
+                option.value = year +  "-" + month + "-" + day;
                 option.textContent = month + "/" + day + "/" + year;
                 dateDropdown.appendChild(option);
                 
@@ -454,12 +490,12 @@
                 day = nextDate.getDate();
                 month = nextDate.getMonth() + 1;
                 year = nextDate.getFullYear();
-                option2.value = year +  "/" + month + "/" + day;
+                option2.value = year +  "-" + month + "-" + day;
                 option2.textContent = month + "/" + day + "/" + year;
                 dateDropdown.appendChild(option2);
                 
-                var timeDropdown = document.getElementById("timeDropDown");
-                for(var i = 7; i <= 18; i++)
+                var timeDropdown = document.getElementById("timeDropdown");
+                for(var i = 8; i <= 18; i++)
                 {
                     var timeOpt = document.createElement("option");
                     if(i < 10){
@@ -649,8 +685,6 @@
                 }
                 console.log(selected_row);
             });
-            
-            
             
         </script>
 </html>
