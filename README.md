@@ -1,4 +1,8 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+Bornales, Amiel James November 21, 2017
+Changes Made:
+- fixed error in login.html where user is getting DNE / Wrong Password when ID is valid but password is blank
+
 Lominoque, Jerome November 21, 2017
 Changes made:
 - Finalized admin reservation page
