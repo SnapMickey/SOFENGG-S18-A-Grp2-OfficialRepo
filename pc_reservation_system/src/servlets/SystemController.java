@@ -281,7 +281,7 @@ public class SystemController extends HttpServlet {
 		
 		System.out.println("date:" + finalDate + "sTime:" + finalSTime + "eTime:" + finalETime);
 		
-		ArrayList<PcReservation> tempReservationList = null;
+		ArrayList<LabReservation> tempReservationList = null;
 		
 //		if(checkbox.equals("individual")){
 //			System.out.println("creating list for individual");
@@ -292,18 +292,16 @@ public class SystemController extends HttpServlet {
 //			
 //		}
 		
-		//tempReservationList = ReservationBuilder.generateLabReservations(date, startTime, endTime, building);
+		tempReservationList = ReservationBuilder.generateLabReservations(finalDate, finalSTime, finalETime, building);
 		
 		if(tempReservationList.isEmpty())
 			System.out.println("there are no pcs :---(");
 		
-		for(PcReservation pr : tempReservationList) {
+		for(LabReservation pr : tempReservationList) {
 			JsonObject json = new JsonObject();
-			
-			Lab lab = SystemService.getLabOfPc(pr.getPcID());
-			
+				
+			Lab lab = SystemService.getLab(pr.getLocationID());
 			String sTime, eTime;
-			
 			Date startT = pr.getDateTimeStart();
 			Date endT = pr.getDateTimeEnd();
 			
@@ -336,11 +334,11 @@ public class SystemController extends HttpServlet {
 				eTime += " PM";
 			}
 			
-			json.addProperty("pcnum", "" + pr.getPcID());
+			json.addProperty("locID", "" + lab.getLocationID());
 			json.addProperty("location", lab.getBuilding());
 			json.addProperty("room", lab.getName());
-			json.addProperty("start", startTime);
-			json.addProperty("end", endTime);
+			json.addProperty("start", sTime);
+			json.addProperty("end", eTime);
 		
 			reservationList.add(json);
 		}
@@ -667,9 +665,9 @@ public class SystemController extends HttpServlet {
 		LabReservation newReservation = new LabReservation();
 		
 		//please set the attributes in order to add
-		String tPc, tBldg, tRoom, tStart, tEnd, tDate, tID, tEventName;
-		/*
-		tPc = request.getParameter("pc");
+		String tLocation, tBldg, tRoom, tStart, tEnd, tDate, tID, tEventName;
+		
+		tLocation = request.getParameter("pc");
 		tBldg = request.getParameter("building");
 		tRoom = request.getParameter("room");
 		tStart = request.getParameter("sTime");
@@ -678,11 +676,12 @@ public class SystemController extends HttpServlet {
 		tID = request.getParameter("id");
 		tEventName = request.getParameter("eventName");
 		
-		int pcNum, idNum;
+		int locNum, idNum;
 		
-		pcNum = Integer.parseInt(tPc);
+		locNum = Integer.parseInt(tLocation);
 		idNum = Integer.parseInt(tID);
 		
+		Lab lab = SystemService.getLab(locNum);
 		Date date, start, end, checkInTime, currDate;
 		date = null;
 		start = null;
@@ -701,14 +700,13 @@ public class SystemController extends HttpServlet {
 		}
 		
 		newReservation.setUserID(idNum);
-		newReservation.setPcID(pcNum);
+		newReservation.setLocationID(locNum);
 		newReservation.setCheckInTime(checkInTime);
 		newReservation.setReserveTime(currDate);
 		newReservation.setEventName(tEventName);
 		newReservation.setDateTimeStart(start);
 		newReservation.setDateTimeEnd(end);
 		newReservation.setAdminConfirmed(false);
-		*/
 		
 		// TODO Change this to LabReservation
 		SystemService.addLabReservation(newReservation);
