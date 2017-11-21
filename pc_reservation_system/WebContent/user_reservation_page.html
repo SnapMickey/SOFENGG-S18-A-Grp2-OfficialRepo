@@ -126,6 +126,86 @@
             margin-top:3px;
             margin-left:5px;
         }
+        
+        /* Start of Style(s) for pop up */
+        
+        .popupDiv{
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        
+        .popUpFont{
+            font-family:'Avenir Next',sans-serif;
+            color:dimgray;
+            text-align: center;
+        }
+        
+        .popupContent{
+            background-color: lightgray;
+            font-size: 20px;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 50px;
+            border: 1px solid #888;
+            width: 40%; /* Could be more or less, depending on screen size */
+        }
+        
+        .closePopUp {
+            display: block;
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .closePopUp:hover,.closePopUp:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .noReservePopUpBtn{
+            display: none;
+            border-width: .5px;
+            border-radius: 4px;
+            background-color: dimgray;
+            color: snow;
+            font-size: 20px;
+            width: 25%;
+            float:left;
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+        }
+        
+        .yesReservePopUpBtn{
+            display: none;
+            border-width: .5px;
+            border-radius: 4px;
+            background-color: dimgray;
+            color: snow;
+            
+            font-size: 20px;
+            width: 25%;
+            float:right;
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+        }
+        
+        .noReservePopUpBtn:hover, .yesReservePopUpBtn:hover{
+            background-color: forestgreen;
+        }
+        /* End of Style(s) for pop up */
+        
         /*COPY PASTE HERE*/
         #footer {
             margin-bottom: 0 !important;
@@ -318,7 +398,7 @@
                                         <button class = "reserveButtons" id = "layout">VIEW LAYOUT</button>
                                     </div>
                                     <div class = "col">
-                                        <button class = "reserveButtons" id = "reserveBtn" style = "float:right;">RESERVE</button>
+                                        <button class = "reserveButtons" id = "reservePCBtn" style = "float:right;">RESERVE</button>
                                     </div>
                                 </div>
                             </div>
@@ -326,6 +406,15 @@
                         </div>
                     
                     </div>
+                </div>
+            </div>
+            
+            <div class="popupDiv" id="popUpID">
+                <div class="popupContent" id="popUpContentID">
+                    <span class="closePopUp" id="closePopUpID">&times;</span>
+                    <b> <p class="popUpFont" id="popUpMainContent">  </p> </b>
+                    <button class="noReservePopUpBtn" id="popNo" onclick="noReserveBtn()"> <b>No </b> </button>
+                    <button class="yesReservePopUpBtn" id="popYes" onclick="yesReserveBtn()"> <b>Yes </b></button>
                 </div>
             </div>
             
@@ -367,6 +456,8 @@
             }
             
             
+            //Start of header stuff
+            
             //Buttons
             $("#logout").click(function(){
                 var form = document.createElement('form');
@@ -375,15 +466,79 @@
                 document.body.appendChild(form);
                 form.submit();
             });
-            $("#reserveBtn").click(function(){
+            
+            var yesBtn, noBtn, closeBtn;
+            
+            var popUpMainContent = document.getElementById("popUpMainContent");
+            var popUpDiv = document.getElementById("popUpID");
+            var popUpSize = document.getElementById("popUpContentID");
+            
+             var selectedPc, selectedTime, selectedRoom, selectedDate;
+            
+            $("#reservePCBtn").click(function(){
                 //selected row will contain whatever row was selected, if non was selected, null will be given
                 console.log(selected_row);
-                alert("give me backend functionality :)\n\nLine:396");
+                        
                 //if user has selected a row, do this
                 if(selected_row!= null){
-                    
+                    /*paste here  note: ID can be received from session*/
+                    popUpSize.style.padding = "100px 50px";
+                    closeBtn.style.display = "none";
+                    popUpDiv.style.display = "block";
+                    yesBtn.style.display = "block";
+                    noBtn.style.display = "block";
                 }
+                
+                //Reveal PopUp
+                
             });
+            
+            function yesReserveBtn(){
+                popUpSize.style.padding = "50px";
+                popUpDiv.style.display = "none";
+                yesBtn.style.display = "none";
+                noBtn.style.display = "none";
+                closeBtn.style.display = "block";
+                
+                console.log("yes button clicked");
+                
+            $.get(reserveUrl, function(data){
+                console.log("requesting to reserve..");
+            });
+                
+                popUpMainContent.innerHTML = "Reservation is Successful!";
+                popUpDiv.style.display = "block";
+            }
+            
+            function noReserveBtn(){
+                console.log("no button clicked");
+                popUpSize.style.padding = "50px";
+                popUpDiv.style.display = "none";
+                yesBtn.style.display = "none";
+                noBtn.style.display = "none";
+                closeBtn.style.display = "block";
+                
+                popUpMainContent.innerHTML = "Reservation cancelled!";
+                popUpDiv.style.display = "block";
+            }
+            
+            $("#homeBtn").click(function(){
+                var form = document.createElement('form');
+	            form.method = "GET";
+	            form.action = "userpage";
+	            document.body.appendChild(form);
+	            form.submit(); 
+            });
+            
+            $("#reserveBtn").click(function(){
+                var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "userreservationpage";
+                document.body.appendChild(form);
+                form.submit();
+            });
+            
+            //End of header stuff
             
             $(".filterButton").click(function(){
                 console.log("searching..");
@@ -435,23 +590,7 @@
                     add_table_data(data);
                 });
             });
-            
-            
-            $("#homeBtn").click(function(){
-                var form = document.createElement('form');
-	            form.method = "GET";
-	            form.action = "userpage";
-	            document.body.appendChild(form);
-	            form.submit(); 
-            });
-            $("#reserveBtn").click(function(){
-                var form = document.createElement('form');
-                form.method = "GET";
-                form.action = "userreservationpage";
-                document.body.appendChild(form);
-                form.submit();
-            });
-            
+                        
             function refresh_table(){
                 console.log("refreshing table");
                 var elmtTable = document.getElementById('pcTable');
@@ -673,6 +812,7 @@
                     $("#PCtable").after(row);
                 }
             }
+            
             $(document).on('click','.reserveTable tr',function(){
                 $(this).addClass('selected').siblings().removeClass('selected');
                 var temp = $(this).children();
@@ -683,6 +823,12 @@
                         start:temp[3].innerHTML,
                         end:temp[4].innerHTML
                 }
+                            
+                selectedPc = selected_row.pcno;
+                selectedRoom = selected_row.location;
+                selectedTime = selected_row.start;
+                selectedDate = document.getElementById("dateDropdown").value;
+                
                 console.log(selected_row);
             });
             
