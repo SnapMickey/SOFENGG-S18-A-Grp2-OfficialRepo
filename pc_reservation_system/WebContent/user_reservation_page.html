@@ -215,7 +215,7 @@
             border: solid;
             border-width: 1px;
             border-radius: 4px;
-            width:130px;
+            width:180px;
             font-family:'Avenir Next',sans-serif;
             font-weight: 600;
             font-size:15px;
@@ -289,6 +289,12 @@
         }
         td{
             cursor:pointer;
+        }
+        .labImage{
+            visibility: visible;
+            display:none;
+            max-height: 100%;
+            max-width: 100%; 
         }
     </style>
     <head>
@@ -378,6 +384,7 @@
                                     <p style = "padding:0px;padding-top:5px;padding-left:10px;">Select a PC to reserve</p>
                                 </div>
                                 <div class = "tableContainer">
+                                    <img class = "labImage" src = "">
                                     <table class = "reserveTable" id = "pcTable">
                                         <tbody id = "PCtable">
                                             <tr>
@@ -440,7 +447,7 @@
         integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
         crossorigin="anonymous"></script>
         <script>
-            
+            var isLayout = false;
             var selected_row = null;
             
             //this function is called when page is fully loaded
@@ -539,7 +546,33 @@
             });
             
             //End of header stuff
+            $("#layout").click(function(){
+                var room = $("#floorDropdown").val();
+                
+                if(!isLayout && room != "All"){
+                    isLayout = true;
+                    
+                    //hide table
+                    $(".reserveTable").css("display","none");
             
+                    //set image src to room num
+                    $(".labImage").attr("src", room + ".png");
+                    
+                    //show image and center it
+                    $(".labImage").css("display", "block");
+                    $(".labImage").css("margin","0 auto");
+                    
+                    $(this).html("VIEW RESERVATIONS");
+                }else{
+                    isLayout = false;
+                    //make image invisible
+                    $(".labImage").css("display", "none");
+                    
+                    //make table visible
+                    $(".reserveTable").css('display', "");
+                    $(this).html("VIEW LAYOUT");
+                }
+            });
             $(".filterButton").click(function(){
                 console.log("searching..");
                 refresh_table();
