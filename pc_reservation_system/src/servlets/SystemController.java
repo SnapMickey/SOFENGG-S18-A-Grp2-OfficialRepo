@@ -30,7 +30,7 @@ import services.SystemService;
 @WebServlet (urlPatterns = {"/login", "/logout", "/adminpage", "/userpage", "/adminreservationpage", "/userreservationpage"
 							, "/requestUserDetails", "/requestUserReservations", "/requestPcReservationList", "/requestUserDetailsByAdmin"
 							,"/getAdminSchedules" , "/getLabReservations", "/getPcReservations", "/singleReserve", "/labReserve"
-							,"/requestLabReservationList"
+							,"/requestLabReservationList", "/adminhistorypage"
 							})
 @MultipartConfig
 public class SystemController extends HttpServlet {
@@ -65,6 +65,9 @@ public class SystemController extends HttpServlet {
 				break;
 			case "/userpage":
 				doUserPage(request, response);
+				break;
+			case "/adminhistorypage":
+				doAdminHistoryPage(request, response);
 				break;
 			case "/adminreservationpage":
 				doAdminReservationPage(request, response);
@@ -212,8 +215,8 @@ public class SystemController extends HttpServlet {
 			json.addProperty("pcnum", "" + pr.getPcID());
 			json.addProperty("location", lab.getBuilding());
 			json.addProperty("room", lab.getName());
-			json.addProperty("start", startTime);
-			json.addProperty("end", endTime);
+			json.addProperty("start", sTime);
+			json.addProperty("end", eTime);
 		
 			reservationList.add(json);
 		}
@@ -731,6 +734,11 @@ public class SystemController extends HttpServlet {
 		request.getRequestDispatcher("user_front_page.html").forward(request, response);
 	}
 	
+	private void doAdminHistoryPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		request.getRequestDispatcher("admin_history.html").forward(request, response);
+	}
+	
 	private void doLogout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
@@ -771,8 +779,10 @@ public class SystemController extends HttpServlet {
 		//Changed id -> user just to prevent unwanted error (Edited by: Jerome)
 		if(password == null || password == ""){
 			errors+="BP";
-		}else if(id != -1){
-			//Check if username is valid but blank password
+		}
+		
+		//check first if id isnt blank, if it isnt blank, do stuff
+		if(id != -1){
 			User user = SystemService.getUser(id);
 			
 			//check first if user is null / doesnt exist before comparing password
@@ -806,7 +816,6 @@ public class SystemController extends HttpServlet {
 		//request.getRequestDispatcher(link).forward(request,response);
 		response.sendRedirect(link);
 	}
-
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
