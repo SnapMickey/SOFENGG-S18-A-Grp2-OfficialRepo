@@ -62,7 +62,6 @@
         .reserveTable td{
             cursor:pointer;
         }
-
         
         .reserveTableHead{
             height: 20%;
@@ -87,7 +86,7 @@
             border: solid;
             border-width: 1px;
             border-radius: 4px;
-            width:130px;
+            width:180px;
             font-family:'Avenir Next',sans-serif;
             font-weight: 600;
             font-size:15px;
@@ -378,6 +377,12 @@
             font-weight:600;
             color:white;
         }
+        .labImage{
+            visibility: visible;
+            display:none;
+            max-height: 100%;
+            max-width: 100%; 
+        }
         
     </style>
     <head>
@@ -510,6 +515,7 @@
                     <span class="mainHeader"> <b>3. Reserve A PC </b> </span> <span class="mainHeader2"> Select a PC to reserve </span>
                     </div>
                     <div class="reserveTableDiv">
+                    <img class = "labImage">
                     <table class="reserveTable" id="reserveListTable">
                         <thead>
                             <tr class="reserveTableHead">
@@ -542,7 +548,7 @@
                     </div>
                      <div class = "row" style = "padding:0px; margin:10px 0px;">
                           <div class = "col">
-                              <button class = "reserveButtons">VIEW LAYOUT</button>
+                              <button class = "reserveButtons" id = "layout">VIEW LAYOUT</button>
                           </div>
                           <div class = "col">
                               <button id="reserveButton" class = "reserveButtons hideReserve" style = "float:right;">RESERVE</button>
@@ -625,6 +631,36 @@
             // End of Header Stuff
             
             //Filter and Reserve Stuff
+            var isLayout = false;
+            
+            $("#layout").click(function(){
+                var room = $("#roomList").val();
+                console.log(room);
+                if(!isLayout && room != "default"){
+                    isLayout = true;
+                    
+                    //hide table
+                    $(".reserveTable").css("display","none");
+            
+                    //set image src to room num
+                    $(".labImage").attr("src", room + ".png");
+                    
+                    //show image and center it
+                    $(".labImage").css("display", "block");
+                    $(".labImage").css("margin","0 auto");
+                    
+                    $(this).html("VIEW RESERVATIONS");
+                }else{
+                    isLayout = false;
+                    //make image invisible
+                    $(".labImage").css("display", "none");
+                    
+                    //make table visible
+                    $(".reserveTable").css('display', "");
+                    $(this).html("VIEW LAYOUT");
+                }
+            });
+            
             var yesBtn, noBtn, closeBtn;
             closeBtn = document.getElementById("closePopUpID");
             yesBtn = document.getElementById("popYes");
@@ -996,7 +1032,6 @@
                 if(passed){
                     console.log("searching..");
                     refresh_table();
-
                     var bldg, room, startTime, endTime, date, id, checkbox, dropdown;
                     dropdown = document.getElementById("bldgList");
                     bldg = dropdown.value;
@@ -1221,27 +1256,3 @@
             
         </script>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
