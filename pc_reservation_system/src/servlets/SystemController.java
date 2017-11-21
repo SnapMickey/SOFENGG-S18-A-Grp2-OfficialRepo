@@ -30,7 +30,7 @@ import services.SystemService;
 @WebServlet (urlPatterns = {"/login", "/logout", "/adminpage", "/userpage", "/adminreservationpage", "/userreservationpage"
 							, "/requestUserDetails", "/requestUserReservations", "/requestPcReservationList", "/requestUserDetailsByAdmin"
 							,"/getAdminSchedules" , "/getLabReservations", "/getPcReservations", "/singleReserve", "/labReserve"
-							,"/requestLabReservationList", "/adminhistorypage"
+							,"/requestLabReservationList", "/adminhistorypage", "/userReserve"
 							})
 @MultipartConfig
 public class SystemController extends HttpServlet {
@@ -98,6 +98,9 @@ public class SystemController extends HttpServlet {
 				break;
 			case "/getPcReservations":
 				requestPcReservations(request, response);
+				break;
+			case "/userReserve":
+				reservePCByUser(request,response);
 				break;
 			case "/singleReserve":
 				reserveSinglePc(request,response);
@@ -655,9 +658,6 @@ public class SystemController extends HttpServlet {
 		newReservation.setDateTimeStart(start);
 		newReservation.setDateTimeEnd(end);
 		newReservation.setAdminConfirmed(false);
-		
-		
-		
 		//please set the attributes in order to add properly
 		
 		SystemService.addPcReservation(newReservation);
@@ -712,6 +712,51 @@ public class SystemController extends HttpServlet {
 		
 		// TODO Change this to LabReservation
 		SystemService.addLabReservation(newReservation);
+	}
+	
+	private void reservePCByUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		PcReservation newReservation = new PcReservation();
+		
+		String tPc, tRoom, tStart, tEnd, tDate, tID;
+		
+		tPc = request.getParameter("pc");
+		tRoom = request.getParameter("room");
+		tDate = request.getParameter("date");
+		tStart = request.getParameter("sTime");
+		tEnd = request.getParameter("eTime");
+		
+		int userId = (Integer)request.getSession().getAttribute("id");
+		int pcNum;
+		
+		pcNum = Integer.parseInt(tPc);
+		
+		Date date, start, end, checkInTime, currDate;
+		date = null;
+		start = null;
+		end = null;
+		checkInTime = null;
+		currDate = new Date();
+		
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(tDate + " " + tStart);
+			start = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(tDate + " " + tStart);
+			end = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(tDate + " " + tEnd);
+			checkInTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("9999-09-09 09:09:09");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		newReservation.setUserID(userId);
+		newReservation.setPcID(pcNum);
+		newReservation.setCheckInTime(checkInTime);
+		newReservation.setReserveTime(currDate);
+		newReservation.setDateTimeStart(start);
+		newReservation.setDateTimeEnd(end);
+		newReservation.setAdminConfirmed(false);
+		//please set the attributes in order to add properly
+		SystemService.addPcReservation(newReservation);
+		
 	}
 	
 	private void doUserReservationPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
