@@ -1,6 +1,7 @@
 package reservationBuilder;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,7 +20,7 @@ public class ReservationBuilder {
 			Date startTime, 
 			Date endTime,
 			String building,
-			String room)
+			String room) 
 	{
 		ArrayList<PcReservation> pReservations = new ArrayList<>();
 
@@ -40,19 +41,14 @@ public class ReservationBuilder {
 				Date sTime = new Date();
 				Date eTime = new Date();
 				
-				sTime.setDate(date.getDate());
-				sTime.setMonth(date.getMonth());
-				sTime.setYear(date.getYear());
-				sTime.setHours(j);
-				sTime.setMinutes(0);
-				sTime.setSeconds(0);
+				String start = "" + j + ":00:00";
+				String end = "" + (j+1) + ":00:00";
 				
-				eTime.setDate(date.getDate());
-				eTime.setMonth(date.getMonth());
-				eTime.setYear(date.getYear());
-				eTime.setHours(j + 1);
-				eTime.setMinutes(0);
-				eTime.setSeconds(0);
+				try {
+					sTime = new SimpleDateFormat("hh:mm:ss").parse(start);
+					eTime = new SimpleDateFormat("hh:mm:ss").parse(end);
+				}catch(Exception e) {e.printStackTrace();}
+				
 				
 				ArrayList<Pc> availPc = SystemService.getAllFreePcs(date, sTime, eTime, building, room);
 				
@@ -95,19 +91,13 @@ public class ReservationBuilder {
 				Date sTime = new Date();
 				Date eTime = new Date();
 				
-				sTime.setDate(date.getDate());
-				sTime.setMonth(date.getMonth());
-				sTime.setYear(date.getYear());
-				sTime.setHours(j);
-				sTime.setMinutes(0);
-				sTime.setSeconds(0);
+				String start = "" + j + ":00:00";
+				String end = "" + (j+1) + ":00:00";
 				
-				eTime.setDate(date.getDate());
-				eTime.setMonth(date.getMonth());
-				eTime.setYear(date.getYear());
-				eTime.setHours(j + 1);
-				eTime.setMinutes(0);
-				eTime.setSeconds(0);
+				try {
+					sTime = new SimpleDateFormat("hh:mm:ss").parse(start);
+					eTime = new SimpleDateFormat("hh:mm:ss").parse(end);
+				}catch(Exception e) {e.printStackTrace();}
 				
 				ArrayList<Lab> availLabs = SystemService.getAllFreeLabs(date, sTime, eTime, building);
 				
@@ -119,8 +109,7 @@ public class ReservationBuilder {
 					
 					lReservations.add(possibleReservation);
 				}
-				
-				System.out.println("Hour: " + j);
+
 			}
 		}
 		

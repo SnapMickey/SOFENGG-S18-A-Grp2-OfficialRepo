@@ -1,4 +1,9 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+
+Rivera, Jared November 22, 2017
+Changes made:
+- Cleaned and Finalized ReservationBuilder
+
 Lominoque, Jerome November 21, 2017
 Changes made:
 - Finalized admin reservation page
