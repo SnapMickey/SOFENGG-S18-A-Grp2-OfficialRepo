@@ -771,10 +771,8 @@ public class SystemController extends HttpServlet {
 		//Changed id -> user just to prevent unwanted error (Edited by: Jerome)
 		if(password == null || password == ""){
 			errors+="BP";
-		}
-		
-		//check first if id isnt blank, if it isnt blank, do stuff
-		if(id != -1){
+		}else if(id != -1){
+			//Check if username is valid but blank password
 			User user = SystemService.getUser(id);
 			
 			//check first if user is null / doesnt exist before comparing password
