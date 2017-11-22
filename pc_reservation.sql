@@ -1,8 +1,10 @@
--- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `pc_reserve` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `pc_reserve`;
+-- MySQL dump 10.13  Distrib 5.7.12, for Win32 (AMD64)
 --
--- Host: 127.0.0.1    Database: pc_reservation
+-- Host: localhost    Database: pc_reserve
 -- ------------------------------------------------------
--- Server version	5.7.15-log
+-- Server version	5.7.16-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -124,6 +126,37 @@ INSERT INTO `pc_info` VALUES (1,1,0),(2,1,1),(3,1,1),(4,1,0),(5,1,1),(6,2,1),(7,
 UNLOCK TABLES;
 
 --
+-- Table structure for table `pc_reservation`
+--
+
+DROP TABLE IF EXISTS `pc_reservation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pc_reservation` (
+  `borrowId` int(11) NOT NULL,
+  `adminConfirmed` bit(1) DEFAULT NULL,
+  `checkInTime` datetime DEFAULT NULL,
+  `dateTimeEnd` datetime DEFAULT NULL,
+  `dateTimeStart` datetime DEFAULT NULL,
+  `eConfirmedTime` datetime DEFAULT NULL,
+  `emailConfirmed` bit(1) DEFAULT NULL,
+  `pcID` int(11) DEFAULT NULL,
+  `reserveTime` datetime DEFAULT NULL,
+  `userID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`borrowId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pc_reservation`
+--
+
+LOCK TABLES `pc_reservation` WRITE;
+/*!40000 ALTER TABLE `pc_reservation` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pc_reservation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `pc_reservations`
 --
 
@@ -140,7 +173,7 @@ CREATE TABLE `pc_reservations` (
   `reserveTime` datetime NOT NULL,
   `adminConfirmed` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`pcReservationsID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,7 +182,7 @@ CREATE TABLE `pc_reservations` (
 
 LOCK TABLES `pc_reservations` WRITE;
 /*!40000 ALTER TABLE `pc_reservations` DISABLE KEYS */;
-INSERT INTO `pc_reservations` VALUES (1,10912312,2,'2017-11-15 08:00:00','2017-11-15 09:00:00','9999-09-09 09:09:09','2017-11-15 06:30:00',0),(2,11634521,3,'2017-11-15 08:00:00','2017-11-15 09:00:00','9999-09-09 09:09:09','2017-11-15 06:30:00',0),(3,11534567,2,'2017-11-15 08:00:00','2017-11-15 09:00:00','9999-09-09 09:09:09','2017-11-15 07:30:00',0),(4,11265423,5,'2017-11-16 08:00:00','2017-11-16 09:00:00','9999-09-09 09:09:09','2017-11-15 07:00:00',0),(5,11412345,2,'2017-11-15 10:00:00','2017-11-15 11:00:00','9999-09-09 09:09:09','2017-11-15 07:00:00',0),(6,11324215,13,'2017-11-16 08:00:00','2017-11-16 09:00:00','9999-09-09 09:09:09','2017-11-16 07:00:00',0),(7,11425232,11,'2017-11-16 08:00:00','2017-11-16 09:00:00','9999-09-09 09:09:09','2017-11-16 06:00:00',0),(8,11710821,36,'2017-11-16 08:00:00','2017-11-16 09:00:00','9999-09-09 09:09:09','2017-11-16 07:00:00',0),(9,11719191,48,'2017-11-16 12:00:00','2017-11-16 13:00:00','9999-09-09 09:09:09','2017-11-16 06:00:00',0),(10,11726351,50,'2017-11-19 12:00:00','2017-11-19 13:00:00','9999-09-09 09:09:09','2017-11-16 07:00:00',0);
+INSERT INTO `pc_reservations` VALUES (1,10912312,2,'2017-11-15 08:00:00','2017-11-15 09:00:00','9999-09-09 09:09:09','2017-11-15 06:30:00',0),(2,11634521,3,'2017-11-15 08:00:00','2017-11-15 09:00:00','9999-09-09 09:09:09','2017-11-15 06:30:00',0),(3,11534567,2,'2017-11-15 08:00:00','2017-11-15 09:00:00','9999-09-09 09:09:09','2017-11-15 07:30:00',0),(4,11265423,5,'2017-11-16 08:00:00','2017-11-16 09:00:00','9999-09-09 09:09:09','2017-11-15 07:00:00',0),(5,11412345,2,'2017-11-15 10:00:00','2017-11-15 11:00:00','9999-09-09 09:09:09','2017-11-15 07:00:00',0),(6,11324215,13,'2017-11-16 08:00:00','2017-11-16 09:00:00','9999-09-09 09:09:09','2017-11-16 07:00:00',0),(7,11425232,11,'2017-11-16 08:00:00','2017-11-16 09:00:00','9999-09-09 09:09:09','2017-11-16 06:00:00',0),(8,11710821,36,'2017-11-16 08:00:00','2017-11-16 09:00:00','9999-09-09 09:09:09','2017-11-16 07:00:00',0),(9,11719191,48,'2017-11-16 12:00:00','2017-11-16 13:00:00','9999-09-09 09:09:09','2017-11-16 06:00:00',0),(10,11726351,50,'2017-11-19 12:00:00','2017-11-19 13:00:00','9999-09-09 09:09:09','2017-11-16 07:00:00',0),(11,11324215,49,'2017-11-23 03:00:00','2017-11-23 04:00:00','9999-09-09 09:09:09','2017-11-23 02:17:56',0),(12,11324215,51,'2017-11-23 00:00:00','2017-11-23 13:00:00','9999-09-09 09:09:09','2017-11-23 03:12:21',0),(13,11324215,50,'2017-11-23 00:00:00','2017-11-23 13:00:00','9999-09-09 09:09:09','2017-11-23 03:26:21',0);
 /*!40000 ALTER TABLE `pc_reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,7 +262,7 @@ CREATE TABLE `user_info` (
 
 LOCK TABLES `user_info` WRITE;
 /*!40000 ALTER TABLE `user_info` DISABLE KEYS */;
-INSERT INTO `user_info` VALUES (10823512,'Tess Poñei','Iloveicecream_9','admin',NULL),(10912312,'Heverly Bien','Bienhev11*','faculty',NULL),(10923123,'Heinrich Lein','Heinlein_109','admin',NULL),(11012344,'Anna Bell','Bellanna_1','faculty',NULL),(11023124,'Larry Port','Larryport110*','admin',NULL),(11123451,'Nadroj Ajed','Nadrojedi12!','faculty',NULL),(11145342,'Perry Mon','dlsuemailpass123.','admin',NULL),(11251234,'Gary Go','Gary_dlsu123','faculty',NULL),(11265423,'Ellie Gomez','Gomellie_12','student',NULL),(11322213,'Han Cort','Hancortdlsu11!','faculty',NULL),(11324215,'Adam Tom','adam1_12_123!','student',NULL),(11412345,'John Ferry','123456abc!','student',NULL),(11425232,'Hagrid Henry','H@grid12','student',NULL),(11490901,'Gaynelle Grady','Gradnelle007!','student',NULL),(11509152,'Cassie Troy','TroyCass09!','student',NULL),(11534567,'Mark Martinez','Hello123!','student',NULL),(11542311,'Lambert Alai','Lambertdlsu152!','faculty',NULL),(11611223,'Mitzi Frasier','FraMi116!','student',NULL),(11624523,'Jacklyn Pulido','Pulijack00%','student',NULL),(11634521,'Monique Lauff','Monlauff116*','student',NULL),(11710821,'Mallory Spivey','Spiderfan@11','student',NULL),(11712345,'Savanna Sisson','Sisson_123','student',NULL),(11719191,'Vena Burchfeld','Vburch117!','student',NULL),(11726351,'Claudette Morrow','Claudow23!','student',NULL);
+INSERT INTO `user_info` VALUES (10823512,'Tess Poñei','41ba5c4c4504371e0a705dec14104a3bc7f9950a','admin',NULL),(10912312,'Heverly Bien','af45e213b424099accdb1053fc7814e9d0124fcb','faculty',NULL),(10923123,'Heinrich Lein','5524697760ab25bb46c49f8b766ccd192605c4b7','admin',NULL),(11012344,'Anna Bell','08ec4ef982206ea87a6edfccdc2965fe7d836b1e','faculty',NULL),(11023124,'Larry Port','83152888382cef461668e01446e28b855bf2c2f5','admin',NULL),(11123451,'Nadroj Ajed','80147532ec238bfa646fe78132076e9c51da8ebc','faculty',NULL),(11145342,'Perry Mon','a8900d17be323797f23943535ea292f5b588c153','admin',NULL),(11251234,'Gary Go','b2312f5196cce37ef273bbe82f867d51f1ed4b98','faculty',NULL),(11265423,'Ellie Gomez','4bcec676e009f9fa5a7148cb66b1db4e75bc5912','student',NULL),(11322213,'Han Cort','f3f4b09c783ad281be8f5a984f3bf3d058ceed83','faculty',NULL),(11324215,'Adam Tom','5585350e695466a3f990b48bc38a748fc8b34b87','student',NULL),(11412345,'John Ferry','991dd29818ae767f8b5cd4378ce613225c3bd34c','student',NULL),(11425232,'Hagrid Henry','9367998c487aa9bce3a4db7d274c357c8d0cee84','student',NULL),(11490901,'Gaynelle Grady','4b599999691da3264f6a80ab326c444be676f644','student',NULL),(11509152,'Cassie Troy','0e50ff6d23bd7269d711f85068ec833555dc0ebb','student',NULL),(11534567,'Mark Martinez','b66a5337cc0d5f1a5466ed96fd125396c0dd24e6','student',NULL),(11542311,'Lambert Alai','9df0bce4356320076dce0cc8acddaa619110c4d3','faculty',NULL),(11611223,'Mitzi Frasier','4d8ebeadd66787a535a01334f0e2b6180eb2ff3e','student',NULL),(11624523,'Jacklyn Pulido','315d070a4d2add96284c74cb07480ae29c6bab4d','student',NULL),(11634521,'Monique Lauff','4decd9e0a59443eac3f8e0198b1f25bcac8b38f6','student',NULL),(11710821,'Mallory Spivey','38345ad3415e66fda5860920b45c69cfc15dc682','student',NULL),(11712345,'Savanna Sisson','10fa250fde2127256843abb9826fcf6409104c17','student',NULL),(11719191,'Vena Burchfeld','25f743c776cd42fd4bc4cbe3e1e3ec9515b6c2d7','student',NULL),(11726351,'Claudette Morrow','dcbe2bc5eb76535090ff3417514ec6c24f8d00d2','student',NULL);
 /*!40000 ALTER TABLE `user_info` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -242,4 +275,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-22 12:28:13
+-- Dump completed on 2017-11-23  6:31:24
