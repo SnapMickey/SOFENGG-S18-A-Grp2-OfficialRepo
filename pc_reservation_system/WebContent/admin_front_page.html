@@ -466,35 +466,35 @@
                 //recentReservationsDrop
                 refresh_recent_reservations_table();
                 
-                var bldg = document.getElementById("reservationsDrop");
+                var bldg = document.getElementById("recentReservationsDrop");
                 var url = "getPcReservations?";
                 switch($(this).val()){
                         
-                    case "All Locations":
+                    case "default":
                         //TODO filter results
                         url += "location=default";
                         $.get(url, function(obj){
-                            add_data_to_recent_lab(obj); 
+                            add_data_to_recent_reserve(obj); 
                         });
                         break;
                     case "Gokongwei":
                         //TODO filter results
                         url += "location=Gokongwei"
                         $.get(url, function(obj){
-                            add_data_to_recent_lab(obj); 
+                            add_data_to_recent_reserve(obj); 
                         });
                         break;
                     case "Velasco":
                         //TODO filter results
                         url += "location=Velasco"
                         $.get(url, function(obj){
-                            add_data_to_recent_lab(obj); 
+                            add_data_to_recent_reserve(obj); 
                         });
                         break;
                     case "Miguel":
                         url += "location=Miguel"
                         $.get(url, function(obj){
-                            add_data_to_recent_lab(obj); 
+                            add_data_to_recent_reserve(obj); 
                         });
                         //TODO filter results
                         break;
@@ -502,7 +502,7 @@
                         //TODO filter results
                         url += "location=Henry Sy"
                         $.get(url, function(obj){
-                            add_data_to_recent_lab(obj); 
+                            add_data_to_recent_reserve(obj); 
                         });
                         break;
                     }
@@ -548,12 +548,12 @@
             $("#reservationsDrop").on('change', function(){
                 //
                 //reservationsDrop
-                
+                refresh_lab_reservations_table();
                 var bldg = document.getElementById("reservationsDrop");
                 var url = "getLabReservations?";
                 switch($(this).val()){
                         
-                    case "All Locations":
+                    case "default":
                         //TODO filter results
                         url += "location=default";
                         $.get(url, function(obj){
@@ -612,11 +612,11 @@
             
             //Computer Schedules
             $("#schedulesDrop").on('change', function(){
+                refresh_schedules_table();
                 var bldg = document.getElementById("schedulesDrop");
                 var url = "getAdminSchedules?";
                 switch($(this).val()){
-                        
-                    case "All Locations":
+                    case "default":
                         //TODO filter results
                         url += "location=default";
                         $.get(url, function(obj){
@@ -675,26 +675,31 @@
                 }
                 //add_data_to_recent_reserve(reserveArr);
                 
-                console.log("sending loading recent reservations");
+                console.log("loading recent reservations");
                 
                 $.get("getPcReservations?location=default", function(obj){
                     console.log("loading recent reservations");
                     add_data_to_recent_reserve(obj);
                 });
                 
-                console.log("recent reservations done");
-                /*
-                $.get("getSchedules?location=default", function(obj){
-                    
-                    add_data_to_computer_schedules(schedArr); 
-                });
                 
+                console.log("recent reservations done");
+                
+                
+                
+                console.log("loading lab reservations");
                 $.get("getLabReservations?location=default", function(obj){
                     add_data_to_recent_lab(obj);
                 });
-                */
+                console.log("lab reservations done");
+            
+                console.log("loading admin sched");
                 
+                $.get("getAdminSchedules?location=default", function(obj){
+                    add_data_to_computer_schedules(obj); 
+                });
                 
+                console.log("admin sched done");
                 
                 //
             });
@@ -713,7 +718,7 @@
                         end:
                     }
                 */
-                for(var i = 0 ; i < jasonarr.length ; i++){
+                for(var i = jasonarr.length - 1  ; i >= 0 ; i--){
                     var jason = jasonarr[i];
                     var row = $("<tr>");
                     row.append("<td class = 'tableCell' id = 'deleteReserve'>X</td>");
@@ -753,7 +758,7 @@
                 
                 //Loops through the whole JSON array and prints it
                 //Optional: add a limit maybe? like 10 recent
-                for(var i = 0 ; i < jasonarr.length ; i++){
+                for(var i = jasonarr.length - 1  ; i >= 0 ; i--){
                     var jason = jasonarr[i];
                     var row = $("<tr>");
                     row.append("<td class = 'tableCell' id = 'deleteReserve'>X</td>");
@@ -785,7 +790,7 @@
                         status:
                     }
                 */
-                for(var i = 0 ; i < jasonarr.length ; i++){
+                for(var i = jasonarr.length - 1  ; i >= 0 ; i--){
                     var jason = jasonarr[i];
                     var row = $("<tr>");
                     

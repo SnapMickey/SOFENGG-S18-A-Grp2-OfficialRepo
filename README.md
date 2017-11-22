@@ -1,5 +1,11 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Lominoque, Jerome November 22, 2017
+Changes made:
+- Fixed admin front page problems
+- Fixed some System Service bugs
+- fixed some systemcontroller bugs
+
 <<<<<<< HEAD
 Rivera, Jared November 22, 2017
 Changes made:

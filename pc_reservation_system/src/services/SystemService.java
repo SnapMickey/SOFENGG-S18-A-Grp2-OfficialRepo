@@ -231,7 +231,11 @@ public class SystemService {
 		try{
 			trans.begin();
 			
-			String statement = "from lab lb where lb.building like '%" + building + "%'";
+			String statement = "from lab lb";
+			
+			if(building != null){
+				statement += " where lb.building like '%" + building + "%'";
+			}
 			
 			TypedQuery<Lab> query = em.createQuery(statement, Lab.class);
 			labs.addAll(query.getResultList());
@@ -395,7 +399,7 @@ public class SystemService {
 			
 			// removed eventname = "none"
 			if(location != null) 
-				statement += "where pr.pcID = pc.pdID and pc.locationID = lb.locationID and lb.building like '%"+ location +"%'";
+				statement += " where pr.pcID = pc.pcID and pc.locationID = lb.locationID and lb.building like '%"+ location +"%'";
 					
 			statement += " order by reserveTime";
 			
@@ -427,7 +431,7 @@ public class SystemService {
 			String statement = "select distinct lr from lab_reservations lr, lab lb";
 
 			if(location != null) 
-				statement += "where lr.locationID = lb.locationID and lb.building like '% "+ location +"%'";
+				statement += " where lr.locationID = lb.locationID and lb.building like '%"+ location +"%'";
 					
 			statement += " order by reserveTime";
 			

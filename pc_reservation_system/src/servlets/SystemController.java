@@ -374,7 +374,8 @@ public class SystemController extends HttpServlet {
 			int total = SystemService.getAllPcs(lb.getLocationID()).size();
 			int free = SystemService.getAllFreePcs(curTime, curTime, endTime, lb.getBuilding(), lb.getName()).size();
 			String status = "available";
-			if(lb.isAvailable()) status = "unavailable";
+			if(!(lb.isAvailable())) status = "unavailable";
+			if(free == 0) status = "unavailable";
 			
 			JsonObject json = new JsonObject();
 			json.addProperty("location", lb.getName());
@@ -440,6 +441,7 @@ public class SystemController extends HttpServlet {
 			
 			JsonObject json = new JsonObject();
 			
+			json.addProperty("userid", lr.getUserID());
 			json.addProperty("id", lab.getLocationID());
 			json.addProperty("location", lab.getName());
 			json.addProperty("event", lr.getEventName());
