@@ -2,7 +2,10 @@
 Bornales, Amiel James November 22, 2017
 Changes made:
 - added functionality for Layout buttons in user / admin reserve
+- fixed height for user_front_page.html
 
+Errors / Problems:
+- When user_front is zoomed in alot (300% or something big), the table recent reserve doesnt show since it cant fit
 Lominoque, Jerome November 22, 2017
 Changes made:
 - Finalized admin front
