@@ -322,7 +322,7 @@
                                 </div>
                                 <!--Box Header End-->
                                 <div class = "tableContainer">
-                                    <table class = "reserveTable">
+                                    <table class = "reserveTable" id="labReservationsTable">
                                         <tbody id = "labTable">
                                             <tr>
                                                 <th class = "tableHeader"> </th>
@@ -364,7 +364,7 @@
                                 
                                 <!--Box Header End-->
                                 <div class = "tableContainer" style = "height:400px;">
-                                    <table class = "reserveTable">
+                                    <table class = "reserveTable" id="scheduleList">
                                         <tbody id = "schedBody">
                                             <tr>
                                                 <th class = "tableHeader">Location</th>
@@ -434,15 +434,16 @@
                 form.submit();
             });
             
-            $("#reserveBtn").click(function(){
-                
-            });
-            
             $("#historyBtn").click(function(){
-                
+                var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "adminhistorypage";
+                document.body.appendChild(form);
+                form.submit();
                 
             });
             
+            /*
             $("#layoutBtn").click(function(){
                 
                 
@@ -452,7 +453,7 @@
                 
                 
             });
-            
+            */
             $("#questionBtn").click(function(){
                 
                 
@@ -465,40 +466,73 @@
                 //recentReservationsDrop
                 refresh_recent_reservations_table();
                 
-                var location = document.getElementById("recentReservationsDrop").value;
-                var url = "getRecentReservations?location=" + location;
-                
-                $.get(url, function(obj){
-                    add_data_to_recent_reserve(obj);
-                });
-                /*
-               switch($(this).val()){
+                var bldg = document.getElementById("reservationsDrop");
+                var url = "getPcReservations?";
+                switch($(this).val()){
                         
                     case "All Locations":
                         //TODO filter results
-                       url += default;
-                       $.get("getRecentReservations?location=default", function(obj){
-                            add_data_to_recent_lab(obj);
+                        url += "location=default";
+                        $.get(url, function(obj){
+                            add_data_to_recent_lab(obj); 
                         });
                         break;
                     case "Gokongwei":
                         //TODO filter results
+                        url += "location=Gokongwei"
+                        $.get(url, function(obj){
+                            add_data_to_recent_lab(obj); 
+                        });
                         break;
                     case "Velasco":
                         //TODO filter results
+                        url += "location=Velasco"
+                        $.get(url, function(obj){
+                            add_data_to_recent_lab(obj); 
+                        });
                         break;
                     case "Miguel":
+                        url += "location=Miguel"
+                        $.get(url, function(obj){
+                            add_data_to_recent_lab(obj); 
+                        });
                         //TODO filter results
                         break;
                     case "Henry Sy":
                         //TODO filter results
+                        url += "location=Henry Sy"
+                        $.get(url, function(obj){
+                            add_data_to_recent_lab(obj); 
+                        });
                         break;
-                } */
+                    }
             });
             
             function refresh_recent_reservations_table(){
-                console.log("refreshing table");
+                console.log("refreshing recent table");
                 var elmtTable = document.getElementById('recentReservationsTable');
+                var tableRows = elmtTable.getElementsByTagName('tr');
+                var rowCount = tableRows.length;
+                
+                for (var x=rowCount-1; x>0; x--) {
+                    elmtTable.removeChild(tableRows[x]);
+                }  
+            }
+            
+            function refresh_lab_reservations_table(){
+                console.log("refreshing lab table");
+                var elmtTable = document.getElementById('labReservationsTable');
+                var tableRows = elmtTable.getElementsByTagName('tr');
+                var rowCount = tableRows.length;
+                
+                for (var x=rowCount-1; x>0; x--) {
+                    elmtTable.removeChild(tableRows[x]);
+                }  
+            }
+            
+            function refresh_schedules_table(){
+                console.log("refreshing schedules table");
+                var elmtTable = document.getElementById('scheduleList');
                 var tableRows = elmtTable.getElementsByTagName('tr');
                 var rowCount = tableRows.length;
                 
@@ -514,30 +548,50 @@
             $("#reservationsDrop").on('change', function(){
                 //
                 //reservationsDrop
+                
+                var bldg = document.getElementById("reservationsDrop");
+                var url = "getLabReservations?";
                 switch($(this).val()){
                         
                     case "All Locations":
                         //TODO filter results
-                        $.get("getLabReservations?location=default", function(obj){
-                            add_data_to_recent_reserve(obj);
-                         });
-                        
+                        url += "location=default";
+                        $.get(url, function(obj){
+                            add_data_to_recent_lab(obj); 
+                        });
                         break;
                     case "Gokongwei":
                         //TODO filter results
+                        url += "location=Gokongwei"
+                        $.get(url, function(obj){
+                            add_data_to_recent_lab(obj); 
+                        });
                         break;
                     case "Velasco":
                         //TODO filter results
+                        url += "location=Velasco"
+                        $.get(url, function(obj){
+                            add_data_to_recent_lab(obj); 
+                        });
                         break;
                     case "Miguel":
+                        url += "location=Miguel"
+                        $.get(url, function(obj){
+                            add_data_to_recent_lab(obj); 
+                        });
                         //TODO filter results
                         break;
                     case "Henry Sy":
                         //TODO filter results
+                        url += "location=Henry Sy"
+                        $.get(url, function(obj){
+                            add_data_to_recent_lab(obj); 
+                        });
                         break;
-                }
+                    }
             });
             
+            /*
             $("#statisticsDrop").on('change', function(){
                 switch($(this).val()){
                     case "Daily":
@@ -554,38 +608,46 @@
                         break;
                 }
             });
+            */
             
+            //Computer Schedules
             $("#schedulesDrop").on('change', function(){
                 var bldg = document.getElementById("schedulesDrop");
+                var url = "getAdminSchedules?";
                 switch($(this).val()){
                         
                     case "All Locations":
                         //TODO filter results
-                        $.get("getAdminSchedules?location=default", function(obj){
+                        url += "location=default";
+                        $.get(url, function(obj){
                             add_data_to_computer_schedules(obj); 
                         });
                         break;
                     case "Gokongwei":
                         //TODO filter results
-                        $.get("getAdminSchedules?location=Gokongwei", function(obj){
+                        url += "location=Gokongwei"
+                        $.get(url, function(obj){
                             add_data_to_computer_schedules(obj); 
                         });
                         break;
                     case "Velasco":
                         //TODO filter results
-                        $.get("getAdminSchedules?location=Velasco", function(obj){
+                        url += "location=Velasco"
+                        $.get(url, function(obj){
                             add_data_to_computer_schedules(obj); 
                         });
                         break;
                     case "Miguel":
-                        $.get("getAdminSchedules?location=Miguel", function(obj){
+                        url += "location=Miguel"
+                        $.get(url, function(obj){
                             add_data_to_computer_schedules(obj); 
                         });
                         //TODO filter results
                         break;
                     case "Henry Sy":
                         //TODO filter results
-                        $.get("getAdminSchedules?location=Henry Sy", function(obj){
+                        url += "location=Henry Sy"
+                        $.get(url, function(obj){
                             add_data_to_computer_schedules(obj); 
                         });
                         break;

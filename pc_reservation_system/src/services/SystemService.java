@@ -391,11 +391,11 @@ public class SystemService {
 		try{
 			trans.begin();
 			
-			String statement = "select distinct pr from pc_reservations pr, pc_info pc, lab lb"
-					+ " where pr.eventName = 'none'";
+			String statement = "select distinct pr from pc_reservations pr, pc_info pc, lab lb";
 			
+			// removed eventname = "none"
 			if(location != null) 
-				statement += " and pr.pcID = pc.pdID and pc.locationID = lb.locationID and lb.building like '%"+ location +"%'";
+				statement += "where pr.pcID = pc.pdID and pc.locationID = lb.locationID and lb.building like '%"+ location +"%'";
 					
 			statement += " order by reserveTime";
 			

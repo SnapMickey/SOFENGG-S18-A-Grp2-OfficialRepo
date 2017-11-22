@@ -8,6 +8,12 @@ Changes made:
 Lominoque, Jerome November 22, 2017
 Changes made:
 - Fixed user and admin reservation page
+- Fixed admin front page
+- fixed some systemservices event problems
+
+Errors/Problems:
+- Incorrect data output for schedule list in admin front page
+- data not showing for lab reservation table in admin front page
 
 Notes:
 - User reservation page is not yet final but I left some comments 
