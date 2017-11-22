@@ -1,4 +1,9 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+Bornales, Amiel James November 23, 2017
+Changes made:
+- updated index.html error messages to current mockup
+
+
 Bornales, Amiel James November 22, 2017
 Changes made:
 - added functionality for Layout buttons in user / admin reserve
