@@ -174,19 +174,29 @@
                 var errorMessage = "";
                 //check if error codes are in string, if yes, append error message to errorMessage
                 if(err.indexOf("DNE")!= -1){
-                    errorMessage+= "* User does not exist<br/>"
+                    errorMessage+= "Unregistered ID Number<br/>";
                 }
-                if(err.indexOf("BU")!= -1){
-                    errorMessage+= "* Username cannot be blank<br/>"
+                //display text if both inputs are blank
+                if(err.indexOf("DNE")!= -1){
+                    errorMessage+= "Unregistered ID Number<br/>";
                 }
-                if(err.indexOf("BP")!= -1){
-                    errorMessage+= "* Password cannot be blank<br/>"
+                //display text if both inputs are blank
+                if(err.indexOf("BU")!= -1 && err.indexOf("BP")!= -1){
+                    errorMessage+= "No ID Number and Password Entered<br/>";
+                }else{
+                    //display if either is blank
+                    if(err.indexOf("BU")!= -1){
+                        errorMessage+= "No ID Number Entered<br/>";
+                    }
+                    if(err.indexOf("BP")!= -1){
+                        errorMessage+= "No Password Entered<br/>";
+                    }
                 }
                 if(err.indexOf("WU")!= -1){
-                    errorMessage+= "* Invalid Username<br/>"
+                    errorMessage+= "Invalid ID Number<br/>";
                 }
                 if(err.indexOf("WP")!= -1){
-                    errorMessage+= "* Invalid Password<br/>"
+                    errorMessage+= "Wrong Password<br/>";
                 }
                 if(err.indexOf("RA")!= -1){
                     alert("Restricted Access");
