@@ -62,7 +62,6 @@
         .reserveTable td{
             cursor:pointer;
         }
-
         
         .reserveTableHead{
             height: 20%;
@@ -87,7 +86,7 @@
             border: solid;
             border-width: 1px;
             border-radius: 4px;
-            width:130px;
+            width:180px;
             font-family:'Avenir Next',sans-serif;
             font-weight: 600;
             font-size:15px;
@@ -378,6 +377,12 @@
             font-weight:600;
             color:white;
         }
+        .labImage{
+            visibility: visible;
+            display:none;
+            max-height: 100%;
+            max-width: 100%; 
+        }
         
     </style>
     <head>
@@ -510,10 +515,11 @@
                     <span class="mainHeader"> <b>3. Reserve A PC </b> </span> <span class="mainHeader2"> Select a PC to reserve </span>
                     </div>
                     <div class="reserveTableDiv">
+                    <img class = "labImage">
                     <table class="reserveTable" id="reserveListTable">
                         <thead>
                             <tr class="reserveTableHead">
-                                <th height="40">
+                                <th height="40" id="pcHeader">
                                     <center> PC No. </center>
                                 </th>
                                     
@@ -542,7 +548,7 @@
                     </div>
                      <div class = "row" style = "padding:0px; margin:10px 0px;">
                           <div class = "col">
-                              <button class = "reserveButtons">VIEW LAYOUT</button>
+                              <button class = "reserveButtons" id = "layout">VIEW LAYOUT</button>
                           </div>
                           <div class = "col">
                               <button id="reserveButton" class = "reserveButtons hideReserve" style = "float:right;">RESERVE</button>
@@ -592,6 +598,69 @@
         crossorigin="anonymous"></script>
     
         <script>
+            
+            //Header Stuff
+            //Header History
+            $("historyBtn").click(function(){
+                
+            	var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "adminhistorypage";
+                document.body.appendChild(form);
+                form.submit();
+                
+            });
+            
+            //Header Logout
+            $("#logout").click(function(){
+            	var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "logout";
+                document.body.appendChild(form);
+                form.submit();
+            });
+            
+            $("#dashboardBtn").click(function(){
+            	var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "adminpage";
+                document.body.appendChild(form);
+                form.submit();
+            });
+            
+            // End of Header Stuff
+            
+            //Filter and Reserve Stuff
+            var isLayout = false;
+            
+            $("#layout").click(function(){
+                var room = $("#roomList").val();
+                console.log(room);
+                if(!isLayout && room != "default"){
+                    isLayout = true;
+                    
+                    //hide table
+                    $(".reserveTable").css("display","none");
+            
+                    //set image src to room num
+                    $(".labImage").attr("src", room + ".png");
+                    
+                    //show image and center it
+                    $(".labImage").css("display", "block");
+                    $(".labImage").css("margin","0 auto");
+                    
+                    $(this).html("VIEW RESERVATIONS");
+                }else{
+                    isLayout = false;
+                    //make image invisible
+                    $(".labImage").css("display", "none");
+                    
+                    //make table visible
+                    $(".reserveTable").css('display', "");
+                    $(this).html("VIEW LAYOUT");
+                }
+            });
+            
             var yesBtn, noBtn, closeBtn;
             closeBtn = document.getElementById("closePopUpID");
             yesBtn = document.getElementById("popYes");
@@ -660,6 +729,7 @@
             
             $("#bldgList").change(function(){
                 console.log("bldgList changed");
+                refresh_table();
                 
                 var bldgList = document.getElementById("bldgList");
                 var roomList = document.getElementById("roomList");
@@ -783,6 +853,7 @@
                 
             });
             
+            //Reserve Button Function
             var reserveUrl = null;
             $("#reserveButton").click(function(){
                 
@@ -792,6 +863,9 @@
                     reserveUrl = "labReserve?"
                 }
                 
+                /* copy these part 
+                   note: remove the event name for users
+                */
                 console.log("preparing reservation..");
                 var pc, building, room, sTime, eTime, id, date, eventName;
                 id = parseInt(selectedId);
@@ -825,6 +899,7 @@
                                              "<br> Start Time: " + sTime +
                                              "<br> End Time: " + eTime;
                 
+                /* Up to this part */
                 if($("#event").is(':checked')){
                     popUpMainContent.innerHTML += "<br>Event Name:" + eventName +
                                                   "<br><br> Note: This is a class/event reservation. <br>";
@@ -832,6 +907,7 @@
                      popUpMainContent.innerHTML += "<br>";
                 }
                 
+                //Reveal PopUp
                 popUpSize.style.padding = "100px 50px";
                 closeBtn.style.display = "none";
                 popUpDiv.style.display = "block";
@@ -842,6 +918,8 @@
                 
                 
             });
+            
+            //Start of PopUp Elements
             
             function yesReserveBtn(){
                 popUpSize.style.padding = "50px";
@@ -872,10 +950,12 @@
                 popUpDiv.style.display = "block";
             }
             
+            // X button
             $("#closePopUpID").click(function(){
                 popUpDiv.style.display = "none";
             });
             
+            //End of PopUp Elements
             
             $("#searchButton").click(function(){
                 var idNumSolo, idNumEvent;
@@ -952,7 +1032,6 @@
                 if(passed){
                     console.log("searching..");
                     refresh_table();
-
                     var bldg, room, startTime, endTime, date, id, checkbox, dropdown;
                     dropdown = document.getElementById("bldgList");
                     bldg = dropdown.value;
@@ -1029,6 +1108,66 @@
                 }
             });
             
+            var pcHeader = document.getElementById("pcHeader")
+            //check box for individual
+            $("#individual").click(function(){
+                pcHeader.innerHTML = "<center> PC No. </center>";
+                
+                refresh_table();
+                
+                $("#event").prop('checked', false);
+                
+                document.getElementById("idNumSolo").value = null;
+                document.getElementById("idNumEvent").value = null;
+                document.getElementById("eventName").value = null;
+                document.getElementById("individualName").value = null;
+                document.getElementById("byGroupName").value = null;
+                
+                if($("#individual").is(':checked')){
+                     console.log("individualticked") ;
+                    document.getElementById("idNumSolo").disabled = false;
+                    document.getElementById("idNumEvent").disabled = true;
+                    document.getElementById("eventName").disabled = true;
+                }else{
+                    
+                   console.log("individualunticked") ; document.getElementById("idNumSolo").disabled = true;
+                    document.getElementById("idNumEvent").disabled = true;
+                    document.getElementById("eventName").disabled = true;
+                }
+                //checking
+                //$("#event).is(':checked');
+            });
+            
+            //checkbox for event
+            $("#event").click(function(){
+                pcHeader.innerHTML = "<center> Location ID </center>";
+                
+                refresh_table();
+                $("#individual").prop('checked', false);
+                
+                document.getElementById("idNumSolo").value = null;
+                document.getElementById("idNumEvent").value = null;
+                document.getElementById("eventName").value = null;
+                document.getElementById("individualName").value = null;
+                document.getElementById("byGroupName").value = null;
+                
+                if($("#event").is(':checked')){
+                    
+                   console.log("eventticked");
+                    document.getElementById("idNumSolo").disabled = true;
+                    document.getElementById("idNumEvent").disabled = false;
+                    document.getElementById("eventName").disabled = false;
+                }else{
+                    
+                   console.log("eventunticked"); document.getElementById("idNumSolo").disabled = true;
+                    document.getElementById("idNumEvent").disabled = true;
+                    document.getElementById("eventName").disabled = true;
+                }
+            });
+            
+            // End of Filter and Search Stuff
+            
+            //Start of Functions for Table
             function add_data_to_textbox(user){
                 if($("#individual").is(':checked')){
                     document.getElementById("individualName").value = user["name"];
@@ -1037,36 +1176,7 @@
                 }
             }
             
-            /* create other header functions */
-            
-            $("dashboardBtn").click(function(){
-            	var form = document.createElement('form');
-                form.method = "GET";
-                form.action = "adminpage";
-                document.body.appendChild(form);
-                form.submit();
-            });
-            
-            $("historyBtn").click(function(){
-                alert("This button is not yet working");
-                /*
-            	var form = document.createElement('form');
-                form.method = "GET";
-                form.action = "logout";
-                document.body.appendChild(form);
-                form.submit();
-                */
-            });
-            
-            $("#logout").click(function(){
-            	var form = document.createElement('form');
-                form.method = "GET";
-                form.action = "logout";
-                document.body.appendChild(form);
-                form.submit();
-            });
-            
-            
+           //Remove this code after testing
            $(document).ready(function(){
                
                var jasonarr = [];
@@ -1084,6 +1194,7 @@
                 add_table_data(jasonarr);
             });
             
+            //Prepares the table for new data 
             function refresh_table(){
                 console.log("refreshing table");
                 var elmtTable = document.getElementById('reserveListTable');
@@ -1095,6 +1206,7 @@
                 }  
             }
             
+            //Adds data to table
             function add_table_data(jasonarr){
                 /*
                     Function Recieves table data in the form of an JSON array
@@ -1126,52 +1238,8 @@
                 }
                 
             }
-            
-            $("#individual").click(function(){
-                $("#event").prop('checked', false);
-                document.getElementById("idNumSolo").value = null;
-                document.getElementById("idNumEvent").value = null;
-                document.getElementById("eventName").value = null;
-                document.getElementById("individualName").value = null;
-                document.getElementById("byGroupName").value = null;
-                
-                if($("#individual").is(':checked')){
-                     console.log("individualticked") ;
-                    document.getElementById("idNumSolo").disabled = false;
-                    document.getElementById("idNumEvent").disabled = true;
-                    document.getElementById("eventName").disabled = true;
-                }else{
                     
-                   console.log("individualunticked") ; document.getElementById("idNumSolo").disabled = true;
-                    document.getElementById("idNumEvent").disabled = true;
-                    document.getElementById("eventName").disabled = true;
-                }
-                //checking
-                //$("#event).is(':checked');
-            });
-            
-            $("#event").click(function(){
-                $("#individual").prop('checked', false);
-                document.getElementById("idNumSolo").value = null;
-                document.getElementById("idNumEvent").value = null;
-                document.getElementById("eventName").value = null;
-                document.getElementById("individualName").value = null;
-                document.getElementById("byGroupName").value = null;
-                
-                if($("#event").is(':checked')){
-                    
-                   console.log("eventticked");
-                    document.getElementById("idNumSolo").disabled = true;
-                    document.getElementById("idNumEvent").disabled = false;
-                    document.getElementById("eventName").disabled = false;
-                }else{
-                    
-                   console.log("eventunticked"); document.getElementById("idNumSolo").disabled = true;
-                    document.getElementById("idNumEvent").disabled = true;
-                    document.getElementById("eventName").disabled = true;
-                }
-            });
-            
+            //Onclick function for every rows
             $(document).on('click','.reserveTable tr',function(){
                $(this).addClass('selected').siblings().removeClass('selected');    
                var value=$(this).find('td:first').html();
@@ -1185,29 +1253,6 @@
                 console.log(selectedPc, selectedBldg, selectedRoom, selectedTime);
                 document.getElementById('reserveButton').style.visibility = "visible";
             });
+            
         </script>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

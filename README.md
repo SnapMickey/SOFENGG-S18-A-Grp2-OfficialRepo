@@ -1,8 +1,21 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+<<<<<<< HEAD
 Rivera, Jared November 22, 2017
 Changes made:
 - Cleaned and Finalized ReservationBuilder
+=======
+Lominoque, Jerome November 22, 2017
+Changes made:
+- Fixed user and admin reservation page
+
+Notes:
+- User reservation page is not yet final but I left some comments 
+
+Bornales, Amiel James November 21, 2017
+Changes Made:
+- fixed error in login.html where user is getting DNE / Wrong Password when ID is valid but password is blank
+>>>>>>> 0a3ac088c1f0f942c1d7ad21d515522ae9134ce4
 
 Lominoque, Jerome November 21, 2017
 Changes made:
