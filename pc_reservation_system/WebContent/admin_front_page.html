@@ -7,7 +7,6 @@
         }
         .container-fluid{
             height: 100%;
-            overflow-y: hidden; /* don't show content that exceeds my height */
         }
         .mainDiv{
             background-color:#CCCCCC;
@@ -112,6 +111,7 @@
             */
             margin-bottom: 25px;
             padding:5px;
+            height:41%;
         }
         .boxHeader{
             font-family:'Avenir Next',sans-serif;
@@ -197,7 +197,7 @@
             overflow-y: scroll;
             padding:0px;
             margin:0px;
-            height:158px;
+            height: 100%;
         }
     </style>
     <head>
@@ -245,9 +245,9 @@
             <!-- Header end -->
             
             
-            <div class = "row">
+            <div class = "row" id = "white" style = "height:100%;">
                 <div class = "bgwhite" style = "padding-top:30px;">
-                    <div class = "row">
+                    <div class = "row" id = "greetingsHolder">
                         <div class = "col-md-6">
                             <h3 style = "color:#4A4A4A">Welcome Admin!</h3>
                         </div>
@@ -255,17 +255,17 @@
                             <p id = "currTime" class = "timeDetails">Current System Time: 12:30 PM</p>
                         </div>
                         <div class = "col-md-3">
-                            <p id = "currTime" class = "timeDetails" style="float:right;text-decoration:underline;" >Refresh</p>
+                            <p id = "currTime" class = "timeDetails" style="float:right;text-decoration:underline;cursor:pointer;" >Refresh</p>
                         </div>
                     </div>
                     
-                    <div class = "row">
+                    <div class = "row" id = "boxHolder" style = "height:100%;">
                         <div class = "col-md-6" style = "margin-bottom:0px;padding-bottom:0px;height:auto;" >
                             <!-- PC, Small upper left -->
-                            <div class = "contentBox" style = "padding:0px;">
+                            <div class = "contentBox"  id = "recentBox" style = "padding:0px;">
                                 
                                 <!--Box Header Start-->
-                                <div class = "row">
+                                <div class = "row" id = "recentHeader">
                                     <div class = "col">
                                         <h3 class = "boxTitle" style = "margin-left:10px;margin-top:20px;margin-bottom:15px;">Recent Reservations</h3>
                                     </div>
@@ -281,7 +281,7 @@
                                 </div>
                                 <!--Box Header End--> 
                                 
-                                <div class = "tableContainer">
+                                <div class = "tableContainer"  id = "recentReserve">
                                     <table class = "reserveTable" id="recentReservationsTable">
                                         <tbody id = "recentTable">
                                             <tr>
@@ -302,11 +302,11 @@
                             
                             
                             <!-- Lab,Small Lower Left -->
-                            <div class = "contentBox" style = "padding:0px;">
+                            <div class = "contentBox" id = "labBox" style = "padding:0px;">
                                 
                                 <!--Box Header Start-->
                                 
-                                <div class = "row">
+                                <div class = "row" id = "labHeader">
                                     <div class = "col">
                                         <h3 class = "boxTitle" style = "margin-left:10px;margin-top:15px;margin-bottom:15px;">Lab Reservations</h3>
                                     </div>
@@ -321,7 +321,7 @@
                                     </div>
                                 </div>
                                 <!--Box Header End-->
-                                <div class = "tableContainer">
+                                <div class = "tableContainer" id = "labTableDiv">
                                     <table class = "reserveTable" id="labReservationsTable">
                                         <tbody id = "labTable">
                                             <tr>
@@ -343,11 +343,11 @@
                         </div>
                         <!-- Computer Schedules, Big Right Box -->
                         <div class = "col-md-6"  style = "margin-bottom:0px;padding-bottom:0px;height:auto;">
-                            <div class = "contentBox" style = "padding:0px;">
+                            <div class = "contentBox" id = "computerBox" style = "padding:0px;height:87%;">
                                 
                                 <!--Box Header Start-->
                                 
-                                <div class = "row">
+                                <div class = "row" id = "computerHeader">
                                     <div class = "col">
                                         <h3 class = "boxTitle" style = "margin-left:10px;margin-top:20px;margin-bottom:15px;">Computer Schedules</h3>
                                     </div>
@@ -363,7 +363,7 @@
                                 </div>
                                 
                                 <!--Box Header End-->
-                                <div class = "tableContainer" style = "height:400px;">
+                                <div class = "tableContainer" id = "computerTable" style = "height:89%;">
                                     <table class = "reserveTable" id="scheduleList">
                                         <tbody id = "schedBody">
                                             <tr>
@@ -507,6 +507,16 @@
                         break;
                     }
             });
+            
+            function fix_table_heights(){
+                $("#white").height($(".mainDiv").height() - $(".header").height()-50);
+                $("#recentBox").height(($("#computerBox").height()/2)- (20));
+                $("#labBox").height(($("#computerBox").height()/2)- (20));
+                $("#recentReserve").height($("#recentBox").height()-$("#recentHeader").height());
+                $("#labTableDiv").height($("#labBox").height()-$("#labHeader").height());
+                $("#computerTable").height($("#computerBox").height()-$("#computerHeader").height()-16);
+                $("#boxHolder").height($("#white").height() - $("#greetingsHolder").height());
+            }
             
             function refresh_recent_reservations_table(){
                 console.log("refreshing recent table");
@@ -659,7 +669,7 @@
             
             //function is called when page is fully loaded
             $(document).ready(function(){
-                
+                fix_table_heights();
                 var kek = {
                         name:"something",
                         id:"something",
