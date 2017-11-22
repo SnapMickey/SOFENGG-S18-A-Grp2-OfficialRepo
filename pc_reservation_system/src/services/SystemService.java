@@ -33,6 +33,44 @@ public class SystemService {
 		return user;
 	}
 	
+	public static Faculty getFaculty(int id){
+		Faculty faculty = null;
+		
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction trans = em.getTransaction();
+		
+		trans.begin();
+		faculty = em.find(Faculty.class, id);
+		trans.commit();
+		
+
+		em.close(); 
+		emf.close();
+		
+		return faculty;
+	}
+	
+	public static Student getStudent(int id){
+		Student student = null;
+		
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction trans = em.getTransaction();
+		
+		trans.begin();
+		student = em.find(Student.class, id);
+		trans.commit();
+		
+
+		em.close(); 
+		emf.close();
+		
+		return student;
+	}
+	
+	
+	
 	public static Pc getPc(int id) {
 		Pc pc = null;
 		
@@ -239,10 +277,6 @@ public class SystemService {
 			
 			TypedQuery<Lab> query = em.createQuery(statement, Lab.class);
 			labs.addAll(query.getResultList());
-			
-			for(Lab l : labs) {
-				l.setComputers(SystemService.getAllPcs(l.getLocationID()));
-			}
 			
 			trans.commit();
 		}catch(Exception e){
@@ -515,6 +549,34 @@ public class SystemService {
 		emf.close();
 	}
 	
+	public static void removePcReservation() {
+		ArrayList<PcReservation> reservations = new ArrayList<>();
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction trans = em.getTransaction();
+		
+		try{
+			trans.begin();
+			
+			String statement = "";
+			
+			TypedQuery<PcReservation> query = em.createQuery(statement, PcReservation.class);
+			reservations.addAll(query.getResultList());
+			
+			SystemService.removePcReservation(reservations.get(0).getPcReservationID());
+			
+			trans.commit();
+		}catch(Exception e){
+			if(trans!=null){
+				trans.rollback();
+			}
+			e.printStackTrace();
+		}finally{
+			em.close(); 
+			emf.close();
+		}
+	}
+	
 	public static void removeLabReservation(int id) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
 		EntityManager em = emf.createEntityManager();
@@ -537,4 +599,88 @@ public class SystemService {
 		emf.close();
 	}
 	
+	public static void removeLabReservation() {
+		ArrayList<LabReservation> reservations = new ArrayList<>();
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction trans = em.getTransaction();
+		
+		try{
+			trans.begin();
+			
+			String statement = "";
+			
+			TypedQuery<LabReservation> query = em.createQuery(statement, LabReservation.class);
+			reservations.addAll(query.getResultList());
+			
+			SystemService.removeLabReservation(reservations.get(0).getLabReservationID());
+			
+			trans.commit();
+		}catch(Exception e){
+			if(trans!=null){
+				trans.rollback();
+			}
+			e.printStackTrace();
+		}finally{
+			em.close(); 
+			emf.close();
+		}
+	}
+
+	public static void confirmPcReservation() {
+		ArrayList<PcReservation> reservations = new ArrayList<>();
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction trans = em.getTransaction();
+		
+		try{
+			trans.begin();
+			
+			String statement = "";
+			
+			TypedQuery<PcReservation> query = em.createQuery(statement, PcReservation.class);
+			reservations.addAll(query.getResultList());
+			
+			reservations.get(0).setAdminConfirmed(true);;
+			
+			trans.commit();
+		}catch(Exception e){
+			if(trans!=null){
+				trans.rollback();
+			}
+			e.printStackTrace();
+		}finally{
+			em.close(); 
+			emf.close();
+		}
+	}
+	
+	public static void confirmLabReservation() {
+		ArrayList<PcReservation> reservations = new ArrayList<>();
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction trans = em.getTransaction();
+		
+		try{
+			trans.begin();
+			
+			String statement = "";
+			
+			TypedQuery<PcReservation> query = em.createQuery(statement, PcReservation.class);
+			reservations.addAll(query.getResultList());
+			
+			reservations.get(0).setAdminConfirmed(true);;
+			
+			trans.commit();
+		}catch(Exception e){
+			if(trans!=null){
+				trans.rollback();
+			}
+			e.printStackTrace();
+		}finally{
+			em.close(); 
+			emf.close();
+		}
+	}
+
 }

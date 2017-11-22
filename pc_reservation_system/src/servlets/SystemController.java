@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -29,8 +31,9 @@ import services.SystemService;
  */
 @WebServlet (urlPatterns = {"/login", "/logout", "/adminpage", "/userpage", "/adminreservationpage", "/userreservationpage"
 							, "/requestUserDetails", "/requestUserReservations", "/requestPcReservationList", "/requestUserDetailsByAdmin"
-							,"/getAdminSchedules" , "/getLabReservations", "/getPcReservations", "/singleReserve", "/labReserve"
-							,"/requestLabReservationList", "/adminhistorypage", "/userReserve"
+							, "/getAdminSchedules" , "/getLabReservations", "/getPcReservations", "/singleReserve", "/labReserve"
+							, "/requestLabReservationList", "/adminhistorypage", "/userReserve", "/requestAdminDetails", "/requestSystemTime"
+							, "/cancelReservation", "/confirmReservation"
 							})
 @MultipartConfig
 public class SystemController extends HttpServlet {
@@ -78,6 +81,12 @@ public class SystemController extends HttpServlet {
 			case "/requestUserDetails":
 				requestUserDetails(request, response);
 				break;
+			case "/requestAdminDetails":
+				requestAdminDetails(request, response);
+				break;
+			case "/requestSystemTime":
+				requestSystemTime(request, response);
+				break;
 			case "/requestUserReservations":
 				requestUserReservations(request, response);
 				break;
@@ -108,13 +117,135 @@ public class SystemController extends HttpServlet {
 			case "/labReserve":
 				reserveLab(request,response);
 				break;
+			case "/cancelReservation":
+				cancelReservation(request,response);
+				break;
+			case "/confirmReservation":
+				confirmReservation(request,response);
+				break;
 			default: 
 				break;
 		}
 
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
-	
+
+	private void confirmReservation(HttpServletRequest request, HttpServletResponse response){
+		// TODO Auto-generated method stub
+		String name, eventName, userID, locationID, pcID, reservationDate, startTime, endTime;
+		int uID, lID, pID;
+		Date date, sTime, eTime;
+		
+		name = request.getParameter("name");
+		eventName = request.getParameter("eventName");
+		userID = request.getParameter("userID");
+		locationID = request.getParameter("locationID");
+		pcID = request.getParameter("pcID");
+		reservationDate = request.getParameter("date");
+		startTime = request.getParameter("start");
+		endTime = request.getParameter("end");
+		
+		uID = Integer.parseInt(userID);
+		lID = Integer.parseInt(locationID);
+		
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate);
+			sTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + startTime);
+			eTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + endTime);
+		}
+		catch(Exception e) {}
+		
+		if(pcID != null) {
+			pID = Integer.parseInt(pcID);
+			
+			//confirm function SystemService
+		}
+		else {
+			//confirm function SystemService
+		}	
+	}
+
+	private void cancelReservation(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		String name, eventName, userID, locationID, pcID, reservationDate, startTime, endTime;
+		int uID, lID, pID;
+		Date date, sTime, eTime;
+		
+		name = request.getParameter("name");
+		eventName = request.getParameter("eventName");
+		userID = request.getParameter("userID");
+		locationID = request.getParameter("locationID");
+		pcID = request.getParameter("pcID");
+		reservationDate = request.getParameter("date");
+		startTime = request.getParameter("start");
+		endTime = request.getParameter("end");
+		
+		uID = Integer.parseInt(userID);
+		lID = Integer.parseInt(locationID);
+		
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate);
+			sTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + startTime);
+			eTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + endTime);
+		}
+		catch(Exception e) {}
+		
+		if(pcID != null) {
+			pID = Integer.parseInt(pcID);
+			
+			//delete function SystemService
+		}
+		else {
+			//delete function SystemService
+		}	
+	}
+
+	private void requestSystemTime(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// TODO Auto-generated method stub
+		JsonObject curTime = new JsonObject();
+		String sTime = " ";
+		Date time = new Date();
+		
+		if(time.getHours() <= 12){
+			// 1:0 -> 11:0
+			if(time.getHours() == 0)
+				sTime = "" + 12 + ":" + time.getMinutes();
+			else
+				sTime = "" + time.getHours() + ":" + time.getMinutes();
+			
+			if(sTime.charAt(sTime.length()-2) == ':') sTime += "0";
+			
+			if(time.getHours() != 0)
+				sTime += " AM";
+			else
+				sTime += " PM";
+		}else{
+			sTime = "" + (time.getHours() % 12) + ":" + time.getMinutes();
+			
+			if(sTime.charAt(sTime.length()-2) == ':') sTime += "0";
+			
+			sTime += " PM";
+		}
+		
+		curTime.addProperty("curTime", sTime);
+		
+		response.setContentType("application/json");
+		response.getWriter().write(curTime.toString());
+	}
+
+	private void requestAdminDetails(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// TODO Auto-generated method stub
+		JsonObject adminDetails = new JsonObject();
+		
+		int adminId = (Integer)request.getSession().getAttribute("id");
+		User admin = SystemService.getUser(adminId);
+
+		adminDetails.addProperty("name", admin.getName());;
+		
+		response.setContentType("application/json");
+		response.getWriter().write(adminDetails.toString());
+	}
+
 	private void reserveSinglePcUser(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		
@@ -129,6 +260,7 @@ public class SystemController extends HttpServlet {
 		date = request.getParameter("date");
 		startTime = request.getParameter("startTime");
 		endTime = request.getParameter("endTime");
+		
 		
 		if(building .equals("default")){
 			building = null;
@@ -749,8 +881,17 @@ public class SystemController extends HttpServlet {
 
 		userDetails.addProperty("name", user.getName());
 		userDetails.addProperty("id", "" + user.getUserID());
-		userDetails.addProperty("college", "n/a");
-		userDetails.addProperty("last_login", "n/a");
+
+		String college;
+		
+		if(user.getPosition().equals("student")) {
+			college = SystemService.getStudent(userId).getCourseAndCollege();
+			college = college.split("/")[1];
+	}
+		else
+			college = SystemService.getFaculty(userId).getCollege();
+		
+		userDetails.addProperty("college", college);
 		
 		response.setContentType("application/json");
 		response.getWriter().write(userDetails.toString());
@@ -969,6 +1110,8 @@ public class SystemController extends HttpServlet {
 		//check first if id isnt blank, if it isnt blank, do stuff
 		if(id != -1){
 			User user = SystemService.getUser(id);
+			
+			password = DigestUtils.sha1Hex(password);
 			
 			//check first if user is null / doesnt exist before comparing password
 			if(user == null ){

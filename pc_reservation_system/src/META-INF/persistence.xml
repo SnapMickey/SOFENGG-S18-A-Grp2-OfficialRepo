@@ -8,7 +8,7 @@
 		
 			<!-- Database connection settings -->
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/pc_reserve" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/pc_reserve?useSSL=false" />
 			<property name="javax.persistence.jdbc.user" value="root" />
 			<property name="javax.persistence.jdbc.password" value="1234" />
 
@@ -19,7 +19,7 @@
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			
 			<!-- Pretty print the SQL in the log file and console -->
-			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.format_sql" value="false" />
 		</properties>
 
 	</persistence-unit>
