@@ -191,14 +191,62 @@ public class SystemController extends HttpServlet {
 			Date startT = pr.getDateTimeStart();
 			Date endT = pr.getDateTimeEnd();
 			
-			if(startT.getHours() % 12 == 0) {
-				sTime = "" + startT.getHours() + ":" + startT.getMinutes();
+			//mine 
+			
+			if(startT.getHours() <= 12){
+				// 1:0 -> 11:0
+				if(startT.getHours() == 0)
+					sTime = "" + 12 + ":" + startT.getMinutes();
+				else
+					sTime = "" + startT.getHours() + ":" + startT.getMinutes();
 				
 				if(sTime.charAt(sTime.length()-2) == ':') sTime += "0";
 				
+				if(startT.getHours() != 0)
+					sTime += "AM";
+				else
+					sTime += "PM";
+			}else{
+				sTime = "" + (startT.getHours() % 12) + ":" + startT.getMinutes();
+				
+				if(sTime.charAt(sTime.length()-2) == ':') sTime += "0";
+				
+				sTime += "PM";
+			}
+			
+			if(endT.getHours() <= 12){
+				// 1:0 -> 11:0
+				if(endT.getHours() == 0)
+					eTime = "" + 12 + ":" + endT.getMinutes();
+				else
+					eTime = "" + endT.getHours() + ":" + endT.getMinutes();
+				
+				if(eTime.charAt(eTime.length()-2) == ':') eTime += "0";
+				
+				if(endT.getHours() != 0)
+					eTime += "AM";
+				else
+					eTime += "PM";
+			}else{
+				eTime = "" + (endT.getHours() % 12) + ":" + endT.getMinutes();
+				
+				if(eTime.charAt(eTime.length()-2) == ':') eTime += "0";
+				
+				eTime += "PM";
+			}
+			
+			/* previous
+			if(startT.getHours() % 12 == 0) {
+				// 12
+				sTime = "" + startT.getHours() + ":" + startT.getMinutes();
+				
+				//if(sTime.charAt(sTime.length()-2) == ':') sTime += "0";
+				
 				sTime += " AM";
+				
 			}
 			else {
+				// 1 - 11 13 - 19
 				sTime = "" + startT.getHours() % 12 + ":" + startT.getMinutes();
 			
 				if(sTime.charAt(sTime.length()-2) == ':') sTime += "0";
@@ -219,7 +267,9 @@ public class SystemController extends HttpServlet {
 				
 				eTime += " PM";
 			}
-			
+			*/
+			System.out.println("getHours:" + startT.getHours() + "->" + endT.getHours() );
+			System.out.println(sTime + " -> " + eTime);
 			json.addProperty("pcnum", "" + pr.getPcID());
 			json.addProperty("location", lab.getBuilding());
 			json.addProperty("room", lab.getName());
@@ -310,33 +360,46 @@ public class SystemController extends HttpServlet {
 			Date startT = pr.getDateTimeStart();
 			Date endT = pr.getDateTimeEnd();
 			
-			if(startT.getHours() % 12 == 0) {
-				sTime = "" + startT.getHours() + ":" + startT.getMinutes();
+			if(startT.getHours() <= 12){
+				// 1:0 -> 11:0
+				if(startT.getHours() == 0)
+					sTime = "" + 12 + ":" + startT.getMinutes();
+				else
+					sTime = "" + startT.getHours() + ":" + startT.getMinutes();
 				
 				if(sTime.charAt(sTime.length()-2) == ':') sTime += "0";
 				
-				sTime += " AM";
-			}
-			else {
-				sTime = "" + startT.getHours() % 12 + ":" + startT.getMinutes();
-			
+				if(startT.getHours() != 0)
+					sTime += "AM";
+				else
+					sTime += "PM";
+			}else{
+				sTime = "" + (startT.getHours() % 12) + ":" + startT.getMinutes();
+				
 				if(sTime.charAt(sTime.length()-2) == ':') sTime += "0";
 				
-				sTime += " PM";
+				sTime += "PM";
 			}
-			if(endT.getHours() % 12 == 0) {
-				eTime = "" + endT.getHours() + ":" + endT.getMinutes();
-				
-				if(eTime.charAt(eTime.length()-2) == ':') eTime += "0";
-				
-				eTime += " AM";
-			}
-			else {
-				eTime = "" + endT.getHours() % 12 + ":" + endT.getMinutes();
 			
+			if(endT.getHours() <= 12){
+				// 1:0 -> 11:0
+				if(endT.getHours() == 0)
+					eTime = "" + 12 + ":" + endT.getMinutes();
+				else
+					eTime = "" + endT.getHours() + ":" + endT.getMinutes();
+				
 				if(eTime.charAt(eTime.length()-2) == ':') eTime += "0";
 				
-				eTime += " PM";
+				if(endT.getHours() != 0)
+					eTime += "AM";
+				else
+					eTime += "PM";
+			}else{
+				eTime = "" + (endT.getHours() % 12) + ":" + endT.getMinutes();
+				
+				if(eTime.charAt(eTime.length()-2) == ':') eTime += "0";
+				
+				eTime += "PM";
 			}
 			
 			json.addProperty("locID", "" + lab.getLocationID());
@@ -379,7 +442,6 @@ public class SystemController extends HttpServlet {
 			
 			JsonObject json = new JsonObject();
 			json.addProperty("location", lb.getName());
-			json.addProperty("slots", free + "/" + total);
 			json.addProperty("status", status);
 			
 			schedules.add(json);
@@ -405,11 +467,54 @@ public class SystemController extends HttpServlet {
 		for(LabReservation lr : reservationsLab) {
 			Lab lab = SystemService.getLab(lr.getLocationID());
 			
-			String startTime, endTime;
+			String sTime, eTime;
 			
 			Date startT = lr.getDateTimeStart();
 			Date endT = lr.getDateTimeEnd();
 			
+			if(startT.getHours() <= 12){
+				// 1:0 -> 11:0
+				if(startT.getHours() == 0)
+					sTime = "" + 12 + ":" + startT.getMinutes();
+				else
+					sTime = "" + startT.getHours() + ":" + startT.getMinutes();
+				
+				if(sTime.charAt(sTime.length()-2) == ':') sTime += "0";
+				
+				if(startT.getHours() != 0)
+					sTime += "AM";
+				else
+					sTime += "PM";
+			}else{
+				sTime = "" + (startT.getHours() % 12) + ":" + startT.getMinutes();
+				
+				if(sTime.charAt(sTime.length()-2) == ':') sTime += "0";
+				
+				sTime += "PM";
+			}
+			
+			if(endT.getHours() <= 12){
+				// 1:0 -> 11:0
+				if(endT.getHours() == 0)
+					eTime = "" + 12 + ":" + endT.getMinutes();
+				else
+					eTime = "" + endT.getHours() + ":" + endT.getMinutes();
+				
+				if(eTime.charAt(eTime.length()-2) == ':') eTime += "0";
+				
+				if(endT.getHours() != 0)
+					eTime += "AM";
+				else
+					eTime += "PM";
+			}else{
+				eTime = "" + (endT.getHours() % 12) + ":" + endT.getMinutes();
+				
+				if(eTime.charAt(eTime.length()-2) == ':') eTime += "0";
+				
+				eTime += "PM";
+			}
+			
+			/* previous
 			if(startT.getHours() % 12 == 0) {
 				startTime = "" + startT.getHours() + ":" + startT.getMinutes();
 				
@@ -438,7 +543,7 @@ public class SystemController extends HttpServlet {
 				
 				endTime += " PM";
 			}
-			
+			*/
 			JsonObject json = new JsonObject();
 			
 			json.addProperty("userid", lr.getUserID());
@@ -447,8 +552,8 @@ public class SystemController extends HttpServlet {
 			json.addProperty("event", lr.getEventName());
 			json.addProperty("date", "" + endT.getDate() + "/" + endT.getMonth()
 								+ "/" + (endT.getYear() + 1900));
-			json.addProperty("start", startTime);
-			json.addProperty("end", endTime);
+			json.addProperty("start", sTime);
+			json.addProperty("end", eTime);
 			
 			reservations.add(json);
 		}
@@ -475,38 +580,51 @@ public class SystemController extends HttpServlet {
 			User user = SystemService.getUser(pr.getUserID());
 			Lab lab = SystemService.getLabOfPc(pr.getPcID());
 			
-			String startTime, endTime;
+			String sTime, eTime;
 			
 			Date startT = pr.getDateTimeStart();
 			Date endT = pr.getDateTimeEnd();
 			
-			if(startT.getHours() % 12 == 0) {
-				startTime = "" + startT.getHours() + ":" + startT.getMinutes();
+			if(startT.getHours() <= 12){
+				// 1:0 -> 11:0
+				if(startT.getHours() == 0)
+					sTime = "" + 12 + ":" + startT.getMinutes();
+				else
+					sTime = "" + startT.getHours() + ":" + startT.getMinutes();
 				
-				if(startTime.charAt(startTime.length()-2) == ':') startTime += "0";
+				if(sTime.charAt(sTime.length()-2) == ':') sTime += "0";
 				
-				startTime += " AM";
+				if(startT.getHours() != 0)
+					sTime += "AM";
+				else
+					sTime += "PM";
+			}else{
+				sTime = "" + (startT.getHours() % 12) + ":" + startT.getMinutes();
+				
+				if(sTime.charAt(sTime.length()-2) == ':') sTime += "0";
+				
+				sTime += "PM";
 			}
-			else {
-				startTime = "" + startT.getHours() % 12 + ":" + startT.getMinutes();
 			
-				if(startTime.charAt(startTime.length()-2) == ':') startTime += "0";
+			if(endT.getHours() <= 12){
+				// 1:0 -> 11:0
+				if(endT.getHours() == 0)
+					eTime = "" + 12 + ":" + endT.getMinutes();
+				else
+					eTime = "" + endT.getHours() + ":" + endT.getMinutes();
 				
-				startTime += " PM";
-			}
-			if(endT.getHours() % 12 == 0) {
-				endTime = "" + endT.getHours() + ":" + endT.getMinutes();
+				if(eTime.charAt(eTime.length()-2) == ':') eTime += "0";
 				
-				if(endTime.charAt(endTime.length()-2) == ':') endTime += "0";
+				if(endT.getHours() != 0)
+					eTime += "AM";
+				else
+					eTime += "PM";
+			}else{
+				eTime = "" + (endT.getHours() % 12) + ":" + endT.getMinutes();
 				
-				endTime += " AM";
-			}
-			else {
-				endTime = "" + endT.getHours() % 12 + ":" + endT.getMinutes();
-			
-				if(endTime.charAt(endTime.length()-2) == ':') endTime += "0";
+				if(eTime.charAt(eTime.length()-2) == ':') eTime += "0";
 				
-				endTime += " PM";
+				eTime += "PM";
 			}
 			
 			json.addProperty("name", user.getName());
@@ -515,8 +633,8 @@ public class SystemController extends HttpServlet {
 			json.addProperty("pcnum", "" + pr.getPcID());
 			json.addProperty("date", "" + endT.getDate() + "/" + endT.getMonth()
 								+ "/" + (endT.getYear() + 1900));
-			json.addProperty("start", startTime);
-			json.addProperty("end", endTime);
+			json.addProperty("start", sTime);
+			json.addProperty("end", eTime);
 		
 			userReservations.add(json);
 		}
@@ -532,11 +650,15 @@ public class SystemController extends HttpServlet {
 		int userId = Integer.parseInt(idString);
 		
 		User user = SystemService.getUser(userId);
-
+		
 		userDetails.addProperty("name", user.getName());
 		userDetails.addProperty("id", "" + user.getUserID());
 		userDetails.addProperty("college", "n/a");
 		userDetails.addProperty("last_login", "n/a");
+		
+		response.setContentType("application/json");
+		response.getWriter().write(userDetails.toString());
+		
 		
 		response.setContentType("application/json");
 		response.getWriter().write(userDetails.toString());
@@ -556,38 +678,51 @@ public class SystemController extends HttpServlet {
 
 			Lab lab = SystemService.getLabOfPc(pr.getPcID());
 			
-			String startTime, endTime;
+			String sTime, eTime;
 			
 			Date startT = pr.getDateTimeStart();
 			Date endT = pr.getDateTimeEnd();
 			
-			if(startT.getHours() % 12 == 0) {
-				startTime = "" + startT.getHours() + ":" + startT.getMinutes();
+			if(startT.getHours() <= 12){
+				// 1:0 -> 11:0
+				if(startT.getHours() == 0)
+					sTime = "" + 12 + ":" + startT.getMinutes();
+				else
+					sTime = "" + startT.getHours() + ":" + startT.getMinutes();
 				
-				if(startTime.charAt(startTime.length()-2) == ':') startTime += "0";
+				if(sTime.charAt(sTime.length()-2) == ':') sTime += "0";
 				
-				startTime += " AM";
+				if(startT.getHours() != 0)
+					sTime += "AM";
+				else
+					sTime += "PM";
+			}else{
+				sTime = "" + (startT.getHours() % 12) + ":" + startT.getMinutes();
+				
+				if(sTime.charAt(sTime.length()-2) == ':') sTime += "0";
+				
+				sTime += "PM";
 			}
-			else {
-				startTime = "" + startT.getHours() % 12 + ":" + startT.getMinutes();
 			
-				if(startTime.charAt(startTime.length()-2) == ':') startTime += "0";
+			if(endT.getHours() <= 12){
+				// 1:0 -> 11:0
+				if(endT.getHours() == 0)
+					eTime = "" + 12 + ":" + endT.getMinutes();
+				else
+					eTime = "" + endT.getHours() + ":" + endT.getMinutes();
 				
-				startTime += " PM";
-			}
-			if(endT.getHours() % 12 == 0) {
-				endTime = "" + endT.getHours() + ":" + endT.getMinutes();
+				if(eTime.charAt(eTime.length()-2) == ':') eTime += "0";
 				
-				if(endTime.charAt(endTime.length()-2) == ':') endTime += "0";
+				if(endT.getHours() != 0)
+					eTime += "AM";
+				else
+					eTime += "PM";
+			}else{
+				eTime = "" + (endT.getHours() % 12) + ":" + endT.getMinutes();
 				
-				endTime += " AM";
-			}
-			else {
-				endTime = "" + endT.getHours() % 12 + ":" + endT.getMinutes();
-			
-				if(endTime.charAt(endTime.length()-2) == ':') endTime += "0";
+				if(eTime.charAt(eTime.length()-2) == ':') eTime += "0";
 				
-				endTime += " PM";
+				eTime += "PM";
 			}
 			
 			json.addProperty("location", lab.getBuilding());
@@ -595,8 +730,8 @@ public class SystemController extends HttpServlet {
 			json.addProperty("pcnum", "" + pr.getPcID());
 			json.addProperty("date", "" + endT.getDate() + "/" + endT.getMonth()
 								+ "/" + (endT.getYear() + 1900));
-			json.addProperty("start", startTime);
-			json.addProperty("end", endTime);
+			json.addProperty("start", sTime);
+			json.addProperty("end", eTime);
 		
 			userReservations.add(json);
 		}

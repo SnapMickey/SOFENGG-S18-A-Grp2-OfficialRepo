@@ -81,6 +81,18 @@
             
         }
         
+        .disabledReserveButtons{
+            background-color: white;
+            border: solid;
+            border-width: 1px;
+            border-radius: 4px;
+            width:180px;
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size:15px;
+            color:  black;
+        }
+        
         .reserveButtons{
             background-color: darkgreen;
             color: white;
@@ -100,10 +112,6 @@
         .reserveButtons:hover{
             background-color: green;
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-        }
-        
-        .hideReserve{
-            visibility: hidden;
         }
         
         .selected{
@@ -543,10 +551,10 @@
                     </div>
                      <div class = "row" style = "padding:0px; margin:10px 0px;">
                           <div class = "col">
-                              <button class = "reserveButtons">VIEW LAYOUT</button>
+                              <button class = "disabledReserveButtons" disabled="true" id="viewLayout">VIEW LAYOUT</button>
                           </div>
                           <div class = "col">
-                              <button id="reserveButton" class = "reserveButtons hideReserve" style = "float:right;">RESERVE</button>
+                              <button id="reserveButton" class = "disabledReserveButtons" style = "float:right;" disabled="true">RESERVE</button>
                           </div>
                     </div>
                 </div>
@@ -598,12 +606,45 @@
             yesBtn = document.getElementById("popYes");
             noBtn = document.getElementById("popNo");
             
+            var reserveButton = document.getElementById("reserveButton");
+            var viewButton = document.getElementById("viewLayout");
+            
             var popUpMainContent = document.getElementById("popUpMainContent");
             var popUpDiv = document.getElementById("popUpID");
             var popUpSize = document.getElementById("popUpContentID");
             var selectedPc, selectedBldg, selectedTime, selectedRoom, selectedDate, selectedId, selectedEventName;
             
             function setValues(){
+                
+                /* create other header functions */
+            
+            $("#dashboardBtn").click(function(){
+            	var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "adminpage";
+                document.body.appendChild(form);
+                form.submit();
+            });
+            
+            $("#historyBtn").click(function(){
+                alert("This button is not yet working");
+                /*
+            	var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "logout";
+                document.body.appendChild(form);
+                form.submit();
+                */
+            });
+            
+            $("#logout").click(function(){
+            	var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "logout";
+                document.body.appendChild(form);
+                form.submit();
+            });
+                
                 var dateDropdown = document.getElementById("dateDropdown");
                 dateDropdown.remove(0);
                 
@@ -659,6 +700,7 @@
                 }
             }
             
+            $
             $("#bldgList").change(function(){
                 console.log("bldgList changed");
                 
@@ -882,12 +924,11 @@
                 var idNumSolo, idNumEvent;
                 
                 var passed = false;
-                var reserveButton = document.getElementById("reserveButton");
-                reserveButton.style.visibility = "hidden";
                 
                 console.log("search button clicked");
                 console.log(passed);
                 if($("#event").is(':checked')){
+                    
                     console.log("event is checked");
                     eventName = document.getElementById("eventName").value;
                     idNumEvent = document.getElementById("idNumEvent").value;
@@ -918,6 +959,7 @@
                         popUpMainContent.innerHTML = "ID Number is required to proceed. <br> Please try again."
                         popUpDiv.style.display = "block";
                     }else{
+                        
                         passed = true;
                         console.log(passed);
                     }
@@ -953,10 +995,57 @@
                     }
                 }
                 
+                /* Under Testing -> ID Checker
+                if(passed){
+                    //Setting the name of user
+                    console.log("setting name..");
+                    if($("#event").is(':checked')){
+                        $.get("requestUserDetailsByAdmin?id=" + idNumEvent, function(data){
+                        console.log("adding username");
+                        add_data_to_textbox(data);
+                        });
+                        
+                        console.log(document.getElementById("byGroupName").value);
+                        if(document.getElementById("byGroupName").value == "DNE"){
+                            passed = false;
+                            document.getElementById("byGroupName").value = "";
+                            document.getElementById("idNumEvent").value = "";
+                            document.getElementById("eventName").value = "";
+                            popUpMainContent.innerHTML = "User ID does not exist. <br> Please try again."
+                            popUpDiv.style.display = "block";
+                            console.log("user does not exist");
+                        }
+                        else{
+                            passed = true;
+                        }
+                    }else if($("#individual").is(':checked')){
+                        $.get("requestUserDetailsByAdmin?id=" + idNumSolo, function(data){
+                        console.log("adding username");
+                        add_data_to_textbox(data);
+                        });
+                        
+                        console.log(document.getElementById("individualName").value);
+                        if(document.getElementById("individualName").value == "DNE"){
+                            passed = false;
+                            document.getElementById("individualName").value = "";
+                            document.getElementById("idNumSolo").value == "";
+                            popUpMainContent.innerHTML = "User ID does not exist. <br> Please try again."
+                            popUpDiv.style.display = "block";
+                            console.log("user does not exist");
+                        }
+                        else{
+                            passed = true;
+                        }
+                    }
+                    
+                }
+                
+                */
+                
                 if(passed){
                     console.log("searching..");
                     refresh_table();
-
+                    
                     var bldg, room, startTime, endTime, date, id, checkbox, dropdown;
                     dropdown = document.getElementById("bldgList");
                     bldg = dropdown.value;
@@ -1026,10 +1115,7 @@
                         });
                     }          
                 
-                    $.get("requestUserDetailsByAdmin?id=" + id, function(data){
-                        console.log("adding username");
-                        add_data_to_textbox(data);
-                    });
+                    
                 }
             });
             
@@ -1040,36 +1126,7 @@
                     document.getElementById("byGroupName").value = user["name"];
                 }
             }
-            
-            /* create other header functions */
-            
-            $("#dashboardBtn").click(function(){
-            	var form = document.createElement('form');
-                form.method = "GET";
-                form.action = "adminpage";
-                document.body.appendChild(form);
-                form.submit();
-            });
-            
-            $("#historyBtn").click(function(){
-                alert("This button is not yet working");
-                /*
-            	var form = document.createElement('form');
-                form.method = "GET";
-                form.action = "logout";
-                document.body.appendChild(form);
-                form.submit();
-                */
-            });
-            
-            $("#logout").click(function(){
-            	var form = document.createElement('form');
-                form.method = "GET";
-                form.action = "logout";
-                document.body.appendChild(form);
-                form.submit();
-            });
-            
+                        
             function refresh_table(){
                 console.log("refreshing table");
                 var elmtTable = document.getElementById('reserveListTable');
@@ -1114,12 +1171,21 @@
             }
             
             $("#individual").click(function(){
+                refresh_table();
                 $("#event").prop('checked', false);
                 document.getElementById("idNumSolo").value = null;
                 document.getElementById("idNumEvent").value = null;
                 document.getElementById("eventName").value = null;
                 document.getElementById("individualName").value = null;
                 document.getElementById("byGroupName").value = null;
+                
+                
+                reserveButton.disabled = true;
+                viewButton.disabled = true;
+                $("#reserveButton").removeClass("reserveButtons");
+                $("#viewLayout").removeClass("reserveButtons");
+                $("#reserveButton").addClass("disabledReserveButtons");
+                $("#viewLayout").addClass("disabledReserveButtons");
                 
                 if($("#individual").is(':checked')){
                      console.log("individualticked") ;
@@ -1137,12 +1203,20 @@
             });
             
             $("#event").click(function(){
+                refresh_table();
                 $("#individual").prop('checked', false);
                 document.getElementById("idNumSolo").value = null;
                 document.getElementById("idNumEvent").value = null;
                 document.getElementById("eventName").value = null;
                 document.getElementById("individualName").value = null;
                 document.getElementById("byGroupName").value = null;
+                
+                reserveButton.disabled = true;
+                viewButton.disabled = true;
+                $("#reserveButton").removeClass("reserveButtons");
+                $("#viewLayout").removeClass("reserveButtons");
+                $("#reserveButton").addClass("disabledReserveButtons");
+                $("#viewLayout").addClass("disabledReserveButtons");
                 
                 if($("#event").is(':checked')){
                     
@@ -1162,8 +1236,15 @@
                $(this).addClass('selected').siblings().removeClass('selected');    
                var value=$(this).find('td:first').html();
                 console.log(value);
+                /* Changing Button Styles */
                 reserveButton = document.getElementById("reserveButton");
-                reserveButton.style.visibility = "visible";
+                viewButton = document.getElementById("viewLayout");
+                reserveButton.disabled = false;
+                viewButton.disabled = false;
+                $("#reserveButton").removeClass("disabledReserveButtons");
+                $("#viewLayout").removeClass("disabledReserveButtons");
+                $("#reserveButton").addClass("reserveButtons");
+                $("#viewLayout").addClass("reserveButtons");
                 
                 selectedPc = $(this).find('td:first').html();
                 selectedBldg = $(this).find('td:eq(1)').text();
