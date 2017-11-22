@@ -1,5 +1,7 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
-
+Bornales, Amiel James November 22, 2017
+Changes made:
+- added functionality for Layout buttons in user / admin reserve
 Lominoque, Jerome November 22, 2017
 Changes made:
 - Finalized admin front
