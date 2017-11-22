@@ -101,6 +101,7 @@
             background-color: green;
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
         }
+        
         .hideReserve{
             visibility: hidden;
         }
@@ -512,7 +513,7 @@
                     <div class="reserveTableDiv">
                     <table class="reserveTable" id="reserveListTable">
                         <thead>
-                            <tr class="reserveTableHead">
+                            <tr class="reserveTableHead" style="pointer-events: none;">
                                 <th height="40">
                                     <center> PC No. </center>
                                 </th>
@@ -881,6 +882,9 @@
                 var idNumSolo, idNumEvent;
                 
                 var passed = false;
+                var reserveButton = document.getElementById("reserveButton");
+                reserveButton.style.visibility = "hidden";
+                
                 console.log("search button clicked");
                 console.log(passed);
                 if($("#event").is(':checked')){
@@ -1158,7 +1162,9 @@
                $(this).addClass('selected').siblings().removeClass('selected');    
                var value=$(this).find('td:first').html();
                 console.log(value);
-                F
+                reserveButton = document.getElementById("reserveButton");
+                reserveButton.style.visibility = "visible";
+                
                 selectedPc = $(this).find('td:first').html();
                 selectedBldg = $(this).find('td:eq(1)').text();
                 selectedRoom = $(this).find('td:eq(2)').text();
