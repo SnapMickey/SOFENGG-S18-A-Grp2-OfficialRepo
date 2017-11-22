@@ -249,13 +249,13 @@
                 <div class = "bgwhite" style = "padding-top:30px;">
                     <div class = "row" id = "greetingsHolder">
                         <div class = "col-md-6">
-                            <h3 style = "color:#4A4A4A">Welcome Admin!</h3>
+                            <h3 style = "color:#4A4A4A" id = "welcome_admin">Welcome Admin!</h3>
                         </div>
                         <div class = "col-md-3">
-                            <p id = "currTime" class = "timeDetails">Current System Time: 12:30 PM</p>
+                            <p id = "currTime" class = "timeDetails">Current System Time: </p>
                         </div>
                         <div class = "col-md-3">
-                            <p id = "currTime" class = "timeDetails" style="float:right;text-decoration:underline;cursor:pointer;" >Refresh</p>
+                            <p id = "refresh" class = "timeDetails" style="float:right;text-decoration:underline;cursor:pointer;" >Refresh</p>
                         </div>
                     </div>
                     
@@ -432,6 +432,15 @@
                 form.action = "logout";
                 document.body.appendChild(form);
                 form.submit();
+            });
+            
+            $("#refresh").click(function(){
+                var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "adminpage";
+                document.body.appendChild(form);
+                form.submit();
+                
             });
             
             $("#historyBtn").click(function(){
@@ -670,19 +679,19 @@
             //function is called when page is fully loaded
             $(document).ready(function(){
                 fix_table_heights();
-                var kek = {
-                        name:"something",
-                        id:"something",
-                        location:"something",
-                        pcno:"something",
-                        date:"something",
-                        start:"something",
-                        end:"something"
-                    }
                 
-                for(var i = 0 ; i < 10 ; i++){
-                    reserveArr.push(kek);
-                }
+                
+                $.get("requestAdminDetails",function(admin){
+                	$("#welcome_admin").html("Welcome " + admin.name.split(" ")[0] + "!");
+                	console.log("admin");
+                });
+                
+                $.get("requestSystemTime",function(time){
+                	$("#currTime").html("Current System Time: "  + time.curTime);
+                	console.log("time");
+                });
+                
+                
                 //add_data_to_recent_reserve(reserveArr);
                 
                 console.log("loading recent reservations");
