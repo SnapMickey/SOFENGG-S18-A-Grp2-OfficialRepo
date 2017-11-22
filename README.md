@@ -2,6 +2,14 @@
 
 Lominoque, Jerome November 22, 2017
 Changes made:
+- Finalized admin front
+
+Notes:
+- Encryption is not yet applied
+- Database log(s) is/are not yet applied
+
+Lominoque, Jerome November 22, 2017
+Changes made:
 - Fixed admin front page problems
 - Fixed some System Service bugs
 - fixed some systemcontroller bugs

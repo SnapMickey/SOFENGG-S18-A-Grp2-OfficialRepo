@@ -457,9 +457,11 @@ public class SystemService {
 		EntityTransaction trans = em.getTransaction();
 		
 		try{
+			
 			trans.begin();
 			em.persist(newReservation);
 			trans.commit();
+			
 		}catch(Exception e){
 			if(trans!=null){
 				trans.rollback();

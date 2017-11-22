@@ -54,7 +54,7 @@ CREATE TABLE `lab` (
   `isAvailable` tinyint(4) NOT NULL,
   `computers` tinyblob,
   PRIMARY KEY (`locationID`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,7 +63,7 @@ CREATE TABLE `lab` (
 
 LOCK TABLES `lab` WRITE;
 /*!40000 ALTER TABLE `lab` DISABLE KEYS */;
-INSERT INTO `lab` VALUES (1,'Henry Sy - 6th Floor','Henry Sy',0,NULL),(2,'Henry Sy - 7th Floor','Henry Sy',0,NULL),(3,'Henry Sy - 8th Floor','Henry Sy',1,NULL),(4,'Gokongwei Lab - G301A','Gokongwei',0,NULL),(5,'Gokongwei Lab - G302B','Gokongwei',1,NULL),(6,'Gokongwei Lab - G301B','Gokongwei',0,NULL),(7,'Gokongwei Lab - G302A','Gokongwei',1,NULL),(8,'Henry Sy - 9th Floor','Henry Sy',1,NULL),(9,'Henry Sy - 10th Floor','Henry Sy',1,NULL),(10,'Velasco Lab - V103','Velasco',1,NULL),(11,'Velasco Lab - V208A','Velasco',1,NULL),(12,'Velasco Lab - V208B','Velasco',1,NULL),(13,'Velasco Lab - V301','Velasco',1,NULL);
+INSERT INTO `lab` VALUES (1,'Henry Sy - 6th Floor','Henry Sy',0,NULL),(2,'Henry Sy - 7th Floor','Henry Sy',0,NULL),(3,'Henry Sy - 8th Floor','Henry Sy',1,NULL),(4,'Gokongwei Lab - G301','Gokongwei',0,NULL),(5,'Gokongwei Lab - G302B','Gokongwei',1,NULL),(6,'Gokongwei Lab - G302A','Gokongwei',1,NULL),(7,'Henry Sy - 9th Floor','Henry Sy',1,NULL),(8,'Henry Sy - 10th Floor','Henry Sy',1,NULL),(9,'Velasco Lab - V103','Velasco',1,NULL),(10,'Velasco Lab - V208A','Velasco',1,NULL),(11,'Velasco Lab - V208B','Velasco',1,NULL),(12,'Velasco Lab - V301','Velasco',1,NULL),(13,'Miguel Lab - M303','Miguel',1,NULL),(14,'Gokongwei - G304A','Gokongwei',1,NULL),(15,'Gokongwei - G304B','Gokongwei',0,NULL),(16,'Gokongwei - G404','Gokongwei',0,NULL);
 /*!40000 ALTER TABLE `lab` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -242,4 +242,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-21  0:00:38
+-- Dump completed on 2017-11-22 12:28:13
