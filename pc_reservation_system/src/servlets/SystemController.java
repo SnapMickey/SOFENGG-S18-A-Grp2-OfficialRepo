@@ -1101,10 +1101,7 @@ public class SystemController extends HttpServlet {
 		//Changed id -> user just to prevent unwanted error (Edited by: Jerome)
 		if(password == null || password == ""){
 			errors+="BP";
-		}
-		
-		//check first if id isnt blank, if it isnt blank, do stuff
-		if(id != -1){
+		}else if(id != -1){
 			User user = SystemService.getUser(id);
 			
 			password = DigestUtils.sha1Hex(password);
