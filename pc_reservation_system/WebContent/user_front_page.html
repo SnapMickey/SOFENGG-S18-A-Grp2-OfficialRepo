@@ -172,6 +172,56 @@
             margin:0px;
             height: 100%;
         }
+    .cancel{
+            margin-top:5px;
+            float:right;
+            font-size: 14px;
+            width:80px;
+            border-color: #BABABA;
+            border-width: 1px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .modal-content{
+            padding:20px;
+            margin-top: 38%;
+            border-radius: 10px !important;
+            border-width: 0px;
+            padding-top:50px !important;
+            background-color: #DFDFDF!important;
+        }
+        .modalText{
+            padding:24px;
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 24px;
+            text-align: center;
+            color: #4D4D4D;
+            
+        }
+        #modalNo{
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: white;border-width: 1px;            
+            background: #4A4A4A;
+            width:160px;
+            border-radius: 8px;
+            margin-bottom:12px;
+            cursor: pointer;
+        }
+        #modalYes{
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: white;
+            background: #278347;
+            width:160px;
+            border-radius: 8px;
+            float:right;
+            margin-bottom:12px;
+            cursor: pointer;
+        }
     </style>
     <head>
       
@@ -224,7 +274,7 @@
                                             <h2 class = "boxHeader" style="font-weight:600;">Name:</h2>
                                         </div>
                                         <div class = "col-sm-6 right">
-                                            <h2 class = "boxHeader" id = "user_name">name</h2>
+                                            <h2 class = "boxHeader" id = "user_name"></h2>
                                         </div>
                                     </div>
                                     <div class = "row">
@@ -232,7 +282,7 @@
                                             <h2 class = "boxHeader" style="font-weight:600;">ID Number:</h2>
                                         </div>
                                         <div class = "col-sm-6 right">
-                                            <h2 class = "boxHeader" id = "id_number">number</h2>
+                                            <h2 class = "boxHeader" id = "id_number"></h2>
                                         </div>
                                     </div>
                                     <div class = "row">
@@ -240,22 +290,21 @@
                                             <h2 class = "boxHeader" style="font-weight:600;">College:</h2>
                                         </div>
                                         <div class = "col-sm-6 right">
-                                            <h2 class = "boxHeader" id = "college">college</h2>
-                                        </div>
-                                    </div>
-                                    <div class = "row">
-                                        <div class = "col-sm-6">
-                                            <h2 class = "boxHeader" style="font-weight:600;">Last Login:</h2>
-                                        </div>
-                                        <div class = "col-sm-6 right">
-                                            <h2 class = "boxHeader" id = "last_login">last login</h2>
+                                            <h2 class = "boxHeader" id = "college"></h2>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class = "col-md-6">
                                 <div class = "container pending">
-                                    <h3 class = "boxTitle">Pending Reservation</h3>
+                                    <div class = "row">
+                                        <div class = "col">
+                                            <h3 class = "boxTitle">Pending Reservation</h3>
+                                        </div>
+                                        <div class = "col">
+                                            <button class = "cancel" data-toggle="modal" data-target="#myModal" data-backdrop="false">Cancel</button>
+                                        </div>
+                                    </div>
                                     <div class = "row">
                                         <div class = "col-sm-6">
                                             <h2 class = "boxHeader">Location:</h2>
@@ -301,7 +350,7 @@
                                             <h2 class = "boxHeader">End:</h2>
                                         </div>
                                         <div class = "col-sm-6 right">
-                                            <h2 class = "boxHeader" id = "end">678</h2>
+                                            <h2 class = "boxHeader" id = "end"></h2>
                                         </div>
                                     </div>
                                 </div>
@@ -340,6 +389,24 @@
             <!-- footer end-->
             
         </div>
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog modal-md">
+
+              <!-- Modal content-->
+                <div class="modal-content">
+                        <h3 class = "modalText">Are you sure you want to cancel this reservation?</h3>
+                        <div class = "row">
+                            <div class = "col">
+                                <button type="button" id = "modalNo" class="btn btn-default" data-dismiss="modal">No</button>
+                            </div>
+                            <div class = "col">
+                                <button type="button" id = "modalYes" class="btn btn-default" data-dismiss="modal">Yes</button>
+                            </div>
+                        </div>
+                </div>
+
+            </div>
+        </div>
     </body>
     <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -360,6 +427,14 @@
                 $("#tableBox").height($("#white").height() - $("#userInfo").height() - 170);
                 $(".tableContainer").height($("#tableBox").height() - $("#tableTitle").height()-40);
             }
+            
+            $("#modalNo").click(function(){
+                
+            });
+            
+            $("#modalYes").click(function(){
+                
+            });
             
 	        $("#header_home").click(function(){
 	        	var form = document.createElement('form');
