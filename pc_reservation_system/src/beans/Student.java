@@ -10,8 +10,8 @@ public class Student {
 	@Column(name = "userID")
 	private int userID;
 
-	@Column(name = "course/college")
-	private String courseAndCollege;
+	@Column(name = "college")
+	private String college;
 
 	@Column(name = "status")
 	private String status;
@@ -24,12 +24,12 @@ public class Student {
 		this.userID = userID;
 	}
 
-	public String getCourseAndCollege() {
-		return courseAndCollege;
+	public String getCollege() {
+		return college;
 	}
 
-	public void setCourseAndCollege(String courseAndCollege) {
-		this.courseAndCollege = courseAndCollege;
+	public void setCollege(String college) {
+		this.college = college;
 	}
 
 	public String getStatus() {

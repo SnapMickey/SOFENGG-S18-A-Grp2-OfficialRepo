@@ -275,7 +275,6 @@ public class SystemController extends HttpServlet {
 			endTime = null;
 		}
 		
-		System.out.println(startTime + " " + endTime );
 		Date finalDate, finalSTime, finalETime;
 		finalDate = null;				
 		finalSTime = null;
@@ -400,8 +399,7 @@ public class SystemController extends HttpServlet {
 				eTime += " PM";
 			}
 			*/
-			System.out.println("getHours:" + startT.getHours() + "->" + endT.getHours() );
-			System.out.println(sTime + " -> " + eTime);
+
 			json.addProperty("pcnum", "" + pr.getPcID());
 			json.addProperty("location", lab.getBuilding());
 			json.addProperty("room", lab.getName());
@@ -884,10 +882,8 @@ public class SystemController extends HttpServlet {
 
 		String college;
 		
-		if(user.getPosition().equals("student")) {
-			college = SystemService.getStudent(userId).getCourseAndCollege();
-			college = college.split("/")[1];
-	}
+		if(user.getPosition().equals("student")) 
+			college = SystemService.getStudent(userId).getCollege();
 		else
 			college = SystemService.getFaculty(userId).getCollege();
 		

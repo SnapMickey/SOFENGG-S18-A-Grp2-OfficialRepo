@@ -574,6 +574,14 @@
             
             $("#closePopUpID").click(function(){
                 popUpDiv.style.display = "none";
+                
+                if(popUpMainContent.innerHTML == "Reservation is Successful!"){
+	                var form = document.createElement('form');
+	                form.method = "GET";
+	                form.action = "userpage";
+	                document.body.appendChild(form);
+	                form.submit();
+            	}
             });
             
             $("#homeBtn").click(function(){

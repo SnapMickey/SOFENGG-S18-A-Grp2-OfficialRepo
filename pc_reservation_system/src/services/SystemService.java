@@ -291,7 +291,7 @@ public class SystemService {
 		return labs;
 	}
 	
-	public static ArrayList<Pc> getAllFreePcs(Date date, 
+		public static ArrayList<Pc> getAllFreePcs(Date date, 
 												Date startTime, 
 												Date endTime,
 												String building,
@@ -301,44 +301,46 @@ public class SystemService {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction trans = em.getTransaction();
 		
+		System.out.println("" + date + startTime + endTime + building + room);
 		String statement = "select pc from pc_info pc, lab lb";
 		
 		statement += " where pc.isAvailable = 1";
-			
+		
 		statement += " and pc.locationID = lb.locationID and lb.isAvailable = 1";
 		
 		if(building != null) {
-			statement += " and lb.building like '%" + building + "%'";
+		statement += " and lb.building like '%" + building + "%'";
 		}
 		
 		if(room != null) {
-			 statement += " and lb.name like '%" + room + "%'";
+		statement += " and lb.name like '%" + room + "%'";
 		}
 		
 		statement += " and pc.pcID not in (select pc.pcID from pc_info pc, pc_reservations pr "
-				+ "where pc.pcID = pr.pcID and HOUR(pr.dateTimeStart) = " + startTime.getHours()
-					+ " and HOUR(pr.dateTimeEnd) = " + endTime.getHours() 
-					+ " and DATE(pr.dateTimeStart) = " + startTime.getDate() + ")";
+		+ "where pc.pcID = pr.pcID and HOUR(pr.dateTimeStart) = " + startTime.getHours()
+		+ " and HOUR(pr.dateTimeEnd) = " + endTime.getHours() 
+		+ " and DATE(pr.dateTimeStart) = " + "\'" + (startTime.getYear() + 1900) + "-" + (startTime.getMonth()+1) + "-" + startTime.getDate() + "\'" + ")";
 		
 		statement += " and pc.locationID = lb.locationID and lb.locationID not in"
-				+ "(select lr.locationID from lab_reservations lr"
-				+ " where HOUR(lr.dateTimeStart) = " + startTime.getHours() 
-				+ " and HOUR(lr.dateTimeEnd) = " + endTime.getHours()
-				+ " and DATE(lr.dateTimeStart) = " + startTime.getDate() + ")";
+		+ "(select lr.locationID from lab_reservations lr"
+		+ " where HOUR(lr.dateTimeStart) = " + startTime.getHours() 
+		+ " and HOUR(lr.dateTimeEnd) = " + endTime.getHours()
+		+ " and DATE(lr.dateTimeStart) = " + "\'" + (startTime.getYear() + 1900) + "-" + (startTime.getMonth()+1) + "-" + startTime.getDate() + "\'" + ")";
 		
+		System.out.println(statement);
 		
 		try{
 			trans.begin();
 			
 			TypedQuery<Pc> query = em.createQuery(statement, Pc.class);
 			pcs.addAll(query.getResultList());
-			
+		
 			trans.commit();
 		}catch(Exception e){
 			if(trans!=null){
 				trans.rollback();
-			}
-			e.printStackTrace();
+		}
+		e.printStackTrace();
 		}finally{
 			if(em!=null){
 				em.close(); 
@@ -371,7 +373,7 @@ public class SystemService {
 				+ "(select lr.locationID from lab_reservations lr"
 				+ " where HOUR(lr.dateTimeStart) = " + startTime.getHours() 
 				+ " and HOUR(lr.dateTimeEnd) = " + endTime.getHours()
-				+ " and DATE(lr.dateTimeStart) = " + startTime.getDate() + ")";
+				+ " and DATE(lr.dateTimeStart) = " + "\'" + (startTime.getYear() + 1900) + "-" + (startTime.getMonth()+1) + "-" + startTime.getDate() + "\'" + ")";
 		
 		try{
 			trans.begin();
