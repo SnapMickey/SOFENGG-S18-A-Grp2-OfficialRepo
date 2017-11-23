@@ -1137,6 +1137,14 @@
                         
             function refresh_table(){
                 console.log("refreshing table");
+                
+                reserveButton.disabled = true;
+                viewButton.disabled = true;
+                $("#reserveButton").removeClass("reserveButtons");
+                $("#viewLayout").removeClass("reserveButtons");
+                $("#reserveButton").addClass("disabledReserveButtons");
+                $("#viewLayout").addClass("disabledReserveButtons");
+                
                 var elmtTable = document.getElementById('reserveListTable');
                 var tableRows = elmtTable.getElementsByTagName('tr');
                 var rowCount = tableRows.length;
@@ -1187,13 +1195,14 @@
                 document.getElementById("individualName").value = null;
                 document.getElementById("byGroupName").value = null;
                 
-                
+                /*
                 reserveButton.disabled = true;
                 viewButton.disabled = true;
                 $("#reserveButton").removeClass("reserveButtons");
                 $("#viewLayout").removeClass("reserveButtons");
                 $("#reserveButton").addClass("disabledReserveButtons");
                 $("#viewLayout").addClass("disabledReserveButtons");
+                */
                 
                 if($("#individual").is(':checked')){
                      console.log("individualticked") ;
@@ -1219,12 +1228,14 @@
                 document.getElementById("individualName").value = null;
                 document.getElementById("byGroupName").value = null;
                 
+                /*
                 reserveButton.disabled = true;
                 viewButton.disabled = true;
                 $("#reserveButton").removeClass("reserveButtons");
                 $("#viewLayout").removeClass("reserveButtons");
                 $("#reserveButton").addClass("disabledReserveButtons");
                 $("#viewLayout").addClass("disabledReserveButtons");
+                */
                 
                 if($("#event").is(':checked')){
                     

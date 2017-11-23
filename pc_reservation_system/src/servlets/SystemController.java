@@ -789,9 +789,9 @@ public class SystemController extends HttpServlet {
 		response.setContentType("application/json");
 		response.getWriter().write(userDetails.toString());
 		
+	
 		
-		response.setContentType("application/json");
-		response.getWriter().write(userDetails.toString());
+		
 	}
 	
 	private void requestUserReservations(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -812,7 +812,7 @@ public class SystemController extends HttpServlet {
 			
 			Date startT = pr.getDateTimeStart();
 			Date endT = pr.getDateTimeEnd();
-			
+			startT.setMonth(startT.getMonth()+ 1);
 			if(startT.getHours() <= 12){
 				// 1:0 -> 11:0
 				if(startT.getHours() == 0)
@@ -858,7 +858,7 @@ public class SystemController extends HttpServlet {
 			json.addProperty("location", lab.getBuilding());
 			json.addProperty("room", lab.getName());;
 			json.addProperty("pcnum", "" + pr.getPcID());
-			json.addProperty("date", "" + endT.getDate() + "/" + endT.getMonth()
+			json.addProperty("date", "" + endT.getDate() + "/" + (endT.getMonth() + 1)
 								+ "/" + (endT.getYear() + 1900));
 			json.addProperty("start", sTime);
 			json.addProperty("end", eTime);
@@ -1101,7 +1101,9 @@ public class SystemController extends HttpServlet {
 		//Changed id -> user just to prevent unwanted error (Edited by: Jerome)
 		if(password == null || password == ""){
 			errors+="BP";
-		}else if(id != -1){
+		}
+		else if(id != -1){
+			//check first if id isnt blank, if it isnt blank, do stuff
 			User user = SystemService.getUser(id);
 			
 			password = DigestUtils.sha1Hex(password);

@@ -1,6 +1,6 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
-Lominoque, Jerome R.
+Lominoque, Jerome R. November 23, 2017
 Changes made:
 - Fixed Admin reservation page
     - Buttons are matching the mockups
@@ -10,6 +10,11 @@ Changes made:
 - Fixed SystemController Time for schedule list
 - Prepared User reservation page
     - changed reserveButton -> disabledReserveButton
+    
+- Fixed User reservation page
+
+Errors/Problems:
+- Time is not reflecting properly in the database (5:00PM -> (in db = 5:00AM))
 
 Bornales, Amiel James November 23, 2017
 Changes made:

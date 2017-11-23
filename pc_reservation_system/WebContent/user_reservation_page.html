@@ -224,6 +224,28 @@
             cursor:pointer;
         }
         
+        .reserveButtons{
+            background-color: darkgreen;
+            color: white;
+            border: solid;
+            border-width: 1px;
+            border-radius: 4px;
+            width:130px;
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size:15px;
+            
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+        }
+        
+        .reserveButtons:hover{
+            background-color: green;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        }
+        
+        
         .reserveTable{
             width:100%;
             border-top: solid;
@@ -405,10 +427,10 @@
                                 
                                 <div class = "row" id = "buttonHolder" style = "padding:0px; margin:0px;margin-top:10px;">
                                     <div class = "col">
-                                        <button class = "reserveButtons" id = "layout">VIEW LAYOUT</button>
+                                        <button class = "disabledReserveButtons" id = "layout" disabled="true">VIEW LAYOUT</button>
                                     </div>
                                     <div class = "col">
-                                        <button class = "reserveButtons" id = "reservePCBtn" style = "float:right;">RESERVE</button>
+                                        <button class = "disabledReserveButtons" id = "reservePCBtn" style = "float:right;" disabled="true">RESERVE</button>
                                     </div>
                                 </div>
                             </div>
@@ -453,6 +475,9 @@
             var isLayout = false;
             var selected_row = null;
             
+            var reserveButton = document.getElementById("reservePCBtn");
+            var viewButton = document.getElementById("layout");
+            
             //this function is called when page is fully loaded
             $(document).ready(function(){
             	setValues();
@@ -486,7 +511,7 @@
             var popUpDiv = document.getElementById("popUpID");
             var popUpSize = document.getElementById("popUpContentID");
             
-            var selectedPc, selectedTime, selectedRoom, selectedDate;
+            var selectedPc, selectedTime, selectedRoom, selectedDate, selectedBldg;
             
              var reserveUrl = "userReserve?"
             $("#reservePCBtn").click(function(){
@@ -500,7 +525,8 @@
                     date = selectedDate;
                     pc = parseInt(selectedPc);
                     room = selectedRoom;
-
+                    building = selectedBldg;
+                    
                     var tempTime = parseInt(selectedTime);
                     if(tempTime < 10){
                         sTime = "0" + tempTime + ":00:00";
@@ -683,6 +709,13 @@
                         
             function refresh_table(){
                 console.log("refreshing table");
+                reserveButton.disabled = true;
+                viewButton.disabled = true;
+                $("#reservePCBtn").removeClass("reserveButtons");
+                $("#layout").removeClass("reserveButtons");
+                $("#reservePCBtn").addClass("disabledReserveButtons");
+                $("#layout").addClass("disabledReserveButtons");
+                
                 var elmtTable = document.getElementById('pcTable');
                 var tableRows = elmtTable.getElementsByTagName('tr');
                 var rowCount = tableRows.length;
@@ -903,6 +936,8 @@
                 }
             }
             
+            
+            
             $(document).on('click','.reserveTable tr',function(){
                 $(this).addClass('selected').siblings().removeClass('selected');
                 var temp = $(this).children();
@@ -913,9 +948,17 @@
                         start:temp[3].innerHTML,
                         end:temp[4].innerHTML
                 }
-                            
+                 
+                reserveButton.disabled = false;
+                viewButton.disabled = false;
+                $("#reservePCBtn").removeClass("disabledReserveButtons");
+                $("#layout").removeClass("disabledReserveButtons");
+                $("#reservePCBtn").addClass("reserveButtons");
+                $("#layout").addClass("reserveButtons");
+                
                 selectedPc = selected_row.pcno;
-                selectedRoom = selected_row.location;
+                selectedBldg = selected_row.location
+                selectedRoom = selected_row.room;
                 selectedTime = selected_row.start;
                 selectedDate = document.getElementById("dateDropdown").value;
                 
