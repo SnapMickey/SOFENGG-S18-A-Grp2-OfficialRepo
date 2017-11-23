@@ -192,12 +192,78 @@
         }
         #deleteReserve{
             color:red;
+            cursor: pointer;
         }
         .tableContainer{
             overflow-y: scroll;
             padding:0px;
             margin:0px;
             height: 100%;
+        }
+        .selected{
+            background-color:#ffaabb;
+        }.modal-content{
+            padding:20px;
+            margin-top: 38%;
+            border-radius: 10px !important;
+            border-width: 0px;
+            padding-top:50px !important;
+            background-color: #DFDFDF!important;
+        }
+        .modalText{
+            padding:24px;
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 24px;
+            text-align: center;
+            color: #4D4D4D;
+            
+        }
+        #modalNoCancel{
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: white;border-width: 1px;            
+            background: #4A4A4A;
+            width:160px;
+            border-radius: 8px;
+            margin-bottom:12px;
+            cursor: pointer;
+        }
+        #modalYesCancel{
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: white;
+            background: #278347;
+            width:160px;
+            border-radius: 8px;
+            float:right;
+            margin-bottom:12px;
+            cursor: pointer;
+        }
+        #modalNoCfm{
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: white;border-width: 1px;            
+            background: #4A4A4A;
+            width:160px;
+            border-radius: 8px;
+            margin-bottom:12px;
+            cursor: pointer;
+        }
+        #modalYesCfm{
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: white;
+            background: #278347;
+            width:160px;
+            border-radius: 8px;
+            float:right;
+            margin-bottom:12px;
+            cursor: pointer;
         }
     </style>
     <head>
@@ -248,19 +314,19 @@
             <div class = "row" id = "white" style = "height:100%;">
                 <div class = "bgwhite" style = "padding-top:30px;">
                     <div class = "row" id = "greetingsHolder">
-                        <div class = "col-md-6">
+                        <div class = "col-md-7">
                             <h3 style = "color:#4A4A4A" id = "welcome_admin">Welcome Admin!</h3>
                         </div>
                         <div class = "col-md-3">
                             <p id = "currTime" class = "timeDetails">Current System Time: </p>
                         </div>
-                        <div class = "col-md-3">
+                        <div class = "col-md-2">
                             <p id = "refresh" class = "timeDetails" style="float:right;text-decoration:underline;cursor:pointer;" >Refresh</p>
                         </div>
                     </div>
                     
                     <div class = "row" id = "boxHolder" style = "height:100%;">
-                        <div class = "col-md-6" style = "margin-bottom:0px;padding-bottom:0px;height:auto;" >
+                        <div class = "col-md-7" style = "margin-bottom:0px;padding-bottom:0px;height:auto;" >
                             <!-- PC, Small upper left -->
                             <div class = "contentBox"  id = "recentBox" style = "padding:0px;">
                                 
@@ -342,7 +408,7 @@
                             </div>
                         </div>
                         <!-- Computer Schedules, Big Right Box -->
-                        <div class = "col-md-6"  style = "margin-bottom:0px;padding-bottom:0px;height:auto;">
+                        <div class = "col-md-5"  style = "margin-bottom:0px;padding-bottom:0px;height:auto;">
                             <div class = "contentBox" id = "computerBox" style = "padding:0px;height:87%;">
                                 
                                 <!--Box Header Start-->
@@ -368,7 +434,6 @@
                                         <tbody id = "schedBody">
                                             <tr>
                                                 <th class = "tableHeader">Location</th>
-                                                <th class = "tableHeader">Slots Available</th>
                                                 <th class = "tableHeader">Location Status</th>
                                             </tr>
                                         </tbody>
@@ -390,25 +455,69 @@
             <!-- footer end -->
             
         </div>
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog modal-md">
+
+              <!-- Modal content-->
+                <div class="modal-content">
+                        <h3 class = "modalText">Are you sure you want to cancel this reservation?</h3>
+                        <div class = "row">
+                            <div class = "col">
+                                <button type="button" id = "modalNoCancel" class="btn btn-default" data-dismiss="modal">No</button>
+                            </div>
+                            <div class = "col">
+                                <button type="button" id = "modalYesCancel" class="btn btn-default" data-dismiss="modal">Yes</button>
+                            </div>
+                        </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal fade" id="otherModal" role="dialog">
+            <div class="modal-dialog modal-md">
+
+              <!-- Modal content-->
+                <div class="modal-content">
+                        <h3 class = "modalText">Confirm this reservation?</h3>
+                        <div class = "row">
+                            <div class = "col">
+                                <button type="button" id = "modalNoCfm" class="btn btn-default" data-dismiss="modal">No</button>
+                            </div>
+                            <div class = "col">
+                                <button type="button" id = "modalYesCfm" class="btn btn-default" data-dismiss="modal">Yes</button>
+                            </div>
+                        </div>
+                </div>
+
+            </div>
+        </div>
     </body>
         
         <!--Copy paste here-->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
         <script
         src="http://code.jquery.com/jquery-3.2.1.js"
         integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
         crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+        
+        
         <!--End copy paste-->
         
         <script>
             var reserveArr = [];
             var schedArr = [];
+            
+            var selected_lab = null;
+            var selected_reserve= null;
+            
             
             $("#header_home").click(function(){
 	        	var form = document.createElement('form');
@@ -434,15 +543,6 @@
                 form.submit();
             });
             
-            $("#refresh").click(function(){
-                var form = document.createElement('form');
-                form.method = "GET";
-                form.action = "adminpage";
-                document.body.appendChild(form);
-                form.submit();
-                
-            });
-            
             $("#historyBtn").click(function(){
                 var form = document.createElement('form');
                 form.method = "GET";
@@ -452,6 +552,13 @@
                 
             });
             
+            $("#refresh").click(function(){
+                var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "adminpage";
+                document.body.appendChild(form);
+                form.submit();
+             });
             /*
             $("#layoutBtn").click(function(){
                 
@@ -463,11 +570,53 @@
                 
             });
             */
-            $("#questionBtn").click(function(){
-                
+            //End of Button Listeners
+            
+            //modal buttons
+            $("#modalYesCancel").click(function(){
                 
             });
-            //End of Button Listeners
+            $("#modalNoCancel").click(function(){
+                
+            });
+            $("#modalYesCfm").click(function(){
+                
+            });
+            $("#modalNoCfm").click(function(){
+                
+            });
+            
+            $(document).on('click', "#deleteReserve", function(){
+                $(this).parent().addClass('selected').siblings().removeClass('selected');
+                var temp = $(this).parent().children();
+                selected_reserve = {
+                        name:temp[1].innerHTML,
+                        id:temp[2].innerHTML,
+                        location:temp[3].innerHTML,
+                        pcno:temp[4].innerHTML,
+                        date:temp[5].innerHTML,
+                        start:temp[6].innerHTML,
+                        end:temp[7].innerHTML
+                }
+                console.log(selected_reserve);
+                $("#myModal").modal('show');
+            });
+            
+            $(document).on('click', "#checkBox", function(){
+                $(this).parent().parent().parent().addClass('selected').siblings().removeClass('selected');
+                var temp = $(this).parent().parent().parent().children();
+                selected_lab = {
+                        name:temp[1].innerHTML,
+                        id:temp[2].innerHTML,
+                        location:temp[3].innerHTML,
+                        event:temp[4].innerHTML,
+                        date:temp[5].innerHTML,
+                        start:temp[6].innerHTML,
+                        end:temp[7].innerHTML
+                }
+                console.log(selected_lab);
+                $("#otherModal").modal('show');
+            });
             
             
             //Dropdown Listeners
@@ -674,27 +823,22 @@
             });
             
             
-            
-            
             //function is called when page is fully loaded
             $(document).ready(function(){
                 fix_table_heights();
                 
+                console.log("loading recent reservations");
+                
                 
                 $.get("requestAdminDetails",function(admin){
-                	$("#welcome_admin").html("Welcome " + admin.name.split(" ")[0] + "!");
-                	console.log("admin");
+                 	$("#welcome_admin").html("Welcome " + admin.name.split(" ")[0] + "!");
+                 	console.log("admin");
                 });
                 
                 $.get("requestSystemTime",function(time){
-                	$("#currTime").html("Current System Time: "  + time.curTime);
-                	console.log("time");
+                 	$("#currTime").html("Current System Time: "  + time.curTime);
+                 	console.log("time");
                 });
-                
-                
-                //add_data_to_recent_reserve(reserveArr);
-                
-                console.log("loading recent reservations");
                 
                 $.get("getPcReservations?location=default", function(obj){
                     console.log("loading recent reservations");
