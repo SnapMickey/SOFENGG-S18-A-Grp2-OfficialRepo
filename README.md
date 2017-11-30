@@ -1,4 +1,7 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+Bornales, Amiel James November 30, 2017
+Changes made:
+- updated index.html to latest mockups (it was already updated on my laptop, I just forgot to push sorry)
 
 Lominoque, Jerome R. November 23, 2017
 Changes made:
