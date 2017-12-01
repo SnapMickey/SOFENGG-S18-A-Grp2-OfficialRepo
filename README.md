@@ -1,4 +1,13 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+Bornales, Amiel James December 2, 2017
+Changes made:
+- added header button functionality to admin_history.html
+- added functionality for when user scrolls to bottom of page in admin_history.html
+
+Errors/Problems:
+- function for checking if user scrolls to bottom of table doesnt pull data from db yet
+- table does not recieve table data yet
+
 Bornales, Amiel James November 30, 2017
 Changes made:
 - updated index.html to latest mockups (it was already updated on my laptop, I just forgot to push sorry)
