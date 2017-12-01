@@ -19,11 +19,11 @@
             background-color:#4A4A4A;   
         }
         .headerTitle{
-            margin-top:15px;
+            margin:15px;
             color:#278347;
             font-family:'Futura',sans-serif;
-            font-size:30px;
-            font-weight:500;
+            font-size:25px;
+            font-weight:600;
         }
         .footer{
             position: fixed;
@@ -55,6 +55,7 @@
             font-weight:600;
             color:white;
             
+            cursor:pointer;
         }
         .headerButtonDiv:hover{
             border-radius: 5px;
@@ -109,9 +110,11 @@
             margin-bottom: 2%;
             margin-top: 1%;
             */
-            margin-bottom: 25px;
-            padding:5px;
-            height:41%;
+            margin:0 auto;
+            display:block;
+            width:94%;
+            margin-bottom:3%;
+            margin-top:3%;
         }
         .boxHeader{
             font-family:'Avenir Next',sans-serif;
@@ -127,11 +130,12 @@
             margin-top:3px;
         }
         /*COPY PASTE HERE*/
-        .reserveTable{
+        .historyTable{
             width:100%;
             border-top: solid;
             border-bottom: solid;
             border-width: 1.5px;
+            border-top-width:3px;
             padding:15px;
             border-color: #DDDDDD;
             font-family:'Avenir Next',sans-serif;
@@ -162,14 +166,13 @@
             padding-bottom: 8px;
         }
         .dropdown{
-            margin-top: 10px;
+            margin: 12px;
             border-radius: 3px;
             padding: 3px;
             font-size: 14px;
-            width:115px;
+            width:130px;
             background-color: #EEEEEE;
-            margin-top:18px;
-            margin-right: 10px;
+            float:right;
         }
         .checkinBox{
             display: inline-block;
@@ -192,78 +195,12 @@
         }
         #deleteReserve{
             color:red;
-            cursor: pointer;
         }
         .tableContainer{
             overflow-y: scroll;
             padding:0px;
             margin:0px;
             height: 100%;
-        }
-        .selected{
-            background-color:#ffaabb;
-        }.modal-content{
-            padding:20px;
-            margin-top: 38%;
-            border-radius: 10px !important;
-            border-width: 0px;
-            padding-top:50px !important;
-            background-color: #DFDFDF!important;
-        }
-        .modalText{
-            padding:24px;
-            font-family:'Avenir Next',sans-serif;
-            font-weight: 600;
-            font-size: 24px;
-            text-align: center;
-            color: #4D4D4D;
-            
-        }
-        #modalNoCancel{
-            font-family:'Avenir Next',sans-serif;
-            font-weight: 600;
-            font-size: 16px;
-            color: white;border-width: 1px;            
-            background: #4A4A4A;
-            width:160px;
-            border-radius: 8px;
-            margin-bottom:12px;
-            cursor: pointer;
-        }
-        #modalYesCancel{
-            font-family:'Avenir Next',sans-serif;
-            font-weight: 600;
-            font-size: 16px;
-            color: white;
-            background: #278347;
-            width:160px;
-            border-radius: 8px;
-            float:right;
-            margin-bottom:12px;
-            cursor: pointer;
-        }
-        #modalNoCfm{
-            font-family:'Avenir Next',sans-serif;
-            font-weight: 600;
-            font-size: 16px;
-            color: white;border-width: 1px;            
-            background: #4A4A4A;
-            width:160px;
-            border-radius: 8px;
-            margin-bottom:12px;
-            cursor: pointer;
-        }
-        #modalYesCfm{
-            font-family:'Avenir Next',sans-serif;
-            font-weight: 600;
-            font-size: 16px;
-            color: white;
-            background: #278347;
-            width:160px;
-            border-radius: 8px;
-            float:right;
-            margin-bottom:12px;
-            cursor: pointer;
         }
     </style>
     <head>
@@ -288,20 +225,20 @@
                 <div class = "col-md-8">
                     <div class = "row" style = "float:right;padding-right:10px;">
                         <div class = "col-md-2.5 space">
-                            <button class = "headerButtonDiv" id="header_home">DASHBOARD</button>
+                            <button class = "headerButtonDiv" id = "header_home">DASHBOARD</button>
                         </div>
                         <div class = "col-md-2.5 space">
-                            <button class = "headerButtonDiv" id = "header_reserve">RESERVE</button>
+                            <button class = "headerButtonDiv" id = "reserveBtn">RESERVE</button>
                         </div>
                         <div class = "col-md-2.5 space">
-                            <button class = "headerButtonDiv" id = "header_history">HISTORY</button>
+                            <button class = "headerButtonDiv" id = "historyBtn">HISTORY</button>
                         </div>
                         <div class = "col-md-2.5 space">
                             <button class = "headerButtonDiv" id = "logout">LOG OUT</button>
                         </div>
                         <div class = "col-md-2.5 space">
                             <div class = "questionLine">
-                                <button class = "question" id = "header_question">?</button>
+                                <button class = "question" id = "questionBtn">?</button>
                             </div>
                         </div> 
                     </div>
@@ -312,137 +249,45 @@
             
             
             <div class = "row" id = "white" style = "height:100%;">
-                <div class = "bgwhite" style = "padding-top:30px;">
-                    <div class = "row" id = "greetingsHolder">
-                        <div class = "col-md-7">
-                            <h3 style = "color:#4A4A4A" id = "welcome_admin">Welcome Admin!</h3>
+                <div class = "contentBox" id = "mainBox">
+                    <div class = "row" id = "contentHeader">
+                        <div class = "col">
+                            <h3 class = "headerTitle">Reservation History</h3>
                         </div>
-                        <div class = "col-md-3">
-                            <p id = "currTime" class = "timeDetails">Current System Time: </p>
-                        </div>
-                        <div class = "col-md-2">
-                            <p id = "refresh" class = "timeDetails" style="float:right;text-decoration:underline;cursor:pointer;" >Refresh</p>
+                        <div class = "col">
+                            <select class = "dropdown" id = "bldgDrop">
+                                <option>All Locations</option>
+                                <option>Gokongwei</option>
+                                <option>Velasco</option>
+                                <option>Miguel</option>
+                                <option>Henry Sy</option>
+                            </select>
+                            <select class = "dropdown" id = "timeDrop">
+                                <option>Daily</option>
+                                <option selected="selected">Weekly</option>
+                                <option>Monthly</option>
+                                <option>Annual</option>
+                            </select>
                         </div>
                     </div>
                     
-                    <div class = "row" id = "boxHolder" style = "height:100%;">
-                        <div class = "col-md-7" style = "margin-bottom:0px;padding-bottom:0px;height:auto;" >
-                            <!-- PC, Small upper left -->
-                            <div class = "contentBox"  id = "recentBox" style = "padding:0px;">
-                                
-                                <!--Box Header Start-->
-                                <div class = "row" id = "recentHeader">
-                                    <div class = "col">
-                                        <h3 class = "boxTitle" style = "margin-left:10px;margin-top:20px;margin-bottom:15px;">Recent Reservations</h3>
-                                    </div>
-                                    <div class = "col" style = "text-align:right;">
-                                        <select class = "dropdown" id = "recentReservationsDrop">
-                                            <option value="default">All Locations</option>
-                                            <option value="Gokongwei">Gokongwei</option>
-                                            <option value="Velasco">Velasco</option>
-                                            <option value="Miguel">Miguel</option>
-                                            <option value="Henry Sy">Henry Sy</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <!--Box Header End--> 
-                                
-                                <div class = "tableContainer"  id = "recentReserve">
-                                    <table class = "reserveTable" id="recentReservationsTable">
-                                        <tbody id = "recentTable">
-                                            <tr>
-                                                <th class = "tableHeader"> </th>
-                                                <th class = "tableHeader">Name</th>
-                                                <th class = "tableHeader">ID</th>
-                                                <th class = "tableHeader">Location</th>
-                                                <th class = "tableHeader">PC No.</th>
-                                                <th class = "tableHeader">Date</th>
-                                                <th class = "tableHeader">Start</th>
-                                                <th class = "tableHeader">End</th>
-                                                <th class = "tableHeader"> </th>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            
-                            
-                            <!-- Lab,Small Lower Left -->
-                            <div class = "contentBox" id = "labBox" style = "padding:0px;">
-                                
-                                <!--Box Header Start-->
-                                
-                                <div class = "row" id = "labHeader">
-                                    <div class = "col">
-                                        <h3 class = "boxTitle" style = "margin-left:10px;margin-top:15px;margin-bottom:15px;">Lab Reservations</h3>
-                                    </div>
-                                    <div class = "col" style = "text-align:right;">
-                                        <select class = "dropdown" id = "reservationsDrop">
-                                            <option value="default">All Locations</option>
-                                            <option value="Gokongwei">Gokongwei</option>
-                                            <option value="Velasco">Velasco</option>
-                                            <option value="Miguel">Miguel</option>
-                                            <option value="Henry Sy">Henry Sy</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <!--Box Header End-->
-                                <div class = "tableContainer" id = "labTableDiv">
-                                    <table class = "reserveTable" id="labReservationsTable">
-                                        <tbody id = "labTable">
-                                            <tr>
-                                                <th class = "tableHeader"> </th>
-                                                <th class = "tableHeader">Name</th>
-                                                <th class = "tableHeader">ID</th>
-                                                <th class = "tableHeader">Location</th>
-                                                <th class = "tableHeader">Event</th>
-                                                <th class = "tableHeader">Date</th>
-                                                <th class = "tableHeader">Start</th>
-                                                <th class = "tableHeader">End</th>
-                                                <th class = "tableHeader"> </th>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                
-                            </div>
-                        </div>
-                        <!-- Computer Schedules, Big Right Box -->
-                        <div class = "col-md-5"  style = "margin-bottom:0px;padding-bottom:0px;height:auto;">
-                            <div class = "contentBox" id = "computerBox" style = "padding:0px;height:87%;">
-                                
-                                <!--Box Header Start-->
-                                
-                                <div class = "row" id = "computerHeader">
-                                    <div class = "col">
-                                        <h3 class = "boxTitle" style = "margin-left:10px;margin-top:20px;margin-bottom:15px;">Computer Schedules</h3>
-                                    </div>
-                                    <div class = "col" style = "text-align:right;">
-                                        <select class = "dropdown" id = "schedulesDrop">
-                                            <option value="default">All Locations</option>
-                                            <option value="Gokongwei">Gokongwei</option>
-                                            <option value="Velasco">Velasco</option>
-                                            <option value="Miguel">Miguel</option>
-                                            <option value="Henry Sy">Henry Sy</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <!--Box Header End-->
-                                <div class = "tableContainer" id = "computerTable" style = "height:89%;">
-                                    <table class = "reserveTable" id="scheduleList">
-                                        <tbody id = "schedBody">
-                                            <tr>
-                                                <th class = "tableHeader">Location</th>
-                                                <th class = "tableHeader">Location Status</th>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                    <div class = "tableContainer">
+                        <table class = "historyTable">
+                            <tbody id = "historyTable">
+                                <tr>
+                                    <th class = "tableHeader">Name</th>
+                                    <th class = "tableHeader">College</th>
+                                    <th class = "tableHeader">ID</th>
+                                    <th class = "tableHeader">Location</th>
+                                    <th class = "tableHeader">PC No</th>
+                                    <th class = "tableHeader">Date</th>
+                                    <th class = "tableHeader">Start</th>
+                                    <th class = "tableHeader">End</th>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                
+                    
                 </div>
                 
             </div>
@@ -455,312 +300,78 @@
             <!-- footer end -->
             
         </div>
-        <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog modal-md">
-
-              <!-- Modal content-->
-                <div class="modal-content">
-                        <h3 class = "modalText">Are you sure you want to cancel this reservation?</h3>
-                        <div class = "row">
-                            <div class = "col">
-                                <button type="button" id = "modalNoCancel" class="btn btn-default" data-dismiss="modal">No</button>
-                            </div>
-                            <div class = "col">
-                                <button type="button" id = "modalYesCancel" class="btn btn-default" data-dismiss="modal">Yes</button>
-                            </div>
-                        </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="modal fade" id="otherModal" role="dialog">
-            <div class="modal-dialog modal-md">
-
-              <!-- Modal content-->
-                <div class="modal-content">
-                        <h3 class = "modalText">Confirm this reservation?</h3>
-                        <div class = "row">
-                            <div class = "col">
-                                <button type="button" id = "modalNoCfm" class="btn btn-default" data-dismiss="modal">No</button>
-                            </div>
-                            <div class = "col">
-                                <button type="button" id = "modalYesCfm" class="btn btn-default" data-dismiss="modal">Yes</button>
-                            </div>
-                        </div>
-                </div>
-
-            </div>
-        </div>
     </body>
         
         <!--Copy paste here-->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
         <script
         src="http://code.jquery.com/jquery-3.2.1.js"
         integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
         crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-        
-        
         <!--End copy paste-->
         
         <script>
-            var reserveArr = [];
-            var schedArr = [];
             
-            var selected_lab = null;
-            var selected_reserve= null;
-            
-            
+            //Button Listeners
             $("#header_home").click(function(){
-	        	var form = document.createElement('form');
-	            form.method = "GET";
-	            form.action = "adminpage";
-	            document.body.appendChild(form);
-	            form.submit();
-	        });
-	        
-	        $("#header_reserve").click(function(){
-            	var form = document.createElement('form');
-                form.method = "GET";
-                form.action = "adminreservationpage";
-                document.body.appendChild(form);
-                form.submit();
+                redir('adminpage');
             });
-        
+            
             $("#logout").click(function(){
-            	var form = document.createElement('form');
-                form.method = "GET";
-                form.action = "logout";
-                document.body.appendChild(form);
-                form.submit();
+                redir('logout');
+            });
+            
+            $("#reserveBtn").click(function(){
+                redir('adminreservationpage');
             });
             
             $("#historyBtn").click(function(){
-                var form = document.createElement('form');
-                form.method = "GET";
-                form.action = "adminhistorypage";
-                document.body.appendChild(form);
-                form.submit();
-                
+                redir('adminhistorypage');
             });
             
-            $("#refresh").click(function(){
-                var form = document.createElement('form');
-                form.method = "GET";
-                form.action = "adminpage";
-                document.body.appendChild(form);
-                form.submit();
-             });
-            /*
-            $("#layoutBtn").click(function(){
-                
-                
+            $("#questionBtn").click(function(){
+                redir('');
             });
-            
-            $("#statisticsBtn").click(function(){
-                
-                
-            });
-            */
             //End of Button Listeners
             
-            //modal buttons
-            $("#modalYesCancel").click(function(){
-                
-            });
-            $("#modalNoCancel").click(function(){
-                
-            });
-            $("#modalYesCfm").click(function(){
-                
-            });
-            $("#modalNoCfm").click(function(){
-                
-            });
-            
-            $(document).on('click', "#deleteReserve", function(){
-                $(this).parent().addClass('selected').siblings().removeClass('selected');
-                var temp = $(this).parent().children();
-                selected_reserve = {
-                        name:temp[1].innerHTML,
-                        id:temp[2].innerHTML,
-                        location:temp[3].innerHTML,
-                        pcno:temp[4].innerHTML,
-                        date:temp[5].innerHTML,
-                        start:temp[6].innerHTML,
-                        end:temp[7].innerHTML
-                }
-                console.log(selected_reserve);
-                $("#myModal").modal('show');
-            });
-            
-            $(document).on('click', "#checkBox", function(){
-                $(this).parent().parent().parent().addClass('selected').siblings().removeClass('selected');
-                var temp = $(this).parent().parent().parent().children();
-                selected_lab = {
-                        name:temp[1].innerHTML,
-                        id:temp[2].innerHTML,
-                        location:temp[3].innerHTML,
-                        event:temp[4].innerHTML,
-                        date:temp[5].innerHTML,
-                        start:temp[6].innerHTML,
-                        end:temp[7].innerHTML
-                }
-                console.log(selected_lab);
-                $("#otherModal").modal('show');
-            });
+            function redir(path){
+                var form = document.createElement('form');
+                form.method = "GET";
+                form.action = path;
+                document.body.appendChild(form);
+                form.submit();
+            }
             
             
             //Dropdown Listeners
-            $("#recentReservationsDrop").on('change', function(){
-                //recentReservationsDrop
-                refresh_recent_reservations_table();
-                
-                var bldg = document.getElementById("recentReservationsDrop");
-                var url = "getPcReservations?";
+            $("#bldgDrop").on('change', function(){
                 switch($(this).val()){
                         
-                    case "default":
+                    case "All Locations":
                         //TODO filter results
-                        url += "location=default";
-                        $.get(url, function(obj){
-                            add_data_to_recent_reserve(obj); 
-                        });
                         break;
                     case "Gokongwei":
                         //TODO filter results
-                        url += "location=Gokongwei"
-                        $.get(url, function(obj){
-                            add_data_to_recent_reserve(obj); 
-                        });
                         break;
                     case "Velasco":
                         //TODO filter results
-                        url += "location=Velasco"
-                        $.get(url, function(obj){
-                            add_data_to_recent_reserve(obj); 
-                        });
                         break;
                     case "Miguel":
-                        url += "location=Miguel"
-                        $.get(url, function(obj){
-                            add_data_to_recent_reserve(obj); 
-                        });
                         //TODO filter results
                         break;
                     case "Henry Sy":
                         //TODO filter results
-                        url += "location=Henry Sy"
-                        $.get(url, function(obj){
-                            add_data_to_recent_reserve(obj); 
-                        });
                         break;
-                    }
+                }
             });
             
-            function fix_table_heights(){
-                $("#white").height($(".mainDiv").height() - $(".header").height()-50);
-                $("#recentBox").height(($("#computerBox").height()/2)- (20));
-                $("#labBox").height(($("#computerBox").height()/2)- (20));
-                $("#recentReserve").height($("#recentBox").height()-$("#recentHeader").height());
-                $("#labTableDiv").height($("#labBox").height()-$("#labHeader").height());
-                $("#computerTable").height($("#computerBox").height()-$("#computerHeader").height()-16);
-                $("#boxHolder").height($("#white").height() - $("#greetingsHolder").height());
-            }
-            
-            function refresh_recent_reservations_table(){
-                console.log("refreshing recent table");
-                var elmtTable = document.getElementById('recentReservationsTable');
-                var tableRows = elmtTable.getElementsByTagName('tr');
-                var rowCount = tableRows.length;
-                
-                for (var x=rowCount-1; x>0; x--) {
-                    elmtTable.removeChild(tableRows[x]);
-                }  
-            }
-            
-            function refresh_lab_reservations_table(){
-                console.log("refreshing lab table");
-                var elmtTable = document.getElementById('labReservationsTable');
-                var tableRows = elmtTable.getElementsByTagName('tr');
-                var rowCount = tableRows.length;
-                
-                for (var x=rowCount-1; x>0; x--) {
-                    elmtTable.removeChild(tableRows[x]);
-                }  
-            }
-            
-            function refresh_schedules_table(){
-                console.log("refreshing schedules table");
-                var elmtTable = document.getElementById('scheduleList');
-                var tableRows = elmtTable.getElementsByTagName('tr');
-                var rowCount = tableRows.length;
-                
-                for (var x=rowCount-1; x>0; x--) {
-                    elmtTable.removeChild(tableRows[x]);
-                }  
-            }
-            /*
-                reservations drop = lab reservations
-                schedules drop = computer scheds
-                recentReservationsDrop = recent reservations
-            */
-            $("#reservationsDrop").on('change', function(){
-                //
-                //reservationsDrop
-                refresh_lab_reservations_table();
-                var bldg = document.getElementById("reservationsDrop");
-                var url = "getLabReservations?";
-                switch($(this).val()){
-                        
-                    case "default":
-                        //TODO filter results
-                        url += "location=default";
-                        $.get(url, function(obj){
-                            add_data_to_recent_lab(obj); 
-                        });
-                        break;
-                    case "Gokongwei":
-                        //TODO filter results
-                        url += "location=Gokongwei"
-                        $.get(url, function(obj){
-                            add_data_to_recent_lab(obj); 
-                        });
-                        break;
-                    case "Velasco":
-                        //TODO filter results
-                        url += "location=Velasco"
-                        $.get(url, function(obj){
-                            add_data_to_recent_lab(obj); 
-                        });
-                        break;
-                    case "Miguel":
-                        url += "location=Miguel"
-                        $.get(url, function(obj){
-                            add_data_to_recent_lab(obj); 
-                        });
-                        //TODO filter results
-                        break;
-                    case "Henry Sy":
-                        //TODO filter results
-                        url += "location=Henry Sy"
-                        $.get(url, function(obj){
-                            add_data_to_recent_lab(obj); 
-                        });
-                        break;
-                    }
-            });
-            
-            /*
-            $("#statisticsDrop").on('change', function(){
+            $("#timeDrop").on('change', function(){
                 switch($(this).val()){
                     case "Daily":
                         
@@ -776,204 +387,112 @@
                         break;
                 }
             });
-            */
+            //end of dropdown listeners
             
-            //Computer Schedules
-            $("#schedulesDrop").on('change', function(){
-                refresh_schedules_table();
-                var bldg = document.getElementById("schedulesDrop");
-                var url = "getAdminSchedules?";
-                switch($(this).val()){
-                    case "default":
-                        //TODO filter results
-                        url += "location=default";
-                        $.get(url, function(obj){
-                            add_data_to_computer_schedules(obj); 
-                        });
-                        break;
-                    case "Gokongwei":
-                        //TODO filter results
-                        url += "location=Gokongwei"
-                        $.get(url, function(obj){
-                            add_data_to_computer_schedules(obj); 
-                        });
-                        break;
-                    case "Velasco":
-                        //TODO filter results
-                        url += "location=Velasco"
-                        $.get(url, function(obj){
-                            add_data_to_computer_schedules(obj); 
-                        });
-                        break;
-                    case "Miguel":
-                        url += "location=Miguel"
-                        $.get(url, function(obj){
-                            add_data_to_computer_schedules(obj); 
-                        });
-                        //TODO filter results
-                        break;
-                    case "Henry Sy":
-                        //TODO filter results
-                        url += "location=Henry Sy"
-                        $.get(url, function(obj){
-                            add_data_to_computer_schedules(obj); 
-                        });
-                        break;
-                }
-            });
-            
+            function fix_table_heights(){
+                $("#white").height($(".mainDiv").height() - $(".header").height()-50);
+                $(".tableContainer").height($("#mainBox").height() - $("#contentHeader").height());
+            }
             
             //function is called when page is fully loaded
             $(document).ready(function(){
+                //this function is important
                 fix_table_heights();
                 
-                console.log("loading recent reservations");
-                
-                
-                $.get("requestAdminDetails",function(admin){
-                 	$("#welcome_admin").html("Welcome " + admin.name.split(" ")[0] + "!");
-                 	console.log("admin");
-                });
-                
-                $.get("requestSystemTime",function(time){
-                 	$("#currTime").html("Current System Time: "  + time.curTime);
-                 	console.log("time");
-                });
-                
-                $.get("getPcReservations?location=default", function(obj){
-                    console.log("loading recent reservations");
-                    add_data_to_recent_reserve(obj);
-                });
-                
-                
-                console.log("recent reservations done");
-                
-                
-                
-                console.log("loading lab reservations");
-                $.get("getLabReservations?location=default", function(obj){
-                    add_data_to_recent_lab(obj);
-                });
-                console.log("lab reservations done");
-            
-                console.log("loading admin sched");
-                
-                $.get("getAdminSchedules?location=default", function(obj){
-                    add_data_to_computer_schedules(obj); 
-                });
-                
-                console.log("admin sched done");
-                
-                //
-            });
-            
-            
-            function add_data_to_recent_lab(jasonarr){
-                /*
-                Expected parameter is a JSON array, JSON format is as follows:
-                    {
-                        name:
-                        id:
-                        location:
-                        event:
-                        date:
-                        start:
-                        end:
-                    }
-                */
-                for(var i = jasonarr.length - 1  ; i >= 0 ; i--){
-                    var jason = jasonarr[i];
-                    var row = $("<tr>");
-                    row.append("<td class = 'tableCell' id = 'deleteReserve'>X</td>");
+                $(".tableContainer").bind('scroll', function(e){
+                    var elem = $(e.currentTarget);
+                    var temp = elem[0].scrollHeight - elem.scrollTop();
+                    var currScroll = temp + "";
+                    currScroll = currScroll.split(".")[0];
                     
-                    //Prints all the things, in the order that they came
-                    for(var key in jason){
-                        var col = $("<td>");
-                        col.addClass("tableCell");
-                        console.log(key);
-                        if(jason.hasOwnProperty(key)){
-                            col.html(jason[key]);
-                        }
-                        row.append(col);
-                    }
-                    //append the [] and X thing on table
-                    row.append("<td class = 'tableCell' id = 'cfmReserve'><div class = 'checkinBox'><input type = 'checkbox' id = 'checkBox' class = 'checkBox'></div></td>");
+                    var maxHeight = elem.outerHeight() + "";
+                    maxHeight = maxHeight.split(".")[0];
                     
-                    $("#labTable").after(row);
+                    //console.log(currScroll + " : " + maxHeight);
+                    if(currScroll <= maxHeight){
+                        console.log(currScroll + " : " + maxHeight+ " <<<< ");
+                        console.log("Reached bottom of table: TODO");
+                        
+                        
+                        //TODO get 20 new rows and append to bottom
+                    }
+                });
+                
+                //testing purposes
+                historyArr = [];
+                var kek = {
+                        name:"something",
+                        college:"something",
+                        id:"something",
+                        location:"something",
+                        pcno:"something",
+                        date:"something",
+                        start:"something",
+                        end:"something2"
+                    }
+                for(var i = 0 ; i < 20 ; i++){
+                    historyArr.push(kek);
                 }
+                add_data_history_table(historyArr);
+                //testing end
                 
                 
-            }
-            
-            function add_data_to_recent_reserve(jasonarr){
+            });
+            function add_data_history_table(jasonarr){
                 /*
                 Expected parameter is a JSON array, JSON format is as follows:
                     {
                         name:
+                        college:
                         id:
                         location:
                         pcno:
                         date:
                         start:
                         end:
-                    }s
+                    }
                 */
-                
-                //Loops through the whole JSON array and prints it
-                //Optional: add a limit maybe? like 10 recent
-                for(var i = jasonarr.length - 1  ; i >= 0 ; i--){
+                for(var i = 0 ; i < jasonarr.length ; i++){
                     var jason = jasonarr[i];
                     var row = $("<tr>");
-                    row.append("<td class = 'tableCell' id = 'deleteReserve'>X</td>");
-                    
                     //Prints all the things, in the order that they came
                     for(var key in jason){
                         var col = $("<td>");
                         col.addClass("tableCell");
-                        console.log(key);
+                        //console.log(key);
                         if(jason.hasOwnProperty(key)){
                             col.html(jason[key]);
                         }
                         row.append(col);
                     }
-                    //append the [] and X thing on table
-                    row.append("<td class = 'tableCell' id = 'cfmReserve'><div class = 'checkinBox'><input type = 'checkbox' id = 'checkBox' class = 'checkBox'></div></td>");
-                    
-                    $("#recentTable").after(row);
+                    $("#historyTable").after(row);
                 }
                 
-            }
-            
-            function add_data_to_computer_schedules(jasonarr){
-                /*
-                Expected parameter is a JSON array, JSON format is as follows:
-                    {
-                        location:
-                        slots:
-                        status:
-                    }
-                */
-                for(var i = jasonarr.length - 1  ; i >= 0 ; i--){
-                    var jason = jasonarr[i];
-                    var row = $("<tr>");
-                    
-                    for(var key in jason){
-                        var col = $("<td>");
-                        col.addClass("tableCell");
-                        
-                        if(jason.hasOwnProperty(key)){
-                            col.html(jason[key]);
-                        }
-                        row.append(col);
-                    }
-                    $("#schedBody").after(row);
-                }
                 
             }
-            
-            
-            
-            
         </script>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
