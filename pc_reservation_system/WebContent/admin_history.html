@@ -55,6 +55,7 @@
             font-weight:600;
             color:white;
             
+            cursor:pointer;
         }
         .headerButtonDiv:hover{
             border-radius: 5px;
@@ -224,7 +225,7 @@
                 <div class = "col-md-8">
                     <div class = "row" style = "float:right;padding-right:10px;">
                         <div class = "col-md-2.5 space">
-                            <button class = "headerButtonDiv">DASHBOARD</button>
+                            <button class = "headerButtonDiv" id = "header_home">DASHBOARD</button>
                         </div>
                         <div class = "col-md-2.5 space">
                             <button class = "headerButtonDiv" id = "reserveBtn">RESERVE</button>
@@ -318,37 +319,34 @@
         <script>
             
             //Button Listeners
+            $("#header_home").click(function(){
+                redir('adminpage');
+            });
+            
             $("#logout").click(function(){
-                $.get("/logout",function(){
-                    //Empty, logout is handled by the servlet
-                }); 
+                redir('logout');
             });
             
             $("#reserveBtn").click(function(){
-                
-                
+                redir('adminreservationpage');
             });
             
             $("#historyBtn").click(function(){
-                
-                
-            });
-            
-            $("#layoutBtn").click(function(){
-                
-                
-            });
-            
-            $("#statisticsBtn").click(function(){
-                
-                
+                redir('adminhistorypage');
             });
             
             $("#questionBtn").click(function(){
-                
-                
+                redir('');
             });
             //End of Button Listeners
+            
+            function redir(path){
+                var form = document.createElement('form');
+                form.method = "GET";
+                form.action = path;
+                document.body.appendChild(form);
+                form.submit();
+            }
             
             
             //Dropdown Listeners
@@ -401,6 +399,25 @@
                 //this function is important
                 fix_table_heights();
                 
+                $(".tableContainer").bind('scroll', function(e){
+                    var elem = $(e.currentTarget);
+                    var temp = elem[0].scrollHeight - elem.scrollTop();
+                    var currScroll = temp + "";
+                    currScroll = currScroll.split(".")[0];
+                    
+                    var maxHeight = elem.outerHeight() + "";
+                    maxHeight = maxHeight.split(".")[0];
+                    
+                    //console.log(currScroll + " : " + maxHeight);
+                    if(currScroll <= maxHeight){
+                        console.log(currScroll + " : " + maxHeight+ " <<<< ");
+                        console.log("Reached bottom of table: TODO");
+                        
+                        
+                        //TODO get 20 new rows and append to bottom
+                    }
+                });
+                
                 //testing purposes
                 historyArr = [];
                 var kek = {
@@ -413,7 +430,7 @@
                         start:"something",
                         end:"something2"
                     }
-                for(var i = 0 ; i < 10 ; i++){
+                for(var i = 0 ; i < 20 ; i++){
                     historyArr.push(kek);
                 }
                 add_data_history_table(historyArr);
@@ -455,27 +472,3 @@
             }
         </script>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
