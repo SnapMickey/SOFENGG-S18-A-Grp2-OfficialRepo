@@ -3,10 +3,14 @@ Bornales, Amiel James December 2, 2017
 Changes made:
 - added header button functionality to admin_history.html
 - added functionality for when user scrolls to bottom of page in admin_history.html
+- updated admin_history.html to latest mockup
+- added listeners for when start/end date is changed
+- added clear table function
 
 Errors/Problems:
 - function for checking if user scrolls to bottom of table doesnt pull data from db yet
 - table does not recieve table data yet
+- cannot filter history based on start / end dates yet
 
 Bornales, Amiel James November 30, 2017
 Changes made:
