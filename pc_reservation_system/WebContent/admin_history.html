@@ -166,11 +166,14 @@
             padding-bottom: 8px;
         }
         .dropdown{
+            border-top-color: black;
+            border-left-color: black;
             margin: 12px;
+            margin-right: 20px;
             border-radius: 3px;
             padding: 3px;
             font-size: 14px;
-            width:130px;
+            width:160px;
             background-color: #EEEEEE;
             float:right;
         }
@@ -201,6 +204,29 @@
             padding:0px;
             margin:0px;
             height: 100%;
+        }
+        
+        /*Removes the up down arrows in date picker*/
+        input[type=date]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            display: none;
+        }
+        ::placeholder{
+            color:black;
+        }
+        .calendarPicker{
+            margin: 12px;
+            border-radius: 3px;
+            
+            border-width: 1px;
+            border-color:#AAAAAA;
+            
+            padding: 3px;
+            
+            font-size: 14px;
+            width:160px;
+            background-color: #EEEEEE;
+            float:right;
         }
     </style>
     <head>
@@ -251,10 +277,10 @@
             <div class = "row" id = "white" style = "height:100%;">
                 <div class = "contentBox" id = "mainBox">
                     <div class = "row" id = "contentHeader">
-                        <div class = "col">
+                        <div class = "col-md-3">
                             <h3 class = "headerTitle">Reservation History</h3>
                         </div>
-                        <div class = "col">
+                        <div class = "col-md-9">
                             <select class = "dropdown" id = "bldgDrop">
                                 <option>All Locations</option>
                                 <option>Gokongwei</option>
@@ -262,12 +288,8 @@
                                 <option>Miguel</option>
                                 <option>Henry Sy</option>
                             </select>
-                            <select class = "dropdown" id = "timeDrop">
-                                <option>Daily</option>
-                                <option selected="selected">Weekly</option>
-                                <option>Monthly</option>
-                                <option>Annual</option>
-                            </select>
+                            <input placeholder="End Date" class="calendarPicker" type="text" onfocus="(this.type='date')"  id="endDate"> 
+                            <input placeholder="Start Date" class="calendarPicker" type="text" onfocus="(this.type='date')"  id="startDate"> 
                         </div>
                     </div>
                     
@@ -371,27 +393,31 @@
                 }
             });
             
-            $("#timeDrop").on('change', function(){
-                switch($(this).val()){
-                    case "Daily":
-                        
-                        break;
-                    case "Weekly":
-                        
-                        break;
-                    case "Monthly":
-                        
-                        break;
-                    case "Annual":
-                        
-                        break;
-                }
+            $("#startDate").change(function(){
+                var dateSelected = $(this).val();
+                //TODO do stuff on date change
+            });
+            
+            $("#endDate").change(function(){
+                var dateSelected = $(this).val();
+                //TODO do stuff on date change
             });
             //end of dropdown listeners
             
             function fix_table_heights(){
                 $("#white").height($(".mainDiv").height() - $(".header").height()-50);
                 $(".tableContainer").height($("#mainBox").height() - $("#contentHeader").height());
+            }
+            
+            function refresh_history_table(){
+                console.log("refreshing history table");
+                var elmtTable = document.getElementsByClassName('historyTable')[0];
+                var tableRows = elmtTable.getElementsByTagName('tr');
+                var rowCount = tableRows.length;
+                
+                for (var x=rowCount-1; x>0; x--) {
+                    elmtTable.removeChild(tableRows[x]);
+                }  
             }
             
             //function is called when page is fully loaded
@@ -416,6 +442,7 @@
                         
                         //TODO get 20 new rows and append to bottom
                     }
+                    
                 });
                 
                 //testing purposes
@@ -430,15 +457,15 @@
                         start:"something",
                         end:"something2"
                     }
-                for(var i = 0 ; i < 20 ; i++){
+                for(var i = 0 ; i < 10 ; i++){
                     historyArr.push(kek);
                 }
                 add_data_history_table(historyArr);
                 //testing end
                 
-                
             });
             function add_data_history_table(jasonarr){
+                //refresh_history_table();
                 /*
                 Expected parameter is a JSON array, JSON format is as follows:
                     {
@@ -472,3 +499,27 @@
             }
         </script>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
