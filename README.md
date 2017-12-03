@@ -1,4 +1,10 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+Bornales, Amiel James December 4, 2017
+Changes made:
+- error modal in user reserve when they try to reserve while having a reservation
+
+Errors/Problems:
+- not yet connected to backend
 
 Rivera, Jared December 4, 2017
 Changes made:
