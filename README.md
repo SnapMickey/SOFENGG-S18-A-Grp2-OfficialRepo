@@ -1,4 +1,15 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+
+Rivera, Jared December 4, 2017
+Changes made:
+- cleaned SystemController and SystemService
+- added methods for confirming and removing reservations
+- updated ReservationBuilder and removed generating all possible reservations for all times in one run
+- added JsonProperty adminConfirmed to indicate admin confirmation
+
+Errors/Problems:
+- SystemController is not yet configured correctly to handle: generating possible reservations, confirming, cancelling
+
 Bornales, Amiel James December 3, 2017
 Changes made:
 - updated user home to latest mockups
