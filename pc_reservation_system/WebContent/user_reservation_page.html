@@ -321,6 +321,40 @@
             max-height: 100%;
             max-width: 100%; 
         }
+        
+        
+        #modalOk{
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: white;
+            background: #278347;
+            width:150px;
+            border-radius: 8px;
+            float:right;
+            
+            cursor: pointer;
+            
+            margin:0 auto;
+            margin-bottom:15px;
+            display:block;
+        }
+        .modal-content{
+            padding:20px;
+            margin-top: 38%;
+            border-width: 0px;
+            padding-top:50px !important;
+            background-color: #DFDFDF!important;
+        }
+        .modalText{
+            padding:24px;
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            text-align: center;
+            color: #4D4D4D;
+            
+        }
     </style>
     <head>
       
@@ -450,6 +484,19 @@
                 </div>
             </div>
             
+            <div class="modal fade" id="errorModal" role="dialog">
+                <div class="modal-dialog modal-md">
+
+                  <!-- Modal content-->
+                    <div class="modal-content">
+                            <h3 class = "modalText">You cannot reserve until your current reservation is over.</h3>
+                            
+                            <button type="button" id = "modalOk" class="btn btn-default" data-dismiss="modal">Ok</button>
+                    </div>
+
+                </div>
+            </div>
+            
             <!-- footer-->
             <div class = "row" id = "footer">
                 <div class = "footer">
@@ -471,6 +518,7 @@
         src="http://code.jquery.com/jquery-3.2.1.js"
         integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
         crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
         <script>
             var isLayout = false;
             var selected_row = null;
@@ -480,6 +528,7 @@
             
             //this function is called when page is fully loaded
             $(document).ready(function(){
+                
             	setValues();
                 fix_table_height();  
             });
@@ -659,7 +708,6 @@
             $(".filterButton").click(function(){
                 console.log("searching..");
                 refresh_table();
-
                 var bldg, room, startTime, endTime, date, id, checkbox, dropdown;
                 dropdown = document.getElementById("bldgList");
                 bldg = dropdown.value;
@@ -705,6 +753,7 @@
                     console.log("adding data");
                     add_table_data(data);
                 });
+                
             });
                         
             function refresh_table(){
