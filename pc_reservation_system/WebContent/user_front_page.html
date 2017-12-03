@@ -117,7 +117,6 @@
         }
         /*COPY PASTE HERE*/
         .right{
-            text-align: right;
             color: #4A4A4A;
         }
         .note{
@@ -173,6 +172,7 @@
             height: 100%;
         }
     .cancel{
+            visibility: hidden;
             margin-top:5px;
             float:right;
             font-size: 14px;
@@ -222,6 +222,24 @@
             margin-bottom:12px;
             cursor: pointer;
         }
+        .reservationInfoContainer{
+            margin:0px;
+            padding:0px;
+        }
+        .reservationInfo{
+            display:none;
+        }
+        .reserveInfoNone{
+            color: #278347;
+            font-family:'Avenir Next',sans-serif;
+            font-size: 20px;
+            font-weight:600;
+            
+            display:table;
+            margin:auto;
+            margin-top:5%;
+            
+        }
     </style>
     <head>
       
@@ -263,33 +281,33 @@
             
             <div class = "row" id = "white">
                 <div class = "container-fluid bgwhite">
-                    <h3>Welcome!</h3>
+                    <h3 id = "welcome">Welcome!</h3>
                     <div class = "contentBox" id = "userInfo">
                         <div class = "row" style = "height:40%;">
                             <div class = "col-md-6">
                                 <div class = "container">
                                     <h3 class = "boxTitle">User Information</h3>
                                     <div class = "row">
-                                        <div class = "col-sm-6">
+                                        <div class = "col-sm-3">
                                             <h2 class = "boxHeader" style="font-weight:600;">Name:</h2>
                                         </div>
-                                        <div class = "col-sm-6 right">
+                                        <div class = "col-sm-9 right">
                                             <h2 class = "boxHeader" id = "user_name"></h2>
                                         </div>
                                     </div>
                                     <div class = "row">
-                                        <div class = "col-sm-6">
+                                        <div class = "col-sm-3">
                                             <h2 class = "boxHeader" style="font-weight:600;">ID Number:</h2>
                                         </div>
-                                        <div class = "col-sm-6 right">
+                                        <div class = "col-sm-9 right">
                                             <h2 class = "boxHeader" id = "id_number"></h2>
                                         </div>
                                     </div>
                                     <div class = "row">
-                                        <div class = "col-sm-6">
+                                        <div class = "col-sm-3">
                                             <h2 class = "boxHeader" style="font-weight:600;">College:</h2>
                                         </div>
-                                        <div class = "col-sm-6 right">
+                                        <div class = "col-sm-9 right">
                                             <h2 class = "boxHeader" id = "college"></h2>
                                         </div>
                                     </div>
@@ -305,52 +323,57 @@
                                             <button class = "cancel" data-toggle="modal" data-target="#myModal" data-backdrop="false">Cancel</button>
                                         </div>
                                     </div>
-                                    <div class = "row">
-                                        <div class = "col-sm-6">
-                                            <h2 class = "boxHeader">Location:</h2>
-                                        </div>
-                                        <div class = "col-sm-6 right">
-                                            <h2 class = "boxHeader" id = "location"></h2>
-                                        </div>
-                                    </div>
-                                    <div class = "row">
-                                        <div class = "col-sm-6">
-                                            <h2 class = "boxHeader">Room / Floor:</h2>
-                                        </div>
-                                        <div class = "col-sm-6 right">
-                                            <h2 class = "boxHeader" id = "room"></h2>
-                                        </div>
-                                    </div>
-                                    <div class = "row">
-                                        <div class = "col-sm-6">
-                                            <h2 class = "boxHeader">PC No:</h2>
-                                        </div>
-                                        <div class = "col-sm-6 right">
-                                            <h2 class = "boxHeader" id = "pcnum"></h2>
-                                        </div>
-                                    </div>
-                                    <div class = "row">
-                                        <div class = "col-sm-6">
-                                            <h2 class = "boxHeader">Date:</h2>
-                                        </div>
-                                        <div class = "col-sm-6 right">
-                                            <h2 class = "boxHeader" id = "date"></h2>
-                                        </div>
-                                    </div>
-                                    <div class = "row">
-                                        <div class = "col-sm-6">
-                                            <h2 class = "boxHeader">Start:</h2>
-                                        </div>
-                                        <div class = "col-sm-6 right">
-                                            <h2 class = "boxHeader" id = "start"></h2>
-                                        </div>
-                                    </div>
-                                    <div class = "row">
-                                        <div class = "col-sm-6">
-                                            <h2 class = "boxHeader">End:</h2>
-                                        </div>
-                                        <div class = "col-sm-6 right">
-                                            <h2 class = "boxHeader" id = "end"></h2>
+                                    <div class = "reservationInfoContainer">
+                                        <h3 class = "reserveInfoNone">No Current Reservations</h3>
+                                        <div class = "reservationInfo">
+                                            <div class = "row">
+                                                <div class = "col-sm-3">
+                                                    <h2 class = "boxHeader">Location:</h2>
+                                                </div>
+                                                <div class = "col-sm-9 right">
+                                                    <h2 class = "boxHeader" id = "location"></h2>
+                                                </div>
+                                            </div>
+                                            <div class = "row">
+                                                <div class = "col-sm-3">
+                                                    <h2 class = "boxHeader">Room / Floor:</h2>
+                                                </div>
+                                                <div class = "col-sm-9 right">
+                                                    <h2 class = "boxHeader" id = "room"></h2>
+                                                </div>
+                                            </div>
+                                            <div class = "row">
+                                                <div class = "col-sm-3">
+                                                    <h2 class = "boxHeader">PC No:</h2>
+                                                </div>
+                                                <div class = "col-sm-9 right">
+                                                    <h2 class = "boxHeader" id = "pcnum"></h2>
+                                                </div>
+                                            </div>
+                                            <div class = "row">
+                                                <div class = "col-sm-3">
+                                                    <h2 class = "boxHeader">Date:</h2>
+                                                </div>
+                                                <div class = "col-sm-9 right">
+                                                    <h2 class = "boxHeader" id = "date"></h2>
+                                                </div>
+                                            </div>
+                                            <div class = "row">
+                                                <div class = "col-sm-3">
+                                                    <h2 class = "boxHeader">Start:</h2>
+                                                </div>
+                                                <div class = "col-sm-9 right">
+                                                    <h2 class = "boxHeader" id = "start"></h2>
+                                                </div>
+                                            </div>
+                                            <div class = "row">
+                                                <div class = "col-sm-3">
+                                                    <h2 class = "boxHeader">End:</h2>
+                                                </div>
+                                                <div class = "col-sm-9 right">
+                                                    <h2 class = "boxHeader" id = "end"></h2>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -548,27 +571,5 @@
             $.get("requestUserReservations",function(data){add_data_to_reserve_table(data);});
         </script>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
