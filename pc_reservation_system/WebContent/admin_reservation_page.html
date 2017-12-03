@@ -612,11 +612,11 @@
             var popUpMainContent = document.getElementById("popUpMainContent");
             var popUpDiv = document.getElementById("popUpID");
             var popUpSize = document.getElementById("popUpContentID");
-            var selectedPc, selectedBldg, selectedTime, selectedRoom, selectedDate, selectedId, selectedEventName;
+            var selectedPc, selectedBldg, selectedSTime, selectedETime, selectedRoom, selectedDate, selectedId, selectedEventName;
             
             function setValues(){
                 
-                /* create other header functions */
+            /* Header Functions */
             
             $("#dashboardBtn").click(function(){
             	var form = document.createElement('form');
@@ -644,65 +644,70 @@
                 document.body.appendChild(form);
                 form.submit();
             });
-                
-                var dateDropdown = document.getElementById("dateDropdown");
-                dateDropdown.remove(0);
-                
-                var currDate, nextDate;
-                currDate = new Date();
-                nextDate = new Date();
-                nextDate.setDate(currDate.getDate() + 1);
-                
-                //Testing Purposes
-                console.log(currDate);
-                console.log(nextDate);
-                option = document.createElement("option");
-                
-                var day, month, year;
-                day = currDate.getDate();
-                month = currDate.getMonth() + 1;
-                year = currDate.getFullYear();
-                option.value = year +  "-" + month + "-" + day;
-                option.textContent = month + "/" + day + "/" + year;
-                dateDropdown.appendChild(option);
-                
-                option2 = document.createElement("option");
-                
-                day = nextDate.getDate();
-                month = nextDate.getMonth() + 1;
-                year = nextDate.getFullYear();
-                option2.value = year +  "-" + month + "-" + day;
-                option2.textContent = month + "/" + day + "/" + year;
-                dateDropdown.appendChild(option2);
-                
-                var timeDropdown = document.getElementById("timeDropdown");
-                for(var i = 8; i <= 18; i++)
-                {
-                    var timeOpt = document.createElement("option");
-                    if(i < 10){
-                        timeOpt.value = "0" + i + ":00:00";
+            
+            /* End of Header Functions
+            /* Initialization of Date and Time Dropdowns */
+            var dateDropdown = document.getElementById("dateDropdown");
+            dateDropdown.remove(0);
+            
+            var currDate, nextDate;
+            currDate = new Date();
+            nextDate = new Date();
+            nextDate.setDate(currDate.getDate() + 1);
+            
+            option = document.createElement("option");
+            
+            var day, month, year;
+            day = currDate.getDate();
+            month = currDate.getMonth() + 1;
+            year = currDate.getFullYear();
+            option.value = year +  "-" + month + "-" + day;
+            option.textContent = month + "/" + day + "/" + year;
+            dateDropdown.appendChild(option);
+            
+            option2 = document.createElement("option");
+            
+            day = nextDate.getDate();
+            month = nextDate.getMonth() + 1;
+            year = nextDate.getFullYear();
+            option2.value = year +  "-" + month + "-" + day;
+            option2.textContent = month + "/" + day + "/" + year;
+            dateDropdown.appendChild(option2);
+            
+            var timeDropdown = document.getElementById("timeDropdown");
+            for(var i = 8; i <= 18; i++)
+            {
+                var timeOpt = document.createElement("option");
+                if(i < 10){
+                    timeOpt.value = "0" + i + ":00:00";
+                    timeOpt.textContent = i + ":00 AM";
+                }else{
+                    timeOpt.value = i + ":00:00";
+                    if(i % 12 > 9 && i % 12 < 12){
                         timeOpt.textContent = i + ":00 AM";
-                    }else{
-                        timeOpt.value = i + ":00:00";
-                        if(i % 12 > 9 && i % 12 < 12){
-                            timeOpt.textContent = i + ":00 AM";
-                        }
-                        else if(i % 12 == 0){
-                            timeOpt.textContent = i + ":00 PM";
-                        }
-                        else{
-                            timeOpt.textContent = (i % 12) + ":00 PM"
-                        }
-                        
                     }
-                                        
-                    timeDropdown.appendChild(timeOpt);
+                    else if(i % 12 == 0){
+                        timeOpt.textContent = i + ":00 PM";
+                    }
+                    else{
+                        timeOpt.textContent = (i % 12) + ":00 PM"
+                    }
+                    
                 }
+                                    
+                timeDropdown.appendChild(timeOpt);
+            }
+                
+                /* End of Initialization of Dropdowns */
             }
             
-            $
+            /* Start of Listener for Building Dropdown */
+            /*
+             *  When the building dropdown changes value:
+             *  This function changes the value for the rooms.
+             */
+            
             $("#bldgList").change(function(){
-                console.log("bldgList changed");
                 
                 var bldgList = document.getElementById("bldgList");
                 var roomList = document.getElementById("roomList");
@@ -712,7 +717,6 @@
                 }
                 
                 if(bldgList.value == "G"){
-                    console.log("Goks Selected");
                     for(var i = 0; i < 5; i++){
                         var option = document.createElement("option");
                         if(i == 0){
@@ -740,7 +744,6 @@
                     }
                 }
                 else if(bldgList.value == "V"){
-                    console.log("Velasco Selected");
                     for(var i = 0; i < 5; i++){
                         var option = document.createElement("option");
                         if(i == 0){
@@ -768,7 +771,6 @@
                     }
                 }
                 else if(bldgList.value == "M"){
-                    console.log("Miguel Selected");
                     for(var i = 0; i < 5; i++){
                         var option = document.createElement("option");
                         if(i == 0){
@@ -796,7 +798,6 @@
                     }
                 }
                 else if(bldgList.value == "HS"){
-                    console.log("Henry Sy Selected");
                     for(var i = 0; i < 5; i++){
                         var option = document.createElement("option");
                         if(i == 0){
@@ -826,16 +827,28 @@
                 
             });
             
+            /* End of Listener for Building Dropdown */
+            
+            /* Start of OnClickListener for Reserve Button */
+            
+            /* 
+             * ReserveURL is set to null so that we could dynamically change
+             * whether the reservation is individual or as an event
+             */
+            
             var reserveUrl = null;
             $("#reserveButton").click(function(){
                 
+                /* Checking of Checkboxes */
                 if($("#individual").is(':checked')){
                     reserveUrl = "singleReserve?"
                 }else if($("#event").is(':checked')){
                     reserveUrl = "labReserve?"
                 }
                 
-                console.log("preparing reservation..");
+                /*Initialization of needed variables */
+                /* Not thoroughly cleaned */
+                
                 var pc, building, room, sTime, eTime, id, date, eventName;
                 id = parseInt(selectedId);
                 date = selectedDate;
@@ -844,21 +857,64 @@
                 room = selectedRoom;
                 eventName = selectedEventName;
                 
-                var tempTime = parseInt(selectedTime);
-                if(tempTime < 10){
-                    sTime = "0" + tempTime + ":00:00";
-                    eTime = "0" + (tempTime + 1) + ":00:00";
-                }else{
-                    sTime = tempTime + ":00:00";
-                    eTime = (tempTime + 1) + ":00:00";
+                sTime = selectedSTime;
+                eTime = selectedETime;
+                
+                var rawSTime, rawETime, suffixSTime, suffixETime, finalSTime, finalETime;
+                rawSTime = parseInt(sTime);
+                rawETime = parseInt(eTime);
+                suffixSTime = sTime.substr(sTime.length - 2);
+                suffixETime = eTime.substr(eTime.length - 2);
+                
+                /* 
+                 * Creates the time to be inserted in the DB based on the
+                 * highlighted choice of the user
+                 */
+                
+                if(suffixSTime == "AM"){
+                    if(rawSTime < 10){
+                        finalSTime = "0" + rawSTime + ":00:00";
+                    }else if(rawSTime > 10){
+                        finalSTime = rawSTime + ":00:00";
+                    }
+                    
+                    if(suffixETime == "PM"){
+                        if(rawETime < 12){
+                            finalETime = (rawETime + 12) + ":00:00";
+                        }else if(rawETime == 12){
+                            finalETime = rawETime + ":00:00";
+                        }
+                    }else{
+                        if(rawETime < 10){
+                            finalETime = "0" + rawETime + ":00:00";
+                        }else if(rawSTime > 10){
+                            finalETime = rawETime + ":00:00";
+                        }
+                    }
+                }else if(suffixSTime == "PM"){
+                    if(rawSTime == 12){
+                        finalSTime = rawSTime + ":00:00";
+                        finalETime = (rawETime + 12) + ":00:00";
+                    }else{
+                        finalSTime = (rawSTime + 12) + ":00:00";
+                        finalETime = (rawETime + 12) + ":00:00";
+                    }
+                    
                 }
                 
+                /*
+                 * Creates a url and fills-in the details 
+                 * needed to make a reservation
+                 */
+                
                 reserveUrl += "pc=" + pc + "&building=" + building + "&room=" + room +
-                       "&sTime=" + sTime + "&eTime=" + eTime + "&date=" + date +
+                       "&sTime=" + finalSTime + "&eTime=" + finalETime + "&date=" + date +
                        "&id=" + id + "&eventName=" + eventName;
                 
-                console.log(id + pc + building + room + sTime + eTime + date);
-        
+                /* 
+                 * Edits the content of the popup box
+                 */
+                
                 popUpMainContent.innerHTML = "Are you sure you want to reserve this <br> computer with the following data?" +
                                              "<br> <br> ID Number: " + id +
                                              "<br> PC Number: " + pc +
@@ -875,16 +931,21 @@
                      popUpMainContent.innerHTML += "<br>";
                 }
                 
+                /* Displays the popup box */
+                
                 popUpSize.style.padding = "100px 50px";
                 closeBtn.style.display = "none";
                 popUpDiv.style.display = "block";
                 yesBtn.style.display = "block";
                 noBtn.style.display = "block";
                 
-                
-                
-                
             });
+            
+            /* End of OnClickListener for Reserve Button */
+            /* Yes Button function for popup
+             * When clicked, it will use the 'reserveurl' variable link
+             * created in reserve button function
+             */
             
             function yesReserveBtn(){
                 popUpSize.style.padding = "50px";
@@ -893,18 +954,20 @@
                 noBtn.style.display = "none";
                 closeBtn.style.display = "block";
                 
-                console.log("yes button clicked");
-                
             $.get(reserveUrl, function(data){
-                console.log("requesting to reserve..");
+                // reserving
             });
                 
+                /* Shows a new popup box to show that the reservation is successful */
                 popUpMainContent.innerHTML = "Reservation is Successful!";
                 popUpDiv.style.display = "block";
             }
             
+            /* No Button function for popup
+             * When clicked, it will show a new popup box that the reservation is cancelled
+             */
+            
             function noReserveBtn(){
-                console.log("no button clicked");
                 popUpSize.style.padding = "50px";
                 popUpDiv.style.display = "none";
                 yesBtn.style.display = "none";
@@ -914,6 +977,11 @@
                 popUpMainContent.innerHTML = "Reservation cancelled!";
                 popUpDiv.style.display = "block";
             }
+            
+            
+            /* Close Button function for popup
+             * When clicked, it will dismiss the current popup box
+             */
             
             $("#closePopUpID").click(function(){
                 popUpDiv.style.display = "none";
@@ -927,23 +995,27 @@
             	}
             });
             
+            /* Search Button Function
+             * When the search button is clicked,
+             * For individual:
+             *      If the ID Number textbox is empty, then do not allow search
+             *
+             * For Events:
+             *       If the ID Number and/or ClassEvent name is empty, then do not allow search
+             */
             
             $("#searchButton").click(function(){
                 var idNumSolo, idNumEvent;
                 
                 var passed = false;
                 
-                console.log("search button clicked");
-                console.log(passed);
+                /* Checking what checkbox is checked */
                 if($("#event").is(':checked')){
                     
-                    console.log("event is checked");
                     eventName = document.getElementById("eventName").value;
                     idNumEvent = document.getElementById("idNumEvent").value;
-                    console.log(eventName + idNumEvent);
                     
                     if(eventName == "" && idNumEvent == ""){
-                         console.log("event is checked");
                         popUpMainContent.innerHTML = "Event Name and ID Number is required to proceed. <br> Please try again."  
                         popUpDiv.style.display = "block";
                     }else if(idNumEvent == ""){
@@ -955,36 +1027,30 @@
                         popUpDiv.style.display = "block";
                     }else{
                         passed = true;
-                        console.log(passed);
                     }
                     
                     
                 }else if($("#individual").is(':checked')){
-                    console.log("individual is checked");
                     idNumSolo = document.getElementById("idNumSolo").value;
-                    console.log(idNumSolo);
                     if(idNumSolo == ""){
                         popUpMainContent.innerHTML = "ID Number is required to proceed. <br> Please try again."
                         popUpDiv.style.display = "block";
                     }else{
-                        
                         passed = true;
-                        console.log(passed);
                     }
                     
-                    
+                /* Checking if one of the checkbox is ticked */  
                 }else if(!($("#individual").is(':checked') && $("#event").is(':checked'))){
                     popUpMainContent.innerHTML = "Select whether the following reservation <br> would be Individual or Class/Event. <br> Please try again."
                     popUpDiv.style.display = "block";
                 }
                 
+                /* Checking if ID Number formatting is correct */
                 if(passed){
                     var intIdNum;
                     
                     if($("#event").is(':checked')){
                         intIdNum = parseInt(idNumEvent);
-                        console.log(intIdNum);
-                        console.log((''+intIdNum).length );
                         
                         if((''+intIdNum).length != 8){
                             popUpMainContent.innerHTML = "ID Number must be 8 digits. <br> Please try again."
@@ -993,8 +1059,7 @@
                         }
                     }else if($("#individual").is(':checked')){
                         intIdNum = parseInt(idNumSolo);
-                        console.log(intIdNum);
-                        console.log((''+intIdNum).length );
+                        
                         if((''+intIdNum).length != 8){
                             popUpMainContent.innerHTML = "ID Number must be 8 digits. <br> Please try again."
                             popUpDiv.style.display = "block";
@@ -1008,10 +1073,7 @@
                     //Setting the name of user
                     console.log("setting name..");
                     if($("#event").is(':checked')){
-                        $.get("requestUserDetailsByAdmin?id=" + idNumEvent, function(data){
-                        console.log("adding username");
-                        add_data_to_textbox(data);
-                        });
+                        
                         
                         console.log(document.getElementById("byGroupName").value);
                         if(document.getElementById("byGroupName").value == "DNE"){
@@ -1050,8 +1112,8 @@
                 
                 */
                 
+                /* After passing all the error handling, show all the possible reservations */
                 if(passed){
-                    console.log("searching..");
                     refresh_table();
                     
                     var bldg, room, startTime, endTime, date, id, checkbox, dropdown;
@@ -1076,7 +1138,6 @@
                     dropdown = document.getElementById("timeDropdown");
                     startTime = dropdown.value;
                     
-                    console.log("start time=" + startTime);
                     if(startTime != "default"){
                         var endTimeCompute = parseInt(startTime); 
                         if(endTimeCompute < 10){
@@ -1085,40 +1146,39 @@
                         else{
                             endTime = (endTimeCompute + 1) + ":00:00";
                         }
-                        console.log("end time=" + endTime);
                     }else{
                         endTime = "default";
-                        console.log("end time=" + endTime);
                     }
-                    console.log("end time=" + endTime);
                     dropdown = document.getElementById("dateDropdown");
                     date = dropdown.value;
                     selectedDate = date;
                     
                     if($("#event").is(':checked')){
-                        console.log("eventdetected search");
                         id = document.getElementById("idNumEvent").value;
                         selectedId = id;
                         selectedEventName = document.getElementById("eventName").value;
                         checkbox = "event";
-                        console.log("" + bldg + room + date + startTime + endTime + id + checkbox + selectedEventName);
+                        
+                        $.get("requestUserDetailsByAdmin?id=" + selectedId, function(data){
+                            add_data_to_textbox(data);
+                        });
                         
                         $.get("requestLabReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date + "&check=" + checkbox, function(data){
-                            console.log("adding data");
                             add_table_data(data);
                         });
                         
                     }else if($("#individual").is(':checked')){
-                        console.log("individualdetected search");
                         id = document.getElementById("idNumSolo").value;
                         selectedId = id;
                         checkbox = "individual";
                         //used to be eventname
                         selectedEventName = null;
-                        console.log("" + bldg + room + date + startTime + endTime + id + checkbox + selectedEventName);
+                        
+                        $.get("requestUserDetailsByAdmin?id=" + selectedId, function(data){
+                            add_data_to_textbox(data);
+                        });
                         
                         $.get("requestPcReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date, function(data){
-                            console.log("adding data");
                             add_table_data(data);
                         });
                     }          
@@ -1127,6 +1187,10 @@
                 }
             });
             
+            /* End of Search Button Function */
+            
+            /* This function simply adds the username to the textbox beside ID Number */
+            
             function add_data_to_textbox(user){
                 if($("#individual").is(':checked')){
                     document.getElementById("individualName").value = user["name"];
@@ -1134,9 +1198,10 @@
                     document.getElementById("byGroupName").value = user["name"];
                 }
             }
-                        
+                      
+            /* This function simply removes all the rows inserted from the previous functions or actions */
+            
             function refresh_table(){
-                console.log("refreshing table");
                 
                 reserveButton.disabled = true;
                 viewButton.disabled = true;
@@ -1154,6 +1219,8 @@
                 }  
             }
             
+            /* This function simply adds data to the table coming from the server or database */
+            
             function add_table_data(jasonarr){
                 /*
                     Function Recieves table data in the form of an JSON array
@@ -1168,7 +1235,7 @@
                 */
                 for(var i = 0 ; i < jasonarr.length ; i++){
                 	var jason = jasonarr[i];
-                	console.log(jasonarr[i]);
+                    
                     var row = $("<tr height=\"40\" align=\"center\">");
                     
                     //Prints all the things, in the order that they came
@@ -1185,6 +1252,14 @@
                 }
                 
             }
+            
+            /* Individual Checkbox
+             * If ticked, it will not disable all event related textbox
+             * It will also enable all individual related textbox
+             * If there are previous values, this will remove them
+             * If unticked, it will disable the current enabled textbox
+             * Note: It will also refresh the data table
+             */
             
             $("#individual").click(function(){
                 refresh_table();
@@ -1205,19 +1280,26 @@
                 */
                 
                 if($("#individual").is(':checked')){
-                     console.log("individualticked") ;
                     document.getElementById("idNumSolo").disabled = false;
                     document.getElementById("idNumEvent").disabled = true;
                     document.getElementById("eventName").disabled = true;
                 }else{
                     
-                   console.log("individualunticked") ; document.getElementById("idNumSolo").disabled = true;
+                    document.getElementById("idNumSolo").disabled = true;
                     document.getElementById("idNumEvent").disabled = true;
                     document.getElementById("eventName").disabled = true;
                 }
                 //checking
                 //$("#event).is(':checked');
             });
+            
+            /* Event Checkbox
+             * If ticked, it will not disable all individual related textbox
+             * It will also enable all event related textbox
+             * If there are previous values, this will remove them
+             * If unticked, it will disable the current enabled textbox
+             * Note: It will also refresh the data table
+             */
             
             $("#event").click(function(){
                 refresh_table();
@@ -1239,22 +1321,24 @@
                 
                 if($("#event").is(':checked')){
                     
-                   console.log("eventticked");
                     document.getElementById("idNumSolo").disabled = true;
                     document.getElementById("idNumEvent").disabled = false;
                     document.getElementById("eventName").disabled = false;
                 }else{
                     
-                   console.log("eventunticked"); document.getElementById("idNumSolo").disabled = true;
+                    document.getElementById("idNumSolo").disabled = true;
                     document.getElementById("idNumEvent").disabled = true;
                     document.getElementById("eventName").disabled = true;
                 }
             });
             
+            /* OnClick Listener for each data in the table
+             * If a row is clicked, set all values to its corresponding variables
+             * Note: Variables are used immediately in Reserve Button Function
+             */
             $(document).on('click','.reserveTable tr',function(){
                $(this).addClass('selected').siblings().removeClass('selected');    
                var value=$(this).find('td:first').html();
-                console.log(value);
                 /* Changing Button Styles */
                 reserveButton = document.getElementById("reserveButton");
                 viewButton = document.getElementById("viewLayout");
@@ -1268,9 +1352,9 @@
                 selectedPc = $(this).find('td:first').html();
                 selectedBldg = $(this).find('td:eq(1)').text();
                 selectedRoom = $(this).find('td:eq(2)').text();
-                selectedTime = $(this).find('td:eq(3)').text();
+                selectedSTime = $(this).find('td:eq(3)').text();
+                selectedETime = $(this).find('td:eq(4)').text();
                 
-                console.log(selectedPc, selectedBldg, selectedRoom, selectedTime);
                 document.getElementById('reserveButton').style.visibility = "visible";
             });
         </script>

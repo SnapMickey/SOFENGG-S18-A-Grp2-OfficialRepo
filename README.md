@@ -1,4 +1,15 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+
+Lominoque, Jerome December 3, 2017
+Changes made:
+- Updated Admin Reservation Page
+    - Admin Reservation Page can now properly store the correct values
+    - Can also show correct Start Time and End Time
+    - Has partial comments for the Script part of the code
+
+Notes:
+- Will update the comments tomorrow
+
 Bornales, Amiel James December 3, 2017
 Changes made:
 - updated user home to latest mockups
