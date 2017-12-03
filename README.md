@@ -1,4 +1,11 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+Bornales, Amiel James December 3, 2017
+Changes made:
+- updated user home to latest mockups
+
+Errors/Problems:
+- Display for no reservations isnt based on mockups yet
+
 Bornales, Amiel James December 2, 2017
 Changes made:
 - added header button functionality to admin_history.html
