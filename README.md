@@ -23,6 +23,15 @@ Changes made:
 Errors/Problems:
 - Display for no reservations isnt based on mockups yet
 
+Lominoque, Jerome December 3, 2017
+Changes made:
+- Fixed Admin Reservation Page
+    - Data inputted in the db works
+    - Cleaned most of the code (backend)
+
+Note:
+- User checking does not work
+
 Bornales, Amiel James December 2, 2017
 Changes made:
 - added header button functionality to admin_history.html
