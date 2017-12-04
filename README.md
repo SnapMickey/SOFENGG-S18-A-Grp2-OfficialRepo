@@ -1,4 +1,12 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+Lominoque, Jerome December 4, 2017
+Changes made:
+- fixed some small button visual problems
+- fixed data in the table (descending by pc number)
+
+Note:
+- I did not touch the System Service in fixing data in the table
+
 Bornales, Amiel James December 4, 2017
 Changes made:
 - error modal in user reserve when they try to reserve while having a reservation
