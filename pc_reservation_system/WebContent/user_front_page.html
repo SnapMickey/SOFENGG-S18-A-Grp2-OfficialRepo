@@ -171,7 +171,7 @@
             margin:0px;
             height: 100%;
         }
-    .cancel{
+        .cancel{
             visibility: hidden;
             margin-top:5px;
             float:right;
@@ -442,10 +442,11 @@
         src="http://code.jquery.com/jquery-3.2.1.js"
         integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
         crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
         <script>
                 
             $(document).ready(fix_table_height());
+            
             function fix_table_height(){
                 $("#white").height($(".mainDiv").height() - $(".header").height() - 20);  
                 $("#tableBox").height($("#white").height() - $("#userInfo").height() - 170);
@@ -457,7 +458,15 @@
             });
             
             $("#modalYes").click(function(){
+                $(".reserveInfoNone").css("display","table");
+                $(".reservationInfo").css("display",'none');
+                $(".cancel").css('visibility', 'hidden');
                 
+                
+                //TODO do $.get to remove the reservation
+                
+                
+                fix_table_height();
             });
             
 	        $("#header_home").click(function(){
@@ -509,19 +518,27 @@
                     {
                         loc:
                         room:
-                        pc:
+                        pcnum:
                         date:
                         start:
                         end:
                     }
                 */
-                
-                $("#location").html(jason.location);
-                $("#room").html(jason.room);
-                $("#pcnum").html(jason.pcnum);
-                $("#date").html(jason.date);
-                $("#start").html(jason.start);
-                $("#end").html(jason.end);
+                if(jason!=null){
+                    $(".reserveInfoNone").css("display","none");
+                    $(".reservationInfo").css("display",'block');
+                    $(".cancel").css('visibility', 'visible');
+                    
+                    
+                    $("#location").html(jason.location);
+                    $("#room").html(jason.room);
+                    $("#pcnum").html(jason.pcnum);
+                    $("#date").html(jason.date);
+                    $("#start").html(jason.start);
+                    $("#end").html(jason.end);
+                    
+                    fix_table_height();
+                }
             }
             
             function add_data_to_reserve_table(jasonarr){
@@ -545,32 +562,32 @@
                     format above, thanks!
                 
                 */ 
+                
+                //check if user has reservations
+                
                 for(var i = 0 ; i < jasonarr.length ; i++){
                     var jason = jasonarr[i];
                     var row = $("<tr>");
-                    
-                    
+
+
                     for(var key in jason){
                         var col = $("<td>");
                         col.addClass("tableCell");
-                        
+
                         if(jason.hasOwnProperty(key)){
                             col.html(jason[key]);
                         }
                         row.append(col);
                     }
-                    
+
                     $("#tbody").after(row);
                 }
-                
+
                 add_data_to_pending(jasonarr[0]);
                 console.log(jasonarr[0]);
             }
-            
-            
             $.get("requestUserDetails",function(data){add_data_to_user_info(data);});
             $.get("requestUserReservations",function(data){add_data_to_reserve_table(data);});
         </script>
 </html>
-
 
