@@ -908,24 +908,6 @@
                 
                 
                 console.log("recent reservations done");
-                
-                var xd = {
-                        name:"jey em xd",
-                        id:"jey",
-                        location:"jey em xd",
-                        event:"jey em xd",
-                        date:"jey em xd",
-                        start:"jey em xd",
-                        end:"jey em xd"
-                    }
-                var lmao = [];
-                
-                for(var i = 0 ; i < 10 ; i ++){
-                    lmao.push(xd);
-                }
-                add_data_to_recent_reserve(lmao);
-                add_data_to_recent_lab(lmao);
-                
                 console.log("loading lab reservations");
                 $.get("getLabReservations?location=default", function(obj){
                     add_data_to_recent_lab(obj);
