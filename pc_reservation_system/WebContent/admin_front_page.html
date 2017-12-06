@@ -191,8 +191,16 @@
             font-size: 18px;
         }
         #deleteReserve{
+            width:25px;
             color:red;
-            cursor: pointer;
+            margin:0px;
+            padding:0px;
+        }
+        #deleteReserve:hover{
+            cursor:default;
+            color:white;
+            background-color: red;
+            border-radius: 50px;
         }
         .tableContainer{
             overflow-y: scroll;
@@ -264,6 +272,13 @@
             float:right;
             margin-bottom:12px;
             cursor: pointer;
+        }
+        #xCell{
+            margin:0px;
+            padding:0px;
+            width:0px;
+            padding-left:20px;
+            padding-right:0px;
         }
     </style>
     <head>
@@ -518,6 +533,8 @@
             var selected_lab = null;
             var selected_reserve= null;
             
+            //will either be true or false to be used to determine which row to remove in modals
+            var labSelected = null;
             
             $("#header_home").click(function(){
 	        	var form = document.createElement('form');
@@ -574,21 +591,42 @@
             
             //modal buttons
             $("#modalYesCancel").click(function(){
-                
+                if(labSelected){
+                    $(".selected_lab").remove();
+                    //TODO Delete row from db, selected_lab json has all details
+                }else{
+                    $(".selected_pc").remove();
+                    //TODO Delete row from db, selected_reserve json has all details
+                }
             });
             $("#modalNoCancel").click(function(){
-                
+                if(labSelected){
+                    
+                }else{
+                    
+                }
             });
             $("#modalYesCfm").click(function(){
-                
+                console.log($(".selected_pc"));
+                $(".selected_pc").children().last();
+                if(labSelected){
+                    
+                }else{
+                    
+                }
             });
             $("#modalNoCfm").click(function(){
-                
+                if(labSelected){
+                    
+                }else{
+                    
+                }
             });
             
+            
             $(document).on('click', "#deleteReserve", function(){
-                $(this).parent().addClass('selected').siblings().removeClass('selected');
-                var temp = $(this).parent().children();
+                $(this).parent().parent().addClass('selected').siblings().removeClass('selected');
+                var temp = $(this).parent().parent().children();
                 selected_reserve = {
                         name:temp[1].innerHTML,
                         id:temp[2].innerHTML,
@@ -598,6 +636,18 @@
                         start:temp[6].innerHTML,
                         end:temp[7].innerHTML
                 }
+                
+                var reserveType = $(this).parent().parent().parent().parent().siblings().first().children().first().children().first().html();
+                
+                if(reserveType == "Lab Reservations"){
+                    $(this).parent().parent().addClass('selected_lab');
+                    labSelected = true;
+                }else{
+                    $(this).parent().parent().addClass('selected_pc');
+                    labSelected = false;
+                }
+                
+                console.log(reserveType);
                 console.log(selected_reserve);
                 $("#myModal").modal('show');
             });
@@ -614,6 +664,17 @@
                         start:temp[6].innerHTML,
                         end:temp[7].innerHTML
                 }
+                
+                var reserveType = $(this).parent().parent().parent().parent().parent().siblings().first().children().first().children().first().html();
+                
+                if(reserveType == "Lab Reservations"){
+                    $(this).parent().parent().addClass('selected_lab');
+                    labSelected = true;
+                }else{
+                    $(this).parent().parent().addClass('selected_pc');
+                    labSelected = false;
+                }
+                console.log(reserveType);
                 console.log(selected_lab);
                 $("#otherModal").modal('show');
             });
@@ -848,7 +909,22 @@
                 
                 console.log("recent reservations done");
                 
+                var xd = {
+                        name:"jey em xd",
+                        id:"jey",
+                        location:"jey em xd",
+                        event:"jey em xd",
+                        date:"jey em xd",
+                        start:"jey em xd",
+                        end:"jey em xd"
+                    }
+                var lmao = [];
                 
+                for(var i = 0 ; i < 10 ; i ++){
+                    lmao.push(xd);
+                }
+                add_data_to_recent_reserve(lmao);
+                add_data_to_recent_lab(lmao);
                 
                 console.log("loading lab reservations");
                 $.get("getLabReservations?location=default", function(obj){
@@ -884,7 +960,7 @@
                 for(var i = jasonarr.length - 1  ; i >= 0 ; i--){
                     var jason = jasonarr[i];
                     var row = $("<tr>");
-                    row.append("<td class = 'tableCell' id = 'deleteReserve'>X</td>");
+                    row.append("<td class = 'tableCell' id = 'xCell'><p id = 'deleteReserve'>X</p></td>");
                     
                     //Prints all the things, in the order that they came
                     for(var key in jason){
@@ -924,7 +1000,7 @@
                 for(var i = jasonarr.length - 1  ; i >= 0 ; i--){
                     var jason = jasonarr[i];
                     var row = $("<tr>");
-                    row.append("<td class = 'tableCell' id = 'deleteReserve'>X</td>");
+                    row.append("<td class = 'tableCell' id = 'xCell'><p id = 'deleteReserve'>X</p></td>");
                     
                     //Prints all the things, in the order that they came
                     for(var key in jason){
@@ -976,3 +1052,4 @@
             
         </script>
 </html>
+
