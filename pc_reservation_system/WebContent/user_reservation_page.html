@@ -567,54 +567,58 @@
                 //selected row will contain whatever row was selected, if non was selected, null will be given
                 console.log(selected_row);
                         
-                if(selected_row!= null){
+                $.get("requestUserReservations",function(data){
+                    //check if row is selected and if user has NO current reservations
+                    if(selected_row!= null && data == null){
                    
-                    console.log("preparing reservation..");
-                    var pc, building, room, sTime, eTime, date;
-                    date = selectedDate;
-                    pc = parseInt(selectedPc);
-                    room = selectedRoom;
-                    building = selectedBldg;
-                    
-                    var tempTime = parseInt(selectedTime);
-                    if(tempTime < 10){
-                        sTime = "0" + tempTime + ":00:00";
-                        eTime = "0" + (tempTime + 1) + ":00:00";
-                    }else{
-                        sTime = tempTime + ":00:00";
-                        eTime = (tempTime + 1) + ":00:00";
+                        console.log("preparing reservation..");
+                        var pc, building, room, sTime, eTime, date;
+                        date = selectedDate;
+                        pc = parseInt(selectedPc);
+                        room = selectedRoom;
+                        building = selectedBldg;
+
+                        var tempTime = parseInt(selectedTime);
+                        if(tempTime < 10){
+                            sTime = "0" + tempTime + ":00:00";
+                            eTime = "0" + (tempTime + 1) + ":00:00";
+                        }else{
+                            sTime = tempTime + ":00:00";
+                            eTime = (tempTime + 1) + ":00:00";
+                        }
+
+                        reserveUrl += "pc=" + pc + "&building=" + building + "&room=" + room +
+                               "&sTime=" + sTime + "&eTime=" + eTime + "&date=" + date;
+
+                        console.log(pc + building + room + sTime + eTime + date);
+
+                        popUpMainContent.innerHTML = "Are you sure you want to reserve this <br> computer with the following data?" +
+                                                     "<br> PC Number: " + pc +
+                                                     "<br> Building: " + building +
+                                                     "<br> Room: " + room +
+                                                     "<br> Date: " + date +
+                                                     "<br> Start Time: " + sTime +
+                                                     "<br> End Time: " + eTime;
+
+                        popUpMainContent.innerHTML += "<br>";
+
+                        //Reveal PopUp
+                        popUpSize.style.padding = "100px 50px";
+                        closeBtn.style.display = "none";
+                        popUpDiv.style.display = "block";
+                        yesBtn.style.display = "block";
+                        noBtn.style.display = "block";
+
+                        popUpSize.style.padding = "100px 50px";
+                        closeBtn.style.display = "none";
+                        popUpDiv.style.display = "block";
+                        yesBtn.style.display = "block";
+                        noBtn.style.display = "block";
+                        
+                    }else if(data!=null){
+                        $("#errorModal").modal('show');
                     }
-                    
-                    reserveUrl += "pc=" + pc + "&building=" + building + "&room=" + room +
-                           "&sTime=" + sTime + "&eTime=" + eTime + "&date=" + date;
-                    
-                    console.log(pc + building + room + sTime + eTime + date);
-            
-                    popUpMainContent.innerHTML = "Are you sure you want to reserve this <br> computer with the following data?" +
-                                                 "<br> PC Number: " + pc +
-                                                 "<br> Building: " + building +
-                                                 "<br> Room: " + room +
-                                                 "<br> Date: " + date +
-                                                 "<br> Start Time: " + sTime +
-                                                 "<br> End Time: " + eTime;
-                    
-                    popUpMainContent.innerHTML += "<br>";
-                    
-                    //Reveal PopUp
-                    popUpSize.style.padding = "100px 50px";
-                    closeBtn.style.display = "none";
-                    popUpDiv.style.display = "block";
-                    yesBtn.style.display = "block";
-                    noBtn.style.display = "block";
-                	
-                    popUpSize.style.padding = "100px 50px";
-                    closeBtn.style.display = "none";
-                    popUpDiv.style.display = "block";
-                    yesBtn.style.display = "block";
-                    noBtn.style.display = "block";
-                }
-                
-                //Reveal PopUp
+                });
                 
             });
             
@@ -627,9 +631,9 @@
                 
                 console.log("yes button clicked");
                 
-            $.get(reserveUrl, function(data){
-                console.log("requesting to reserve..");
-            });
+                $.get(reserveUrl, function(data){
+                    console.log("requesting to reserve..");
+                });
                 
                 popUpMainContent.innerHTML = "Reservation is Successful!";
                 popUpDiv.style.display = "block";
