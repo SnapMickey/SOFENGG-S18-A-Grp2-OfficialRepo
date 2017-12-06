@@ -130,10 +130,31 @@ public class SystemController extends HttpServlet {
 		case "/confirmLabReservation":
 			confirmPcReservation(request, response);
 			break;
+		case "/checkifuserexists":
+			checkIfUserExists(request, response);
+			break;
 		default:
 			break;
 		}
 
+	}
+
+	
+	private void checkIfUserExists(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		int userId = (Integer) request.getSession().getAttribute("id");
+		JsonObject result = new JsonObject();
+		boolean found = false;
+		
+		try {
+		if(SystemService.getUser(userId) != null) {
+			found = true;
+		}
+		}catch(Exception e) {}
+		
+		result.addProperty("found", found);
+
+		response.setContentType("application/json");
+		response.getWriter().write(result.toString());
 	}
 
 	/**
@@ -330,18 +351,15 @@ public class SystemController extends HttpServlet {
 				finalDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date + " " + "08:00:00");
 
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 		System.out.println(building + " " + room + " " + date + " " + startTime + " " + endTime);
+		
 		if (startTime != null) {
 			try {
 				finalSTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date + " " + startTime);
 				finalETime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(date + " " + endTime);
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
 
@@ -365,8 +383,6 @@ public class SystemController extends HttpServlet {
 
 			Date startT = pr.getDateTimeStart();
 			Date endT = pr.getDateTimeEnd();
-
-			// mine
 
 			if (startT.getHours() <= 12) {
 				// 1:0 -> 11:0
@@ -486,16 +502,6 @@ public class SystemController extends HttpServlet {
 		System.out.println("date:" + finalDate + "sTime:" + finalSTime + "eTime:" + finalETime);
 
 		ArrayList<LabReservation> tempReservationList = null;
-
-		// if(checkbox.equals("individual")){
-		// System.out.println("creating list for individual");
-		// tempReservationList = ReservationBuilder.generatePcReservations(finalDate,
-		// finalSTime, finalETime, building, room);
-		// }else if(checkbox.equals("event")){
-		// System.out.println("creating list for event");
-		// //need to change stuff
-		//
-		// }
 
 		tempReservationList = ReservationBuilder.generateLabReservations(finalDate, finalSTime, finalETime, building);
 
@@ -1079,32 +1085,26 @@ public class SystemController extends HttpServlet {
 	 */
 	private void cancelPcReservation(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		String name, eventName, userID, locationID, pcID, reservationDate, startTime, endTime;
-		int uID, lID, pID;
+		String pcID, reservationDate, startTime, endTime;
+		int pID;
 		Date date, sTime, eTime;
 
-		name = request.getParameter("name");
-		eventName = request.getParameter("eventName");
-		userID = request.getParameter("userID");
-		locationID = request.getParameter("locationID");
 		pcID = request.getParameter("pcID");
 		reservationDate = request.getParameter("date");
 		startTime = request.getParameter("start");
 		endTime = request.getParameter("end");
 
-		uID = Integer.parseInt(userID);
-		lID = Integer.parseInt(locationID);
-
 		try {
 			date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate);
 			sTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + startTime);
 			eTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + endTime);
+			pID = Integer.parseInt(pcID);
 		} catch (Exception e) {
 		}
 
 		if (pcID != null) {
-			pID = Integer.parseInt(pcID);
-
+			
+			
 			// delete function SystemService
 		} else {
 			// delete function SystemService

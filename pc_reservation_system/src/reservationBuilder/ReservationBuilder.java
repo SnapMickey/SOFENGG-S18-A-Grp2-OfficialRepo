@@ -1,5 +1,6 @@
 package reservationBuilder;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,13 +9,9 @@ import beans.*;
 import services.SystemService;
 
 public class ReservationBuilder {
-
-	private static final int START_HOUR = 8;
-	private static final int END_HOUR = 18;
-	private static final double RESERVATION_INTERVAL = 1.00;
-	private static final double RESERVATION_DURATION = 1.00;
-	
-	
+	public static final double START_TIME = 8.00;
+	public static final double END_TIME = 18.00;
+	public static final double RESERVATON_DURATION = 1.00;
 
 	/**
 	 * @param date
@@ -39,8 +36,39 @@ public class ReservationBuilder {
 
 				pReservations.add(possibleReservation);
 			}
+		} else {
+
+			double time = ReservationBuilder.START_TIME;
+
+			Date sTime, eTime;
+
+			while (time < ReservationBuilder.END_TIME) {
+
+				try {
+					sTime = convertToTime(date, time);
+					eTime = convertToTime(date, time + ReservationBuilder.RESERVATON_DURATION);
+					
+					ArrayList<Pc> availPc = SystemService.getAllFreePcs(date, sTime, eTime, building, room);
+
+					System.out.println("Start:  " + sTime);
+					System.out.println("End:  " + eTime);
+					
+					for (Pc pc : availPc) {
+						PcReservation possibleReservation = new PcReservation();
+						possibleReservation.setPcID(pc.getPcID());
+						possibleReservation.setDateTimeStart(sTime);
+						possibleReservation.setDateTimeEnd(eTime);
+
+						pReservations.add(possibleReservation);
+					}
+				} catch (Exception e) {
+				}
+
+				time += ReservationBuilder.RESERVATON_DURATION;
+			}
+
 		}
-		
+
 		return pReservations;
 	}
 
@@ -66,9 +94,56 @@ public class ReservationBuilder {
 
 				lReservations.add(possibleReservation);
 			}
-		} 
+		}
+		else {
+
+			double time = ReservationBuilder.START_TIME;
+
+			Date sTime, eTime;
+
+			while (time < ReservationBuilder.END_TIME) {
+
+				try {
+					sTime = convertToTime(date, time);
+					eTime = convertToTime(date, time + ReservationBuilder.RESERVATON_DURATION);
+
+					System.out.println("Start:  " + sTime);
+					System.out.println("End:  " + eTime);
+					
+					ArrayList<Lab> availLabs = SystemService.getAllFreeLabs(date, sTime, eTime, building);
+
+					for (Lab lb : availLabs) {
+						LabReservation possibleReservation = new LabReservation();
+						possibleReservation.setLocationID(lb.getLocationID());
+						possibleReservation.setDateTimeStart(sTime);
+						possibleReservation.setDateTimeEnd(eTime);
+
+						lReservations.add(possibleReservation);
+					}
+				} catch (Exception e) {
+				}
+
+				time += ReservationBuilder.RESERVATON_DURATION;
+			}
+
+		}
+
 
 		return lReservations;
+	}
+
+	private static Date convertToTime(Date date, double time) throws ParseException {
+
+		String hours = "" + (int) time;
+		String minutes = "" + (int) ((time* 100) % 100);
+
+		if (hours.length() == 1)
+			hours += "0" + hours;
+
+		String stringDate = (date.getYear() + 1900) + "-" + date.getMonth() + "-" + date.getDate();
+		String stringTime = hours + ":" + minutes + ":" + "00";
+
+		return new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(stringDate + " " + stringTime);
 	}
 
 }
