@@ -1,4 +1,11 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+Bornales, Amiel James December 7, 2017
+Changes made:
+- added functionality to pending reserve
+
+Errors/Problems:
+- isnt connected to the db yet, can cancel a reservation and view changes but db isnt affected
+
 Lominoque, Jerome December 6, 2017
 Changes made: 
 - User reservation can now show the data in descending order
