@@ -1,4 +1,8 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+Bornales, Amiel James December 6, 2017
+Changes made:
+- changed the code in bldgList change to make it easier to change/update/delete the room data when needed
+
 Lominoque, Jerome December 4, 2017
 Changes made:
 - fixed some small button visual problems
