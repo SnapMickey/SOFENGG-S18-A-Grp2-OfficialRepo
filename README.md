@@ -1,12 +1,14 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 Bornales, Amiel James December 7, 2017
 Changes made:
-- added functionality to pending reserve
+- added functionality to pending reserve in user home
 - user reserve now displays error modal when user tries to reserve while having a reservation
+- admin home can now cancel lab and pc reservations
 
 Errors/Problems:
-- isnt connected to the db yet, can cancel a reservation and view changes but db isnt affected
+- user home pending function isnt connected to the db yet, can cancel a reservation and view changes but db isnt affected
 - user reserve modal isnt tested yet
+- admin home deletion isnt connected to db yet
 
 Lominoque, Jerome December 6, 2017
 Changes made: 
