@@ -1,4 +1,8 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+Lominoque, Jerome December 6, 2017
+Changes made: 
+- User reservation can now show the data in descending order
+
 Bornales, Amiel James December 6, 2017
 Changes made:
 - changed the code in bldgList change to make it easier to change/update/delete the room data when needed
