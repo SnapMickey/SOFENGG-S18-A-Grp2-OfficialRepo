@@ -515,7 +515,6 @@ public class SystemService {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction trans = em.getTransaction();
 
-		System.out.println("" + date + startTime + endTime + building + room);
 		String statement = "select pc from pc_info pc, lab lb";
 
 		statement += " where pc.isAvailable = 1";

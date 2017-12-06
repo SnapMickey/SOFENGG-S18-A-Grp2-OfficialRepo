@@ -27,7 +27,6 @@ public class ReservationBuilder {
 
 		if (startTime != null && endTime != null) {
 			ArrayList<Pc> availPc = SystemService.getAllFreePcs(date, startTime, endTime, building, room);
-
 			for (Pc pc : availPc) {
 				PcReservation possibleReservation = new PcReservation();
 				possibleReservation.setPcID(pc.getPcID());
@@ -37,21 +36,16 @@ public class ReservationBuilder {
 				pReservations.add(possibleReservation);
 			}
 		} else {
-
 			double time = ReservationBuilder.START_TIME;
 
 			Date sTime, eTime;
 
-			while (time < ReservationBuilder.END_TIME) {
-
+			while (time < ReservationBuilder.END_TIME) {				
 				try {
 					sTime = convertToTime(date, time);
 					eTime = convertToTime(date, time + ReservationBuilder.RESERVATON_DURATION);
 					
 					ArrayList<Pc> availPc = SystemService.getAllFreePcs(date, sTime, eTime, building, room);
-
-					System.out.println("Start:  " + sTime);
-					System.out.println("End:  " + eTime);
 					
 					for (Pc pc : availPc) {
 						PcReservation possibleReservation = new PcReservation();
@@ -107,9 +101,6 @@ public class ReservationBuilder {
 					sTime = convertToTime(date, time);
 					eTime = convertToTime(date, time + ReservationBuilder.RESERVATON_DURATION);
 
-					System.out.println("Start:  " + sTime);
-					System.out.println("End:  " + eTime);
-					
 					ArrayList<Lab> availLabs = SystemService.getAllFreeLabs(date, sTime, eTime, building);
 
 					for (Lab lb : availLabs) {
@@ -138,9 +129,22 @@ public class ReservationBuilder {
 		String minutes = "" + (int) ((time* 100) % 100);
 
 		if (hours.length() == 1)
-			hours += "0" + hours;
+			hours = "0" + hours;
+		if (minutes.length() == 1)
+			minutes = "0" + minutes;
 
-		String stringDate = (date.getYear() + 1900) + "-" + date.getMonth() + "-" + date.getDate();
+		String stringDate = (date.getYear() + 1900) + "-";
+		
+		if(date.getMonth() / 10 != 1)
+			stringDate += "0" + date.getMonth() + "-";
+		else
+			stringDate += date.getMonth() + "-";
+		
+		if(date.getDate() / 10 != 1)
+			stringDate += "0" + date.getDate();
+		else
+			stringDate += date.getDate();
+		
 		String stringTime = hours + ":" + minutes + ":" + "00";
 
 		return new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(stringDate + " " + stringTime);
