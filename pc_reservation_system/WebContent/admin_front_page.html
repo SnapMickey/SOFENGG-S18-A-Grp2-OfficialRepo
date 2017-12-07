@@ -530,8 +530,24 @@
             var reserveArr = [];
             var schedArr = [];
             
-            var selected_lab = null;
-            var selected_reserve= null;
+            var selected_lab = {
+                            name:'',
+                            id:'',
+                            location:'',
+                            event:'',
+                            date:'',
+                            start:'',
+                            end:''
+                    };
+            var selected_reserve= {
+                        name:'',
+                        id:'',
+                        location:'',
+                        pcno:'',
+                        date:'',
+                        start:'',
+                        end:''
+                };
             
             //will either be true or false to be used to determine which row to remove in modals
             var labSelected = null;
@@ -590,14 +606,43 @@
             //End of Button Listeners
             
             //modal buttons
+            $("#myModal").on('hide.bs.modal', function(e){
+                if(labSelected){
+                    $(".selected_lab").parent().children().removeClass('selected');
+                }else{
+                    $(".selected_pc").parent().children().removeClass('selected');
+                } 
+            });
+            
+            $("#otherModal").on('hide.bs.modal', function(e){
+                if(labSelected){
+                    $(".selected_lab").parent().children().removeClass('selected');
+                }else{
+                    $(".selected_pc").parent().children().removeClass('selected');
+                } 
+            });
+            
             $("#modalYesCancel").click(function(){
+                path = "";
                 if(labSelected){
                     $(".selected_lab").remove();
                     //TODO Delete row from db, selected_lab json has all details
+                    path = 'cancelPcReservation?';
+                    path += "pcid=" + selected_lab.pcno + 
+                            "&date=" + selected_lab.date +
+                            "&start=" + selected_lab.start +
+                            "&end=" + selected_lab.end;
                 }else{
                     $(".selected_pc").remove();
                     //TODO Delete row from db, selected_reserve json has all details
+                    path = 'cancelLabReservation?';
+                    path += "pcid=" + selected_reserve.pcno + 
+                            "&date=" + selected_reserve.date +
+                            "&start=" + selected_reserve.start +
+                            "&end=" + selected_reserve.end;
                 }
+                console.log(path);
+                $.get(path,function(data){console.log("removed reservation")});
             });
             $("#modalNoCancel").click(function(){
                 if(labSelected){
@@ -607,15 +652,40 @@
                 }
             });
             $("#modalYesCfm").click(function(){
-                console.log($(".selected_pc"));
-                $(".selected_pc").children().last();
+                var checkbox = null;
+                var path = "";
                 if(labSelected){
-                    
+                    checkbox = $(".selected_lab").children().last().children().first().children().first();
+                    path = "confirmLabReservation";
+                    path+=  
+                            "name=" + selected_lab.name +
+                            "&eventName=" + selected_lab.event +
+                            "&userID=" + selected_lab.id +
+                            "&locationID=" + selected_lab.location +
+                            "&date=" + selected_lab.date +
+                            "&start=" + selected_lab.start +
+                            "&end=" + selected_lab.end;
+                    console.log(selected_lab);
                 }else{
-                    
+                    checkbox = $(".selected_pc").children().last().children().first().children().first();
+                    path = "confirmPcReservation?";
+                    path+=
+                    "name=" + selected_reserve.name+
+                    "&userID=" + selected_reserve.id+
+                    "&locationID=" + selected_reserve.location+
+                    "&pcID=" + selected_reserve.pcno+
+                    "&date=" + selected_reserve.date+
+                    "&start=" + selected_reserve.start+
+                    "&end=" + selected_reserve.end;
+                    console.log(selected_reserve);
                 }
+                console.log(path);
+                checkbox.prop('checked',true);
+                checkbox.prop('disabled', 'disabled');
+                $.get(path, function(data){console.log('confirmed reservation')});
             });
             $("#modalNoCfm").click(function(){
+                
                 if(labSelected){
                     
                 }else{
@@ -640,11 +710,29 @@
                 var reserveType = $(this).parent().parent().parent().parent().siblings().first().children().first().children().first().html();
                 
                 if(reserveType == "Lab Reservations"){
-                    $(this).parent().parent().addClass('selected_lab');
+                    $(this).parent().parent().addClass('selected_lab').siblings().removeClass('selected_lab');
                     labSelected = true;
+                    selected_lab = {
+                        name:temp[1].innerHTML,
+                        id:temp[2].innerHTML,
+                        location:temp[3].innerHTML,
+                        event:temp[4].innerHTML,
+                        date:temp[5].innerHTML,
+                        start:temp[6].innerHTML,
+                        end:temp[7].innerHTML
+                    }
                 }else{
-                    $(this).parent().parent().addClass('selected_pc');
+                    $(this).parent().parent().addClass('selected_pc').siblings().removeClass('selected_pc');
                     labSelected = false;
+                    selected_reserve = {
+                            name:temp[1].innerHTML,
+                            id:temp[2].innerHTML,
+                            location:temp[3].innerHTML,
+                            pcno:temp[4].innerHTML,
+                            date:temp[5].innerHTML,
+                            start:temp[6].innerHTML,
+                            end:temp[7].innerHTML
+                        }
                 }
                 
                 console.log(reserveType);
@@ -653,30 +741,47 @@
             });
             
             $(document).on('click', "#checkBox", function(){
-                $(this).parent().parent().parent().addClass('selected').siblings().removeClass('selected');
-                var temp = $(this).parent().parent().parent().children();
-                selected_lab = {
-                        name:temp[1].innerHTML,
-                        id:temp[2].innerHTML,
-                        location:temp[3].innerHTML,
-                        event:temp[4].innerHTML,
-                        date:temp[5].innerHTML,
-                        start:temp[6].innerHTML,
-                        end:temp[7].innerHTML
+                
+                if ($(this).is(":checked"))
+                {
+                    $(this).parent().parent().parent().addClass('selected').siblings().removeClass('selected');
+                    var temp = $(this).parent().parent().parent().children();
+                    
+                    
+                    var reserveType = $(this).parent().parent().parent().parent().parent().siblings().first().children().first().children().first().html();
+                    
+                    $(this).prop('checked',false);
+                    
+                    if(reserveType == "Lab Reservations"){
+                        $(this).parent().parent().parent().addClass('selected_lab').siblings().removeClass('selected_lab');
+                        labSelected = true;
+                        selected_lab = {
+                            name:temp[1].innerHTML,
+                            id:temp[2].innerHTML,
+                            location:temp[3].innerHTML,
+                            event:temp[4].innerHTML,
+                            date:temp[5].innerHTML,
+                            start:temp[6].innerHTML,
+                            end:temp[7].innerHTML
+                        }
+                    }else{
+                        $(this).parent().parent().parent().addClass('selected_pc').siblings().removeClass('selected_pc');
+                        labSelected = false;
+                        selected_reserve = {
+                            name:temp[1].innerHTML,
+                            id:temp[2].innerHTML,
+                            location:temp[3].innerHTML,
+                            pcno:temp[4].innerHTML,
+                            date:temp[5].innerHTML,
+                            start:temp[6].innerHTML,
+                            end:temp[7].innerHTML
+                        }
+                    }
+                    console.log(reserveType);
+                    console.log(selected_lab);
+                    $("#otherModal").modal('show');
                 }
                 
-                var reserveType = $(this).parent().parent().parent().parent().parent().siblings().first().children().first().children().first().html();
-                
-                if(reserveType == "Lab Reservations"){
-                    $(this).parent().parent().addClass('selected_lab');
-                    labSelected = true;
-                }else{
-                    $(this).parent().parent().addClass('selected_pc');
-                    labSelected = false;
-                }
-                console.log(reserveType);
-                console.log(selected_lab);
-                $("#otherModal").modal('show');
             });
             
             
@@ -906,8 +1011,8 @@
                     add_data_to_recent_reserve(obj);
                 });
                 
-                
                 console.log("recent reservations done");
+                
                 console.log("loading lab reservations");
                 $.get("getLabReservations?location=default", function(obj){
                     add_data_to_recent_lab(obj);
@@ -930,13 +1035,14 @@
                 /*
                 Expected parameter is a JSON array, JSON format is as follows:
                     {
-                        name:
-                        id:
-                        location:
-                        event:
-                        date:
-                        start:
-                        end:
+                        name:,
+                        id:,
+                        location:,
+                        event:,
+                        date:,
+                        start:,
+                        end:,
+                        confirmed:
                     }
                 */
                 for(var i = jasonarr.length - 1  ; i >= 0 ; i--){
@@ -952,10 +1058,18 @@
                         if(jason.hasOwnProperty(key)){
                             col.html(jason[key]);
                         }
-                        row.append(col);
+                        if(key!="confirmed")
+                            row.append(col);
                     }
                     //append the [] and X thing on table
-                    row.append("<td class = 'tableCell' id = 'cfmReserve'><div class = 'checkinBox'><input type = 'checkbox' id = 'checkBox' class = 'checkBox'></div></td>");
+                    
+                    if(jason.confirmed == true){
+                        row.append("<td class = 'tableCell' id = 'cfmReserve'><div class = 'checkinBox'><input type = 'checkbox' id = 'checkBox' class = 'checkBox' onclick='return false;' checked></div></td>");
+                    }else{
+                        row.append("<td class = 'tableCell' id = 'cfmReserve'><div class = 'checkinBox'><input type = 'checkbox' id = 'checkBox' class = 'checkBox'></div></td>");
+                    }
+                    
+                    
                     
                     $("#labTable").after(row);
                 }
@@ -974,7 +1088,7 @@
                         date:
                         start:
                         end:
-                    }s
+                    }
                 */
                 
                 //Loops through the whole JSON array and prints it
@@ -992,7 +1106,8 @@
                         if(jason.hasOwnProperty(key)){
                             col.html(jason[key]);
                         }
-                        row.append(col);
+                        if(key!="confirmed")
+                            row.append(col);
                     }
                     //append the [] and X thing on table
                     row.append("<td class = 'tableCell' id = 'cfmReserve'><div class = 'checkinBox'><input type = 'checkbox' id = 'checkBox' class = 'checkBox'></div></td>");
