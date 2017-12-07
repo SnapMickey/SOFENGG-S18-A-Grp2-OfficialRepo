@@ -3,12 +3,18 @@ Bornales, Amiel James December 7, 2017
 Changes made:
 - added functionality to pending reserve in user home
 - user reserve now displays error modal when user tries to reserve while having a reservation
+- user reserve error modal is now connected to backend
 - admin home can now cancel lab and pc reservations
+- admin home cancel and confirm buttons now has backend functionality
+- user home cancel button now has back end functionality
+- user home pending reservation now has back end functionality
 
 Errors/Problems:
-- user home pending function isnt connected to the db yet, can cancel a reservation and view changes but db isnt affected
-- user reserve modal isnt tested yet
-- admin home deletion isnt connected to db yet
+- user home pending function isnt connected to the db yet, can cancel a reservation and view changes but db isnt affected (Fixed at 11:49PM)
+- user reserve modal isnt tested yet (Fixed at 11:49PM)
+- admin home deletion isnt connected to db yet (Fixed at 11:49PM)
+- deleting reservations (in user/admin home) isnt fully working yet, Servlet has missing code
+- confirming reservations in admin home has missing code in servlet
 
 Lominoque, Jerome December 6, 2017
 Changes made: 
