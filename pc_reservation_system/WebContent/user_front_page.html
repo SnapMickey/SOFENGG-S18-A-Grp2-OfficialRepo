@@ -462,9 +462,14 @@
                 $(".reservationInfo").css("display",'none');
                 $(".cancel").css('visibility', 'hidden');
                 
+                var temp = null;
                 
                 //TODO do $.get to remove the reservation
-                
+                var path = "cancelPcReservation?" + "pcid=" + $("#pcnum").html() + 
+                                                    "&date=" + $("#date").html() +
+                                                    "&start=" + $("#start").html() +
+                                                    "&end=" + $("#end").html();
+                $.get(path, function(data){console.log("deleted")});
                 
                 fix_table_height();
             });
@@ -524,7 +529,10 @@
                         end:
                     }
                 */
-                if(jason!=null){
+                
+                console.log(jason);
+                
+                if(jason!=undefined){
                     $(".reserveInfoNone").css("display","none");
                     $(".reservationInfo").css("display",'block');
                     $(".cancel").css('visibility', 'visible');
@@ -590,4 +598,3 @@
             $.get("requestUserReservations",function(data){add_data_to_reserve_table(data);});
         </script>
 </html>
-
