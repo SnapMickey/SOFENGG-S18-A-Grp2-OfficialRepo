@@ -569,8 +569,11 @@
                         
                 $.get("requestUserReservations",function(data){
                     //check if row is selected and if user has NO current reservations
-                    if(selected_row!= null && data == null){
-                   
+                    
+                    console.log(data);
+                    if(data.length!= 0){
+                        $("#errorModal").modal('show');
+                    }else if(selected_row!= null && data.length == 0){
                         console.log("preparing reservation..");
                         var pc, building, room, sTime, eTime, date;
                         date = selectedDate;
@@ -615,8 +618,6 @@
                         yesBtn.style.display = "block";
                         noBtn.style.display = "block";
                         
-                    }else if(data!=null){
-                        $("#errorModal").modal('show');
                     }
                 });
                 
@@ -835,29 +836,29 @@
                 }
             }
             
-            var listGoks = [{text:'G201',val:'G201'},
-                           {text:'G202',val:'G202'},
-                           {text:'G203',val:'G203'},
-                           {text:'G301',val:'G301'},
-                           {text:'G302',val:'G302'}];
+            var listGoks = [{text:'G201',value:'G201'},
+                           {text:'G202',value:'G202'},
+                           {text:'G203',value:'G203'},
+                           {text:'G301',value:'G301'},
+                           {text:'G302',value:'G302'}];
             
-            var listVel = [{text:'V201',val:'V201'},
-                          {text:'V202',val:'V202'},
-                          {text:'V203',val:'V203'},
-                          {text:'V301',val:'V301'},
-                          {text:'V302',val:'V302'}];
+            var listVel = [{text:'V201',value:'V201'},
+                          {text:'V202',value:'V202'},
+                          {text:'V203',value:'V203'},
+                          {text:'V301',value:'V301'},
+                          {text:'V302',value:'V302'}];
             
-            var listMig = [{text:'M201',val:'M201'},
-                          {text:'M202',val:'M202'},
-                          {text:'M203',val:'M203'},
-                          {text:'M301',val:'M301'},
-                          {text:'M302',val:'M302'}];
+            var listMig = [{text:'M201',value:'M201'},
+                          {text:'M202',value:'M202'},
+                          {text:'M203',value:'M203'},
+                          {text:'M301',value:'M301'},
+                          {text:'M302',value:'M302'}];
             
-            var listHenry = [{text:'6th Floor',val:'6th'},
-                            {text:'7th Floor',val:'7th'},
-                            {text:'8th Floor',val:'8th'},
-                            {text:'9th Floor',val:'9th'},
-                            {text:'10th Floor',val:'10th'}];
+            var listHenry = [{text:'6th Floor',value:'6th'},
+                            {text:'7th Floor',value:'7th'},
+                            {text:'8th Floor',value:'8th'},
+                            {text:'9th Floor',value:'9th'},
+                            {text:'10th Floor',value:'10th'}];
             
             $("#bldgList").change(function(){
                 console.log("bldgList changed");
@@ -889,10 +890,9 @@
                 console.log(tempArr);
                 var i = -1;
                 while(i++<len){
-                    console.log(i);
                     console.log(tempArr[i]);
                     var option = document.createElement("option");
-                    option.value = tempArr[i].val;
+                    option.value = tempArr[i].value;
                     option.textContent = tempArr[i].text;
                     roomList.appendChild(option);
                 }
