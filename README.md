@@ -1,4 +1,13 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+
+Lominoque, Jerome December 8, 2017
+Changes made:
+- fixed user reserve error that shows modal even if there are no current reservation
+- admin reserve can now check if the user exists but there are no indicators that such error occurred
+
+Errors/Problems:
+- in the admin reserve side, admin can still reserve a user even if they have a current reservation
+
 Bornales, Amiel James December 7, 2017
 Changes made:
 - added functionality to pending reserve in user home
