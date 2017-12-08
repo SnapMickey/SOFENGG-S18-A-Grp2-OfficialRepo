@@ -45,6 +45,8 @@ public class ReservationBuilder {
 					sTime = convertToTime(date, time);
 					eTime = convertToTime(date, time + ReservationBuilder.RESERVATON_DURATION);
 					
+					System.out.println(date + " " + sTime + " " + eTime + " " + building + " " + room);
+					
 					ArrayList<Pc> availPc = SystemService.getAllFreePcs(date, sTime, eTime, building, room);
 					
 					for (Pc pc : availPc) {
@@ -101,6 +103,7 @@ public class ReservationBuilder {
 					sTime = convertToTime(date, time);
 					eTime = convertToTime(date, time + ReservationBuilder.RESERVATON_DURATION);
 
+					
 					ArrayList<Lab> availLabs = SystemService.getAllFreeLabs(date, sTime, eTime, building);
 
 					for (Lab lb : availLabs) {

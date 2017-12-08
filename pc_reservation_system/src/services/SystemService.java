@@ -532,14 +532,14 @@ public class SystemService {
 		statement += " and pc.pcID not in (select pc.pcID from pc_info pc, pc_reservations pr "
 				+ "where pc.pcID = pr.pcID and HOUR(pr.dateTimeStart) = " + startTime.getHours()
 				+ " and HOUR(pr.dateTimeEnd) = " + endTime.getHours() + " and DATE(pr.dateTimeStart) = " + "\'"
-				+ (startTime.getYear() + 1900) + "-" + (startTime.getMonth() + 1) + "-" + startTime.getDate() + "\'"
+				+ (date.getYear() + 1900) + "-" + (date.getMonth() + 1) + "-" + date.getDate() + "\'"
 				+ ")";
 
 		statement += " and pc.locationID = lb.locationID and lb.locationID not in"
 				+ "(select lr.locationID from lab_reservations lr" + " where HOUR(lr.dateTimeStart) = "
 				+ startTime.getHours() + " and HOUR(lr.dateTimeEnd) = " + endTime.getHours()
-				+ " and DATE(lr.dateTimeStart) = " + "\'" + (startTime.getYear() + 1900) + "-"
-				+ (startTime.getMonth() + 1) + "-" + startTime.getDate() + "\'" + ")";
+				+ " and DATE(lr.dateTimeStart) = " + "\'" + (date.getYear() + 1900) + "-"
+				+ (date.getMonth() + 1) + "-" + date.getDate() + "\'" + ")";
 
 		try {
 			trans.begin();

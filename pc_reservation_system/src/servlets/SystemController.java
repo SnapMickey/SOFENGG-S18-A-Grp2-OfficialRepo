@@ -34,7 +34,7 @@ import services.SystemService;
 		"/requestUserDetailsByAdmin", "/getAdminSchedules", "/getLabReservations", "/getPcReservations",
 		"/singleReserve", "/labReserve", "/requestLabReservationList", "/adminhistorypage", "/userReserve",
 		"/requestAdminDetails", "/requestSystemTime", "/cancelPcReservation", "/cancelLabReservation",
-		"/confirmPcReservation", "/confirmLabReservation" })
+		"/confirmPcReservation", "/confirmLabReservation", "/requestUserReservationsByAdmin" })
 @MultipartConfig
 public class SystemController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -90,6 +90,9 @@ public class SystemController extends HttpServlet {
 			break;
 		case "/requestUserReservations":
 			requestUserReservations(request, response);
+			break;
+		case "/requestUserReservationsByAdmin":
+			requestUserReservationsByAdmin(request, response);
 			break;
 		case "/requestPcReservationList":
 			requestPcReservationList(request, response);
@@ -300,14 +303,18 @@ public class SystemController extends HttpServlet {
 		int userId = Integer.parseInt(idString);
 
 		User user = SystemService.getUser(userId);
+		if(user != null){
+			userDetails.addProperty("name", user.getName());
+			userDetails.addProperty("id", "" + user.getUserID());
+			userDetails.addProperty("college", "n/a");
+			userDetails.addProperty("last_login", "n/a");
 
-		userDetails.addProperty("name", user.getName());
-		userDetails.addProperty("id", "" + user.getUserID());
-		userDetails.addProperty("college", "n/a");
-		userDetails.addProperty("last_login", "n/a");
-
-		response.setContentType("application/json");
-		response.getWriter().write(userDetails.toString());
+			response.setContentType("application/json");
+			response.getWriter().write(userDetails.toString());
+		}else{
+			response.setContentType("application/json");
+			response.getWriter().write("error");
+		}
 
 	}
 
@@ -764,6 +771,7 @@ public class SystemController extends HttpServlet {
 		JsonArray userReservations = new JsonArray();
 
 		int userId = (Integer) request.getSession().getAttribute("id");
+		
 		User user = SystemService.getUser(userId);
 
 		ArrayList<PcReservation> reservations = SystemService.getUserPcReservations(userId);
@@ -839,6 +847,94 @@ public class SystemController extends HttpServlet {
 		response.getWriter().write(userReservations.toString());
 	}
 
+	/**
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	private void requestUserReservationsByAdmin(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+				JsonArray userReservations = new JsonArray();
+
+				String sID = request.getParameter("id");
+				int userId = Integer.parseInt(sID);
+				
+				User user = SystemService.getUser(userId);
+
+				ArrayList<PcReservation> reservations = SystemService.getUserPcReservations(userId);
+				for (PcReservation pr : reservations) {
+					JsonObject json = new JsonObject();
+
+					Lab lab = SystemService.getLabOfPc(pr.getPcID());
+
+					String sTime, eTime;
+
+					Date startT = pr.getDateTimeStart();
+					Date endT = pr.getDateTimeEnd();
+					startT.setMonth(startT.getMonth() + 1);
+					if (startT.getHours() <= 12) {
+						// 1:0 -> 11:0
+						if (startT.getHours() == 0)
+							sTime = "" + 12 + ":" + startT.getMinutes();
+						else
+							sTime = "" + startT.getHours() + ":" + startT.getMinutes();
+
+						if (sTime.charAt(sTime.length() - 2) == ':')
+							sTime += "0";
+
+						if (startT.getHours() != 0)
+							sTime += "AM";
+						else
+							sTime += "PM";
+					} else {
+						sTime = "" + (startT.getHours() % 12) + ":" + startT.getMinutes();
+
+						if (sTime.charAt(sTime.length() - 2) == ':')
+							sTime += "0";
+
+						sTime += "PM";
+					}
+
+					if (endT.getHours() <= 12) {
+						// 1:0 -> 11:0
+						if (endT.getHours() == 0)
+							eTime = "" + 12 + ":" + endT.getMinutes();
+						else
+							eTime = "" + endT.getHours() + ":" + endT.getMinutes();
+
+						if (eTime.charAt(eTime.length() - 2) == ':')
+							eTime += "0";
+
+						if (endT.getHours() != 0)
+							eTime += "AM";
+						else
+							eTime += "PM";
+					} else {
+						eTime = "" + (endT.getHours() % 12) + ":" + endT.getMinutes();
+
+						if (eTime.charAt(eTime.length() - 2) == ':')
+							eTime += "0";
+
+						eTime += "PM";
+					}
+
+					json.addProperty("location", lab.getBuilding());
+					json.addProperty("room", lab.getName());
+					;
+					json.addProperty("pcnum", "" + pr.getPcID());
+					json.addProperty("date", "" + endT.getDate() + "/" + (endT.getMonth() + 1) + "/" + (endT.getYear() + 1900));
+					json.addProperty("start", sTime);
+					json.addProperty("end", eTime);
+					json.addProperty("confirmed", pr.isAdminConfirmed());
+
+					userReservations.add(json);
+				}
+
+				response.setContentType("application/json");
+				response.getWriter().write(userReservations.toString());
+	}
 	/**
 	 * @param request
 	 * @param response

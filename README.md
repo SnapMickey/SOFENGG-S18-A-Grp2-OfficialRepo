@@ -4,9 +4,13 @@ Lominoque, Jerome December 8, 2017
 Changes made:
 - fixed user reserve error that shows modal even if there are no current reservation
 - admin reserve can now check if the user exists but there are no indicators that such error occurred
-
+- admin can now handle users with current reservation and prevents them from creating a new one
+- added a new method "requestUserReservationsByAdmin" in System Controller
+- fixed System Service 
+    - was checking start time date instead of date variable
+    
 Errors/Problems:
-- in the admin reserve side, admin can still reserve a user even if they have a current reservation
+- admin reserve cannot show a notification about non existing users when reserving
 
 Bornales, Amiel James December 7, 2017
 Changes made:

@@ -388,6 +388,39 @@
             color:white;
         }
         
+        #modalOk{
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: white;
+            background: #278347;
+            width:150px;
+            border-radius: 8px;
+            float:right;
+            
+            cursor: pointer;
+            
+            margin:0 auto;
+            margin-bottom:15px;
+            display:block;
+        }
+        .modal-content{
+            padding:20px;
+            margin-top: 38%;
+            border-width: 0px;
+            padding-top:50px !important;
+            background-color: #DFDFDF!important;
+        }
+        .modalText{
+            padding:24px;
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            text-align: center;
+            color: #4D4D4D;
+            
+        }
+        
     </style>
     <head>
       
@@ -563,6 +596,19 @@
             </div>        
             <!-- Subcontainer End -->
             
+            <div class="modal fade" id="errorModal" role="dialog">
+                <div class="modal-dialog modal-md">
+
+                  <!-- Modal content-->
+                    <div class="modal-content">
+                            <h3 class = "modalText">This user cannot reserve until his/her current reservation is over.</h3>
+                            
+                            <button type="button" id = "modalOk" class="btn btn-default" data-dismiss="modal">Ok</button>
+                    </div>
+
+                </div>
+            </div>
+            
             <!-- footer -->
             <div class = "row" id = "footer">
                 <div class = "footer">
@@ -599,6 +645,7 @@
         src="http://code.jquery.com/jquery-3.2.1.js"
         integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
         crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     
         <script>
             var yesBtn, noBtn, closeBtn;
@@ -860,85 +907,93 @@
                 sTime = selectedSTime;
                 eTime = selectedETime;
                 
-                var rawSTime, rawETime, suffixSTime, suffixETime, finalSTime, finalETime;
-                rawSTime = parseInt(sTime);
-                rawETime = parseInt(eTime);
-                suffixSTime = sTime.substr(sTime.length - 2);
-                suffixETime = eTime.substr(eTime.length - 2);
+                $.get("requestUserReservationsByAdmin?id=" + id, function(data){
                 
-                /* 
-                 * Creates the time to be inserted in the DB based on the
-                 * highlighted choice of the user
-                 */
-                
-                if(suffixSTime == "AM"){
-                    if(rawSTime < 10){
-                        finalSTime = "0" + rawSTime + ":00:00";
-                    }else if(rawSTime > 10){
-                        finalSTime = rawSTime + ":00:00";
-                    }
-                    
-                    if(suffixETime == "PM"){
-                        if(rawETime < 12){
-                            finalETime = (rawETime + 12) + ":00:00";
-                        }else if(rawETime == 12){
-                            finalETime = rawETime + ":00:00";
+                    if(data.length == 0){
+                        var rawSTime, rawETime, suffixSTime, suffixETime, finalSTime, finalETime;
+                        rawSTime = parseInt(sTime);
+                        rawETime = parseInt(eTime);
+                        suffixSTime = sTime.substr(sTime.length - 2);
+                        suffixETime = eTime.substr(eTime.length - 2);
+                        
+                        /* 
+                         * Creates the time to be inserted in the DB based on the
+                         * highlighted choice of the user
+                         */
+                        
+                        if(suffixSTime == "AM"){
+                            if(rawSTime < 10){
+                                finalSTime = "0" + rawSTime + ":00:00";
+                            }else if(rawSTime > 10){
+                                finalSTime = rawSTime + ":00:00";
+                            }
+                            
+                            if(suffixETime == "PM"){
+                                if(rawETime < 12){
+                                    finalETime = (rawETime + 12) + ":00:00";
+                                }else if(rawETime == 12){
+                                    finalETime = rawETime + ":00:00";
+                                }
+                            }else{
+                                if(rawETime < 10){
+                                    finalETime = "0" + rawETime + ":00:00";
+                                }else if(rawSTime > 10){
+                                    finalETime = rawETime + ":00:00";
+                                }
+                            }
+                        }else if(suffixSTime == "PM"){
+                            if(rawSTime == 12){
+                                finalSTime = rawSTime + ":00:00";
+                                finalETime = (rawETime + 12) + ":00:00";
+                            }else{
+                                finalSTime = (rawSTime + 12) + ":00:00";
+                                finalETime = (rawETime + 12) + ":00:00";
+                            }
+                            
                         }
-                    }else{
-                        if(rawETime < 10){
-                            finalETime = "0" + rawETime + ":00:00";
-                        }else if(rawSTime > 10){
-                            finalETime = rawETime + ":00:00";
+                
+                        /*
+                         * Creates a url and fills-in the details 
+                         * needed to make a reservation
+                         */
+                        
+                        reserveUrl += "pc=" + pc + "&building=" + building + "&room=" + room +
+                               "&sTime=" + finalSTime + "&eTime=" + finalETime + "&date=" + date +
+                               "&id=" + id + "&eventName=" + eventName;
+                        
+                        console.log(reserveUrl);
+                        /* 
+                         * Edits the content of the popup box
+                         */
+                        
+                        popUpMainContent.innerHTML = "Are you sure you want to reserve this <br> computer with the following data?" +
+                                                     "<br> <br> ID Number: " + id +
+                                                     "<br> PC Number: " + pc +
+                                                     "<br> Building: " + building +
+                                                     "<br> Room: " + room +
+                                                     "<br> Date: " + date +
+                                                     "<br> Start Time: " + sTime +
+                                                     "<br> End Time: " + eTime;
+                        
+                        if($("#event").is(':checked')){
+                            popUpMainContent.innerHTML += "<br>Event Name:" + eventName +
+                                                          "<br><br> Note: This is a class/event reservation. <br>";
+                        }else{
+                             popUpMainContent.innerHTML += "<br>";
                         }
+                        
+                        /* Displays the popup box */
+                        
+                        popUpSize.style.padding = "100px 50px";
+                        closeBtn.style.display = "none";
+                        popUpDiv.style.display = "block";
+                        yesBtn.style.display = "block";
+                        noBtn.style.display = "block";
+                        
+                    }else if(data.length != 0){
+                        $("#errorModal").modal('show');
                     }
-                }else if(suffixSTime == "PM"){
-                    if(rawSTime == 12){
-                        finalSTime = rawSTime + ":00:00";
-                        finalETime = (rawETime + 12) + ":00:00";
-                    }else{
-                        finalSTime = (rawSTime + 12) + ":00:00";
-                        finalETime = (rawETime + 12) + ":00:00";
-                    }
-                    
-                }
-                
-                /*
-                 * Creates a url and fills-in the details 
-                 * needed to make a reservation
-                 */
-                
-                reserveUrl += "pc=" + pc + "&building=" + building + "&room=" + room +
-                       "&sTime=" + finalSTime + "&eTime=" + finalETime + "&date=" + date +
-                       "&id=" + id + "&eventName=" + eventName;
-                
-                /* 
-                 * Edits the content of the popup box
-                 */
-                
-                popUpMainContent.innerHTML = "Are you sure you want to reserve this <br> computer with the following data?" +
-                                             "<br> <br> ID Number: " + id +
-                                             "<br> PC Number: " + pc +
-                                             "<br> Building: " + building +
-                                             "<br> Room: " + room +
-                                             "<br> Date: " + date +
-                                             "<br> Start Time: " + sTime +
-                                             "<br> End Time: " + eTime;
-                
-                if($("#event").is(':checked')){
-                    popUpMainContent.innerHTML += "<br>Event Name:" + eventName +
-                                                  "<br><br> Note: This is a class/event reservation. <br>";
-                }else{
-                     popUpMainContent.innerHTML += "<br>";
-                }
-                
-                /* Displays the popup box */
-                
-                popUpSize.style.padding = "100px 50px";
-                closeBtn.style.display = "none";
-                popUpDiv.style.display = "block";
-                yesBtn.style.display = "block";
-                noBtn.style.display = "block";
-                
+                });
             });
             
             /* End of OnClickListener for Reserve Button */
@@ -954,9 +1009,9 @@
                 noBtn.style.display = "none";
                 closeBtn.style.display = "block";
                 
-            $.get(reserveUrl, function(data){
-                // reserving
-            });
+                $.get(reserveUrl, function(data){
+                    // reserving
+                });
                 
                 /* Shows a new popup box to show that the reservation is successful */
                 popUpMainContent.innerHTML = "Reservation is Successful!";
