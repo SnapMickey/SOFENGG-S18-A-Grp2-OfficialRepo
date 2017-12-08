@@ -1009,6 +1009,7 @@
                 
                 var passed = false;
                 
+                clear_data_from_textbox();
                 /* Checking what checkbox is checked */
                 if($("#event").is(':checked')){
                     
@@ -1174,13 +1175,21 @@
                         //used to be eventname
                         selectedEventName = null;
                         
-                        $.get("requestUserDetailsByAdmin?id=" + selectedId, function(data){
-                            add_data_to_textbox(data);
+                        $.get("requestUserDetailsByAdmin?id=" + selectedId, function(data, status){
+                                if(data != "error"){
+                                    add_data_to_textbox(data);
+                                    
+                                    $.get("requestPcReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date, function(data){
+                                        add_table_data(data);
+                                    });
+                                    
+                                }else{
+                                    console.log("User does not exist!");
+                                }
+                            
                         });
                         
-                        $.get("requestPcReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date, function(data){
-                            add_table_data(data);
-                        });
+                        
                     }          
                 
                     
@@ -1189,6 +1198,10 @@
             
             /* End of Search Button Function */
             
+            function clear_data_from_textbox(){
+                document.getElementById("individualName").value = "";
+                document.getElementById("byGroupName").value = "";
+            }
             /* This function simply adds the username to the textbox beside ID Number */
             
             function add_data_to_textbox(user){
