@@ -1120,6 +1120,10 @@ public class SystemController extends HttpServlet {
 
 		uID = Integer.parseInt(userID);
 		lID = Integer.parseInt(locationID);
+		
+		date = null;
+		sTime = null;
+		eTime = null;
 
 		try {
 			date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate);
@@ -1131,10 +1135,9 @@ public class SystemController extends HttpServlet {
 		if (pcID != null) {
 			pID = Integer.parseInt(pcID);
 
-			// confirm function SystemService
-		} else {
-			// confirm function SystemService
-		}
+			PcReservation pr = SystemService.getPcReservation(date, sTime, eTime, pID);
+			SystemService.confirmPcReservation(pr.getPcReservationID());
+		} 
 	}
 
 	/**
@@ -1159,6 +1162,9 @@ public class SystemController extends HttpServlet {
 		uID = Integer.parseInt(userID);
 		lID = Integer.parseInt(locationID);
 
+		date = null;
+		sTime = null;
+		eTime = null;
 		try {
 			date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate);
 			sTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + startTime);
@@ -1169,10 +1175,9 @@ public class SystemController extends HttpServlet {
 		if (pcID != null) {
 			pID = Integer.parseInt(pcID);
 
-			// confirm function SystemService
-		} else {
-			// confirm function SystemService
-		}
+			LabReservation pr = SystemService.getLabReservation(date, sTime, eTime, pID);
+			SystemService.removeLabReservation(pr.getLabReservationID());
+		} 
 	}
 
 	/**
@@ -1189,6 +1194,11 @@ public class SystemController extends HttpServlet {
 		reservationDate = request.getParameter("date");
 		startTime = request.getParameter("start");
 		endTime = request.getParameter("end");
+		
+		date = null;
+		sTime = null;
+		eTime = null;
+		pID = -1;
 
 		try {
 			date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate);
@@ -1199,12 +1209,9 @@ public class SystemController extends HttpServlet {
 		}
 
 		if (pcID != null) {
-			
-			
-			// delete function SystemService
-		} else {
-			// delete function SystemService
-		}
+			PcReservation pr = SystemService.getPcReservation(date, sTime, eTime, pID);
+			SystemService.removePcReservation(pr.getPcReservationID());
+		} 
 	}
 
 	/**
@@ -1228,6 +1235,10 @@ public class SystemController extends HttpServlet {
 
 		uID = Integer.parseInt(userID);
 		lID = Integer.parseInt(locationID);
+		
+		date = null;
+		sTime = null;
+		eTime = null;
 
 		try {
 			date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate);
@@ -1238,11 +1249,10 @@ public class SystemController extends HttpServlet {
 
 		if (pcID != null) {
 			pID = Integer.parseInt(pcID);
-
-			// delete function SystemService
-		} else {
-			// delete function SystemService
-		}
+			
+			LabReservation pr = SystemService.getLabReservation(date, sTime, eTime, pID);
+			SystemService.removePcReservation(pr.getLabReservationID());
+		} 
 	}
 
 	/**
