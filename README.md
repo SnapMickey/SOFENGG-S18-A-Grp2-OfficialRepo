@@ -1,5 +1,12 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Bornales, Amiel James December 9, 2017
+Changes made:
+- added user and admin FAQ pages
+
+Errors/Problems:
+- FAQ pages arent accessible from other pages yet
+
 Lominoque, Jerome December 8, 2017
 Changes made:
 - fixed user reserve error that shows modal even if there are no current reservation
