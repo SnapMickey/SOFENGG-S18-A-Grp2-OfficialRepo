@@ -49,18 +49,8 @@ public class LoginFilter implements Filter {
 		
 		int id = -1;
 		String position = null;
-		
-<<<<<<< HEAD
-		try {
-		id = (Integer)httpRequest.getSession().getAttribute("id");
-		position = (String)httpRequest.getSession().getAttribute("position");
-		}
-		catch(Exception e) {}
-		
-		if (id == -1) {
-=======
+	
 		if (httpRequest.getSession(false) == null) {
->>>>>>> development
 			httpResponse.sendRedirect(link + "RA");
 		}
 		else {		

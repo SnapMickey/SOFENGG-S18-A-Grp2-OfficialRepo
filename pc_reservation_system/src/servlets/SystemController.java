@@ -1348,43 +1348,6 @@ public class SystemController extends HttpServlet {
 		String link = "index.html?error=";
 		String errors = "";
 		boolean success = false;
-<<<<<<< HEAD
-		
-		try{
-			String str = request.getParameter("id");
-			if(str == null || str == ""){
-				errors+="BU";
-			}else{
-				id = Integer.parseInt(str);
-				if(id<=8000000 || id >= 30000000 && id != -1){
-					errors+="WU";
-					//reset id to -1 so DNE doesnt come out
-					id = -1;
-				}
-			}
-		}catch(Exception e){
-			
-			//number format exception,i.e. input wasnt an int
-			errors+="WU";
-		}
-		password = request.getParameter("password");
-	
-		//Changed id -> user just to prevent unwanted error (Edited by: Jerome)
-		if(password == null || password == ""){
-			errors+="BP";
-		}else if(id != -1){
-			//Check if username is valid but blank password
-			User user = SystemService.getUser(id);
-			
-			//check first if user is null / doesnt exist before comparing password
-			if(user == null ){
-				errors+="DNE";
-			}
-			else if(!user.getPassword().equals(password)){
-				errors+="WP";
-			}
-			else if(user != null && user.getPassword().equals(password)){//user n pass is correct
-=======
 
 		try {
 			String str = request.getParameter("id");
@@ -1420,7 +1383,7 @@ public class SystemController extends HttpServlet {
 			} else if (!user.getPassword().equals(password)) {
 				errors += "WP";
 			} else if (user != null && user.getPassword().equals(password)) {// user n pass is correct
->>>>>>> development
+
 				System.out.println("USER VALID");
 				request.getSession().setAttribute("id", id);
 				request.getSession().setAttribute("position", user.getPosition());
