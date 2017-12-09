@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+        /*COPY PASTE HERE*/
+        html, body {
+            height: 100%;
+        }
+        .container-fluid{
+            height: 100%;
+        }
+        .mainDiv{
+            background-color:#CCCCCC;
+        }
+        .header{
+            padding:8px;
+            background-color:#4A4A4A;
+        }
+        .headerTitle{
+            margin-top:15px;
+            color:white;
+            font-family:'Futura',sans-serif;
+            font-size:30px;
+            font-weight:500;
+        }
+        .footer{
+            position: fixed;
+            bottom:0;
+            background-color: #4A4A4A;
+            width:100%;
+            padding:2px;
+            margin:0px;
+            text-align: center;
+        }
+        .copyright{
+            margin-top:5px;
+            font-family:'Avenir Next',sans-serif;
+            font-size: 16px;
+            color:#DADADA;
+        }
+        .headerButtonDiv{
+            cursor:pointer;
+            padding-left: 8px;
+            padding-right: 10px;
+            padding-bottom: 4px;
+            padding-top: 6px;
+            
+            font-size:20px;
+            border:none;
+            background: none;
+            
+            font-family:'Avenir Next',sans-serif;
+            font-size:18px;
+            font-weight:600;
+            color:white;
+        }
+        .headerButtonDiv:hover{
+            border-radius: 5px;
+            background: #278347;
+        }
+        .space{
+            margin-top:15px;
+            margin-right:0px;
+            padding:0px;
+            margin-left:0px;
+        }
+        .questionLine{
+            position:inherit;
+            right:10px;
+            padding:0px;
+            margin:0px;
+            border-left: solid;
+            border-left-color: #278347;
+            border-left-width: 2px;
+        }
+        .question{
+            padding-top:4px;
+            padding-bottom: 3px;
+            padding-left:13px;
+            padding-right:13px;
+            background: #278347;
+            border:none;
+            border-radius: 100%;
+            margin-left:15px;
+            
+            
+            font-family:'Avenir Next',sans-serif;
+            font-size:20px;
+            font-weight:600;
+            color:white;
+        }
+        .bgwhite{
+            background: rgba(255,255,255,0.47);
+            width: 100%;
+            height:100%;
+            padding-top:30px;
+            padding-left: 50px;
+            padding-right: 50px;
+            display:flex;
+            flex-direction: column;
+        }
+        .contentBox{
+            background: #F8F3EB;
+            /*
+            margin-left: 3%;
+            margin-right: 3%;
+            margin-bottom: 2%;
+            margin-top: 1%;
+            */
+            height:100%;
+            flex-grow:2;
+            padding:5px;
+            margin-bottom: 10px;
+        }
+        .boxHeader{
+            font-family:'Avenir Next',sans-serif;
+            font-size: 24px;
+            margin-bottom: 25px;
+            color: white;
+        }
+        .boxTitle{
+            color: #278347;
+            font-family:'Avenir Next',sans-serif;
+            font-size: 25px;
+            font-weight:600;
+            margin-bottom: 25px;
+            margin-top:3px;
+            margin-left:5px;
+        }
+        
+        /* Start of Style(s) for pop up */
+        
+        .popupDiv{
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        
+        .popUpFont{
+            font-family:'Avenir Next',sans-serif;
+            color:dimgray;
+            text-align: center;
+        }
+        
+        .popupContent{
+            background-color: lightgray;
+            font-size: 20px;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 50px;
+            border: 1px solid #888;
+            width: 40%; /* Could be more or less, depending on screen size */
+        }
+        
+        .closePopUp {
+            display: block;
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .closePopUp:hover,.closePopUp:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .noReservePopUpBtn{
+            display: none;
+            border-width: .5px;
+            border-radius: 4px;
+            background-color: dimgray;
+            color: snow;
+            font-size: 20px;
+            width: 25%;
+            float:left;
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+        }
+        
+        .yesReservePopUpBtn{
+            display: none;
+            border-width: .5px;
+            border-radius: 4px;
+            background-color: dimgray;
+            color: snow;
+            
+            font-size: 20px;
+            width: 25%;
+            float:right;
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+        }
+        
+        .noReservePopUpBtn:hover, .yesReservePopUpBtn:hover{
+            background-color: forestgreen;
+        }
+        /* End of Style(s) for pop up */
+        
+        /*COPY PASTE HERE*/
+        #footer {
+            margin-bottom: 0 !important;
+        }
+        
+        /* this is for initial state of reserve buttons */
+        .disabledReserveButtons{
+            background-color: white;
+            border: solid;
+            border-width: 1px;
+            border-radius: 4px;
+            width:180px;
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size:15px;
+            cursor:pointer;
+        }
+        
+        .reserveButtons{
+            background-color: darkgreen;
+            color: white;
+            border: solid;
+            border-width: 1px;
+            border-radius: 4px;
+            width:180px;
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size:15px;
+            
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+        }
+        
+        .reserveButtons:hover{
+            background-color: green;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        }
+        
+        
+        .reserveTable{
+            width:100%;
+            border-top: solid;
+            border-bottom: solid;
+            border-width: 1.5px;
+            padding:15px;
+            border-color: black;
+            font-family:'Avenir Next',sans-serif;
+            color: #4A4A4A;
+        }
+        .tableHeader{
+            border-bottom: solid;
+            border-width: 1.5px;
+            border-color: black;
+            padding-top:10px;
+            padding-bottom: 10px;
+            width: 100px;
+            text-align: center;
+        }
+        .tableCell{
+            width:100px;
+            text-align: center;
+            border-bottom: solid;
+            border-width: 1.5px;
+            border-color: black;
+            
+            padding-left: 2px;
+            padding-right: 2px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+        .tableContainer{
+            overflow-y: scroll;
+            padding:0px;
+            margin:0px;
+            height:380px;
+        }
+        .filterContainer{
+            margin:30px;
+            
+        }
+        .details{
+            font-size:16px;
+            margin-bottom: 5px;
+        }
+        .dropdown{
+            width:100%;
+            padding:3px;
+            border-radius: 3px;
+            margin-bottom:10px;
+        }
+        .filterButton{
+            width:100%;
+            padding:3px;
+            margin-top:40px;
+            background: #278347;
+            font-family:'Avenir Next',sans-serif;
+            color:white;
+            border-width: 1px;
+            border-radius: 8px;
+            font-weight:600;
+            font-size:15px;
+        }
+        .selected{
+            background-color:#adff96;
+        }
+        td{
+            cursor:pointer;
+        }
+        .labImage{
+            visibility: visible;
+            display:none;
+            max-height: 100%;
+            max-width: 100%; 
+        }
+        
+        
+        #modalOk{
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: white;
+            background: #278347;
+            width:150px;
+            border-radius: 8px;
+            float:right;
+            
+            cursor: pointer;
+            
+            margin:0 auto;
+            margin-bottom:15px;
+            display:block;
+        }
+        .modal-content{
+            padding:20px;
+            margin-top: 38%;
+            border-width: 0px;
+            padding-top:50px !important;
+            background-color: #DFDFDF!important;
+        }
+        .modalText{
+            padding:24px;
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            text-align: center;
+            color: #4D4D4D;
+            
+        }
+    </style>
+    <head>
+      
+    </head>
+    <body>
+        <div class = "container-fluid mainDiv">
+            
+            <!-- Header start-->
+            <div class = "row header">
+                <div class = "col-xs-1" style = "padding:0px;">
+                    <img src = "DLSU_Logo_Clear_Background.png" style = "width:60px;height:60px">
+                </div>
+                <div class = "col-sm-3">
+                    <h4 class = "headerTitle">Computer Reservation</h4>
+                </div>
+                
+                <div class = "col-md-4"></div>
+                
+                <div class = "col-md-1 space">
+                    <button class = "headerButtonDiv" id = "homeBtn">HOME</button>
+                </div>
+                <div class = "col-md-1 space" style = "margin-right:20px;">
+                    <button class = "headerButtonDiv" id = "reserveBtn">RESERVE</button>
+                </div>
+                <div class = "col-md-1 space">
+                    <button class = "headerButtonDiv" id="logout">LOGOUT</button>
+                </div>
+                <div class = "col-md-1 space">
+                    <div class = "questionLine" style = "float:right;">
+                        <button class = "question">?</button>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            <!-- Header end-->
+            
+            <div class = "row" id = "white" style = "padding-bottom:15px;">
+                <div class = "container-fluid bgwhite">
+                    <div class = "row"  id = "mainbox" style = 'height:90%;'>
+                        <div class = "col-md-4" style = "padding-right:0px;">
+                            <div class = "contentBox" style = "background-color: #4A4A4A">
+                                <h3 class = "boxTitle" style = "color:white;">1. Search for a PC</h3>
+                                <div class = "filterContainer">
+                                    <h3 class = "boxHeader">Filter By:</h3>
+                                    <p class = "boxHeader details">Building</p>
+                                    <select class = "dropdown" id = "bldgList">
+                                        <option value = "default">All</option>
+                                        <option value = "G">Gokongwei</option>
+                                        <option value = "V">Velasco</option>
+                                        <option value = "M">Miguel</option>
+                                        <option value = "HS">Henry Sy</option>
+                                    </select>
+                                    <p class = "boxHeader details">Room/Floor</p>
+                                    <select class = "dropdown" id = "floorDropdown">
+                                        <option value = "default">All</option>
+                                    </select>
+                                    <div class = "row">
+                                        <div class = "col-sm-7">
+                                            <p class = "boxHeader details">Date</p>
+                                        </div>
+                                        <div class = "col-sm-5">
+                                            <p class = "boxHeader details"> Time</p>
+                                        </div>
+                                    </div>
+                                    <div class = "row">
+                                        <div class = "col-sm-7">
+                                            <select class = "dropdown" id = "dateDropdown">
+                                                <option>--/--/--</option>
+                                            </select>
+                                        </div>
+                                        <div class = "col-sm-5">
+                                            <select class = "dropdown" id = "timeDropdown">
+                                                <option value = "default">Any</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class = "filterButton">Find PC</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class = "col-md-8" style = "padding-left:0px;">
+                            <div class = "contentBox" id = "tableParent">
+                                <div class = "row" id = "tableTitle" style = "padding:0px; margin:0px;">
+                                    <h3 class = "boxTitle">2. Reserve a PC</h3>
+                                    <p style = "padding:0px;padding-top:5px;padding-left:10px;">Select a PC to reserve</p>
+                                </div>
+                                <div class = "tableContainer">
+                                    <img class = "labImage" src = "">
+                                    <table class = "reserveTable" id = "pcTable">
+                                        <tbody id = "PCtable">
+                                            <tr>
+                                                <th class = "tableHeader">PC No.</th>
+                                                <th class = "tableHeader">Location</th>
+                                                <th class = "tableHeader">Room/Floor</th>
+                                                <th class = "tableHeader">Start Time</th>
+                                                <th class = "tableHeader">End Time</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                
+                                
+                                <div class = "row" id = "buttonHolder" style = "padding:0px; margin:0px;margin-top:10px;">
+                                    <div class = "col">
+                                        <button class = "disabledReserveButtons" id = "layout" disabled="true">VIEW LAYOUT</button>
+                                    </div>
+                                    <div class = "col">
+                                        <button class = "disabledReserveButtons" id = "reservePCBtn" style = "float:right;" disabled="true">RESERVE</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+            
+            <div class="popupDiv" id="popUpID">
+                <div class="popupContent" id="popUpContentID">
+                    <span class="closePopUp" id="closePopUpID">&times;</span>
+                    <b> <p class="popUpFont" id="popUpMainContent">  </p> </b>
+                    <button class="noReservePopUpBtn" id="popNo" onclick="noReserveBtn()"> <b>No </b> </button>
+                    <button class="yesReservePopUpBtn" id="popYes" onclick="yesReserveBtn()"> <b>Yes </b></button>
+                </div>
+            </div>
+            
+            <div class="modal fade" id="errorModal" role="dialog">
+                <div class="modal-dialog modal-md">
+
+                  <!-- Modal content-->
+                    <div class="modal-content">
+                            <h3 class = "modalText">You cannot reserve until your current reservation is over.</h3>
+                            
+                            <button type="button" id = "modalOk" class="btn btn-default" data-dismiss="modal">Ok</button>
+                    </div>
+
+                </div>
+            </div>
+            
+            <!-- footer-->
+            <div class = "row" id = "footer">
+                <div class = "footer">
+                    <h3 class = "copyright">Copyright De La Salle University</h3>
+                </div>
+            </div>
+            <!-- footer end-->
+            
+        </div>
+    </body>
+    <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+        <script
+        src="http://code.jquery.com/jquery-3.2.1.js"
+        integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+        crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+        <script>
+            var isLayout = false;
+            var selected_row = null;
+            
+            var reserveButton = document.getElementById("reservePCBtn");
+            var viewButton = document.getElementById("layout");
+            
+            //this function is called when page is fully loaded
+            $(document).ready(function(){
+                
+            	setValues();
+                fix_table_height();  
+            });
+            
+            function fix_table_height(){
+                $("#white").height($(".mainDiv").height() - $(".header").height() - 35);
+                //$("#mainbox").height($("").height() - $(""))
+                $(".tableContainer").height($("#tableParent").height() - $("#tableTitle").height() - $("#buttonHolder").height() - 20);
+            }
+            
+            
+            //Start of header stuff
+            
+            //Buttons
+            $("#logout").click(function(){
+                var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "logout";
+                document.body.appendChild(form);
+                form.submit();
+            });
+            
+            var yesBtn, noBtn, closeBtn;
+            closeBtn = document.getElementById("closePopUpID");
+            yesBtn = document.getElementById("popYes");
+            noBtn = document.getElementById("popNo");
+            
+            var popUpMainContent = document.getElementById("popUpMainContent");
+            var popUpDiv = document.getElementById("popUpID");
+            var popUpSize = document.getElementById("popUpContentID");
+            
+            var selectedPc, selectedSTime, selectedETime, selectedRoom, selectedDate, selectedBldg;
+            
+             var reserveUrl = "userReserve?"
+            $("#reservePCBtn").click(function(){
+                //selected row will contain whatever row was selected, if non was selected, null will be given
+                console.log(selected_row);
+                        
+                $.get("requestUserReservations",function(data){
+                    //check if row is selected and if user has NO current reservations
+                    console.log(data)
+                    if(selected_row != null && data.length == 0){
+                   
+                        console.log("preparing reservation..");
+                        var pc, building, room, sTime, eTime, date;
+                        date = selectedDate;
+                        pc = parseInt(selectedPc);
+                        room = selectedRoom;
+                        building = selectedBldg;
+
+                        sTime = selectedSTime;
+                        eTime = selectedETime;
+                        var rawSTime, rawETime, suffixSTime, suffixETime, finalSTime, finalETime;
+                        rawSTime = parseInt(sTime);
+                        rawETime = parseInt(eTime);
+                        suffixSTime = sTime.substr(sTime.length - 2);
+                        suffixETime = eTime.substr(eTime.length - 2);
+                
+                        /* 
+                         * Creates the time to be inserted in the DB based on the
+                         * highlighted choice of the user
+                         */
+                        
+                        if(suffixSTime == "AM"){
+                            if(rawSTime < 10){
+                                finalSTime = "0" + rawSTime + ":00:00";
+                            }else if(rawSTime > 10){
+                                finalSTime = rawSTime + ":00:00";
+                            }
+                            
+                            if(suffixETime == "PM"){
+                                if(rawETime < 12){
+                                    finalETime = (rawETime + 12) + ":00:00";
+                                }else if(rawETime == 12){
+                                    finalETime = rawETime + ":00:00";
+                                }
+                            }else{
+                                if(rawETime < 10){
+                                    finalETime = "0" + rawETime + ":00:00";
+                                }else if(rawSTime > 10){
+                                    finalETime = rawETime + ":00:00";
+                                }
+                            }
+                        }else if(suffixSTime == "PM"){
+                            if(rawSTime == 12){
+                                finalSTime = rawSTime + ":00:00";
+                                finalETime = (rawETime + 12) + ":00:00";
+                            }else{
+                                finalSTime = (rawSTime + 12) + ":00:00";
+                                finalETime = (rawETime + 12) + ":00:00";
+                            }
+                            
+                        }
+
+                        reserveUrl += "pc=" + pc + "&building=" + building + "&room=" + room +
+                               "&sTime=" + finalSTime + "&eTime=" + finalETime + "&date=" + date;
+
+                        console.log(pc + building + room + sTime + eTime + date);
+
+                        popUpMainContent.innerHTML = "Are you sure you want to reserve this <br> computer with the following data?" +
+                                                     "<br> PC Number: " + pc +
+                                                     "<br> Building: " + building +
+                                                     "<br> Room: " + room +
+                                                     "<br> Date: " + date +
+                                                     "<br> Start Time: " + sTime +
+                                                     "<br> End Time: " + eTime;
+
+                        popUpMainContent.innerHTML += "<br>";
+
+                        //Reveal PopUp
+                        popUpSize.style.padding = "100px 50px";
+                        closeBtn.style.display = "none";
+                        popUpDiv.style.display = "block";
+                        yesBtn.style.display = "block";
+                        noBtn.style.display = "block";
+
+                        popUpSize.style.padding = "100px 50px";
+                        closeBtn.style.display = "none";
+                        popUpDiv.style.display = "block";
+                        yesBtn.style.display = "block";
+                        noBtn.style.display = "block";
+                        
+                    }else if(data.length != 0){
+                        $("#errorModal").modal('show');
+                    }
+                });
+                
+            });
+            
+            function yesReserveBtn(){
+                popUpSize.style.padding = "50px";
+                popUpDiv.style.display = "none";
+                yesBtn.style.display = "none";
+                noBtn.style.display = "none";
+                closeBtn.style.display = "block";
+                
+                console.log("yes button clicked");
+                
+                $.get(reserveUrl, function(data){
+                    console.log("requesting to reserve..");
+                });
+                
+                popUpMainContent.innerHTML = "Reservation is Successful!";
+                popUpDiv.style.display = "block";
+            }
+            
+            function noReserveBtn(){
+                console.log("no button clicked");
+                popUpSize.style.padding = "50px";
+                popUpDiv.style.display = "none";
+                yesBtn.style.display = "none";
+                noBtn.style.display = "none";
+                closeBtn.style.display = "block";
+                
+                popUpMainContent.innerHTML = "Reservation cancelled!";
+                popUpDiv.style.display = "block";
+            }
+            
+            $("#closePopUpID").click(function(){
+                popUpDiv.style.display = "none";
+                
+                if(popUpMainContent.innerHTML == "Reservation is Successful!"){
+	                var form = document.createElement('form');
+	                form.method = "GET";
+	                form.action = "userpage";
+	                document.body.appendChild(form);
+	                form.submit();
+            	}
+            });
+            
+            $("#homeBtn").click(function(){
+                var form = document.createElement('form');
+	            form.method = "GET";
+	            form.action = "userpage";
+	            document.body.appendChild(form);
+	            form.submit(); 
+            });
+            
+            $("#reserveBtn").click(function(){
+                var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "userreservationpage";
+                document.body.appendChild(form);
+                form.submit();
+            });
+            
+            
+            
+            //End of header stuff
+            $("#layout").click(function(){
+                var room = $("#floorDropdown").val();
+                
+                if(!isLayout && room != "All"){
+                    isLayout = true;
+                    
+                    //hide table
+                    $(".reserveTable").css("display","none");
+            
+                    //set image src to room num
+                    $(".labImage").attr("src", room + ".png");
+                    
+                    //show image and center it
+                    $(".labImage").css("display", "block");
+                    $(".labImage").css("margin","0 auto");
+                    
+                    $(this).html("VIEW RESERVATIONS");
+                }else{
+                    isLayout = false;
+                    //make image invisible
+                    $(".labImage").css("display", "none");
+                    
+                    //make table visible
+                    $(".reserveTable").css('display', "");
+                    $(this).html("VIEW LAYOUT");
+                }
+            });
+            
+            $(".filterButton").click(function(){
+                console.log("searching..");
+            
+                refresh_table();
+                var bldg, room, startTime, endTime, date, id, checkbox, dropdown;
+                dropdown = document.getElementById("bldgList");
+                bldg = dropdown.value;
+                switch(bldg){
+                    case "G":   bldg = "Gokongwei"
+                                break;
+                    case "V":   bldg = "Velasco"
+                                break;
+                    case "HS":  bldg = "Henry Sy"
+                                break;
+                    case "M":   bldg = "Miguel"
+                                break;
+                        
+                    default:    break;
+                }
+                
+                dropdown = document.getElementById("floorDropdown");
+                room = dropdown.value;
+                
+                dropdown = document.getElementById("timeDropdown");
+                startTime = dropdown.value;
+                
+                console.log("start time=" + startTime);
+                if(startTime != "default"){
+                    var endTimeCompute = parseInt(startTime); 
+                    if(endTimeCompute < 10){
+                        endTime = "0" + (endTimeCompute + 1) + ":00:00";
+                    }
+                    else{
+                        endTime = (endTimeCompute + 1) + ":00:00";
+                    }
+                    console.log("end time=" + endTime);
+                }else{
+                    endTime = "default";
+                    console.log("end time=" + endTime);
+                }
+                console.log("end time=" + endTime);
+                dropdown = document.getElementById("dateDropdown");
+                date = dropdown.value;
+                selectedDate = date;
+                
+                $.get("requestPcReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date + "&check=" + checkbox, function(data){
+                    console.log("adding data");
+                    add_table_data(data);
+                });
+                
+            });
+                        
+            function refresh_table(){
+                console.log("refreshing table");
+                reserveButton.disabled = true;
+                viewButton.disabled = true;
+                $("#reservePCBtn").removeClass("reserveButtons");
+                $("#layout").removeClass("reserveButtons");
+                $("#reservePCBtn").addClass("disabledReserveButtons");
+                $("#layout").addClass("disabledReserveButtons");
+                
+                var elmtTable = document.getElementById('pcTable');
+                var tableRows = elmtTable.getElementsByTagName('tr');
+                var rowCount = tableRows.length;
+                
+                for (var x=rowCount-1; x>0; x--) {
+                    elmtTable.removeChild(tableRows[x]);
+                }  
+            }
+            
+            function setValues(){
+                var dateDropdown = document.getElementById("dateDropdown");
+                dateDropdown.remove(0);
+                
+                var currDate, nextDate;
+                currDate = new Date();
+                nextDate = new Date();
+                nextDate.setDate(currDate.getDate() + 1);
+                
+                //Testing Purposes
+                console.log(currDate);
+                console.log(nextDate);
+                option = document.createElement("option");
+                
+                var day, month, year;
+                day = currDate.getDate();
+                month = currDate.getMonth() + 1;
+                year = currDate.getFullYear();
+                option.value = year +  "-" + month + "-" + day;
+                option.textContent = month + "/" + day + "/" + year;
+                dateDropdown.appendChild(option);
+                
+                option2 = document.createElement("option");
+                
+                day = nextDate.getDate();
+                month = nextDate.getMonth() + 1;
+                year = nextDate.getFullYear();
+                option2.value = year +  "-" + month + "-" + day;
+                option2.textContent = month + "/" + day + "/" + year;
+                dateDropdown.appendChild(option2);
+                
+                var timeDropdown = document.getElementById("timeDropdown");
+                for(var i = 8; i <= 18; i++)
+                {
+                    var timeOpt = document.createElement("option");
+                    if(i < 10){
+                        timeOpt.value = "0" + i + ":00:00";
+                        timeOpt.textContent = i + ":00 AM";
+                    }else{
+                        timeOpt.value = i + ":00:00";
+                        if(i % 12 > 9 && i % 12 < 12){
+                            timeOpt.textContent = i + ":00 AM";
+                        }
+                        else if(i % 12 == 0){
+                            timeOpt.textContent = i + ":00 PM";
+                        }
+                        else{
+                            timeOpt.textContent = (i % 12) + ":00 PM"
+                        }
+                        
+                    }
+                                        
+                    timeDropdown.appendChild(timeOpt);
+                }
+            }
+            
+            var listGoks = [{text:'G201',val:'G201'},
+                           {text:'G202',val:'G202'},
+                           {text:'G203',val:'G203'},
+                           {text:'G301',val:'G301'},
+                           {text:'G302',val:'G302'}];
+            
+            var listVel = [{text:'V201',val:'V201'},
+                          {text:'V202',val:'V202'},
+                          {text:'V203',val:'V203'},
+                          {text:'V301',val:'V301'},
+                          {text:'V302',val:'V302'}];
+            
+            var listMig = [{text:'M201',val:'M201'},
+                          {text:'M202',val:'M202'},
+                          {text:'M203',val:'M203'},
+                          {text:'M301',val:'M301'},
+                          {text:'M302',val:'M302'}];
+            
+            var listHenry = [{text:'6th Floor',val:'6th'},
+                            {text:'7th Floor',val:'7th'},
+                            {text:'8th Floor',val:'8th'},
+                            {text:'9th Floor',val:'9th'},
+                            {text:'10th Floor',val:'10th'}];
+            
+            $("#bldgList").change(function(){
+                console.log("bldgList changed");
+                var tempArr = [];
+                var bldgList = document.getElementById("bldgList");
+                var roomList = document.getElementById("floorDropdown");
+                $("#floorDropdown").get(0).selectedIndex = 0;
+                //remove all things in roomList
+                while(roomList.length > 1){
+                    roomList.remove(roomList.length - 1);
+                }
+                if(bldgList.value == "G"){
+                    console.log("Goks Selected");
+                    tempArr = listGoks;
+                }
+                else if(bldgList.value == "V"){
+                    console.log("Velasco Selected");
+                    tempArr = listVel;
+                }
+                else if(bldgList.value == "M"){
+                    console.log("Miguel Selected");
+                    tempArr = listMig;
+                }
+                else if(bldgList.value == "HS"){
+                    console.log("Henry Sy Selected");
+                    tempArr = listHenry;
+                }
+                var len = tempArr.length;
+                console.log(tempArr);
+                var i = -1;
+                while(i++<len){
+                    console.log(i);
+                    console.log(tempArr[i]);
+                    var option = document.createElement("option");
+                    option.value = tempArr[i].val;
+                    option.textContent = tempArr[i].text;
+                    roomList.appendChild(option);
+                }
+                
+                
+             });
+            
+            
+            function add_table_data(jasonarr){
+                /*
+                    Function Recieves table data in the form of an JSON array
+                    JSON format is as follows
+                    {
+                        pcno:,
+                        location:,
+                        room:,
+                        start:,
+                        end:
+                    }
+                */
+                for(var i = jasonarr.length - 1; i >= 0 ; i--){
+                    var jason = jasonarr[i];
+                    var row = $("<tr>");
+                    
+                    //Prints all the things, in the order that they came
+                    for(var key in jason){
+                        var col = $("<td>");
+                        col.addClass("tableCell");
+                        if(jason.hasOwnProperty(key)){
+                            col.html(jason[key]);
+                        }
+                        row.append(col);
+                    }
+                    $("#PCtable").after(row);
+                }
+            }
+            
+            
+            
+            $(document).on('click','.reserveTable tr',function(){
+                $(this).addClass('selected').siblings().removeClass('selected');
+                var temp = $(this).children();
+                selected_row = {
+                        pcno:temp[0].innerHTML,
+                        location:temp[1].innerHTML,
+                        room:temp[2].innerHTML,
+                        start:temp[3].innerHTML,
+                        end:temp[4].innerHTML
+                }
+                 
+                reserveButton.disabled = false;
+                viewButton.disabled = false;
+                $("#reservePCBtn").removeClass("disabledReserveButtons");
+                $("#layout").removeClass("disabledReserveButtons");
+                $("#reservePCBtn").addClass("reserveButtons");
+                $("#layout").addClass("reserveButtons");
+                
+                selectedPc = selected_row.pcno;
+                selectedBldg = selected_row.location
+                selectedRoom = selected_row.room;
+                selectedSTime = selected_row.start;
+                selectedETime = selected_row.end;
+                selectedDate = document.getElementById("dateDropdown").value;
+                
+                console.log(selected_row);
+            });
+            
+        </script>
+</html>

@@ -11,15 +11,14 @@
             padding-top:20px;
             padding-bottom: 20px;
             border-radius: 10px;
-            margin-top:40%;
+            margin-top:25%;
             padding-left: 10px;
             padding-right: 10px;
         }
         .loginBtn{
             background: #278347;
             color: white;
-            width:70%;
-            margin-left: 15%;
+            width:50%;
             font-weight: 500;
             border: none;
             border-radius: 5px;
@@ -37,7 +36,8 @@
             border-top-color: white;
             
             
-            
+            margin:0 auto;
+            display:block;
             
             
             border-width: 1px;
@@ -49,51 +49,57 @@
         .username{
             padding:7px;
             font-family:'Avenir Next',sans-serif;
-            width: 70%;
+            width: 50%;
             border:none;
             border-radius: 5px;
             font-size:15px;
-            margin-left: 15%;
+            margin:0 auto;
+            display:block;
+            margin-bottom: 10px;
         }
         .password{
             padding:7px;
-            width:70%;
+            width:50%;
             margin-top: 12px;
             font-family:'Avenir Next',sans-serif;
             border:none;
             border-radius: 5px;
             font-size:15px;
-            margin-left: 15%;
+            margin:0 auto;
+            display:block;
+            margin-bottom:10px;
         }
         .header{
-            padding:5px;
+            padding:8px;
+            background-color:#4A4A4A;   
         }
         .col-centered{
             float: none;
             margin: 0 auto;
         }
         .loginTxt{
-            margin-left: 10%;
             font-family:'Avenir Next',sans-serif;
             color:#4A4A4A;
-            font-weight: 800;
-            font-size:17px;
+            font-size:32px;
             margin-bottom: 20px;
+            text-align: center;
         }
         .errorLogin{
+            margin-top:-10px;
             visibility: hidden;
             color:red;
-            margin:3px;
+            text-align: center;
+            font-weight: 600;
             font-family:'Avenir Next',sans-serif;
             font-size:12px;
-            margin-left:33%;
         }
         .footer{
-            position: absolute;
+            position: fixed;
             bottom:0;
             background-color: #4A4A4A;
             width:100%;
             padding:2px;
+            margin:0px;
         }
         .copyright{
             margin-top:5px;
@@ -116,7 +122,7 @@
                     <img src = "DLSU_Logo_Clear_Background.png" style = "width:60px;height:60px">
                 </div>
                 <div class = "col-sm-11" style = "padding:0px">
-                    <h4 style = "margin-top:15px; color:#278347; font-family:'Futura',sans-serif;font-size:30px; font-weight:500">Computer Reservation</h4>
+                    <h4 style = "margin-top:15px; color:white; font-family:'Futura',sans-serif;font-size:30px; font-weight:500">Computer Reservation</h4>
                 </div>
             </div>
             <!-- Header end-->
@@ -125,13 +131,13 @@
             <div class="container">
                 
                 <div class = "row">
-                    <div class = "col-md-5 col-centered">
+                    <div class = "col-md-7 col-centered">
                         
                        <form action="login" class = "loginDiv" method = "POST">
                             <h4 class = "loginTxt">Before you can reserve, please log in</h4>
+                            <p class = "errorLogin"></p>
                             <input type = "text" name = "id" class = "username" placeholder="ID Number">
                             <input type = "password" name = "password" class = "password" placeholder = "Password">
-                            <p class = "errorLogin"></p>
                             <button id = "btn" class = "loginBtn">LOGIN</button>                        
                         </form>
                     </div>
@@ -143,8 +149,10 @@
             
             
             <!-- footer -->
-            <div class = "row footer">
-                <h3 class = "copyright">Copyright De La Salle University</h3>
+            <div class = "row">
+                <div class = "footer">
+                    <h3 class = "copyright">Copyright De La Salle University</h3>
+                </div>
             </div>
             <!-- footer end-->
             
@@ -168,25 +176,30 @@
             //error will contain a string of codes telling which errors there are
             //e.g. error "BUBP" means blank username blank password etc
             var err = window.location.search.substring(1).split("error=")[1];
-            console.log(err);
-            if(err != ""){
+            if(err != "" && err != null){
             	var head = $(".errorLogin");
                 var errorMessage = "";
                 //check if error codes are in string, if yes, append error message to errorMessage
                 if(err.indexOf("DNE")!= -1){
-                    errorMessage+= "* User does not exist<br/>"
+                    errorMessage+= "Unregistered ID Number<br/>";
                 }
-                if(err.indexOf("BU")!= -1){
-                    errorMessage+= "* Username cannot be blank<br/>"
-                }
-                if(err.indexOf("BP")!= -1){
-                    errorMessage+= "* Password cannot be blank<br/>"
+                //display text if both inputs are blank
+                if(err.indexOf("BU")!= -1 && err.indexOf("BP")!= -1){
+                    errorMessage+= "No ID Number and Password Entered<br/>";
+                }else{
+                    //display if either is blank
+                    if(err.indexOf("BU")!= -1){
+                        errorMessage+= "No ID Number Entered<br/>";
+                    }
+                    if(err.indexOf("BP")!= -1){
+                        errorMessage+= "No Password Entered<br/>";
+                    }
                 }
                 if(err.indexOf("WU")!= -1){
-                    errorMessage+= "* Invalid Username<br/>"
+                    errorMessage+= "Invalid ID Number<br/>";
                 }
                 if(err.indexOf("WP")!= -1){
-                    errorMessage+= "* Invalid Password<br/>"
+                    errorMessage+= "Wrong Password<br/>";
                 }
                 if(err.indexOf("RA")!= -1){
                     alert("Restricted Access");

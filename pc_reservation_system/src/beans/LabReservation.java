@@ -5,18 +5,18 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
 
-@Entity(name = "pc_reservations")
-public class PcReservation {
+@Entity(name = "lab_reservations")
+public class LabReservation {
 	
 	@Id
-	@Column(name = "pcReservationsID")
-	int pcReservationID;
+	@Column(name = "labReservationID")
+	int labReservationID;
 	
 	@Column(name = "userID")
 	int userID;
 	
-	@Column(name = "pcID")
-	int pcID;
+	@Column(name = "locationID")
+	int locationID;
 	
 	@Column(name = "dateTimeStart")
 	Date dateTimeStart;
@@ -33,15 +33,18 @@ public class PcReservation {
 	@Column(name = "adminConfirmed")
 	boolean adminConfirmed;
 	
-
-	public PcReservation() {
+	@Column(name = "eventName")
+	String eventName;
+	
+	public LabReservation() {
 		this.userID = -1;
-		this.pcID = -1;
+		this.locationID = -1;
 		this.dateTimeStart = null;
 		this.dateTimeEnd = null;
 		this.checkInTime = null;
 		this.reserveTime = null;
 		this.adminConfirmed = false;
+		this.eventName = "empty";
 	}
 
 	public int getUserID() {
@@ -52,12 +55,12 @@ public class PcReservation {
 		this.userID = userID;
 	}
 
-	public int getPcID() {
-		return pcID;
+	public int getLocationID() {
+		return locationID;
 	}
 
-	public void setPcID(int pcID) {
-		this.pcID = pcID;
+	public void setLocationID(int locationID) {
+		this.locationID = locationID;
 	}
 
 	public Date getDateTimeStart() {
@@ -99,16 +102,25 @@ public class PcReservation {
 	public void setAdminConfirmed(boolean adminConfirmed) {
 		this.adminConfirmed = adminConfirmed;
 	}
-	
-	public int getPcReservationID() {
-		return pcReservationID;
+
+	public String getEventName() {
+		return eventName;
+	}
+
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
+	}
+
+	public int getLabReservationID() {
+		return labReservationID;
 	}
 
 	@Override
 	public String toString() {
-		return "PcReservation [pcReservationID=" + pcReservationID + ", userID=" + userID + ", pcID=" + pcID
-				+ ", dateTimeStart=" + dateTimeStart + ", dateTimeEnd=" + dateTimeEnd + ", checkInTime=" + checkInTime
-				+ ", reserveTime=" + reserveTime + ", adminConfirmed=" + adminConfirmed + "]";
+		return "LabReservation [labReservationID=" + labReservationID + ", userID=" + userID + ", locationID="
+				+ locationID + ", dateTimeStart=" + dateTimeStart + ", dateTimeEnd=" + dateTimeEnd + ", checkInTime="
+				+ checkInTime + ", reserveTime=" + reserveTime + ", adminConfirmed=" + adminConfirmed + ", eventName="
+				+ eventName + "]";
 	}
-	
+		
 }

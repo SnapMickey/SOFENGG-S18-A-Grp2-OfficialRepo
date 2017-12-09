@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
     <style>
@@ -522,3 +523,1461 @@
 
 
 
+=======
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+        
+        /* Start of Style(s) for subcontainer */
+        
+        .subDiv{
+            height: 83%;
+            margin-top: 7.5px;
+            margin-left: 60px;
+        }
+        
+        .searchDiv{
+            background-color: dimgray;
+            display: inline-block;
+            height: 100%;
+        }
+        
+        .reserveDiv{
+            background-color: floralwhite;
+            display:inline-block;
+            float: right;
+            padding: 0px;
+            height: 100%;
+        }
+            /* Start of Style(s) for Reserve */
+        .reserveHeaderDiv{
+            margin-left: 4px;
+            margin-top:  4px;
+        }
+        
+        .mainHeader{
+            color:green;
+            font-family:'Avenir Next',sans-serif;
+            font-size:25px;
+        }
+        
+        .mainHeader2{
+            color:darkgray;
+            font-family:'Avenir Next',sans-serif;
+            font-size:15px;
+        }
+        
+        .reserveTableDiv{
+            overflow-y: scroll;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-top: 5px;
+            width:100%;
+            height:85%;
+            border: solid gray;
+            border-width: 0px 1px 1px 1px;
+            /* no top border */
+        }
+        
+        .reserveTable{
+            
+            margin-top: 0px;
+            width: 100%;
+        }
+        
+        .reserveTable td{
+            cursor:pointer;
+        }
+
+        
+        .reserveTableHead{
+            height: 20%;
+            width: 20%;
+            font-family:'Avenir Next',sans-serif;
+            border: solid gray;
+            border-width: 1px 0px;
+        }
+        
+        .reserveTableRows{
+            padding:2px 0px;
+            max-width: 20%;
+            font-family:'Avenir Next',sans-serif;
+            border: solid gray;
+            border-width: 1px 0px;
+            
+        }
+        
+        .disabledReserveButtons{
+            background-color: white;
+            border: solid;
+            border-width: 1px;
+            border-radius: 4px;
+            width:180px;
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size:15px;
+            color:  black;
+        }
+        
+        .reserveButtons{
+            background-color: darkgreen;
+            color: white;
+            border: solid;
+            border-width: 1px;
+            border-radius: 4px;
+            width:180px;
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size:15px;
+            
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+        }
+        
+        .reserveButtons:hover{
+            background-color: green;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        }
+        
+        .selected{
+            background-color:#adff96;
+        }
+        
+            /* End of Style(s) for Reserve */
+        
+            /* Start of Style(s) for Search */
+        .searchHeaderFont{
+            margin-left: 4px;
+            margin-top:  4px;
+            color: white;
+            font-size: 25px;
+            font-family:'Avenir Next',sans-serif;
+        }
+   
+        .filterByDiv{
+            margin-top: 40px;
+            margin-left: 32px;
+            /*background-color: aquamarine;*/
+            height: 32%;
+            width: 90%;
+        }
+        
+        .filterHeaderFontSize{
+            font-size: 20px;
+        }
+        
+        .filterHeaderFont{
+            color: white;
+            font-family:'Avenir Next',sans-serif;
+        }
+        
+        .dropdown{
+            width:100%;
+            padding:3px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .dateDiv{
+            margin-top: 14px;
+            width: 50%;
+            height:20%;
+            /*background-color: blueviolet;*/
+            float: left;
+        }
+        
+        .timeDiv{
+            margin-top: 14px;
+            width:30%;
+            height:20%;
+            /*background-color: khaki;*/
+            float:right;
+        }
+        
+        .infoHeader{
+            margin-top: 40px;
+        }
+        
+        .infoDiv{
+            margin-left: 32px;
+            height: 30%;
+            width: 90%;
+        }
+        
+        .filterSearchButton{
+            border: none;
+            margin-left: 32px;
+            border-width: 1px;
+            border-radius: 4px;
+            width: 90%;
+            color:white;
+            background-color: forestgreen;
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+        }
+        
+        .filterSearchButton:hover{
+            border-radius: 5px;
+            background-color: darkgreen;
+            color:white;
+        }
+        
+        .individualHeader{
+            margin-top:10px;
+        }
+        
+        .eventHeader{
+            margin-top:10px;
+        }
+            /* End of Style(s) for Search */
+        
+        /* End of Style(s) for subcontainer */
+        
+        /* Start of Style(s) for pop up */
+        
+        .popupDiv{
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        
+        .popUpFont{
+            font-family:'Avenir Next',sans-serif;
+            color:dimgray;
+            text-align: center;
+        }
+        
+        .popupContent{
+            background-color: lightgray;
+            font-size: 20px;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 50px;
+            border: 1px solid #888;
+            width: 40%; /* Could be more or less, depending on screen size */
+        }
+        
+        .closePopUp {
+            display: block;
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .closePopUp:hover,.closePopUp:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .noReservePopUpBtn{
+            display: none;
+            border-width: .5px;
+            border-radius: 4px;
+            background-color: dimgray;
+            color: snow;
+            font-size: 20px;
+            width: 25%;
+            float:left;
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+        }
+        
+        .yesReservePopUpBtn{
+            display: none;
+            border-width: .5px;
+            border-radius: 4px;
+            background-color: dimgray;
+            color: snow;
+            
+            font-size: 20px;
+            width: 25%;
+            float:right;
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+        }
+        
+        .noReservePopUpBtn:hover, .yesReservePopUpBtn:hover{
+            background-color: forestgreen;
+        }
+        /* End of Style(s) for pop up */
+        html, body {
+            height: 100%;
+        }
+        .container-fluid{
+            height: 100%;
+            overflow-y: hidden; /* don't show content that exceeds my height */
+        }
+        .mainDiv{
+            background-color:#CCCCCC;
+        }
+        .header{
+            padding-bottom: 10px;
+            padding-top: 10px;
+            padding-right: 8px;
+            padding-left: 8px;
+            background-color:#4A4A4A;   
+        }
+        .headerTitle{
+            margin-top:15px;
+            color:#278347;
+            font-family:'Futura',sans-serif;
+            font-size:30px;
+            font-weight:500;
+        }
+        
+        #footer {
+            margin-bottom: 0 !important;
+        }
+        
+        .footer{
+            position: fixed;
+            bottom:0;
+            background-color: #4A4A4A;
+            width:100%;
+            padding:2px;
+            margin:0px;
+        }
+        .copyright{
+            margin-top:5px;
+            font-family:'Avenir Next',sans-serif;
+            margin-left: 41.5%;
+            font-size: 16px;
+            color:#DADADA;
+        }
+        .headerButtonDiv{
+            padding-left: 8px;
+            padding-right: 10px;
+            padding-bottom: 4px;
+            padding-top: 6px;
+            
+            font-size:20px;
+            border:none;
+            background: none;
+            
+            font-family:'Avenir Next',sans-serif;
+            font-size:18px;
+            font-weight:600;
+            color:white;
+            
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+        }
+        .headerButtonDiv:hover{
+            border-radius: 5px;
+            background: #278347;
+            color:white;
+        }
+        .space{
+            margin-top:15px;
+            padding:0px;
+            margin-left:0px;
+            margin-right: 0px;
+        }
+        .questionLine{
+            position:inherit;
+            right:10px;
+            padding:0px;
+            margin:0px;
+            border-left: solid;
+            border-left-color: #278347;
+            border-left-width: 2px;
+            float:right;
+        }
+        .question{
+            padding-top:4px;
+            padding-bottom: 3px;
+            padding-left:13px;
+            padding-right:13px;
+            background: #278347;
+            border:none;
+            border-radius: 100%;
+            margin-left:15px;
+            
+            
+            font-family:'Avenir Next',sans-serif;
+            font-size:20px;
+            font-weight:600;
+            color:white;
+        }
+        
+        #modalOk{
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: white;
+            background: #278347;
+            width:150px;
+            border-radius: 8px;
+            float:right;
+            
+            cursor: pointer;
+            
+            margin:0 auto;
+            margin-bottom:15px;
+            display:block;
+        }
+        .modal-content{
+            padding:20px;
+            margin-top: 38%;
+            border-width: 0px;
+            padding-top:50px !important;
+            background-color: #DFDFDF!important;
+        }
+        .modalText{
+            padding:24px;
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            text-align: center;
+            color: #4D4D4D;
+            
+        }
+        
+    </style>
+    <head>
+      
+        
+    </head>
+    <body onload="setValues()">
+        <div class = "container-fluid mainDiv">
+            
+            <!-- Header start -->
+            <div class = "row header">
+                <div class = "col-md-4">
+                    <div class = "row">
+                        <div class = "col-xs-6" style = "padding:0px;">
+                            <img src = "DLSU_Logo_Clear_Background.png" style = "width:60px;height:60px">
+                        </div>
+                        <div class = "col-xs-6" style = "padding-left:10px;">
+                            <h4 style = "margin-top:15px; color:white; font-family:'Futura',sans-serif;font-size:30px; font-weight:500">Computer Reservation</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class = "col-md-8">
+                    <div class = "row" style = "float:right;padding-right:10px;">
+                        <div class = "col-md-2.5 space">
+                            <button class = "headerButtonDiv" id="dashboardBtn">DASHBOARD</button>
+                        </div>
+                        <div class = "col-md-2.5 space">
+                            <button class = "headerButtonDiv" id = "reserveBtn">RESERVE</button>
+                        </div>
+                        <div class = "col-md-2.5 space">
+                            <button class = "headerButtonDiv" id = "historyBtn">HISTORY</button>
+                        </div>
+                        <div class = "col-md-2.5 space">
+                            <button class = "headerButtonDiv" id = "logout">LOG OUT</button>
+                        </div>
+                        <div class = "col-md-2.5 space">
+                            <div class = "questionLine">
+                                <button class = "question" id = "questionBtn">?</button>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                
+            </div>
+            <!-- Header end -->
+            
+            <!-- Subcontainer Start -->
+            <div class = "col-md-11  subDiv">
+                
+                <!-- Search Container Start -->
+                <div class="col-md-4 searchDiv">
+                    <div class="searchHeader">
+                        <span class="searchHeaderFont"> 1. Search for a PC</span>
+                    </div>
+                    
+                    <div class="filterByDiv">
+                        <div class="filterHeader filterHeaderFont">
+                            <span class="filterHeaderFontSize"> Filter By:</span>
+                            
+                            <div style="margin-top:10px;">
+                                <span> Building</span>
+                            </div>
+                            
+                            <select class="dropdown" id="bldgList">
+                                <option value="default">All</option>
+                                <option value="G">Gokongwei</option>
+                                <option value="V">Velasco</option>
+                                <option value ="M">Miguel</option>
+                                <option value ="HS">Henry Sy</option>
+                            </select>
+                            
+                            <div style="margin-top:5px;">
+                                <span> Room/Floor</span>
+                            </div>
+                            <select class="dropdown" id="roomList">
+                                <option value="default">All</option>
+                            </select>
+                        </div>
+                        
+                        <div class="dateDiv filterHeaderFont">
+                            <div class="dateHeader">
+                                <span> Date </span>
+                                <select class = "dropdown" id = "dateDropdown">
+                                    <option>--/--/--</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="timeDiv filterHeaderFont">
+                            <div class="timeHeader">
+                                <span> Time </span>
+                                <select class = "dropdown" id = "timeDropdown">
+                                    <option value="default">Any</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="infoHeader">
+                        <span class="searchHeaderFont"> 2. Enter User ID</span>
+                    </div>
+                    <div class="infoDiv filterHeaderFont"> 
+                        <div class="individualHeader">
+                            <span> Individual </span>
+                            <input type="checkbox" id="individual" name="individual">
+                            <div>
+                            <input style="width:35%;" disabled="true" type="text" placeholder="Input ID Number" id="idNumSolo">
+                            <input style="width:60%;float:right;"type="text" id="individualName"placeholder="Name of User" readonly>
+                            </div>
+                        </div>
+                        
+                        <div class="eventHeader">
+                            <span> Class/Event </span>
+                            <input type="checkbox" id="event" name="event">
+                            <div>
+                            <input style="width:35%;"type="text" disabled="true" placeholder="Input ID Number" id="idNumEvent">
+                            <input style="width:60%;float:right;"type="text" id="byGroupName" placeholder="Name of Supervisor" readonly>
+                            <input style="width:100%;margin-top:10px;" disabled="true" type="text" placeholder="Input Event Name" id="eventName">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="filterSearchButton" id="searchButton">Search</button>
+                </div>
+                <!-- Search Container End -->
+                
+                <!-- Reserve Container Start -->
+                <div class="col-md-8 reserveDiv" style="padding-left:0px;padding-right:0px;">
+                    <div class="reserveHeaderDiv">
+                    <span class="mainHeader"> <b>3. Reserve A PC </b> </span> <span class="mainHeader2"> Select a PC to reserve </span>
+                    </div>
+                    <div class="reserveTableDiv">
+                    <table class="reserveTable" id="reserveListTable">
+                        <thead>
+                            <tr class="reserveTableHead" style="pointer-events: none;">
+                                <th height="40">
+                                    <center> PC No. </center>
+                                </th>
+                                    
+                                <th>
+                                    <center> Location </center>
+                                </th>
+                                
+                                <th>
+                                    <center> Room/Floor </center>
+                                </th>
+                                
+                                <th>
+                                    <center> Start Time </center>
+                                </th>
+                                
+                                <th>
+                                    <center> End Time </center>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="PCtable" class="reserveTableData">
+                            
+                        </tbody>
+                    </table>
+                        
+                    </div>
+                     <div class = "row" style = "padding:0px; margin:10px 0px;">
+                          <div class = "col">
+                              <button class = "disabledReserveButtons" disabled="true" id="viewLayout">VIEW LAYOUT</button>
+                          </div>
+                          <div class = "col">
+                              <button id="reserveButton" class = "disabledReserveButtons" style = "float:right;" disabled="true">RESERVE</button>
+                          </div>
+                    </div>
+                </div>
+                
+                <!-- Reserve Container End -->
+            </div>        
+            <!-- Subcontainer End -->
+            
+            <div class="modal fade" id="errorModal" role="dialog">
+                <div class="modal-dialog modal-md">
+
+                  <!-- Modal content-->
+                    <div class="modal-content">
+                            <h3 class = "modalText">This user cannot reserve until his/her current reservation is over.</h3>
+                            
+                            <button type="button" id = "modalOk" class="btn btn-default" data-dismiss="modal">Ok</button>
+                    </div>
+
+                </div>
+            </div>
+            
+            <!-- footer -->
+            <div class = "row" id = "footer">
+                <div class = "footer">
+                    <h3 class = "copyright">Copyright De La Salle University</h3>
+                </div>
+            </div>
+            <!-- footer end -->
+            
+        </div>
+        
+        <div class="popupDiv" id="popUpID">
+            <div class="popupContent" id="popUpContentID">
+                <span class="closePopUp" id="closePopUpID">&times;</span>
+                <b> <p class="popUpFont" id="popUpMainContent">  </p> </b>
+                <button class="noReservePopUpBtn" id="popNo" onclick="noReserveBtn()"> <b>No </b> </button>
+                <button class="yesReservePopUpBtn" id="popYes" onclick="yesReserveBtn()"> <b>Yes </b></button>
+                
+            </div>
+            
+            
+        </div>
+    </body>
+    
+    <applet code="PcReservationBuilder.class" name="reservationBuilder" height=0 widht=0>
+    </applet>
+    <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+        <script
+        src="http://code.jquery.com/jquery-3.2.1.js"
+        integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+        crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    
+        <script>
+            var yesBtn, noBtn, closeBtn;
+            closeBtn = document.getElementById("closePopUpID");
+            yesBtn = document.getElementById("popYes");
+            noBtn = document.getElementById("popNo");
+            
+            var reserveButton = document.getElementById("reserveButton");
+            var viewButton = document.getElementById("viewLayout");
+            
+            var popUpMainContent = document.getElementById("popUpMainContent");
+            var popUpDiv = document.getElementById("popUpID");
+            var popUpSize = document.getElementById("popUpContentID");
+            var selectedPc, selectedBldg, selectedSTime, selectedETime, selectedRoom, selectedDate, selectedId, selectedEventName;
+            
+            function setValues(){
+                
+            /* Header Functions */
+            
+            $("#dashboardBtn").click(function(){
+            	var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "adminpage";
+                document.body.appendChild(form);
+                form.submit();
+            });
+            
+            $("#historyBtn").click(function(){
+                alert("This button is not yet working");
+                /*
+            	var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "logout";
+                document.body.appendChild(form);
+                form.submit();
+                */
+            });
+            
+            $("#logout").click(function(){
+            	var form = document.createElement('form');
+                form.method = "GET";
+                form.action = "logout";
+                document.body.appendChild(form);
+                form.submit();
+            });
+            
+            /* End of Header Functions
+            /* Initialization of Date and Time Dropdowns */
+            var dateDropdown = document.getElementById("dateDropdown");
+            dateDropdown.remove(0);
+            
+            var currDate, nextDate;
+            currDate = new Date();
+            nextDate = new Date();
+            nextDate.setDate(currDate.getDate() + 1);
+            
+            option = document.createElement("option");
+            
+            var day, month, year;
+            day = currDate.getDate();
+            month = currDate.getMonth() + 1;
+            year = currDate.getFullYear();
+            option.value = year +  "-" + month + "-" + day;
+            option.textContent = month + "/" + day + "/" + year;
+            dateDropdown.appendChild(option);
+            
+            option2 = document.createElement("option");
+            
+            day = nextDate.getDate();
+            month = nextDate.getMonth() + 1;
+            year = nextDate.getFullYear();
+            option2.value = year +  "-" + month + "-" + day;
+            option2.textContent = month + "/" + day + "/" + year;
+            dateDropdown.appendChild(option2);
+            
+            var timeDropdown = document.getElementById("timeDropdown");
+            for(var i = 8; i <= 18; i++)
+            {
+                var timeOpt = document.createElement("option");
+                if(i < 10){
+                    timeOpt.value = "0" + i + ":00:00";
+                    timeOpt.textContent = i + ":00 AM";
+                }else{
+                    timeOpt.value = i + ":00:00";
+                    if(i % 12 > 9 && i % 12 < 12){
+                        timeOpt.textContent = i + ":00 AM";
+                    }
+                    else if(i % 12 == 0){
+                        timeOpt.textContent = i + ":00 PM";
+                    }
+                    else{
+                        timeOpt.textContent = (i % 12) + ":00 PM"
+                    }
+                    
+                }
+                                    
+                timeDropdown.appendChild(timeOpt);
+            }
+                
+                /* End of Initialization of Dropdowns */
+            }
+            
+            /* Start of Listener for Building Dropdown */
+            /*
+             *  When the building dropdown changes value:
+             *  This function changes the value for the rooms.
+             */
+            
+            $("#bldgList").change(function(){
+                
+                var bldgList = document.getElementById("bldgList");
+                var roomList = document.getElementById("roomList");
+                $("#roomList").get(0).selectedIndex = 0;
+                while(roomList.length > 1){
+                    roomList.remove(roomList.length - 1);
+                }
+                
+                if(bldgList.value == "G"){
+                    for(var i = 0; i < 5; i++){
+                        var option = document.createElement("option");
+                        if(i == 0){
+                            option.value = "G201";
+                            option.textContent = "G201";
+                        }
+                        else if(i == 1){
+                            option.value = "G202";
+                            option.textContent = "G202";
+                        }
+                        else if(i == 2){
+                            option.value = "G203";
+                            option.textContent = "G203";
+                        }
+                        else if(i == 3){
+                            option.value = "G301";
+                            option.textContent = "G301";
+                        }
+                        else if(i == 4){
+                            option.value = "G302";
+                            option.textContent = "G302";
+                        }
+                        
+                        roomList.appendChild(option);
+                    }
+                }
+                else if(bldgList.value == "V"){
+                    for(var i = 0; i < 5; i++){
+                        var option = document.createElement("option");
+                        if(i == 0){
+                            option.value = "V201";
+                            option.textContent = "V201";
+                        }
+                        else if(i == 1){
+                            option.value = "V202";
+                            option.textContent = "V202";
+                        }
+                        else if(i == 2){
+                            option.value = "V203";
+                            option.textContent = "V203";
+                        }
+                        else if(i == 3){
+                            option.value = "V301";
+                            option.textContent = "V301";
+                        }
+                        else if(i == 4){
+                            option.value = "V302";
+                            option.textContent = "V302";
+                        }
+                        
+                        roomList.appendChild(option);
+                    }
+                }
+                else if(bldgList.value == "M"){
+                    for(var i = 0; i < 5; i++){
+                        var option = document.createElement("option");
+                        if(i == 0){
+                            option.value = "M201";
+                            option.textContent = "M201";
+                        }
+                        else if(i == 1){
+                            option.value = "M202";
+                            option.textContent = "M202";
+                        }
+                        else if(i == 2){
+                            option.value = "M203";
+                            option.textContent = "M203";
+                        }
+                        else if(i == 3){
+                            option.value = "M301";
+                            option.textContent = "M301";
+                        }
+                        else if(i == 4){
+                            option.value = "M302";
+                            option.textContent = "M302";
+                        }
+                        
+                        roomList.appendChild(option);
+                    }
+                }
+                else if(bldgList.value == "HS"){
+                    for(var i = 0; i < 5; i++){
+                        var option = document.createElement("option");
+                        if(i == 0){
+                            option.value = "6th";
+                            option.textContent = "6th Floor";
+                        }
+                        else if(i == 1){
+                            option.value = "7th";
+                            option.textContent = "7th Floor";
+                        }
+                        else if(i == 2){
+                            option.value = "8th";
+                            option.textContent = "8th Floor";
+                        }
+                        else if(i == 3){
+                            option.value = "9th";
+                            option.textContent = "9th Floor";
+                        }
+                        else if(i == 4){
+                            option.value = "10th";
+                            option.textContent = "10th Floor";
+                        }
+                        
+                        roomList.appendChild(option);
+                    }
+                }
+                
+            });
+            
+            /* End of Listener for Building Dropdown */
+            
+            /* Start of OnClickListener for Reserve Button */
+            
+            /* 
+             * ReserveURL is set to null so that we could dynamically change
+             * whether the reservation is individual or as an event
+             */
+            
+            var reserveUrl = null;
+            $("#reserveButton").click(function(){
+                
+                /* Checking of Checkboxes */
+                if($("#individual").is(':checked')){
+                    reserveUrl = "singleReserve?"
+                }else if($("#event").is(':checked')){
+                    reserveUrl = "labReserve?"
+                }
+                
+                /*Initialization of needed variables */
+                /* Not thoroughly cleaned */
+                
+                var pc, building, room, sTime, eTime, id, date, eventName;
+                id = parseInt(selectedId);
+                date = selectedDate;
+                pc = parseInt(selectedPc);
+                building = selectedBldg;
+                room = selectedRoom;
+                eventName = selectedEventName;
+                
+                sTime = selectedSTime;
+                eTime = selectedETime;
+                
+                $.get("requestUserReservationsByAdmin?id=" + id, function(data){
+                
+                    if(data.length == 0){
+                        var rawSTime, rawETime, suffixSTime, suffixETime, finalSTime, finalETime;
+                        rawSTime = parseInt(sTime);
+                        rawETime = parseInt(eTime);
+                        suffixSTime = sTime.substr(sTime.length - 2);
+                        suffixETime = eTime.substr(eTime.length - 2);
+                        
+                        /* 
+                         * Creates the time to be inserted in the DB based on the
+                         * highlighted choice of the user
+                         */
+                        
+                        if(suffixSTime == "AM"){
+                            if(rawSTime < 10){
+                                finalSTime = "0" + rawSTime + ":00:00";
+                            }else if(rawSTime > 10){
+                                finalSTime = rawSTime + ":00:00";
+                            }
+                            
+                            if(suffixETime == "PM"){
+                                if(rawETime < 12){
+                                    finalETime = (rawETime + 12) + ":00:00";
+                                }else if(rawETime == 12){
+                                    finalETime = rawETime + ":00:00";
+                                }
+                            }else{
+                                if(rawETime < 10){
+                                    finalETime = "0" + rawETime + ":00:00";
+                                }else if(rawSTime > 10){
+                                    finalETime = rawETime + ":00:00";
+                                }
+                            }
+                        }else if(suffixSTime == "PM"){
+                            if(rawSTime == 12){
+                                finalSTime = rawSTime + ":00:00";
+                                finalETime = (rawETime + 12) + ":00:00";
+                            }else{
+                                finalSTime = (rawSTime + 12) + ":00:00";
+                                finalETime = (rawETime + 12) + ":00:00";
+                            }
+                            
+                        }
+                
+                        /*
+                         * Creates a url and fills-in the details 
+                         * needed to make a reservation
+                         */
+                        
+                        reserveUrl += "pc=" + pc + "&building=" + building + "&room=" + room +
+                               "&sTime=" + finalSTime + "&eTime=" + finalETime + "&date=" + date +
+                               "&id=" + id + "&eventName=" + eventName;
+                        
+                        console.log(reserveUrl);
+                        /* 
+                         * Edits the content of the popup box
+                         */
+                        
+                        popUpMainContent.innerHTML = "Are you sure you want to reserve this <br> computer with the following data?" +
+                                                     "<br> <br> ID Number: " + id +
+                                                     "<br> PC Number: " + pc +
+                                                     "<br> Building: " + building +
+                                                     "<br> Room: " + room +
+                                                     "<br> Date: " + date +
+                                                     "<br> Start Time: " + sTime +
+                                                     "<br> End Time: " + eTime;
+                        
+                        if($("#event").is(':checked')){
+                            popUpMainContent.innerHTML += "<br>Event Name:" + eventName +
+                                                          "<br><br> Note: This is a class/event reservation. <br>";
+                        }else{
+                             popUpMainContent.innerHTML += "<br>";
+                        }
+                        
+                        /* Displays the popup box */
+                        
+                        popUpSize.style.padding = "100px 50px";
+                        closeBtn.style.display = "none";
+                        popUpDiv.style.display = "block";
+                        yesBtn.style.display = "block";
+                        noBtn.style.display = "block";
+                        
+                    }else if(data.length != 0){
+                        $("#errorModal").modal('show');
+                    }
+                });
+            });
+            
+            /* End of OnClickListener for Reserve Button */
+            /* Yes Button function for popup
+             * When clicked, it will use the 'reserveurl' variable link
+             * created in reserve button function
+             */
+            
+            function yesReserveBtn(){
+                popUpSize.style.padding = "50px";
+                popUpDiv.style.display = "none";
+                yesBtn.style.display = "none";
+                noBtn.style.display = "none";
+                closeBtn.style.display = "block";
+                
+                $.get(reserveUrl, function(data){
+                    // reserving
+                });
+                
+                /* Shows a new popup box to show that the reservation is successful */
+                popUpMainContent.innerHTML = "Reservation is Successful!";
+                popUpDiv.style.display = "block";
+            }
+            
+            /* No Button function for popup
+             * When clicked, it will show a new popup box that the reservation is cancelled
+             */
+            
+            function noReserveBtn(){
+                popUpSize.style.padding = "50px";
+                popUpDiv.style.display = "none";
+                yesBtn.style.display = "none";
+                noBtn.style.display = "none";
+                closeBtn.style.display = "block";
+                
+                popUpMainContent.innerHTML = "Reservation cancelled!";
+                popUpDiv.style.display = "block";
+            }
+            
+            
+            /* Close Button function for popup
+             * When clicked, it will dismiss the current popup box
+             */
+            
+            $("#closePopUpID").click(function(){
+                popUpDiv.style.display = "none";
+                
+                if(popUpMainContent.innerHTML == "Reservation is Successful!"){
+	                var form = document.createElement('form');
+	                form.method = "GET";
+	                form.action = "adminreservationpage";
+	                document.body.appendChild(form);
+	                form.submit();
+            	}
+            });
+            
+            /* Search Button Function
+             * When the search button is clicked,
+             * For individual:
+             *      If the ID Number textbox is empty, then do not allow search
+             *
+             * For Events:
+             *       If the ID Number and/or ClassEvent name is empty, then do not allow search
+             */
+            
+            $("#searchButton").click(function(){
+                var idNumSolo, idNumEvent;
+                
+                var passed = false;
+                
+                clear_data_from_textbox();
+                /* Checking what checkbox is checked */
+                if($("#event").is(':checked')){
+                    
+                    eventName = document.getElementById("eventName").value;
+                    idNumEvent = document.getElementById("idNumEvent").value;
+                    
+                    if(eventName == "" && idNumEvent == ""){
+                        popUpMainContent.innerHTML = "Event Name and ID Number is required to proceed. <br> Please try again."  
+                        popUpDiv.style.display = "block";
+                    }else if(idNumEvent == ""){
+                        popUpMainContent.innerHTML = "ID Number is required to proceed.  <br> Please try again."
+                        popUpDiv.style.display = "block";
+                    }
+                    else if(eventName == ""){
+                        popUpMainContent.innerHTML = "Event Name is required to proceed. <br> Please try again."  
+                        popUpDiv.style.display = "block";
+                    }else{
+                        passed = true;
+                    }
+                    
+                    
+                }else if($("#individual").is(':checked')){
+                    idNumSolo = document.getElementById("idNumSolo").value;
+                    if(idNumSolo == ""){
+                        popUpMainContent.innerHTML = "ID Number is required to proceed. <br> Please try again."
+                        popUpDiv.style.display = "block";
+                    }else{
+                        passed = true;
+                    }
+                    
+                /* Checking if one of the checkbox is ticked */  
+                }else if(!($("#individual").is(':checked') && $("#event").is(':checked'))){
+                    popUpMainContent.innerHTML = "Select whether the following reservation <br> would be Individual or Class/Event. <br> Please try again."
+                    popUpDiv.style.display = "block";
+                }
+                
+                /* Checking if ID Number formatting is correct */
+                if(passed){
+                    var intIdNum;
+                    
+                    if($("#event").is(':checked')){
+                        intIdNum = parseInt(idNumEvent);
+                        
+                        if((''+intIdNum).length != 8){
+                            popUpMainContent.innerHTML = "ID Number must be 8 digits. <br> Please try again."
+                            popUpDiv.style.display = "block";
+                            passed = false;
+                        }
+                    }else if($("#individual").is(':checked')){
+                        intIdNum = parseInt(idNumSolo);
+                        
+                        if((''+intIdNum).length != 8){
+                            popUpMainContent.innerHTML = "ID Number must be 8 digits. <br> Please try again."
+                            popUpDiv.style.display = "block";
+                            passed = false;
+                        }
+                    }
+                }
+                
+                /* Under Testing -> ID Checker
+                if(passed){
+                    //Setting the name of user
+                    console.log("setting name..");
+                    if($("#event").is(':checked')){
+                        
+                        
+                        console.log(document.getElementById("byGroupName").value);
+                        if(document.getElementById("byGroupName").value == "DNE"){
+                            passed = false;
+                            document.getElementById("byGroupName").value = "";
+                            document.getElementById("idNumEvent").value = "";
+                            document.getElementById("eventName").value = "";
+                            popUpMainContent.innerHTML = "User ID does not exist. <br> Please try again."
+                            popUpDiv.style.display = "block";
+                            console.log("user does not exist");
+                        }
+                        else{
+                            passed = true;
+                        }
+                    }else if($("#individual").is(':checked')){
+                        $.get("requestUserDetailsByAdmin?id=" + idNumSolo, function(data){
+                        console.log("adding username");
+                        add_data_to_textbox(data);
+                        });
+                        
+                        console.log(document.getElementById("individualName").value);
+                        if(document.getElementById("individualName").value == "DNE"){
+                            passed = false;
+                            document.getElementById("individualName").value = "";
+                            document.getElementById("idNumSolo").value == "";
+                            popUpMainContent.innerHTML = "User ID does not exist. <br> Please try again."
+                            popUpDiv.style.display = "block";
+                            console.log("user does not exist");
+                        }
+                        else{
+                            passed = true;
+                        }
+                    }
+                    
+                }
+                
+                */
+                
+                /* After passing all the error handling, show all the possible reservations */
+                if(passed){
+                    refresh_table();
+                    
+                    var bldg, room, startTime, endTime, date, id, checkbox, dropdown;
+                    dropdown = document.getElementById("bldgList");
+                    bldg = dropdown.value;
+                    switch(bldg){
+                        case "G":   bldg = "Gokongwei"
+                                    break;
+                        case "V":   bldg = "Velasco"
+                                    break;
+                        case "HS":  bldg = "Henry Sy"
+                                    break;
+                        case "M":   bldg = "Miguel"
+                                    break;
+                            
+                        default:    break;
+                    }
+                    
+                    dropdown = document.getElementById("roomList");
+                    room = dropdown.value;
+                    
+                    dropdown = document.getElementById("timeDropdown");
+                    startTime = dropdown.value;
+                    
+                    if(startTime != "default"){
+                        var endTimeCompute = parseInt(startTime); 
+                        if(endTimeCompute < 10){
+                            endTime = "0" + (endTimeCompute + 1) + ":00:00";
+                        }
+                        else{
+                            endTime = (endTimeCompute + 1) + ":00:00";
+                        }
+                    }else{
+                        endTime = "default";
+                    }
+                    dropdown = document.getElementById("dateDropdown");
+                    date = dropdown.value;
+                    selectedDate = date;
+                    
+                    if($("#event").is(':checked')){
+                        id = document.getElementById("idNumEvent").value;
+                        selectedId = id;
+                        selectedEventName = document.getElementById("eventName").value;
+                        checkbox = "event";
+                        
+                        $.get("requestUserDetailsByAdmin?id=" + selectedId, function(data){
+                            add_data_to_textbox(data);
+                        });
+                        
+                        $.get("requestLabReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date + "&check=" + checkbox, function(data){
+                            add_table_data(data);
+                        });
+                        
+                    }else if($("#individual").is(':checked')){
+                        id = document.getElementById("idNumSolo").value;
+                        selectedId = id;
+                        checkbox = "individual";
+                        //used to be eventname
+                        selectedEventName = null;
+                        
+                        $.get("requestUserDetailsByAdmin?id=" + selectedId, function(data, status){
+                                if(data != "error"){
+                                    add_data_to_textbox(data);
+                                    
+                                    $.get("requestPcReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date, function(data){
+                                        add_table_data(data);
+                                    });
+                                    
+                                }else{
+                                    console.log("User does not exist!");
+                                }
+                            
+                        });
+                        
+                        
+                    }          
+                
+                    
+                }
+            });
+            
+            /* End of Search Button Function */
+            
+            function clear_data_from_textbox(){
+                document.getElementById("individualName").value = "";
+                document.getElementById("byGroupName").value = "";
+            }
+            /* This function simply adds the username to the textbox beside ID Number */
+            
+            function add_data_to_textbox(user){
+                if($("#individual").is(':checked')){
+                    document.getElementById("individualName").value = user["name"];
+                }else if($("#event").is(':checked')){
+                    document.getElementById("byGroupName").value = user["name"];
+                }
+            }
+                      
+            /* This function simply removes all the rows inserted from the previous functions or actions
+             * This function also disables the reserve and view button
+             */
+            
+            function refresh_table(){
+                
+                reserveButton.disabled = true;
+                viewButton.disabled = true;
+                $("#reserveButton").removeClass("reserveButtons");
+                $("#viewLayout").removeClass("reserveButtons");
+                $("#reserveButton").addClass("disabledReserveButtons");
+                $("#viewLayout").addClass("disabledReserveButtons");
+                
+                var elmtTable = document.getElementById('reserveListTable');
+                var tableRows = elmtTable.getElementsByTagName('tr');
+                var rowCount = tableRows.length;
+                
+                for (var x=rowCount-1; x>0; x--) {
+                    elmtTable.removeChild(tableRows[x]);
+                }  
+            }
+            
+            /* This function simply adds data to the table coming from the server or database */
+            
+            function add_table_data(jasonarr){
+                /*
+                    Function Recieves table data in the form of an JSON array
+                    JSON format is as follows
+                    {
+                        pcno:,
+                        location:,
+                        room:,
+                        start:,
+                        end:
+                    }
+                */
+                for(var i = jasonarr.length - 1 ; i >= 0 ; i--){
+                	var jason = jasonarr[i];
+                    
+                    var row = $("<tr height=\"40\" align=\"center\">");
+                    
+                    //Prints all the things, in the order that they came
+                    for(var key in jason){
+                        var col = $("<td>");
+                        col.addClass("reserveTableRows");
+                        if(jason.hasOwnProperty(key)){
+                            
+                            col.html(jason[key]);
+                        }
+                        row.append(col);
+                    }
+                    $("#PCtable").after(row);
+                }
+                
+            }
+            
+            /* Individual Checkbox
+             * If ticked, it will not disable all event related textbox
+             * It will also enable all individual related textbox
+             * If there are previous values, this will remove them
+             * If unticked, it will disable the current enabled textbox
+             * Note: It will also refresh the data table
+             */
+            
+            $("#individual").click(function(){
+                refresh_table();
+                $("#event").prop('checked', false);
+                document.getElementById("idNumSolo").value = null;
+                document.getElementById("idNumEvent").value = null;
+                document.getElementById("eventName").value = null;
+                document.getElementById("individualName").value = null;
+                document.getElementById("byGroupName").value = null;
+                
+                /*
+                reserveButton.disabled = true;
+                viewButton.disabled = true;
+                $("#reserveButton").removeClass("reserveButtons");
+                $("#viewLayout").removeClass("reserveButtons");
+                $("#reserveButton").addClass("disabledReserveButtons");
+                $("#viewLayout").addClass("disabledReserveButtons");
+                */
+                
+                if($("#individual").is(':checked')){
+                    document.getElementById("idNumSolo").disabled = false;
+                    document.getElementById("idNumEvent").disabled = true;
+                    document.getElementById("eventName").disabled = true;
+                }else{
+                    
+                    document.getElementById("idNumSolo").disabled = true;
+                    document.getElementById("idNumEvent").disabled = true;
+                    document.getElementById("eventName").disabled = true;
+                }
+                //checking
+                //$("#event).is(':checked');
+            });
+            
+            /* Event Checkbox
+             * If ticked, it will not disable all individual related textbox
+             * It will also enable all event related textbox
+             * If there are previous values, this will remove them
+             * If unticked, it will disable the current enabled textbox
+             * Note: It will also refresh the data table
+             */
+            
+            $("#event").click(function(){
+                refresh_table();
+                $("#individual").prop('checked', false);
+                document.getElementById("idNumSolo").value = null;
+                document.getElementById("idNumEvent").value = null;
+                document.getElementById("eventName").value = null;
+                document.getElementById("individualName").value = null;
+                document.getElementById("byGroupName").value = null;
+                
+                /*
+                reserveButton.disabled = true;
+                viewButton.disabled = true;
+                $("#reserveButton").removeClass("reserveButtons");
+                $("#viewLayout").removeClass("reserveButtons");
+                $("#reserveButton").addClass("disabledReserveButtons");
+                $("#viewLayout").addClass("disabledReserveButtons");
+                */
+                
+                if($("#event").is(':checked')){
+                    
+                    document.getElementById("idNumSolo").disabled = true;
+                    document.getElementById("idNumEvent").disabled = false;
+                    document.getElementById("eventName").disabled = false;
+                }else{
+                    
+                    document.getElementById("idNumSolo").disabled = true;
+                    document.getElementById("idNumEvent").disabled = true;
+                    document.getElementById("eventName").disabled = true;
+                }
+            });
+            
+            /* OnClick Listener for each data in the table
+             * If a row is clicked, set all values to its corresponding variables
+             * Reserve button is now clickable
+             * Note: Variables are used immediately in Reserve Button Function
+             */
+            $(document).on('click','.reserveTable tr',function(){
+               $(this).addClass('selected').siblings().removeClass('selected');    
+               var value=$(this).find('td:first').html();
+                /* Changing Button Styles */
+                reserveButton = document.getElementById("reserveButton");
+                viewButton = document.getElementById("viewLayout");
+                reserveButton.disabled = false;
+                viewButton.disabled = false;
+                $("#reserveButton").removeClass("disabledReserveButtons");
+                $("#viewLayout").removeClass("disabledReserveButtons");
+                $("#reserveButton").addClass("reserveButtons");
+                $("#viewLayout").addClass("reserveButtons");
+                
+                selectedPc = $(this).find('td:first').html();
+                selectedBldg = $(this).find('td:eq(1)').text();
+                selectedRoom = $(this).find('td:eq(2)').text();
+                selectedSTime = $(this).find('td:eq(3)').text();
+                selectedETime = $(this).find('td:eq(4)').text();
+                
+                document.getElementById('reserveButton').style.visibility = "visible";
+            });
+        </script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> development

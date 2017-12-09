@@ -1,21 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
-    <style>
+<html lang="en"><style>
+        /*COPY PASTE HERE*/
+        html, body {
+            height: 100%;
+        }
+        .container-fluid{
+            height: 100%;
+        }
         .mainDiv{
-            background-image: url(background.png);
-            height:100%;
-            position: absolute;
-            background-size:cover;
+            background-color:#CCCCCC;
         }
         .header{
-            padding:5px;
+            padding:8px;
+            background-color:#4A4A4A;
+        }
+        .headerTitle{
+            margin-top:15px;
+            color:white;
+            font-family:'Futura',sans-serif;
+            font-size:30px;
+            font-weight:500;
         }
         .footer{
-            position: absolute;
+            position: fixed;
             bottom:0;
             background-color: #4A4A4A;
             width:100%;
             padding:2px;
+            margin:0px;
         }
         .copyright{
             margin-top:5px;
@@ -37,17 +49,15 @@
             font-family:'Avenir Next',sans-serif;
             font-size:18px;
             font-weight:600;
-            color:#278347;
-            
+            color:white;
         }
         .headerButtonDiv:hover{
             border-radius: 5px;
             background: #278347;
-            color:white;
         }
         .space{
             margin-top:15px;
-            margin-right:7px;
+            margin-right:0px;
             padding:0px;
             margin-left:0px;
         }
@@ -61,10 +71,10 @@
             border-left-width: 2px;
         }
         .question{
-            padding-top:2px;
-            padding-bottom: 2px;
-            padding-left:11px;
-            padding-right:11px;
+            padding-top:4px;
+            padding-bottom: 3px;
+            padding-left:13px;
+            padding-right:13px;
             background: #278347;
             border:none;
             border-radius: 100%;
@@ -76,6 +86,160 @@
             font-weight:600;
             color:white;
         }
+        .bgwhite{
+            background: rgba(255,255,255,0.47);
+            width: 100%;
+            padding-top:50px;
+        }
+        .contentBox{
+            background: #F8F3EB;
+            /*
+            margin-left: 3%;
+            margin-right: 3%;
+            margin-bottom: 2%;
+            margin-top: 1%;
+            */
+            margin-bottom: 20px;
+            padding:5px;
+        }
+        .boxHeader{
+            font-family:'Avenir Next',sans-serif;
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+        .boxTitle{
+            color: #278347;
+            font-family:'Avenir Next',sans-serif;
+            font-size: 25px;
+            font-weight:600;
+            margin-bottom: 25px;
+            margin-top:3px;
+        }
+        /*COPY PASTE HERE*/
+        .right{
+            color: #4A4A4A;
+        }
+        .note{
+            font-size: 15px;
+            font-style: italic;
+            margin-bottom: 25px;
+        }
+        .reserveTable{
+            width:100%;
+            height:100%;
+            border-top: solid;
+            border-bottom: solid;
+            border-width: 1.5px;
+            padding:15px;
+            border-color: #DDDDDD;
+            font-family:'Avenir Next',sans-serif;
+            color: #4A4A4A;
+        }
+        .tableHeader{
+            border-bottom: solid;
+            border-width: 1.5px;
+            border-color: #DDDDDD;
+            width: 100px;
+            height:20px;
+            text-align: center;
+        }
+        .tableCell{
+            width:100px;
+            text-align: center;
+            border-bottom: solid;
+            border-width: 1.5px;
+            border-color: #DDDDDD;
+            
+            padding-left: 2px;
+            padding-right: 2px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+        #footer {
+            margin-bottom: 0 !important;
+        }
+        .pending{
+            padding-bottom: 7px;
+        }
+        .pending .boxHeader{
+            margin-bottom:10px;
+        }
+        .tableContainer{
+            overflow-y: scroll;
+            overflow-x: hidden;
+            padding:0px;
+            margin:0px;
+            height: 100%;
+        }
+        .cancel{
+            visibility: hidden;
+            margin-top:5px;
+            float:right;
+            font-size: 14px;
+            width:80px;
+            border-color: #BABABA;
+            border-width: 1px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .modal-content{
+            padding:20px;
+            margin-top: 38%;
+            border-radius: 10px !important;
+            border-width: 0px;
+            padding-top:50px !important;
+            background-color: #DFDFDF!important;
+        }
+        .modalText{
+            padding:24px;
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 24px;
+            text-align: center;
+            color: #4D4D4D;
+            
+        }
+        #modalNo{
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: white;border-width: 1px;            
+            background: #4A4A4A;
+            width:160px;
+            border-radius: 8px;
+            margin-bottom:12px;
+            cursor: pointer;
+        }
+        #modalYes{
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: white;
+            background: #278347;
+            width:160px;
+            border-radius: 8px;
+            float:right;
+            margin-bottom:12px;
+            cursor: pointer;
+        }
+        .reservationInfoContainer{
+            margin:0px;
+            padding:0px;
+        }
+        .reservationInfo{
+            display:none;
+        }
+        .reserveInfoNone{
+            color: #278347;
+            font-family:'Avenir Next',sans-serif;
+            font-size: 20px;
+            font-weight:600;
+            
+            display:table;
+            margin:auto;
+            margin-top:5%;
+            
+        }
     </style>
     <head>
       
@@ -84,43 +248,203 @@
     <body>
         <div class = "container-fluid mainDiv">
             
+<<<<<<< HEAD
             <!-- Header -->
+=======
+            <!-- Header start-->
+>>>>>>> development
             <div class = "row header">
                 <div class = "col-xs-1" style = "padding:0px;">
                     <img src = "DLSU_Logo_Clear_Background.png" style = "width:60px;height:60px">
                 </div>
-                <div class = "col-sm-3" style = "padding-left:10px;">
-                    <h4 style = "margin-top:15px; color:#278347; font-family:'Futura',sans-serif;font-size:30px; font-weight:500">Computer Reservation</h4>
+                <div class = "col-sm-3">
+                    <h4 class = "headerTitle">Computer Reservation</h4>
                 </div>
                 
                 <div class = "col-md-4"></div>
                 
                 <div class = "col-md-1 space">
-                    <button class = "headerButtonDiv">HOME</button>
+
+                    <button class = "headerButtonDiv" id = "header_home">HOME</button>
                 </div>
                 <div class = "col-md-1 space" style = "margin-right:20px;">
-                    <button class = "headerButtonDiv">RESERVE</button>
+                    <button class = "headerButtonDiv" id = "header_reserve">RESERVE</button>
                 </div>
                 <div class = "col-md-1 space">
                     <button class = "headerButtonDiv" id="logout">LOGOUT</button>
                 </div>
                 <div class = "col-md-1 space">
-                    <div class = "questionLine">
+                    <div class = "questionLine" style = "float:right;">
                         <button class = "question">?</button>
                     </div>
                     
                 </div>
                 
             </div>
+<<<<<<< HEAD
             <!-- Header end -->
+=======
+            <!-- Header end-->
+>>>>>>> development
             
+            <div class = "row" id = "white">
+                <div class = "container-fluid bgwhite">
+                    <h3 id = "welcome">Welcome!</h3>
+                    <div class = "contentBox" id = "userInfo">
+                        <div class = "row" style = "height:40%;">
+                            <div class = "col-md-6">
+                                <div class = "container">
+                                    <h3 class = "boxTitle">User Information</h3>
+                                    <div class = "row">
+                                        <div class = "col-sm-3">
+                                            <h2 class = "boxHeader" style="font-weight:600;">Name:</h2>
+                                        </div>
+                                        <div class = "col-sm-9 right">
+                                            <h2 class = "boxHeader" id = "user_name"></h2>
+                                        </div>
+                                    </div>
+                                    <div class = "row">
+                                        <div class = "col-sm-3">
+                                            <h2 class = "boxHeader" style="font-weight:600;">ID Number:</h2>
+                                        </div>
+                                        <div class = "col-sm-9 right">
+                                            <h2 class = "boxHeader" id = "id_number"></h2>
+                                        </div>
+                                    </div>
+                                    <div class = "row">
+                                        <div class = "col-sm-3">
+                                            <h2 class = "boxHeader" style="font-weight:600;">College:</h2>
+                                        </div>
+                                        <div class = "col-sm-9 right">
+                                            <h2 class = "boxHeader" id = "college"></h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class = "col-md-6">
+                                <div class = "container pending">
+                                    <div class = "row">
+                                        <div class = "col">
+                                            <h3 class = "boxTitle">Pending Reservation</h3>
+                                        </div>
+                                        <div class = "col">
+                                            <button class = "cancel" data-toggle="modal" data-target="#myModal" data-backdrop="false">Cancel</button>
+                                        </div>
+                                    </div>
+                                    <div class = "reservationInfoContainer">
+                                        <h3 class = "reserveInfoNone">No Current Reservations</h3>
+                                        <div class = "reservationInfo">
+                                            <div class = "row">
+                                                <div class = "col-sm-3">
+                                                    <h2 class = "boxHeader">Location:</h2>
+                                                </div>
+                                                <div class = "col-sm-9 right">
+                                                    <h2 class = "boxHeader" id = "location"></h2>
+                                                </div>
+                                            </div>
+                                            <div class = "row">
+                                                <div class = "col-sm-3">
+                                                    <h2 class = "boxHeader">Room / Floor:</h2>
+                                                </div>
+                                                <div class = "col-sm-9 right">
+                                                    <h2 class = "boxHeader" id = "room"></h2>
+                                                </div>
+                                            </div>
+                                            <div class = "row">
+                                                <div class = "col-sm-3">
+                                                    <h2 class = "boxHeader">PC No:</h2>
+                                                </div>
+                                                <div class = "col-sm-9 right">
+                                                    <h2 class = "boxHeader" id = "pcnum"></h2>
+                                                </div>
+                                            </div>
+                                            <div class = "row">
+                                                <div class = "col-sm-3">
+                                                    <h2 class = "boxHeader">Date:</h2>
+                                                </div>
+                                                <div class = "col-sm-9 right">
+                                                    <h2 class = "boxHeader" id = "date"></h2>
+                                                </div>
+                                            </div>
+                                            <div class = "row">
+                                                <div class = "col-sm-3">
+                                                    <h2 class = "boxHeader">Start:</h2>
+                                                </div>
+                                                <div class = "col-sm-9 right">
+                                                    <h2 class = "boxHeader" id = "start"></h2>
+                                                </div>
+                                            </div>
+                                            <div class = "row">
+                                                <div class = "col-sm-3">
+                                                    <h2 class = "boxHeader">End:</h2>
+                                                </div>
+                                                <div class = "col-sm-9 right">
+                                                    <h2 class = "boxHeader" id = "end"></h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "contentBox" id = "tableBox" style = "padding:0px;height:35%;">
+                        <h3 class = "boxTitle" style = "padding-top:15px;padding-left:15px;" id = "tableTitle">Previous Reservations</h3>
+                        <div class = "tableContainer">
+                            <table class = "reserveTable">
+                                <tbody id = "tbody">
+                                    <tr>
+                                        <th class = "tableHeader">Location</th>
+                                        <th class = "tableHeader">Room/Floor</th>
+                                        <th class = "tableHeader">PC No.</th>
+                                        <th class = "tableHeader">Date</th>
+                                        <th class = "tableHeader">Start</th>
+                                        <th class = "tableHeader">End</th>
+                                    </tr>
+                                    <tr>
+                                    
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
+<<<<<<< HEAD
             <!-- footer -->
             <div class = "row footer">
                 <h3 class = "copyright">Copyright De La Salle University</h3>
             </div>
             <!-- footer end -->
+=======
+            <!-- footer-->
+            <div class = "row" id = "footer">
+                <div class = "footer">
+                    <h3 class = "copyright">Copyright De La Salle University</h3>
+                </div>
+            </div>
+            <!-- footer end-->
+>>>>>>> development
             
+        </div>
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog modal-md">
+
+              <!-- Modal content-->
+                <div class="modal-content">
+                        <h3 class = "modalText">Are you sure you want to cancel this reservation?</h3>
+                        <div class = "row">
+                            <div class = "col">
+                                <button type="button" id = "modalNo" class="btn btn-default" data-dismiss="modal">No</button>
+                            </div>
+                            <div class = "col">
+                                <button type="button" id = "modalYes" class="btn btn-default" data-dismiss="modal">Yes</button>
+                            </div>
+                        </div>
+                </div>
+
+            </div>
         </div>
     </body>
     <meta charset="utf-8">
@@ -134,37 +458,168 @@
         src="http://code.jquery.com/jquery-3.2.1.js"
         integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
         crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
         <script>
+<<<<<<< HEAD
             $("#logout").click(function(){
             	var form = document.createElement('form');
                 form.method = "GET";
                 form.action = "logout";
                 document.body.appendChild(form);
                 form.submit();
+=======
+                
+            $(document).ready(fix_table_height());
+            
+            function fix_table_height(){
+                $("#white").height($(".mainDiv").height() - $(".header").height() - 20);  
+                $("#tableBox").height($("#white").height() - $("#userInfo").height() - 170);
+                $(".tableContainer").height($("#tableBox").height() - $("#tableTitle").height()-40);
+            }
+            
+            $("#modalNo").click(function(){
+                
+>>>>>>> development
             });
+            
+            $("#modalYes").click(function(){
+                $(".reserveInfoNone").css("display","table");
+                $(".reservationInfo").css("display",'none');
+                $(".cancel").css('visibility', 'hidden');
+                
+                var temp = null;
+                
+                //TODO do $.get to remove the reservation
+                var path = "cancelPcReservation?" + "pcid=" + $("#pcnum").html() + 
+                                                    "&date=" + $("#date").html() +
+                                                    "&start=" + $("#start").html() +
+                                                    "&end=" + $("#end").html();
+                $.get(path, function(data){console.log("deleted")});
+                
+                fix_table_height();
+            });
+            
+	        $("#header_home").click(function(){
+	        	var form = document.createElement('form');
+	            form.method = "GET";
+	            form.action = "userpage";
+	            document.body.appendChild(form);
+	            form.submit();
+	        });
+	        
+	        $("#header_reserve").click(function(){
+	        	var form = document.createElement('form');
+	            form.method = "GET";
+	            form.action = "userreservationpage";
+	            document.body.appendChild(form);
+	            form.submit();
+	        });
+	    
+	        $("#logout").click(function(){
+	        	var form = document.createElement('form');
+	            form.method = "GET";
+	            form.action = "logout";
+	            document.body.appendChild(form);
+	            form.submit();
+	        });
+            
+            //$(document).ready(add_data_to_reserve_table(jasonarr));
+            
+            function add_data_to_user_info(user){
+                /*
+                    Receives a JSON object, format is as follows:
+                    {
+                        name:
+                        id:
+                        college:
+                        last_login:
+                    }
+                */
+                $("#welcome").html("Welcome " + user.name.split(" ")[0] + "!");
+                $("#user_name").html(user.name);
+                $("#id_number").html(user.id);
+                $("#college").html(user.college);
+                $("#last_login").html(user.last_login);
+            }
+            
+            function add_data_to_pending(jason){
+                /*
+                    Receives JSON object, format is as follows:
+                    {
+                        loc:
+                        room:
+                        pcnum:
+                        date:
+                        start:
+                        end:
+                    }
+                */
+                
+                console.log(jason);
+                
+                if(jason!=undefined){
+                    $(".reserveInfoNone").css("display","none");
+                    $(".reservationInfo").css("display",'block');
+                    $(".cancel").css('visibility', 'visible');
+                    
+                    
+                    $("#location").html(jason.location);
+                    $("#room").html(jason.room);
+                    $("#pcnum").html(jason.pcnum);
+                    $("#date").html(jason.date);
+                    $("#start").html(jason.start);
+                    $("#end").html(jason.end);
+                    
+                    fix_table_height();
+                }
+            }
+            
+            function add_data_to_reserve_table(jasonarr){
+                /*
+                    Expected parameter is a JSON array, JSON format is as follows:
+                    {
+                        location:
+                        room:
+                        pc_no:
+                        date:
+                        start:
+                        end:
+                    }
+                */
+                
+                //---WARNING---//
+                /*
+                    For efficient code, I just iterated through all properties in the JSON obj,
+                    so it will add to the column whatever property it has,
+                    so for safety or something, please pass only JSON objects that follow the 
+                    format above, thanks!
+                
+                */ 
+                
+                //check if user has reservations
+                
+                for(var i = 0 ; i < jasonarr.length ; i++){
+                    var jason = jasonarr[i];
+                    var row = $("<tr>");
+
+
+                    for(var key in jason){
+                        var col = $("<td>");
+                        col.addClass("tableCell");
+
+                        if(jason.hasOwnProperty(key)){
+                            col.html(jason[key]);
+                        }
+                        row.append(col);
+                    }
+
+                    $("#tbody").after(row);
+                }
+
+                add_data_to_pending(jasonarr[0]);
+                console.log(jasonarr[0]);
+            }
+            $.get("requestUserDetails",function(data){add_data_to_user_info(data);});
+            $.get("requestUserReservations",function(data){add_data_to_reserve_table(data);});
         </script>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

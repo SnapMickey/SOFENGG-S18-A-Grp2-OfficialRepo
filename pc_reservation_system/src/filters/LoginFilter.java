@@ -16,7 +16,9 @@ import beans.User;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter(urlPatterns = {"/userpage", "/adminpage", "/user_front_page.html", "/admin_front_page.html"})
+@WebFilter(urlPatterns = {"/userpage", "/adminpage", "/user_front_page.html", "/admin_front_page.html"
+						, "/userreservationpage", "/adminreservationpage", "/user_reservation_page.html"
+						, "/admin_reservation_page.html"})
 public class LoginFilter implements Filter {
 	/**
 	 * @see Filter#destroy()
@@ -48,6 +50,7 @@ public class LoginFilter implements Filter {
 		int id = -1;
 		String position = null;
 		
+<<<<<<< HEAD
 		try {
 		id = (Integer)httpRequest.getSession().getAttribute("id");
 		position = (String)httpRequest.getSession().getAttribute("position");
@@ -55,9 +58,14 @@ public class LoginFilter implements Filter {
 		catch(Exception e) {}
 		
 		if (id == -1) {
+=======
+		if (httpRequest.getSession(false) == null) {
+>>>>>>> development
 			httpResponse.sendRedirect(link + "RA");
 		}
 		else {		
+			id = (Integer)httpRequest.getSession().getAttribute("id");
+			position = (String)httpRequest.getSession().getAttribute("position");
 			
 			if(position.equals("admin") && !path.contains("admin")) {
 				httpResponse.sendRedirect("adminpage");
