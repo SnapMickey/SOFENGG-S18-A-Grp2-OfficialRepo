@@ -1,6 +1,9 @@
 <<<<<<< HEAD
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Lominoque, Jerome December 10, 2017
+- cleaned for Testing (Iteration 2)
+
 Rivera, Jared November 17, 2017
 - cleaned for Testing
 
