@@ -230,7 +230,7 @@
             border: solid;
             border-width: 1px;
             border-radius: 4px;
-            width:180px;
+            width:130px;
             font-family:'Avenir Next',sans-serif;
             font-weight: 600;
             font-size:15px;
@@ -355,6 +355,9 @@
             color: #4D4D4D;
             
         }
+        #tableContents{
+            border-top:0;
+        }
     </style>
     <head>
       
@@ -442,17 +445,21 @@
                                     <h3 class = "boxTitle">2. Reserve a PC</h3>
                                     <p style = "padding:0px;padding-top:5px;padding-left:10px;">Select a PC to reserve</p>
                                 </div>
+                                <div class = "tableHeaderContainer">
+                                    <table class = "reserveTable">
+                                        <tr>
+                                            <th class = "tableHeader">PC No.</th>
+                                            <th class = "tableHeader">Location</th>
+                                            <th class = "tableHeader">Room/Floor</th>
+                                            <th class = "tableHeader">Start Time</th>
+                                            <th class = "tableHeader">End Time</th>
+                                        </tr>
+                                    </table>
+                                </div>
                                 <div class = "tableContainer">
                                     <img class = "labImage" src = "">
-                                    <table class = "reserveTable" id = "pcTable">
+                                    <table class = "reserveTable" id = 'tableContents'>
                                         <tbody id = "PCtable">
-                                            <tr>
-                                                <th class = "tableHeader">PC No.</th>
-                                                <th class = "tableHeader">Location</th>
-                                                <th class = "tableHeader">Room/Floor</th>
-                                                <th class = "tableHeader">Start Time</th>
-                                                <th class = "tableHeader">End Time</th>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -536,7 +543,7 @@
             function fix_table_height(){
                 $("#white").height($(".mainDiv").height() - $(".header").height() - 35);
                 //$("#mainbox").height($("").height() - $(""))
-                $(".tableContainer").height($("#tableParent").height() - $("#tableTitle").height() - $("#buttonHolder").height() - 20);
+                $(".tableContainer").height($("#tableParent").height() - $("#tableTitle").height() - $("#buttonHolder").height() - 20 - $(".tableHeaderContainer").height());
             }
             
             
@@ -560,7 +567,7 @@
             var popUpDiv = document.getElementById("popUpID");
             var popUpSize = document.getElementById("popUpContentID");
             
-            var selectedPc, selectedSTime, selectedETime, selectedRoom, selectedDate, selectedBldg;
+            var selectedPc, selectedTime, selectedRoom, selectedDate, selectedBldg;
             
              var reserveUrl = "userReserve?"
             $("#reservePCBtn").click(function(){
@@ -569,9 +576,11 @@
                         
                 $.get("requestUserReservations",function(data){
                     //check if row is selected and if user has NO current reservations
-                    console.log(data)
-                    if(selected_row != null && data.length == 0){
-                   
+                    
+                    console.log(data);
+                    if(data.length!= 0){
+                        $("#errorModal").modal('show');
+                    }else if(selected_row!= null && data.length == 0){
                         console.log("preparing reservation..");
                         var pc, building, room, sTime, eTime, date;
                         date = selectedDate;
@@ -579,52 +588,17 @@
                         room = selectedRoom;
                         building = selectedBldg;
 
-                        sTime = selectedSTime;
-                        eTime = selectedETime;
-                        var rawSTime, rawETime, suffixSTime, suffixETime, finalSTime, finalETime;
-                        rawSTime = parseInt(sTime);
-                        rawETime = parseInt(eTime);
-                        suffixSTime = sTime.substr(sTime.length - 2);
-                        suffixETime = eTime.substr(eTime.length - 2);
-                
-                        /* 
-                         * Creates the time to be inserted in the DB based on the
-                         * highlighted choice of the user
-                         */
-                        
-                        if(suffixSTime == "AM"){
-                            if(rawSTime < 10){
-                                finalSTime = "0" + rawSTime + ":00:00";
-                            }else if(rawSTime > 10){
-                                finalSTime = rawSTime + ":00:00";
-                            }
-                            
-                            if(suffixETime == "PM"){
-                                if(rawETime < 12){
-                                    finalETime = (rawETime + 12) + ":00:00";
-                                }else if(rawETime == 12){
-                                    finalETime = rawETime + ":00:00";
-                                }
-                            }else{
-                                if(rawETime < 10){
-                                    finalETime = "0" + rawETime + ":00:00";
-                                }else if(rawSTime > 10){
-                                    finalETime = rawETime + ":00:00";
-                                }
-                            }
-                        }else if(suffixSTime == "PM"){
-                            if(rawSTime == 12){
-                                finalSTime = rawSTime + ":00:00";
-                                finalETime = (rawETime + 12) + ":00:00";
-                            }else{
-                                finalSTime = (rawSTime + 12) + ":00:00";
-                                finalETime = (rawETime + 12) + ":00:00";
-                            }
-                            
+                        var tempTime = parseInt(selectedTime);
+                        if(tempTime < 10){
+                            sTime = "0" + tempTime + ":00:00";
+                            eTime = "0" + (tempTime + 1) + ":00:00";
+                        }else{
+                            sTime = tempTime + ":00:00";
+                            eTime = (tempTime + 1) + ":00:00";
                         }
 
                         reserveUrl += "pc=" + pc + "&building=" + building + "&room=" + room +
-                               "&sTime=" + finalSTime + "&eTime=" + finalETime + "&date=" + date;
+                               "&sTime=" + sTime + "&eTime=" + eTime + "&date=" + date;
 
                         console.log(pc + building + room + sTime + eTime + date);
 
@@ -651,8 +625,6 @@
                         yesBtn.style.display = "block";
                         noBtn.style.display = "block";
                         
-                    }else if(data.length != 0){
-                        $("#errorModal").modal('show');
                     }
                 });
                 
@@ -745,7 +717,6 @@
                     $(this).html("VIEW LAYOUT");
                 }
             });
-            
             $(".filterButton").click(function(){
                 console.log("searching..");
             
@@ -872,29 +843,29 @@
                 }
             }
             
-            var listGoks = [{text:'G201',val:'G201'},
-                           {text:'G202',val:'G202'},
-                           {text:'G203',val:'G203'},
-                           {text:'G301',val:'G301'},
-                           {text:'G302',val:'G302'}];
+            var listGoks = [{text:'G201',value:'G201'},
+                           {text:'G202',value:'G202'},
+                           {text:'G203',value:'G203'},
+                           {text:'G301',value:'G301'},
+                           {text:'G302',value:'G302'}];
             
-            var listVel = [{text:'V201',val:'V201'},
-                          {text:'V202',val:'V202'},
-                          {text:'V203',val:'V203'},
-                          {text:'V301',val:'V301'},
-                          {text:'V302',val:'V302'}];
+            var listVel = [{text:'V201',value:'V201'},
+                          {text:'V202',value:'V202'},
+                          {text:'V203',value:'V203'},
+                          {text:'V301',value:'V301'},
+                          {text:'V302',value:'V302'}];
             
-            var listMig = [{text:'M201',val:'M201'},
-                          {text:'M202',val:'M202'},
-                          {text:'M203',val:'M203'},
-                          {text:'M301',val:'M301'},
-                          {text:'M302',val:'M302'}];
+            var listMig = [{text:'M201',value:'M201'},
+                          {text:'M202',value:'M202'},
+                          {text:'M203',value:'M203'},
+                          {text:'M301',value:'M301'},
+                          {text:'M302',value:'M302'}];
             
-            var listHenry = [{text:'6th Floor',val:'6th'},
-                            {text:'7th Floor',val:'7th'},
-                            {text:'8th Floor',val:'8th'},
-                            {text:'9th Floor',val:'9th'},
-                            {text:'10th Floor',val:'10th'}];
+            var listHenry = [{text:'6th Floor',value:'6th'},
+                            {text:'7th Floor',value:'7th'},
+                            {text:'8th Floor',value:'8th'},
+                            {text:'9th Floor',value:'9th'},
+                            {text:'10th Floor',value:'10th'}];
             
             $("#bldgList").change(function(){
                 console.log("bldgList changed");
@@ -926,10 +897,9 @@
                 console.log(tempArr);
                 var i = -1;
                 while(i++<len){
-                    console.log(i);
                     console.log(tempArr[i]);
                     var option = document.createElement("option");
-                    option.value = tempArr[i].val;
+                    option.value = tempArr[i].value;
                     option.textContent = tempArr[i].text;
                     roomList.appendChild(option);
                 }
@@ -953,7 +923,7 @@
                 for(var i = jasonarr.length - 1; i >= 0 ; i--){
                     var jason = jasonarr[i];
                     var row = $("<tr>");
-                    
+                    row.addClass('clickable');
                     //Prints all the things, in the order that they came
                     for(var key in jason){
                         var col = $("<td>");
@@ -969,7 +939,7 @@
             
             
             
-            $(document).on('click','.reserveTable tr',function(){
+            $(document).on('click','.clickable',function(){
                 $(this).addClass('selected').siblings().removeClass('selected');
                 var temp = $(this).children();
                 selected_row = {
@@ -990,12 +960,10 @@
                 selectedPc = selected_row.pcno;
                 selectedBldg = selected_row.location
                 selectedRoom = selected_row.room;
-                selectedSTime = selected_row.start;
-                selectedETime = selected_row.end;
+                selectedTime = selected_row.start;
                 selectedDate = document.getElementById("dateDropdown").value;
                 
                 console.log(selected_row);
             });
-            
         </script>
 </html>
