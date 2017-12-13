@@ -1,4 +1,8 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+Bornales, Amiel James December 14, 2017
+Changes made:
+- fixed bug in user reserve where the header was clickable
+- made table header stay when scrolling
 
 Bornales, Amiel James December 9, 2017
 Changes made:
