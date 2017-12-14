@@ -630,6 +630,8 @@
                 
                 var startTimeCompute; 
                 var endTimeCompute; 
+                var startTime;
+                var endTime;
 
                 path = "";
                 if(labSelected){
@@ -658,8 +660,8 @@
                     path = 'cancelPcReservation?';
                     path += "pcid=" + selected_lab.pcno + 
                             "&date=" + date +
-                            "&start=" + startTimeCompute +
-                            "&end=" + endTimeCompute;
+                            "&start=" + startTime +
+                            "&end=" + endTime;
                 }else{
                     $(".selected_pc").remove();
                     dates = selected_reserve.date.split('/');
@@ -685,8 +687,8 @@
                     path = 'cancelLabReservation?';
                     path += "pcid=" + selected_reserve.pcno + 
 		                    "&date=" + date +
-		                    "&start=" + startTimeCompute +
-		                    "&end=" + endTimeCompute;
+		                    "&start=" + startTime +
+		                    "&end=" + endTime;
                 }
                 console.log(path);
                 $.get(path,function(data){console.log("removed reservation")});
@@ -707,7 +709,8 @@
                 
                 var startTimeCompute; 
                 var endTimeCompute; 
-                
+                var startTime;
+                var endTime;
                 
                 if(labSelected){
                 	dates = selected_lab.date.split('/');
@@ -738,8 +741,8 @@
                             "&userID=" + selected_lab.id +
                             "&locationID=" + selected_lab.location +
                             "&date=" + date +
-                            "&start=" + startTimeCompute +
-                            "&end=" + endTimeCompute;
+                            "&start=" + startTime +
+                            "&end=" + endTime;
                     console.log(selected_lab);
                 }else{
                 	startTimeCompute = parseInt(selected_reserve.start); 
@@ -768,8 +771,8 @@
                     "&locationID=" + selected_reserve.location+
                     "&pcID=" + selected_reserve.pcno+
                     "&date=" + date +
-                    "&start=" + startTimeCompute +
-                    "&end=" + endTimeCompute;
+                    "&start=" + startTime +
+                    "&end=" + endTime;
                     console.log(selected_reserve);
                 }
                 console.log(path);
