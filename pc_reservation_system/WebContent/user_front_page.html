@@ -464,11 +464,32 @@
                 
                 var temp = null;
                 
+                var dates = $("#date").html().split('/');
+                var date = dates[2] + "-" + dates[1] + "-" + dates[0]
+                
+                var startTimeCompute = parseInt(startTime); 
+                if(startTimeCompute < 10){
+                    startTime = "0" + startTimeCompute + ":00:00";
+                }
+                else{
+                    startTime = startTimeCompute + ":00:00";
+                }
+                
+                var endTimeCompute = parseInt(startTime); 
+                if(endTimeCompute < 10){
+                    endTime = "0" + (endTimeCompute + 1) + ":00:00";
+                }
+                else{
+                    endTime = (endTimeCompute + 1) + ":00:00";
+                }
+                
+                
+                
                 //TODO do $.get to remove the reservation
                 var path = "cancelPcReservation?" + "pcid=" + $("#pcnum").html() + 
-                                                    "&date=" + $("#date").html() +
-                                                    "&start=" + $("#start").html() +
-                                                    "&end=" + $("#end").html();
+                                                    "&date=" + date +
+                                                    "&start=" + startTime +
+                                                    "&end=" + endTime
                 $.get(path, function(data){console.log("deleted")});
                 
                 fix_table_height();

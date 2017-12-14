@@ -1118,18 +1118,16 @@ public class SystemController extends HttpServlet {
 		startTime = request.getParameter("start");
 		endTime = request.getParameter("end");
 
-		uID = Integer.parseInt(userID);
-		lID = Integer.parseInt(locationID);
-		
 		date = null;
 		sTime = null;
 		eTime = null;
 
 		try {
-			date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate);
+			date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + startTime);
 			sTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + startTime);
 			eTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + endTime);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		if (pcID != null) {
@@ -1159,14 +1157,11 @@ public class SystemController extends HttpServlet {
 		startTime = request.getParameter("start");
 		endTime = request.getParameter("end");
 
-		uID = Integer.parseInt(userID);
-		lID = Integer.parseInt(locationID);
-
 		date = null;
 		sTime = null;
 		eTime = null;
 		try {
-			date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate);
+			date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + startTime);
 			sTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + startTime);
 			eTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + endTime);
 		} catch (Exception e) {
@@ -1201,7 +1196,7 @@ public class SystemController extends HttpServlet {
 		pID = -1;
 
 		try {
-			date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate);
+			date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + startTime);
 			sTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + startTime);
 			eTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + endTime);
 			pID = Integer.parseInt(pcID);
@@ -1233,9 +1228,6 @@ public class SystemController extends HttpServlet {
 		startTime = request.getParameter("start");
 		endTime = request.getParameter("end");
 
-		uID = Integer.parseInt(userID);
-		lID = Integer.parseInt(locationID);
-		
 		date = null;
 		sTime = null;
 		eTime = null;

@@ -623,23 +623,70 @@
             });
             
             $("#modalYesCancel").click(function(){
+            	
+            	
+            	var dates;
+                var date
+                
+                var startTimeCompute; 
+                var endTimeCompute; 
+
                 path = "";
                 if(labSelected){
+                	dates = selected_pc.date.split('/');
+                	date = dates[2] + "-" + dates[1] + "-" + dates[0];
+                	
+                	startTimeCompute = parseInt(selected_lab.start); 
+                    endTimeCompute = parseInt(selected_lab.start); 
+                    
+                    if(startTimeCompute < 10){
+                        startTime = "0" + startTimeCompute + ":00:00";
+                    }
+                    else{
+                        startTime = startTimeCompute + ":00:00";
+                    }
+                    
+                    if(endTimeCompute < 10){
+                        endTime = "0" + (endTimeCompute + 1) + ":00:00";
+                    }
+                    else{
+                        endTime = (endTimeCompute + 1) + ":00:00";
+                    }
+                    
                     $(".selected_lab").remove();
                     //TODO Delete row from db, selected_lab json has all details
                     path = 'cancelPcReservation?';
                     path += "pcid=" + selected_lab.pcno + 
-                            "&date=" + selected_lab.date +
-                            "&start=" + selected_lab.start +
-                            "&end=" + selected_lab.end;
+                            "&date=" + date +
+                            "&start=" + startTimeCompute +
+                            "&end=" + endTimeCompute;
                 }else{
                     $(".selected_pc").remove();
+                    dates = selected_reserve.date.split('/');
+                	date = dates[2] + "-" + dates[1] + "-" + dates[0];
+                	
+                	startTimeCompute = parseInt(selected_reserve.start); 
+                    endTimeCompute = parseInt(selected_reserve.start); 
+                    
+                    if(startTimeCompute < 10){
+                        startTime = "0" + startTimeCompute + ":00:00";
+                    }
+                    else{
+                        startTime = startTimeCompute + ":00:00";
+                    }
+                     
+                    if(endTimeCompute < 10){
+                        endTime = "0" + (endTimeCompute + 1) + ":00:00";
+                    }
+                    else{
+                        endTime = (endTimeCompute + 1) + ":00:00";
+                    }
                     //TODO Delete row from db, selected_reserve json has all details
                     path = 'cancelLabReservation?';
                     path += "pcid=" + selected_reserve.pcno + 
-                            "&date=" + selected_reserve.date +
-                            "&start=" + selected_reserve.start +
-                            "&end=" + selected_reserve.end;
+		                    "&date=" + date +
+		                    "&start=" + startTimeCompute +
+		                    "&end=" + endTimeCompute;
                 }
                 console.log(path);
                 $.get(path,function(data){console.log("removed reservation")});
@@ -654,7 +701,35 @@
             $("#modalYesCfm").click(function(){
                 var checkbox = null;
                 var path = "";
+                
+                var dates;
+                var date;
+                
+                var startTimeCompute; 
+                var endTimeCompute; 
+                
+                
                 if(labSelected){
+                	dates = selected_lab.date.split('/');
+                	date = dates[2] + "-" + dates[1] + "-" + dates[0];
+                	
+                	startTimeCompute = parseInt(selected_lab.start); 
+                    endTimeCompute = parseInt(selected_lab.start); 
+                    
+                    if(startTimeCompute < 10){
+                        startTime = "0" + startTimeCompute + ":00:00";
+                    }
+                    else{
+                        startTime = startTimeCompute + ":00:00";
+                    }
+                    
+                    if(endTimeCompute < 10){
+                        endTime = "0" + (endTimeCompute + 1) + ":00:00";
+                    }
+                    else{
+                        endTime = (endTimeCompute + 1) + ":00:00";
+                    }
+                    
                     checkbox = $(".selected_lab").children().last().children().first().children().first();
                     path = "confirmLabReservation";
                     path+=  
@@ -662,11 +737,29 @@
                             "&eventName=" + selected_lab.event +
                             "&userID=" + selected_lab.id +
                             "&locationID=" + selected_lab.location +
-                            "&date=" + selected_lab.date +
-                            "&start=" + selected_lab.start +
-                            "&end=" + selected_lab.end;
+                            "&date=" + date +
+                            "&start=" + startTimeCompute +
+                            "&end=" + endTimeCompute;
                     console.log(selected_lab);
                 }else{
+                	startTimeCompute = parseInt(selected_reserve.start); 
+                    endTimeCompute = parseInt(selected_reserve.start); 
+                    
+                    if(startTimeCompute < 10){
+                        startTime = "0" + startTimeCompute + ":00:00";
+                    }
+                    else{
+                        startTime = startTimeCompute + ":00:00";
+                    }
+                    
+                    if(endTimeCompute < 10){
+                        endTime = "0" + (endTimeCompute + 1) + ":00:00";
+                    }
+                    else{
+                        endTime = (endTimeCompute + 1) + ":00:00";
+                    }
+                	dates = selected_reserve.date.split('/');
+                	date = dates[2] + "-" + dates[1] + "-" + dates[0];
                     checkbox = $(".selected_pc").children().last().children().first().children().first();
                     path = "confirmPcReservation?";
                     path+=
@@ -674,9 +767,9 @@
                     "&userID=" + selected_reserve.id+
                     "&locationID=" + selected_reserve.location+
                     "&pcID=" + selected_reserve.pcno+
-                    "&date=" + selected_reserve.date+
-                    "&start=" + selected_reserve.start+
-                    "&end=" + selected_reserve.end;
+                    "&date=" + date +
+                    "&start=" + startTimeCompute +
+                    "&end=" + endTimeCompute;
                     console.log(selected_reserve);
                 }
                 console.log(path);
