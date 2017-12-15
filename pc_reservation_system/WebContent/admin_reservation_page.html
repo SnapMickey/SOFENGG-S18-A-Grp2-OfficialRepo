@@ -41,22 +41,58 @@
             font-size:15px;
         }
         
+        
+        th{
+             height: 0;
+        line-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+            color:transparent;
+        border: none;
+        white-space: nowrap;
+        }
+        
+        th div{
+            position: absolute;
+            color:black;
+            background: floralwhite;
+            padding: 9px 25px;
+            top: 0;
+            margin-left: 30px;
+            line-height: normal;
+            border-collapse: collapse;
+        }
         .reserveTableDiv{
-            overflow-y: scroll;
+            margin-top: 3px
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow-y: auto;
+            margin-top: 5px;
+            width:100%;
+            height:99%;
+            border: solid gray;
+            border-width: 0px 1px 1px 1px;
+            /* no top border */
+        }
+        
+        section{
             white-space: nowrap;
             text-overflow: ellipsis;
             margin-top: 5px;
             width:100%;
             height:85%;
             border: solid gray;
-            border-width: 0px 1px 1px 1px;
-            /* no top border */
+            border-width: 1px 1px 1px 1px;
+            position: relative;
+            padding-top: 37px;
         }
         
         .reserveTable{
-            
+            table-layout: fixed;
+            border-collapse: collapse;
             margin-top: 0px;
             width: 100%;
+            height: 90%;
         }
         
         .reserveTable td{
@@ -292,7 +328,6 @@
         }
         .container-fluid{
             height: 100%;
-            overflow-y: hidden; /* don't show content that exceeds my height */
         }
         .mainDiv{
             background-color:#CCCCCC;
@@ -551,37 +586,39 @@
                     <div class="reserveHeaderDiv">
                     <span class="mainHeader"> <b>3. Reserve A PC </b> </span> <span class="mainHeader2"> Select a PC to reserve </span>
                     </div>
+                    <section>
                     <div class="reserveTableDiv">
                     <table class="reserveTable" id="reserveListTable">
                         <thead>
                             <tr class="reserveTableHead" style="pointer-events: none;">
-                                <th height="40">
-                                    <center> PC No. </center>
+                                <th height="40" style="background:floralwhite">
+                                    <div> <center> PC No. </center> </div>
                                 </th>
                                     
                                 <th>
-                                    <center> Location </center>
+                                    <div> <center> Location </center></div>
                                 </th>
                                 
                                 <th>
-                                    <center> Room/Floor </center>
+                                    <div><center> Room/Floor </center></div>
                                 </th>
                                 
                                 <th>
-                                    <center> Start Time </center>
+                                    <div><center> Start Time </center></div>
                                 </th>
                                 
                                 <th>
-                                    <center> End Time </center>
+                                    <div><center> End Time </center></div>
                                 </th>
                             </tr>
                         </thead>
-                        <tbody id="PCtable" class="reserveTableData">
+                        <tbody id="PCtable" class="reserveTableData" style="overflow:scroll;">
                             
                         </tbody>
                     </table>
                         
                     </div>
+                    </section>
                      <div class = "row" style = "padding:0px; margin:10px 0px;">
                           <div class = "col">
                               <button class = "disabledReserveButtons" disabled="true" id="viewLayout">VIEW LAYOUT</button>
@@ -603,7 +640,7 @@
                     <div class="modal-content">
                             <h3 class = "modalText">This user cannot reserve until his/her current reservation is over.</h3>
                             
-                            <button type="button" id = "modalOk" class="btn btn-default" data-dismiss="modal">Ok</button>
+                            <button type="button" id = "modalOk" class="btn btn-default" data-dismiss="modal">OK</button>
                     </div>
 
                 </div>
@@ -662,7 +699,21 @@
             var selectedPc, selectedBldg, selectedSTime, selectedETime, selectedRoom, selectedDate, selectedId, selectedEventName;
             
             function setValues(){
+                var sampleArr = [];
+                var temp
+                for(var i = 0; i < 20; i++){
+                    temp ={
+                        pcno: "la",
+                        location: "la",
+                        room: "la",
+                        start: "la",
+                        end: "la"
+                    };
+                    
+                    sampleArr.push(temp);
+                }
                 
+                add_table_data(sampleArr);
             /* Header Functions */
             
             $("#dashboardBtn").click(function(){

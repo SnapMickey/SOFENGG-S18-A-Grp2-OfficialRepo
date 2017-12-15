@@ -1,4 +1,12 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+
+Lominoque, Jerome December 15, 2017
+Changes made:
+- Made the position of the table header fixed
+
+Errors/Problems:
+- When resized, it cannot be scrolled up until the bottom
+
 Bornales, Amiel James December 14, 2017
 Changes made:
 - fixed bug in user reserve where the header was clickable
