@@ -1,5 +1,17 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Rivera, Jared December 15, 2017
+Changes Made:
+- fixed confirm and cancel reservation action, by changing the date and time formats for parsing in admin and user front page
+- fixed SystemService methods: getPcReservation(), getLabReservation.
+
+Errors:
+- Cancel reservation encounters following error:
+	"XML Parsing Error: no root element found
+Location: http://localhost:8080/pc_reservation_system/cancelLabReservation?pcid=17&date=2017-10-23&start=08:00:00&end=09:00:00
+Line Number 1, Column 1:"
+- Confirmed reservations are not reflected in the frontpage( checkboxes arent checked for confirmed reservation)
+
 Lominoque, Jerome December 15, 2017
 Changes made:
 - Made the position of the table header fixed

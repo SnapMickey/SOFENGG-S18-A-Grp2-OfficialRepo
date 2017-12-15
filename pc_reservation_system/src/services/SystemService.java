@@ -226,11 +226,12 @@ public class SystemService {
 
 		PcReservation pr = null;
 		String statement = "select pr from pc_reservations pr "
-				+ "where pc.pcID = pr.pcID and HOUR(pr.dateTimeStart) = " + startTime.getHours()
+				+ "where pr.pcID = " + pcID + " and HOUR(pr.dateTimeStart) = " + startTime.getHours()
 				+ " and HOUR(pr.dateTimeEnd) = " + endTime.getHours() + " and DATE(pr.dateTimeStart) = " + "\'"
-				+ (startTime.getYear() + 1900) + "-" + (startTime.getMonth() + 1) + "-" + startTime.getDate() + "\'"
-				+ ")";
+				+ (startTime.getYear() + 1900) + "-" + (startTime.getMonth()+2) + "-" + startTime.getDate() + "\'"
+				;
 
+		System.out.println(statement);
 		try {
 			trans.begin();
 
@@ -280,17 +281,19 @@ public class SystemService {
 		return lr;
 	}
 	
-	public static LabReservation getLabReservation(Date date, Date startTime, Date endTime, int locationID) {
+	public static LabReservation getLabReservation(Date date, Date startTime, Date endTime, String name) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction trans = em.getTransaction();
 
 		LabReservation lr = null;
-		String statement = "select lr from lab_reservations lr" + " where lr.locationID = " + locationID + "and HOUR(lr.dateTimeStart) = "
+		String statement = "select lr from lab_reservations lr, lab l" + " where lr.locationID = l.locationID and l.name = " + name + " and HOUR(lr.dateTimeStart) = "
 				+ startTime.getHours() + " and HOUR(lr.dateTimeEnd) = " + endTime.getHours()
 				+ " and DATE(lr.dateTimeStart) = " + "\'" + (startTime.getYear() + 1900) + "-"
-				+ (startTime.getMonth() + 1) + "-" + startTime.getDate() + "\'" + ")";
+				+ (startTime.getMonth() + 2) + "-" + startTime.getDate() + "\'";
 
+		System.out.println(statement);
+		
 		try {
 			trans.begin();
 

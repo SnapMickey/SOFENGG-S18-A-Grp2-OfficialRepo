@@ -1144,14 +1144,14 @@ public class SystemController extends HttpServlet {
 	 */
 	private void confirmLabReservation(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		String name, eventName, userID, locationID, pcID, reservationDate, startTime, endTime;
+		String name, eventName, userID, location, pcID, reservationDate, startTime, endTime;
 		int uID, lID, pID;
 		Date date, sTime, eTime;
 
 		name = request.getParameter("name");
 		eventName = request.getParameter("eventName");
 		userID = request.getParameter("userID");
-		locationID = request.getParameter("locationID");
+		location = request.getParameter("location");
 		pcID = request.getParameter("pcID");
 		reservationDate = request.getParameter("date");
 		startTime = request.getParameter("start");
@@ -1170,8 +1170,8 @@ public class SystemController extends HttpServlet {
 		if (pcID != null) {
 			pID = Integer.parseInt(pcID);
 
-			LabReservation pr = SystemService.getLabReservation(date, sTime, eTime, pID);
-			SystemService.removeLabReservation(pr.getLabReservationID());
+			LabReservation pr = SystemService.getLabReservation(date, sTime, eTime, location);
+			SystemService.confirmLabReservation(pr.getLabReservationID());
 		} 
 	}
 
@@ -1215,14 +1215,14 @@ public class SystemController extends HttpServlet {
 	 */
 	private void cancelLabReservation(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
-		String name, eventName, userID, locationID, pcID, reservationDate, startTime, endTime;
+		String name, eventName, userID, location, pcID, reservationDate, startTime, endTime;
 		int uID, lID, pID;
 		Date date, sTime, eTime;
 
 		name = request.getParameter("name");
 		eventName = request.getParameter("eventName");
 		userID = request.getParameter("userID");
-		locationID = request.getParameter("locationID");
+		location = request.getParameter("location");
 		pcID = request.getParameter("pcID");
 		reservationDate = request.getParameter("date");
 		startTime = request.getParameter("start");
@@ -1233,7 +1233,7 @@ public class SystemController extends HttpServlet {
 		eTime = null;
 
 		try {
-			date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate);
+			date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + startTime);
 			sTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + startTime);
 			eTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + endTime);
 		} catch (Exception e) {
@@ -1242,7 +1242,7 @@ public class SystemController extends HttpServlet {
 		if (pcID != null) {
 			pID = Integer.parseInt(pcID);
 			
-			LabReservation pr = SystemService.getLabReservation(date, sTime, eTime, pID);
+			LabReservation pr = SystemService.getLabReservation(date, sTime, eTime, location);
 			SystemService.removePcReservation(pr.getLabReservationID());
 		} 
 	}
