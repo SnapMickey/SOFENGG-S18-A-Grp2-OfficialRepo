@@ -651,13 +651,13 @@
                 	startTimeCompute = parseInt(selected_lab.start); 
                     endTimeCompute = parseInt(selected_lab.end); 
                     
-                    if(selected_reserve.start.indexOf("PM")){
+                    if(selected_reserve.start.indexOf("PM") != -1){
                     	if(startTimeCompute % 12 != 0){
                     		startTimeCompute = startTimeCompute + 12;
                     	}
                     }
                     
-                    if(selected_reserve.end.indexOf("PM")){
+                    if(selected_reserve.end.indexOf("PM") != -1){
                     	if(endTimeCompute % 12 != 0)
                     		endTimeCompute = endTimeCompute + 12;
                     }
@@ -676,6 +676,7 @@
                         endTime = endTimeCompute + ":00:00";
                     }
                     
+                    
                     $(".selected_lab").remove();
                     //TODO Delete row from db, selected_lab json has all details
                     path = 'cancelLabReservation?';
@@ -692,12 +693,12 @@
                 	startTimeCompute = parseInt(selected_reserve.start); 
                     endTimeCompute = parseInt(selected_reserve.end); 
                     
-                    if(selected_reserve.start.indexOf("PM")){
+                    if(selected_reserve.start.indexOf("PM") != -1){
                     	if(startTimeCompute % 12 != 0)
                     		startTimeCompute = startTimeCompute + 12;
                     }
                     
-                    if(selected_reserve.end.indexOf("PM")){
+                    if(selected_reserve.end.indexOf("PM") != -1){
                     	if(endTimeCompute % 12 != 0)
                     		endTimeCompute = endTimeCompute + 12;
                     }
@@ -716,6 +717,8 @@
                         endTime = endTimeCompute + ":00:00";
                     }
                     //TODO Delete row from db, selected_reserve json has all details
+                    
+                    
                     
                     path = 'cancelPcReservation?';
                     path += "pcID=" + selected_reserve.pcno + 
@@ -754,12 +757,12 @@
                 	startTimeCompute = parseInt(selected_lab.start); 
                     endTimeCompute = parseInt(selected_lab.end); 
                     
-                    if(selected_reserve.start.indexOf("PM")){
+                    if(selected_reserve.start.indexOf("PM") != -1){
                     	if(startTimeCompute % 12 != 0)
                     		startTimeCompute = startTimeCompute + 12;
                     }
                     
-                    if(selected_reserve.end.indexOf("PM")){
+                    if(selected_reserve.end.indexOf("PM") != -1){
                     	if(endTimeCompute % 12 != 0)
                     		endTimeCompute = endTimeCompute + 12;
                     }
@@ -793,12 +796,12 @@
                 	startTimeCompute = parseInt(selected_reserve.start); 
                     endTimeCompute = parseInt(selected_reserve.end); 
                     
-                    if(selected_reserve.start.indexOf("PM")){
+                    if(selected_reserve.start.indexOf("PM") != -1){
                     	if(startTimeCompute % 12 != 0)
                     		startTimeCompute = startTimeCompute + 12;
                     }
                     
-                    if(selected_reserve.end.indexOf("PM")){
+                    if(selected_reserve.end.indexOf("PM") != -1){
                     	if(endTimeCompute % 12 != 0)
                     		endTimeCompute = endTimeCompute + 12;
                     }

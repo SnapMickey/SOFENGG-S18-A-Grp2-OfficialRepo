@@ -474,12 +474,12 @@
                 startTimeCompute = parseInt(start); 
                 endTimeCompute = parseInt(end); 
                 
-                if(start.indexOf("PM")){
+                if(start.indexOf("PM") != -1){
                 	if(startTimeCompute % 12 == 0)
                 		startTimeCompute = startTimeCompute + 12;
                 }
                 
-                if(end.indexOf("PM")){
+                if(end.indexOf("PM") != -1){
                 	if(endTimeCompute % 12 == 0)
                 		endTimeCompute = endTimeCompute + 12;
                 }
