@@ -574,11 +574,12 @@
                 //selected row will contain whatever row was selected, if non was selected, null will be given
                 console.log(selected_row);
                         
-                $.get("requestUserReservations",function(data){
+                $.get("getPendingReservationOfUser",function(data){
                     //check if row is selected and if user has NO current reservations
                     
                     console.log(data);
-                    if(data.length!= 0){
+                    var jason = data[0];
+                    if(jason != undefined){
                         $("#errorModal").modal('show');
                     }else if(selected_row!= null && data.length == 0){
                         console.log("preparing reservation..");
@@ -778,11 +779,11 @@
                 $("#reservePCBtn").addClass("disabledReserveButtons");
                 $("#layout").addClass("disabledReserveButtons");
                 
-                var elmtTable = document.getElementById('pcTable');
+                var elmtTable = document.getElementById('PCtable');
                 var tableRows = elmtTable.getElementsByTagName('tr');
                 var rowCount = tableRows.length;
                 
-                for (var x=rowCount-1; x>0; x--) {
+                for (var x=rowCount-1; x>=0; x--) {
                     elmtTable.removeChild(tableRows[x]);
                 }  
             }
@@ -896,7 +897,7 @@
                 var len = tempArr.length;
                 console.log(tempArr);
                 var i = -1;
-                while(i++<len){
+                while(i++<len-1){
                     console.log(tempArr[i]);
                     var option = document.createElement("option");
                     option.value = tempArr[i].value;
