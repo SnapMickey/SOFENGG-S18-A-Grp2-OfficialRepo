@@ -135,10 +135,10 @@ public class SystemController extends HttpServlet {
 			confirmPcReservation(request, response);
 			break;
 		case "/cancelLabReservation":
-			cancelPcReservation(request, response);
+			cancelLabReservation(request, response);
 			break;
 		case "/confirmLabReservation":
-			confirmPcReservation(request, response);
+			confirmLabReservation(request, response);
 			break;
 		case "/checkifuserexists":
 			checkIfUserExists(request, response);
@@ -883,7 +883,6 @@ public class SystemController extends HttpServlet {
 			json.addProperty("location", lab.getName());
 			json.addProperty("pcnum", pcId);
 			
-			
 			if (startT.getHours() <= 12) {
 				// 1:0 -> 11:0
 				if (startT.getHours() == 0)
@@ -930,10 +929,9 @@ public class SystemController extends HttpServlet {
 				eTime += "PM";
 			}
 
-			json.addProperty("date", "" + endT.getDate() + "/" + endT.getMonth() + "/" + (endT.getYear() + 1900));
-			json.addProperty("start", sTime);
-			json.addProperty("end", eTime);
 			
+			json.addProperty("date", "" + endT.getDate() + "/" + endT.getMonth() + "/" + (endT.getYear() + 1900));
+			json.addProperty("end", eTime);
 			
 
 			reservations.add(json);
@@ -1365,8 +1363,8 @@ public class SystemController extends HttpServlet {
 			sTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + startTime);
 			eTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + endTime);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
 			LabReservation pr = SystemService.getLabReservation(date, sTime, eTime, location);
 			SystemService.confirmLabReservation(pr.getLabReservationID());
 	}
@@ -1434,14 +1432,11 @@ public class SystemController extends HttpServlet {
 			sTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + startTime);
 			eTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + endTime);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-		if (pcID != null) {
-			pID = Integer.parseInt(pcID);
-			
 			LabReservation pr = SystemService.getLabReservation(date, sTime, eTime, location);
-			SystemService.removePcReservation(pr.getLabReservationID());
-		} 
+			SystemService.removeLabReservation(pr.getLabReservationID());
 	}
 
 	/**
