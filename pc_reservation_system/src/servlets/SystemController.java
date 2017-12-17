@@ -674,7 +674,7 @@ public class SystemController extends HttpServlet {
 			json.addProperty("id", lab.getLocationID());
 			json.addProperty("location", lab.getName());
 			json.addProperty("event", lr.getEventName());
-			json.addProperty("date", "" + endT.getDate() + "/" + endT.getMonth() + "/" + (endT.getYear() + 1900));
+			json.addProperty("date", "" + endT.getDate() + "/" + (endT.getMonth() + 1) + "/" + (endT.getYear() + 1900));
 			json.addProperty("start", sTime);
 			json.addProperty("end", eTime);
 			json.addProperty("confirmed", lr.isAdminConfirmed());
@@ -764,7 +764,7 @@ public class SystemController extends HttpServlet {
 			json.addProperty("id", user.getUserID());
 			json.addProperty("location", lab.getBuilding());
 			json.addProperty("pcnum", "" + pr.getPcID());
-			json.addProperty("date", "" + endT.getDate() + "/" + endT.getMonth() + "/" + (endT.getYear() + 1900));
+			json.addProperty("date", "" + endT.getDate() + "/" + (endT.getMonth() + 1) + "/" + (endT.getYear() + 1900));
 			json.addProperty("start", sTime);
 			json.addProperty("end", eTime);
 			json.addProperty("confirmed", pr.isAdminConfirmed());
