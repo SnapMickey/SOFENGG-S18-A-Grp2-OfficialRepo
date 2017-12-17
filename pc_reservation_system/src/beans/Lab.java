@@ -24,14 +24,6 @@ public class Lab {
 	@Column(name = "isAvailable")
 	boolean isAvailable;
 	
-	ArrayList<Pc> computers;
-	
-	public ArrayList<Pc> getComputers() {
-		return computers;
-	}
-	public void setComputers(ArrayList<Pc> computers) {
-		this.computers = computers;
-	}
 	public int getLocationID() {
 		return locationID;
 	}

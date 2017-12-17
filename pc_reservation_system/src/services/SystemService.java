@@ -139,8 +139,6 @@ public class SystemService {
 		lab = em.find(Lab.class, id);
 		trans.commit();
 
-		lab.setComputers(SystemService.getAllPcs(lab.getLocationID()));
-
 		em.close();
 		emf.close();
 		return lab;
@@ -228,7 +226,7 @@ public class SystemService {
 		String statement = "select pr from pc_reservations pr " + "where pr.pcID = " + pcID
 				+ " and HOUR(pr.dateTimeStart) = " + startTime.getHours() + " and HOUR(pr.dateTimeEnd) = "
 				+ endTime.getHours() + " and DATE(pr.dateTimeStart) = " + "\'" + (startTime.getYear() + 1900) + "-"
-				+ (startTime.getMonth() + 2) + "-" + startTime.getDate() + "\'";
+				+ (startTime.getMonth() + 1) + "-" + startTime.getDate() + "\'";
 
 		System.out.println(statement);
 		try {
@@ -289,7 +287,7 @@ public class SystemService {
 				+ " where lr.locationID = l.locationID and l.name like '%" + name + "%' and HOUR(lr.dateTimeStart) = "
 				+ startTime.getHours() + " and HOUR(lr.dateTimeEnd) = " + endTime.getHours()
 				+ " and DATE(lr.dateTimeStart) = " + "\'" + (startTime.getYear() + 1900) + "-"
-				+ (startTime.getMonth() + 2) + "-" + startTime.getDate() + "\'";
+				+ (startTime.getMonth()+1) + "-" + startTime.getDate() + "\'";
 
 		System.out.println(statement);
 
@@ -368,7 +366,7 @@ public class SystemService {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction trans = em.getTransaction();
 
-		String statement = "select pr from pc_reservations pr where pr.userID = " + id + " and pr.adminConfirmed = 1";
+		String statement = "select pr from pc_reservations pr where pr.userID = " + id + " and pr.adminConfirmed = 0";
 
 		try {
 			trans.begin();
