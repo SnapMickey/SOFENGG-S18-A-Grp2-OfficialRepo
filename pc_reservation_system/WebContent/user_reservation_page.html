@@ -573,7 +573,7 @@
             
             var selectedPc, selectedTime, selectedRoom, selectedDate, selectedBldg;
             
-             var reserveUrl = "userReserve?"
+            var reserveUrl = "userReserve?"
             $("#reservePCBtn").click(function(){
                 //selected row will contain whatever row was selected, if non was selected, null will be given
                 console.log(selected_row);
@@ -585,14 +585,16 @@
                     var jason = data[0];
                     if(jason != undefined){
                         $("#errorModal").modal('show');
-                    }else if(selected_row!= null && data.length == 0){
+                    }else if(selected_row!= null){
+                        
                         console.log("preparing reservation..");
+                        
                         var pc, building, room, sTime, eTime, date;
                         date = selectedDate;
                         pc = parseInt(selectedPc);
                         room = selectedRoom;
                         building = selectedBldg;
-
+                        /*
                         var tempTime = parseInt(selectedTime);
                         if(tempTime < 10){
                             sTime = "0" + tempTime + ":00:00";
@@ -600,10 +602,50 @@
                         }else{
                             sTime = tempTime + ":00:00";
                             eTime = (tempTime + 1) + ":00:00";
+                        }*/
+                        
+                        sTime = selected_row.start;
+                        eTime = selected_row.end;
+                        
+                        var rawSTime, rawETime, suffixSTime, suffixETime, finalSTime, finalETime;
+                        rawSTime = parseInt(sTime);
+                        rawETime = parseInt(eTime);
+                        suffixSTime = sTime.substr(sTime.length - 2);
+                        suffixETime = eTime.substr(eTime.length - 2);
+                        alert(suffixSTime);
+                        if(suffixSTime == "AM"){
+                            if(rawSTime < 10){
+                                finalSTime = "0" + rawSTime + ":00:00";
+                            }else if(rawSTime > 10){
+                                finalSTime = rawSTime + ":00:00";
+                            }
+                            
+                            if(suffixETime == "PM"){
+                                if(rawETime < 12){
+                                    finalETime = (rawETime + 12) + ":00:00";
+                                }else if(rawETime == 12){
+                                    finalETime = rawETime + ":00:00";
+                                }
+                            }else{
+                                if(rawETime < 10){
+                                    finalETime = "0" + rawETime + ":00:00";
+                                }else if(rawSTime > 10){
+                                    finalETime = rawETime + ":00:00";
+                                }
+                            }
+                        }else if(suffixSTime == "PM"){
+                            if(rawSTime == 12){
+                                finalSTime = rawSTime + ":00:00";
+                                finalETime = (rawETime + 12) + ":00:00";
+                            }else{
+                                finalSTime = (rawSTime + 12) + ":00:00";
+                                finalETime = (rawETime + 12) + ":00:00";
+                            }
+                            
                         }
-
+                        
                         reserveUrl += "pc=" + pc + "&building=" + building + "&room=" + room +
-                               "&sTime=" + sTime + "&eTime=" + eTime + "&date=" + date;
+                               "&sTime=" + finalSTime + "&eTime=" + finalETime + "&date=" + date;
 
                         console.log(pc + building + room + sTime + eTime + date);
 
@@ -612,8 +654,8 @@
                                                      "<br> Building: " + building +
                                                      "<br> Room: " + room +
                                                      "<br> Date: " + date +
-                                                     "<br> Start Time: " + sTime +
-                                                     "<br> End Time: " + eTime;
+                                                     "<br> Start Time: " + finalSTime +
+                                                     "<br> End Time: " + finalETime;
 
                         popUpMainContent.innerHTML += "<br>";
 
