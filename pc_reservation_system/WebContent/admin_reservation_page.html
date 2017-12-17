@@ -736,16 +736,14 @@
                 form.submit();
             });
             
-            $("#historyBtn").click(function(){
-                alert("This button is not yet working");
-                /*
-            	var form = document.createElement('form');
-                form.method = "GET";
-                form.action = "logout";
-                document.body.appendChild(form);
-                form.submit();
-                */
-            });
+             $("#header_history").click(function(){
+                 var form = document.createElement('form');
+                 form.method = "GET";
+                 form.action = "adminhistorypage";
+                 document.body.appendChild(form);
+                 form.submit();
+                 
+             });
             
             $("#logout").click(function(){
             	var form = document.createElement('form');
