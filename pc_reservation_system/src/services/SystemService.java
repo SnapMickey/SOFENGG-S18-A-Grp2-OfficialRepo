@@ -730,8 +730,8 @@ public class SystemService {
 				statement += " date(pr.dateTimeStart) between date(" + startDate + ") and date(" + endDate + ")"
 						+ " and time(pr.dateTimeStart) < time(" + cur + ")";
 			} else {
-				statement += " date(pr.dateTimeStart) >= date(" + cur + ")" + " and time(pr.dateTimeStart) >= time("
-						+ cur + ")";
+				statement += " (date(pr.dateTimeStart) >= date(" + cur + ")" + " or time(pr.dateTimeStart) >= time("
+						+ cur + "))";
 			}
 
 			statement += " order by reserveTime";
@@ -785,8 +785,8 @@ public class SystemService {
 				statement += " date(lr.dateTimeStart) between date(" + startDate + ") and date(" + endDate + ")"
 						+ " and time(lr.dateTimeStart) < time(" + cur + ")";
 			} else {
-				statement += " date(lr.dateTimeStart) >= date(" + cur + ")" + " and time(lr.dateTimeStart) >= time("
-						+ cur + ")";
+				statement += " (date(lr.dateTimeStart) >= date(" + cur + ")" + " or time(lr.dateTimeStart) >= time("
+						+ cur + "))";
 			}
 
 			statement += " order by reserveTime";
