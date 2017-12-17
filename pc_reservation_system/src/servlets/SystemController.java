@@ -1685,6 +1685,11 @@ public class SystemController extends HttpServlet {
 			response.setContentType("application/json");
 			response.getWriter().write(userReservations.toString());
 		}
+		else {
+			JsonObject json = new JsonObject();
+			response.setContentType("application/json");
+			response.getWriter().write(json.toString());
+		}
 	}
 
 	
