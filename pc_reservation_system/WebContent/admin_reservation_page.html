@@ -41,22 +41,58 @@
             font-size:15px;
         }
         
+        
+        th{
+             height: 0;
+        line-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+            color:transparent;
+        border: none;
+        white-space: nowrap;
+        }
+        
+        th div{
+            position: absolute;
+            color:black;
+            background: floralwhite;
+            padding: 9px 25px;
+            top: 0;
+            margin-left: 30px;
+            line-height: normal;
+            border-collapse: collapse;
+        }
         .reserveTableDiv{
-            overflow-y: scroll;
+            margin-top: 3px
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow-y: auto;
+            margin-top: 5px;
+            width:100%;
+            height:99%;
+            border: solid gray;
+            border-width: 0px 1px 1px 1px;
+            /* no top border */
+        }
+        
+        section{
             white-space: nowrap;
             text-overflow: ellipsis;
             margin-top: 5px;
             width:100%;
             height:85%;
             border: solid gray;
-            border-width: 0px 1px 1px 1px;
-            /* no top border */
+            border-width: 1px 1px 1px 1px;
+            position: relative;
+            padding-top: 37px;
         }
         
         .reserveTable{
-            
+            table-layout: fixed;
+            border-collapse: collapse;
             margin-top: 0px;
             width: 100%;
+            height: 90%;
         }
         
         .reserveTable td{
@@ -292,7 +328,6 @@
         }
         .container-fluid{
             height: 100%;
-            overflow-y: hidden; /* don't show content that exceeds my height */
         }
         .mainDiv{
             background-color:#CCCCCC;
@@ -388,6 +423,44 @@
             color:white;
         }
         
+        #modalOk{
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: white;
+            background: #278347;
+            width:150px;
+            border-radius: 8px;
+            float:right;
+            
+            cursor: pointer;
+            
+            margin:0 auto;
+            margin-bottom:15px;
+            display:block;
+        }
+        .modal-content{
+            padding:20px;
+            margin-top: 38%;
+            border-width: 0px;
+            padding-top:50px !important;
+            background-color: #DFDFDF!important;
+        }
+        .modalText{
+            padding:24px;
+            font-family:'Avenir Next',sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            text-align: center;
+            color: #4D4D4D;
+            
+        }
+        .labImage{
+            visibility: visible;
+            display:none;
+            max-height: 100%;
+            max-width: 100%; 
+        }
     </style>
     <head>
       
@@ -451,11 +524,15 @@
                             </div>
                             
                             <select class="dropdown" id="bldgList">
-                                <option value="default">All</option>
-                                <option value="G">Gokongwei</option>
-                                <option value="V">Velasco</option>
-                                <option value ="M">Miguel</option>
-                                <option value ="HS">Henry Sy</option>
+                                <option value = "default">All</option>
+                                <option value = "A">Andrew</option>
+                                <option value = "Y">Yuchengco</option>
+                                <option value = "LS">LS</option>
+                                <option value = "SJ">SJ</option>
+                                <option value = "G">Gokongwei</option>
+                                <option value = "V">Velasco</option>
+                                <option value = "M">Miguel</option>
+                                <option value = "HS">Henry Sy</option>
                             </select>
                             
                             <div style="margin-top:5px;">
@@ -518,37 +595,40 @@
                     <div class="reserveHeaderDiv">
                     <span class="mainHeader"> <b>3. Reserve A PC </b> </span> <span class="mainHeader2"> Select a PC to reserve </span>
                     </div>
+                    <section>
                     <div class="reserveTableDiv">
+                        <img class = 'labImage' src = ''>
                     <table class="reserveTable" id="reserveListTable">
                         <thead>
                             <tr class="reserveTableHead" style="pointer-events: none;">
-                                <th height="40">
-                                    <center> PC No. </center>
+                                <th height="40" style="background:floralwhite">
+                                    <div> <center> PC No. </center> </div>
                                 </th>
                                     
                                 <th>
-                                    <center> Location </center>
+                                    <div> <center> Location </center></div>
                                 </th>
                                 
                                 <th>
-                                    <center> Room/Floor </center>
+                                    <div><center> Room/Floor </center></div>
                                 </th>
                                 
                                 <th>
-                                    <center> Start Time </center>
+                                    <div><center> Start Time </center></div>
                                 </th>
                                 
                                 <th>
-                                    <center> End Time </center>
+                                    <div><center> End Time </center></div>
                                 </th>
                             </tr>
                         </thead>
-                        <tbody id="PCtable" class="reserveTableData">
+                        <tbody id="PCtable" class="reserveTableData" style="overflow:scroll;">
                             
                         </tbody>
                     </table>
                         
                     </div>
+                    </section>
                      <div class = "row" style = "padding:0px; margin:10px 0px;">
                           <div class = "col">
                               <button class = "disabledReserveButtons" disabled="true" id="viewLayout">VIEW LAYOUT</button>
@@ -562,6 +642,19 @@
                 <!-- Reserve Container End -->
             </div>        
             <!-- Subcontainer End -->
+            
+            <div class="modal fade" id="errorModal" role="dialog">
+                <div class="modal-dialog modal-md">
+
+                  <!-- Modal content-->
+                    <div class="modal-content">
+                            <h3 class = "modalText">This user cannot reserve until his/her current reservation is over.</h3>
+                            
+                            <button type="button" id = "modalOk" class="btn btn-default" data-dismiss="modal">OK</button>
+                    </div>
+
+                </div>
+            </div>
             
             <!-- footer -->
             <div class = "row" id = "footer">
@@ -599,6 +692,7 @@
         src="http://code.jquery.com/jquery-3.2.1.js"
         integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
         crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     
         <script>
             var yesBtn, noBtn, closeBtn;
@@ -615,7 +709,23 @@
             var selectedPc, selectedBldg, selectedSTime, selectedETime, selectedRoom, selectedDate, selectedId, selectedEventName;
             
             function setValues(){
+                /*
+                var sampleArr = [];
+                var temp
+                for(var i = 0; i < 20; i++){
+                    temp ={
+                        pcno: "la",
+                        location: "la",
+                        room: "la",
+                        start: "la",
+                        end: "la"
+                    };
+                    
+                    sampleArr.push(temp);
+                }
                 
+                add_table_data(sampleArr);
+                */
             /* Header Functions */
             
             $("#dashboardBtn").click(function(){
@@ -626,16 +736,14 @@
                 form.submit();
             });
             
-            $("#historyBtn").click(function(){
-                alert("This button is not yet working");
-                /*
-            	var form = document.createElement('form');
-                form.method = "GET";
-                form.action = "logout";
-                document.body.appendChild(form);
-                form.submit();
-                */
-            });
+             $("#header_history").click(function(){
+                 var form = document.createElement('form');
+                 form.method = "GET";
+                 form.action = "adminhistorypage";
+                 document.body.appendChild(form);
+                 form.submit();
+                 
+             });
             
             $("#logout").click(function(){
             	var form = document.createElement('form');
@@ -706,123 +814,92 @@
              *  When the building dropdown changes value:
              *  This function changes the value for the rooms.
              */
+            var listAndrew = [{text:'ANook',value:'ANook'},
+                             {text:'A1706',value:'A1706'}];
+            
+            var listGoks = [{text:'G301',value:'G301'},
+                           {text:'G302A',value:'G302A'},
+                           {text:'G302B',value:'G302B'},
+                           {text:'G304A',value:'G304A'},
+                           {text:'G304B',value:'G304B'},
+                           {text:'G306A',value:'G306A'},
+                           {text:'G306B',value:'G306B'},
+                           {text:'G404',value:'G404'}];
+            
+            var listSJ = [{text:'J212',value:'J212'},
+                         {text:'J308',value:'J308'},];
+            
+            var listVel = [{text:'V101',value:'V101'},
+                          {text:'V103',value:'V103'},
+                          {text:'V107',value:'V107'},
+                          {text:'V208',value:'V208'},
+                          {text:'V301',value:'V301'},
+                          {text:'V310',value:'V310'},
+                          {text:'V313',value:'V313'},
+                          {text:'V505',value:'V505'}];
+            
+            var listLS = [{text:'L212',value:'L212'},
+                         {text:'L229',value:'L229'},
+                         {text:'L320',value:'L320'},
+                         {text:'L335',value:'L335'}]
+            
+            var listMig = [{text:'M303',value:'M303'}];
+                
+            var listYuch = [{text:'Y602',value:'Y602'}];
+            
+            var listHenry = [{text:'7th Floor',value:'7th'},
+                            {text:'10th Floor',value:'10th'},
+                            {text:'7th Floor',value:'12th'},
+                            {text:'14th Floor',value:'14th'}];
             
             $("#bldgList").change(function(){
-                
+                console.log("bldgList changed");
+                var tempArr = [];
                 var bldgList = document.getElementById("bldgList");
                 var roomList = document.getElementById("roomList");
                 $("#roomList").get(0).selectedIndex = 0;
+                //remove all things in roomList
                 while(roomList.length > 1){
                     roomList.remove(roomList.length - 1);
                 }
-                
                 if(bldgList.value == "G"){
-                    for(var i = 0; i < 5; i++){
-                        var option = document.createElement("option");
-                        if(i == 0){
-                            option.value = "G201";
-                            option.textContent = "G201";
-                        }
-                        else if(i == 1){
-                            option.value = "G202";
-                            option.textContent = "G202";
-                        }
-                        else if(i == 2){
-                            option.value = "G203";
-                            option.textContent = "G203";
-                        }
-                        else if(i == 3){
-                            option.value = "G301";
-                            option.textContent = "G301";
-                        }
-                        else if(i == 4){
-                            option.value = "G302";
-                            option.textContent = "G302";
-                        }
-                        
-                        roomList.appendChild(option);
-                    }
+                    console.log("Goks Selected");
+                    tempArr = listGoks;
                 }
                 else if(bldgList.value == "V"){
-                    for(var i = 0; i < 5; i++){
-                        var option = document.createElement("option");
-                        if(i == 0){
-                            option.value = "V201";
-                            option.textContent = "V201";
-                        }
-                        else if(i == 1){
-                            option.value = "V202";
-                            option.textContent = "V202";
-                        }
-                        else if(i == 2){
-                            option.value = "V203";
-                            option.textContent = "V203";
-                        }
-                        else if(i == 3){
-                            option.value = "V301";
-                            option.textContent = "V301";
-                        }
-                        else if(i == 4){
-                            option.value = "V302";
-                            option.textContent = "V302";
-                        }
-                        
-                        roomList.appendChild(option);
-                    }
+                    console.log("Velasco Selected");
+                    tempArr = listVel;
                 }
                 else if(bldgList.value == "M"){
-                    for(var i = 0; i < 5; i++){
-                        var option = document.createElement("option");
-                        if(i == 0){
-                            option.value = "M201";
-                            option.textContent = "M201";
-                        }
-                        else if(i == 1){
-                            option.value = "M202";
-                            option.textContent = "M202";
-                        }
-                        else if(i == 2){
-                            option.value = "M203";
-                            option.textContent = "M203";
-                        }
-                        else if(i == 3){
-                            option.value = "M301";
-                            option.textContent = "M301";
-                        }
-                        else if(i == 4){
-                            option.value = "M302";
-                            option.textContent = "M302";
-                        }
-                        
-                        roomList.appendChild(option);
-                    }
+                    console.log("Miguel Selected");
+                    tempArr = listMig;
                 }
                 else if(bldgList.value == "HS"){
-                    for(var i = 0; i < 5; i++){
-                        var option = document.createElement("option");
-                        if(i == 0){
-                            option.value = "6th";
-                            option.textContent = "6th Floor";
-                        }
-                        else if(i == 1){
-                            option.value = "7th";
-                            option.textContent = "7th Floor";
-                        }
-                        else if(i == 2){
-                            option.value = "8th";
-                            option.textContent = "8th Floor";
-                        }
-                        else if(i == 3){
-                            option.value = "9th";
-                            option.textContent = "9th Floor";
-                        }
-                        else if(i == 4){
-                            option.value = "10th";
-                            option.textContent = "10th Floor";
-                        }
-                        
-                        roomList.appendChild(option);
-                    }
+                    console.log("Henry Sy Selected");
+                    tempArr = listHenry;
+                }else if(bldgList.value == "A"){
+                    console.log("Andrew Selected");
+                    tempArr = listAndrew;
+                }else if(bldgList.value == "Y"){
+                    console.log("Yuch Selected");
+                    tempArr = listYuch;
+                }else if(bldgList.value == "LS"){
+                    console.log("LS Selected");
+                    tempArr = listLS;
+                }else if(bldgList.value == "SJ"){
+                    console.log("SJ Selected");
+                    tempArr = listSJ;
+                }
+
+                var len = tempArr.length;
+                console.log(tempArr);
+                var i = -1;
+                while(i++<len-1){
+                    console.log(tempArr[i]);
+                    var option = document.createElement("option");
+                    option.value = tempArr[i].value;
+                    option.textContent = tempArr[i].text;
+                    roomList.appendChild(option);
                 }
                 
             });
@@ -835,10 +912,38 @@
              * ReserveURL is set to null so that we could dynamically change
              * whether the reservation is individual or as an event
              */
+            var isLayout = false;
+            $("#viewLayout").click(function(){
+                var room = $("#roomList").val();
+                var bldg = $("#bldgList").val();
+                
+                if(!isLayout && room != "All"){
+                    isLayout = true;
+                    
+                    //hide table
+                    $(".reserveTable").css("display","none");
+            
+                    //set image src to room num
+                    $(".labImage").attr("src", "labLayouts/" + bldg + "/" + room + ".png");
+                    
+                    //show image and center it
+                    $(".labImage").css("display", "block");
+                    $(".labImage").css("margin","0 auto");
+                    
+                    $(this).html("VIEW RESERVATIONS");
+                }else{
+                    isLayout = false;
+                    //make image invisible
+                    $(".labImage").css("display", "none");
+                    
+                    //make table visible
+                    $(".reserveTable").css('display', "");
+                    $(this).html("VIEW LAYOUT");
+                }
+            });
             
             var reserveUrl = null;
             $("#reserveButton").click(function(){
-                
                 /* Checking of Checkboxes */
                 if($("#individual").is(':checked')){
                     reserveUrl = "singleReserve?"
@@ -860,85 +965,93 @@
                 sTime = selectedSTime;
                 eTime = selectedETime;
                 
-                var rawSTime, rawETime, suffixSTime, suffixETime, finalSTime, finalETime;
-                rawSTime = parseInt(sTime);
-                rawETime = parseInt(eTime);
-                suffixSTime = sTime.substr(sTime.length - 2);
-                suffixETime = eTime.substr(eTime.length - 2);
+                $.get("getPendingReservationOfUser", function(data){
                 
-                /* 
-                 * Creates the time to be inserted in the DB based on the
-                 * highlighted choice of the user
-                 */
-                
-                if(suffixSTime == "AM"){
-                    if(rawSTime < 10){
-                        finalSTime = "0" + rawSTime + ":00:00";
-                    }else if(rawSTime > 10){
-                        finalSTime = rawSTime + ":00:00";
-                    }
-                    
-                    if(suffixETime == "PM"){
-                        if(rawETime < 12){
-                            finalETime = (rawETime + 12) + ":00:00";
-                        }else if(rawETime == 12){
-                            finalETime = rawETime + ":00:00";
+                    if(data.length == 0){
+                        var rawSTime, rawETime, suffixSTime, suffixETime, finalSTime, finalETime;
+                        rawSTime = parseInt(sTime);
+                        rawETime = parseInt(eTime);
+                        suffixSTime = sTime.substr(sTime.length - 2);
+                        suffixETime = eTime.substr(eTime.length - 2);
+                        
+                        /* 
+                         * Creates the time to be inserted in the DB based on the
+                         * highlighted choice of the user
+                         */
+                        
+                        if(suffixSTime == "AM"){
+                            if(rawSTime < 10){
+                                finalSTime = "0" + rawSTime + ":00:00";
+                            }else if(rawSTime > 10){
+                                finalSTime = rawSTime + ":00:00";
+                            }
+                            
+                            if(suffixETime == "PM"){
+                                if(rawETime < 12){
+                                    finalETime = (rawETime + 12) + ":00:00";
+                                }else if(rawETime == 12){
+                                    finalETime = rawETime + ":00:00";
+                                }
+                            }else{
+                                if(rawETime < 10){
+                                    finalETime = "0" + rawETime + ":00:00";
+                                }else if(rawSTime > 10){
+                                    finalETime = rawETime + ":00:00";
+                                }
+                            }
+                        }else if(suffixSTime == "PM"){
+                            if(rawSTime == 12){
+                                finalSTime = rawSTime + ":00:00";
+                                finalETime = (rawETime + 12) + ":00:00";
+                            }else{
+                                finalSTime = (rawSTime + 12) + ":00:00";
+                                finalETime = (rawETime + 12) + ":00:00";
+                            }
+                            
                         }
-                    }else{
-                        if(rawETime < 10){
-                            finalETime = "0" + rawETime + ":00:00";
-                        }else if(rawSTime > 10){
-                            finalETime = rawETime + ":00:00";
+                
+                        /*
+                         * Creates a url and fills-in the details 
+                         * needed to make a reservation
+                         */
+                        
+                        reserveUrl += "pc=" + pc + "&building=" + building + "&room=" + room +
+                               "&sTime=" + finalSTime + "&eTime=" + finalETime + "&date=" + date +
+                               "&id=" + id + "&eventName=" + eventName;
+                        
+                        console.log(reserveUrl);
+                        /* 
+                         * Edits the content of the popup box
+                         */
+                        
+                        popUpMainContent.innerHTML = "Are you sure you want to reserve this <br> computer with the following data?" +
+                                                     "<br> <br> ID Number: " + id +
+                                                     "<br> PC Number: " + pc +
+                                                     "<br> Building: " + building +
+                                                     "<br> Room: " + room +
+                                                     "<br> Date: " + date +
+                                                     "<br> Start Time: " + sTime +
+                                                     "<br> End Time: " + eTime;
+                        
+                        if($("#event").is(':checked')){
+                            popUpMainContent.innerHTML += "<br>Event Name:" + eventName +
+                                                          "<br><br> Note: This is a class/event reservation. <br>";
+                        }else{
+                             popUpMainContent.innerHTML += "<br>";
                         }
+                        
+                        /* Displays the popup box */
+                        
+                        popUpSize.style.padding = "100px 50px";
+                        closeBtn.style.display = "none";
+                        popUpDiv.style.display = "block";
+                        yesBtn.style.display = "block";
+                        noBtn.style.display = "block";
+                        
+                    }else if(data.length != 0){
+                        $("#errorModal").modal('show');
                     }
-                }else if(suffixSTime == "PM"){
-                    if(rawSTime == 12){
-                        finalSTime = rawSTime + ":00:00";
-                        finalETime = (rawETime + 12) + ":00:00";
-                    }else{
-                        finalSTime = (rawSTime + 12) + ":00:00";
-                        finalETime = (rawETime + 12) + ":00:00";
-                    }
-                    
-                }
-                
-                /*
-                 * Creates a url and fills-in the details 
-                 * needed to make a reservation
-                 */
-                
-                reserveUrl += "pc=" + pc + "&building=" + building + "&room=" + room +
-                       "&sTime=" + finalSTime + "&eTime=" + finalETime + "&date=" + date +
-                       "&id=" + id + "&eventName=" + eventName;
-                
-                /* 
-                 * Edits the content of the popup box
-                 */
-                
-                popUpMainContent.innerHTML = "Are you sure you want to reserve this <br> computer with the following data?" +
-                                             "<br> <br> ID Number: " + id +
-                                             "<br> PC Number: " + pc +
-                                             "<br> Building: " + building +
-                                             "<br> Room: " + room +
-                                             "<br> Date: " + date +
-                                             "<br> Start Time: " + sTime +
-                                             "<br> End Time: " + eTime;
-                
-                if($("#event").is(':checked')){
-                    popUpMainContent.innerHTML += "<br>Event Name:" + eventName +
-                                                  "<br><br> Note: This is a class/event reservation. <br>";
-                }else{
-                     popUpMainContent.innerHTML += "<br>";
-                }
-                
-                /* Displays the popup box */
-                
-                popUpSize.style.padding = "100px 50px";
-                closeBtn.style.display = "none";
-                popUpDiv.style.display = "block";
-                yesBtn.style.display = "block";
-                noBtn.style.display = "block";
-                
+                });
             });
             
             /* End of OnClickListener for Reserve Button */
@@ -954,9 +1067,9 @@
                 noBtn.style.display = "none";
                 closeBtn.style.display = "block";
                 
-            $.get(reserveUrl, function(data){
-                // reserving
-            });
+                $.get(reserveUrl, function(data){
+                    // reserving
+                });
                 
                 /* Shows a new popup box to show that the reservation is successful */
                 popUpMainContent.innerHTML = "Reservation is Successful!";
@@ -1009,6 +1122,7 @@
                 
                 var passed = false;
                 
+                clear_data_from_textbox();
                 /* Checking what checkbox is checked */
                 if($("#event").is(':checked')){
                     
@@ -1120,15 +1234,22 @@
                     dropdown = document.getElementById("bldgList");
                     bldg = dropdown.value;
                     switch(bldg){
-                        case "G":   bldg = "Gokongwei"
+                        case "G":   bldg = "Gokongwei";
+                                break;
+                        case "V":   bldg = "Velasco";
                                     break;
-                        case "V":   bldg = "Velasco"
+                        case "HS":  bldg = "Henry Sy";
                                     break;
-                        case "HS":  bldg = "Henry Sy"
+                        case "M":   bldg = "Miguel";
                                     break;
-                        case "M":   bldg = "Miguel"
+                        case "A":   bldg = "Andrew";
                                     break;
-                            
+                        case "Y":   bldg = "Yuchengco";
+                                    break;
+                        case "LS":  bldg = "LS";
+                                    break;
+                        case "SJ":  bldg = "SJ";
+                                    break;
                         default:    break;
                     }
                     
@@ -1174,13 +1295,21 @@
                         //used to be eventname
                         selectedEventName = null;
                         
-                        $.get("requestUserDetailsByAdmin?id=" + selectedId, function(data){
-                            add_data_to_textbox(data);
+                        $.get("requestUserDetailsByAdmin?id=" + selectedId, function(data, status){
+                                if(data != "error"){
+                                    add_data_to_textbox(data);
+                                    
+                                    $.get("requestPcReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date, function(data){
+                                        add_table_data(data);
+                                    });
+                                    
+                                }else{
+                                    console.log("User does not exist!");
+                                }
+                            
                         });
                         
-                        $.get("requestPcReservationList?bldg=" + bldg + "&room=" + room + "&startTime=" + startTime + "&endTime=" + endTime + "&date=" + date, function(data){
-                            add_table_data(data);
-                        });
+                        
                     }          
                 
                     
@@ -1189,6 +1318,10 @@
             
             /* End of Search Button Function */
             
+            function clear_data_from_textbox(){
+                document.getElementById("individualName").value = "";
+                document.getElementById("byGroupName").value = "";
+            }
             /* This function simply adds the username to the textbox beside ID Number */
             
             function add_data_to_textbox(user){

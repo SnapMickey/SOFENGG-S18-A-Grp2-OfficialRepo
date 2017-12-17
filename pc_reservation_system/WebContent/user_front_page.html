@@ -464,11 +464,48 @@
                 
                 var temp = null;
                 
+                var date = $("#date").html();
+                var dates = date.split('/');
+                date = dates[2] + "-" + dates[0] + "-" + dates[1];
+                
+                var start = $("#start").html();
+                var end = $("#end").html();
+                
+                startTimeCompute = parseInt(start); 
+                endTimeCompute = parseInt(end); 
+                
+                if(start.indexOf("PM") != -1){
+                	if(startTimeCompute % 12 == 0)
+                		startTimeCompute = startTimeCompute + 12;
+                }
+                
+                if(end.indexOf("PM") != -1){
+                	if(endTimeCompute % 12 == 0)
+                		endTimeCompute = endTimeCompute + 12;
+                }
+                
+                
+                if(startTimeCompute < 10){
+                    startTime = "0" + startTimeCompute + ":00:00";
+                }
+                else{
+                    startTime = startTimeCompute + ":00:00";
+                }
+                 
+                if(endTimeCompute < 10){
+                    endTime = "0" + endTimeCompute + ":00:00";
+                }
+                else{
+                    endTime = endTimeCompute + ":00:00";
+                }
+                
+                console.log(endTime);
+                
                 //TODO do $.get to remove the reservation
                 var path = "cancelPcReservation?" + "pcID=" + $("#pcnum").html() + 
-                                                    "&date=" + $("#date").html() +
-                                                    "&start=" + $("#start").html() +
-                                                    "&end=" + $("#end").html();
+                                                    "&date=" + date +
+                                                    "&start=" + startTime +
+                                                    "&end=" + endTime;
                 
                 $.get(path, function(data){console.log("deleted")});
                 

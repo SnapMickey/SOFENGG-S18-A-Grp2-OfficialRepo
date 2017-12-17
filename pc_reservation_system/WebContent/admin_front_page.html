@@ -586,7 +586,7 @@
                 form.submit();
             });
             
-            $("#historyBtn").click(function(){
+            $("#header_history").click(function(){
                 var form = document.createElement('form');
                 form.method = "GET";
                 form.action = "adminhistorypage";
@@ -646,10 +646,21 @@
                 path = "";
                 if(labSelected){
                 	dates = selected_lab.date.split('/');
-                	date = dates[2] + "-" + dates[1] + "-" + dates[0];
+                	date = dates[2] + "-" + dates[0] + "-" + dates[1];
                 	
                 	startTimeCompute = parseInt(selected_lab.start); 
-                    endTimeCompute = parseInt(selected_lab.start); 
+                    endTimeCompute = parseInt(selected_lab.end); 
+                    
+                    if(selected_reserve.start.indexOf("PM") != -1){
+                    	if(startTimeCompute % 12 != 0){
+                    		startTimeCompute = startTimeCompute + 12;
+                    	}
+                    }
+                    
+                    if(selected_reserve.end.indexOf("PM") != -1){
+                    	if(endTimeCompute % 12 != 0)
+                    		endTimeCompute = endTimeCompute + 12;
+                    }
                     
                     if(startTimeCompute < 10){
                         startTime = "0" + startTimeCompute + ":00:00";
@@ -659,11 +670,12 @@
                     }
                     
                     if(endTimeCompute < 10){
-                        endTime = "0" + (endTimeCompute + 1) + ":00:00";
+                        endTime = "0" + endTimeCompute + ":00:00";
                     }
                     else{
-                        endTime = (endTimeCompute + 1) + ":00:00";
+                        endTime = endTimeCompute + ":00:00";
                     }
+                    
                     
                     $(".selected_lab").remove();
                     //TODO Delete row from db, selected_lab json has all details
@@ -676,10 +688,20 @@
                 }else{
                     $(".selected_pc").remove();
                     dates = selected_reserve.date.split('/');
-                	date = dates[2] + "-" + dates[1] + "-" + dates[0];
+                    date = dates[2] + "-" + dates[0] + "-" + dates[1];
                 	
                 	startTimeCompute = parseInt(selected_reserve.start); 
-                    endTimeCompute = parseInt(selected_reserve.start); 
+                    endTimeCompute = parseInt(selected_reserve.end); 
+                    
+                    if(selected_reserve.start.indexOf("PM") != -1){
+                    	if(startTimeCompute % 12 != 0)
+                    		startTimeCompute = startTimeCompute + 12;
+                    }
+                    
+                    if(selected_reserve.end.indexOf("PM") != -1){
+                    	if(endTimeCompute % 12 != 0)
+                    		endTimeCompute = endTimeCompute + 12;
+                    }
                     
                     if(startTimeCompute < 10){
                         startTime = "0" + startTimeCompute + ":00:00";
@@ -689,15 +711,17 @@
                     }
                      
                     if(endTimeCompute < 10){
-                        endTime = "0" + (endTimeCompute + 1) + ":00:00";
+                        endTime = "0" + endTimeCompute + ":00:00";
                     }
                     else{
-                        endTime = (endTimeCompute + 1) + ":00:00";
+                        endTime = endTimeCompute + ":00:00";
                     }
                     //TODO Delete row from db, selected_reserve json has all details
                     
+                    
+                    
                     path = 'cancelPcReservation?';
-                    path += "pcID=" + selected_lab.pcno + 
+                    path += "pcID=" + selected_reserve.pcno + 
                             "&date=" + date +
                             "&start=" + startTime +
                             "&end=" + endTime;
@@ -728,10 +752,20 @@
                 
                 if(labSelected){
                 	dates = selected_lab.date.split('/');
-                	date = dates[2] + "-" + dates[1] + "-" + dates[0];
+                	date = dates[2] + "-" + dates[0] + "-" + dates[1];
                 	
                 	startTimeCompute = parseInt(selected_lab.start); 
-                    endTimeCompute = parseInt(selected_lab.start); 
+                    endTimeCompute = parseInt(selected_lab.end); 
+                    
+                    if(selected_reserve.start.indexOf("PM") != -1){
+                    	if(startTimeCompute % 12 != 0)
+                    		startTimeCompute = startTimeCompute + 12;
+                    }
+                    
+                    if(selected_reserve.end.indexOf("PM") != -1){
+                    	if(endTimeCompute % 12 != 0)
+                    		endTimeCompute = endTimeCompute + 12;
+                    }
                     
                     if(startTimeCompute < 10){
                         startTime = "0" + startTimeCompute + ":00:00";
@@ -741,10 +775,10 @@
                     }
                     
                     if(endTimeCompute < 10){
-                        endTime = "0" + (endTimeCompute + 1) + ":00:00";
+                        endTime = "0" + endTimeCompute + ":00:00";
                     }
                     else{
-                        endTime = (endTimeCompute + 1) + ":00:00";
+                        endTime = endTimeCompute + ":00:00";
                     }
                     xBtn = $(".selected_lab").children().first();
                     checkbox = $(".selected_lab").children().last().children().first().children().first();
@@ -757,10 +791,20 @@
                             "&date=" + date +
                             "&start=" + startTime +
                             "&end=" + endTime;
-                    console.log(selected_lab);
+
                 }else{
                 	startTimeCompute = parseInt(selected_reserve.start); 
-                    endTimeCompute = parseInt(selected_reserve.start); 
+                    endTimeCompute = parseInt(selected_reserve.end); 
+                    
+                    if(selected_reserve.start.indexOf("PM") != -1){
+                    	if(startTimeCompute % 12 != 0)
+                    		startTimeCompute = startTimeCompute + 12;
+                    }
+                    
+                    if(selected_reserve.end.indexOf("PM") != -1){
+                    	if(endTimeCompute % 12 != 0)
+                    		endTimeCompute = endTimeCompute + 12;
+                    }
                     
                     if(startTimeCompute < 10){
                         startTime = "0" + startTimeCompute + ":00:00";
@@ -770,13 +814,14 @@
                     }
                     
                     if(endTimeCompute < 10){
-                        endTime = "0" + (endTimeCompute + 1) + ":00:00";
+                        endTime = "0" + endTimeCompute + ":00:00";
                     }
                     else{
-                        endTime = (endTimeCompute + 1) + ":00:00";
+                        endTime = endTimeCompute + ":00:00";
                     }
+                    
                 	dates = selected_reserve.date.split('/');
-                	date = dates[2] + "-" + dates[1] + "-" + dates[0];
+                	date = dates[2] + "-" + dates[0] + "-" + dates[1];
                     xBtn = $(".selected_pc").children().first();
                     checkbox = $(".selected_pc").children().last().children().first().children().first();
                     path = "confirmPcReservation?";
@@ -788,13 +833,11 @@
                     "&date=" + date +
                     "&start=" + startTime +
                     "&end=" + endTime;
-                    console.log(selected_reserve);
                 }
                 xBtn.html("<p id = 'red'>X</p>");
-                console.log(path);
                 checkbox.prop('checked',true);
                 checkbox.prop('disabled', 'disabled');
-                $.get(path, function(data){console.log('confirmed reservation')});
+                $.get(path, function(data){});
             });
             $("#modalNoCfm").click(function(){
                 
@@ -847,10 +890,6 @@
                         }
                 }
                 
-                console.log(temp);
-                console.log(selected_reserve);
-                
-                
                 
                 $("#myModal").modal('show');
             });
@@ -892,7 +931,6 @@
                             end:temp[7].innerHTML
                         }
                     }   
-                    console.log(selected_lab);
                     $("#otherModal").modal('show');
                 }
                 
