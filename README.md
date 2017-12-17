@@ -1,5 +1,15 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Bornales, Amiel James December 17, 2017
+Changes Made:
+- updated user home, user reserve in checking of the pending thing
+
+Problems / Errors:
+- admin home reservation data not showing anything
+- admin home cancel / cfm not yet tested, but it worked before
+- user home cancel doesnt work
+- user cannot load their pending reserve
+
 Rivera, Jared December 17, 2017
 Changes Made:
 - created methods in SystemController: 
