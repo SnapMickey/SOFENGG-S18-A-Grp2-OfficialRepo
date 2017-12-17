@@ -787,25 +787,39 @@ public class SystemController extends HttpServlet {
 		startDate = request.getParameter("startDate");
 		endDate = request.getParameter("endDate");
 		
+		if(!(endDate.equals("default")) && startDate.equals("default")){
+			startDate = endDate;
+		}else if(!(startDate.equals("default")) && endDate.equals("default")){
+			endDate = startDate;
+		}
+		
 		if (location.equals("default")) {
 			location = null;
 		}
 		if (startDate.equals("default")) {
 			startDate = null;
 		}
+		
 		if (endDate.equals("default")) {
 			endDate = null;
 		}
+		
+		
+		
+		/*
 		try {
-			sDate = startDate.split("/");
-			eDate = endDate.split("/");
+			sDate = startDate.split("-");
+			eDate = endDate.split("-");
 			
 			startDate = sDate[2] + "-" + sDate[0] + "-" + sDate[1];
 			endDate = eDate[2] + "-" + eDate[0] + "-" + eDate[1];
+			
+			
+			
 		}catch(Exception e) {
 			startDate = null;
 			endDate = null;
-		}
+		}*/
 		
 		JsonArray reservations = new JsonArray();
 
@@ -856,6 +870,7 @@ public class SystemController extends HttpServlet {
 				pcId = "ALL";
 				startT = lr.getDateTimeStart();
 				endT = lr.getDateTimeEnd();
+				System.out.println(startT);
 			}
 			else {
 				PcReservation pr = (PcReservation)o;
@@ -865,8 +880,11 @@ public class SystemController extends HttpServlet {
 				pcId = "" + pr.getPcID();
 				startT = pr.getDateTimeStart();
 				endT = pr.getDateTimeEnd();
+				System.out.println(startT);
+				
 			}
-
+				
+			
 			
 			JsonObject json = new JsonObject();
 
@@ -931,9 +949,11 @@ public class SystemController extends HttpServlet {
 
 				eTime += "PM";
 			}
-
+				
+			System.out.print(startT);
 			
-			json.addProperty("date", "" + endT.getMonth() + "/" +  endT.getDate() + "/" + (endT.getYear() + 1900));
+			json.addProperty("date", "" + endT.getDate() + "/" + (endT.getMonth()+1) + "/" + (endT.getYear() + 1900));
+			json.addProperty("start", sTime);
 			json.addProperty("end", eTime);
 			
 
