@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
     <style>
         /*COPY PASTE HERE*/
@@ -282,11 +282,11 @@
                         </div>
                         <div class = "col-md-9">
                             <select class = "dropdown" id = "bldgDrop">
-                                <option>All Locations</option>
-                                <option>Gokongwei</option>
-                                <option>Velasco</option>
-                                <option>Miguel</option>
-                                <option>Henry Sy</option>
+                                <option value="default">All Locations</option>
+                                <option value="G">Gokongwei</option>
+                                <option value="V">Velasco</option>
+                                <option value="M">Miguel</option>
+                                <option value="HS">Henry Sy</option>
                             </select>
                             <input placeholder="End Date" class="calendarPicker" type="text" onfocus="(this.type='date')"  id="endDate"> 
                             <input placeholder="Start Date" class="calendarPicker" type="text" onfocus="(this.type='date')"  id="startDate"> 
@@ -371,38 +371,78 @@
             }
             
             
+            var sDate , eDate, loc;
+            sDate = "default";
+            eDate = "default";
+            loc = "default";
+            
+            
             //Dropdown Listeners
             $("#bldgDrop").on('change', function(){
                 switch($(this).val()){
                         
-                    case "All Locations":
+                    case "default":
                         //TODO filter results
+                        loc = "default";
                         break;
-                    case "Gokongwei":
+                    case "G":
                         //TODO filter results
+                        loc = "Gokongwei";
                         break;
-                    case "Velasco":
+                    case "V":
                         //TODO filter results
+                        loc = "Velasco";
                         break;
-                    case "Miguel":
+                    case "M":
                         //TODO filter results
+                        loc =  "Miguel";
                         break;
-                    case "Henry Sy":
+                    case "HS":
                         //TODO filter results
+                        loc = "Henry Sy";
                         break;
                 }
+                
+                filterByParam(sDate, eDate, loc);
             });
             
             $("#startDate").change(function(){
                 var dateSelected = $(this).val();
                 //TODO do stuff on date change
+                if($(this).val() == ""){
+                    sDate = "default";
+                }else{
+                    sDate = dateSelected;
+                }
+                
+                console.log(sDate);
+                
+                filterByParam(sDate, eDate, loc);
             });
             
             $("#endDate").change(function(){
                 var dateSelected = $(this).val();
                 //TODO do stuff on date change
+                if($(this).val() == ""){
+                    eDate = "default";
+                }else{
+                    eDate = dateSelected;
+                }
+                
+                console.log(eDate);
+                
+                filterByParam(sDate, eDate, loc);
             });
             //end of dropdown listeners
+            
+            function filterByParam(start, end, location){
+                refresh_history_table();
+                
+                $.get("getHistory?startDate=" + start + "&endDate=" + end + "&location=" + location, function(data){
+                    add_data_history_table(data);
+                });
+                
+            }
             
             function fix_table_heights(){
                 $("#white").height($(".mainDiv").height() - $(".header").height()-50);
@@ -415,7 +455,7 @@
                 var tableRows = elmtTable.getElementsByTagName('tr');
                 var rowCount = tableRows.length;
                 
-                for (var x=rowCount-1; x>0; x--) {
+                for (var x= rowCount-1; x>0; x--) {
                     elmtTable.removeChild(tableRows[x]);
                 }  
             }
@@ -445,7 +485,10 @@
                     
                 });
                 
+                //Initialize Table
+                filterByParam(sDate, eDate, loc);
                 //testing purposes
+                /*
                 historyArr = [];
                 var kek = {
                         name:"something",
@@ -461,9 +504,11 @@
                     historyArr.push(kek);
                 }
                 add_data_history_table(historyArr);
+                */
                 //testing end
                 
             });
+            
             function add_data_history_table(jasonarr){
                 //refresh_history_table();
                 /*

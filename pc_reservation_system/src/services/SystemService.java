@@ -712,8 +712,27 @@ public class SystemService {
 
 		Date curD = new Date();
 
-		String cur = "'" + (curD.getYear() + 1900) + "-" + curD.getMonth() + "-" + curD.getDate() + " "
-				+ curD.getHours() + ":" + curD.getMinutes() + ":" + curD.getSeconds() + "'";
+		String curDate = "'" + (curD.getYear() + 1900) + "-" + (curD.getMonth()+1) + "-" + curD.getDate() + "'";
+		String curTime;
+		//String curTime = "'" + curD.getHours() + ":" + curD.getMinutes() + ":" + curD.getSeconds() + "'";
+		if(curD.getHours() < 10){
+			curTime = "'0" + curD.getHours();
+		}else{
+			curTime = "'" + curD.getHours();
+		}
+		
+		if(curD.getMinutes() < 10){
+			curTime += ":0" + curD.getMinutes();
+		}else{
+			curTime += ":"+ curD.getMinutes();
+		}
+		
+		if(curD.getSeconds() < 10){
+			curTime += ":0" + curD.getSeconds() + "'";
+		}else{
+			curTime += ":" + curD.getSeconds() + "'";
+		}
+		
 
 		try {
 			trans.begin();
@@ -728,14 +747,15 @@ public class SystemService {
 
 			if (startDate != null && endDate != null) {
 				statement += " date(pr.dateTimeStart) between date(" + startDate + ") and date(" + endDate + ")"
-						+ " and time(pr.dateTimeStart) < time(" + cur + ")";
+						+ " and time(pr.dateTimeStart) < time(" + curTime + ")";
 			} else {
-				statement += " (date(pr.dateTimeStart) >= date(" + cur + ")" + " or time(pr.dateTimeStart) >= time("
-						+ cur + "))";
+				statement += " date(pr.dateTimeStart) <= date(" + curDate + ")" + " or time(pr.dateTimeStart) >= time("
+						+ curTime + ")";
 			}
 
 			statement += " order by reserveTime";
 
+			System.out.println(statement);
 			TypedQuery<PcReservation> query = em.createQuery(statement, PcReservation.class);
 			reservations.addAll(query.getResultList());
 
@@ -768,9 +788,29 @@ public class SystemService {
 
 		Date curD = new Date();
 
-		String cur = "'" + (curD.getYear() + 1900) + "-" + curD.getMonth() + "-" + curD.getDate() + " "
-				+ curD.getHours() + ":" + curD.getMinutes() + ":" + curD.getSeconds() + "'";
+		//String cur = "'" + (curD.getYear() + 1900) + "-" + curD.getMonth() + "-" + curD.getDate() + " "
+				//+ curD.getHours() + ":" + curD.getMinutes() + ":" + curD.getSeconds() + "'";
 
+		String curDate = "'" + (curD.getYear() + 1900) + "-" + (curD.getMonth()+1) + "-" + curD.getDate() + "'";
+		String curTime;
+		if(curD.getHours() < 10){
+			curTime = "'0" + curD.getHours();
+		}else{
+			curTime = "'" + curD.getHours();
+		}
+		
+		if(curD.getMinutes() < 10){
+			curTime += ":0" + curD.getMinutes();
+		}else{
+			curTime += ":"+ curD.getMinutes();
+		}
+		
+		if(curD.getSeconds() < 10){
+			curTime += ":0" + curD.getSeconds() + "'";
+		}else{
+			curTime += ":" + curD.getSeconds() + "'";
+		}
+		
 		try {
 			trans.begin();
 
@@ -783,14 +823,15 @@ public class SystemService {
 
 			if (startDate != null && endDate != null) {
 				statement += " date(lr.dateTimeStart) between date(" + startDate + ") and date(" + endDate + ")"
-						+ " and time(lr.dateTimeStart) < time(" + cur + ")";
+						+ " and time(lr.dateTimeStart) < time(" + curTime + ")";
 			} else {
-				statement += " (date(lr.dateTimeStart) >= date(" + cur + ")" + " or time(lr.dateTimeStart) >= time("
-						+ cur + "))";
+				statement += " date(lr.dateTimeStart) <= date(" + curDate + ")" + " or time(lr.dateTimeStart) >= time("
+						+ curTime + ")";
 			}
 
 			statement += " order by reserveTime";
 
+			System.out.println(statement);
 			TypedQuery<LabReservation> query = em.createQuery(statement, LabReservation.class);
 			reservations.addAll(query.getResultList());
 

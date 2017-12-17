@@ -782,7 +782,7 @@ public class SystemController extends HttpServlet {
 		String startDate, endDate, sDate[], eDate[];
 		
 		startDate = request.getParameter("startDate");
-		endDate = request.getParameter("startDate");
+		endDate = request.getParameter("endDate");
 		
 		if (location.equals("default")) {
 			location = null;
@@ -879,9 +879,10 @@ public class SystemController extends HttpServlet {
 			}
 			
 			json.addProperty("usercollege", college);
-			json.addProperty("pcnum", pcId);
 			json.addProperty("userid", user.getUserID());
 			json.addProperty("location", lab.getName());
+			json.addProperty("pcnum", pcId);
+			
 			
 			if (startT.getHours() <= 12) {
 				// 1:0 -> 11:0
@@ -929,10 +930,10 @@ public class SystemController extends HttpServlet {
 				eTime += "PM";
 			}
 
-			
+			json.addProperty("date", "" + endT.getDate() + "/" + endT.getMonth() + "/" + (endT.getYear() + 1900));
 			json.addProperty("start", sTime);
 			json.addProperty("end", eTime);
-			json.addProperty("date", "" + endT.getDate() + "/" + endT.getMonth() + "/" + (endT.getYear() + 1900));
+			
 			
 
 			reservations.add(json);
