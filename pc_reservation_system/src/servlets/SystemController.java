@@ -37,8 +37,8 @@ import services.SystemService;
 		"/requestUserDetailsByAdmin", "/getAdminSchedules", "/getLabReservations", "/getPcReservations",
 		"/singleReserve", "/labReserve", "/requestLabReservationList", "/adminhistorypage", "/userReserve",
 		"/requestAdminDetails", "/requestSystemTime", "/cancelPcReservation", "/cancelLabReservation",
-		"/confirmPcReservation", "/confirmLabReservation", "/requestUserReservationsByAdmin", "/getHistory", "getReservationDates"
-		, "/faqpage"})
+		"/confirmPcReservation", "/confirmLabReservation", "/requestUserReservationsByAdmin", "/getHistory", "/getReservationDates"
+		, "/faqpage", "/getPendingReservationOfUser"})
 @MultipartConfig
 public class SystemController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -148,6 +148,9 @@ public class SystemController extends HttpServlet {
 			break;
 		case "/getReservationDates":
 			requestDates(request, response);
+			break;
+		case "/getPendingReservationOfUser":
+			getPendingReservationOfUser(request,response);
 			break;
 		default:
 			break;
@@ -784,7 +787,12 @@ public class SystemController extends HttpServlet {
 		if (location.equals("default")) {
 			location = null;
 		}
-
+		if (startDate.equals("default")) {
+			startDate = null;
+		}
+		if (endDate.equals("default")) {
+			endDate = null;
+		}
 		try {
 			sDate = startDate.split("/");
 			eDate = endDate.split("/");
@@ -1388,6 +1396,7 @@ public class SystemController extends HttpServlet {
 			eTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(reservationDate + " " + endTime);
 			pID = Integer.parseInt(pcID);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		if (pcID != null) {
@@ -1658,21 +1667,19 @@ public class SystemController extends HttpServlet {
 
 			json.addProperty("location", lab.getBuilding());
 			json.addProperty("room", lab.getName());
-			;
 			json.addProperty("pcnum", "" + pr.getPcID());
 			json.addProperty("date", "" + endT.getDate() + "/" + (endT.getMonth() + 1) + "/" + (endT.getYear() + 1900));
 			json.addProperty("start", sTime);
 			json.addProperty("end", eTime);
 			json.addProperty("confirmed", pr.isAdminConfirmed());
 
-
-		response.setContentType("application/json");
-		response.getWriter().write(userReservations.toString());
+			userReservations.add(json);
+			
+			response.setContentType("application/json");
+			response.getWriter().write(userReservations.toString());
 		}
 	}
 
-	
-	
 	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
