@@ -49,7 +49,7 @@ public class LoginFilter implements Filter {
 		
 		int id = -1;
 		String position = null;
-	
+		
 		if (httpRequest.getSession(false) == null) {
 			httpResponse.sendRedirect(link + "RA");
 		}
