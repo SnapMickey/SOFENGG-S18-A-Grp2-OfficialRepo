@@ -464,32 +464,12 @@
                 
                 var temp = null;
                 
-                var dates = $("#date").html().split('/');
-                var date = dates[2] + "-" + dates[1] + "-" + dates[0]
-                
-                var startTimeCompute = parseInt(startTime); 
-                if(startTimeCompute < 10){
-                    startTime = "0" + startTimeCompute + ":00:00";
-                }
-                else{
-                    startTime = startTimeCompute + ":00:00";
-                }
-                
-                var endTimeCompute = parseInt(startTime); 
-                if(endTimeCompute < 10){
-                    endTime = "0" + (endTimeCompute + 1) + ":00:00";
-                }
-                else{
-                    endTime = (endTimeCompute + 1) + ":00:00";
-                }
-                
-                
-                
                 //TODO do $.get to remove the reservation
-                var path = "cancelPcReservation?" + "pcid=" + $("#pcnum").html() + 
-                                                    "&date=" + date +
-                                                    "&start=" + startTime +
-                                                    "&end=" + endTime
+                var path = "cancelPcReservation?" + "pcID=" + $("#pcnum").html() + 
+                                                    "&date=" + $("#date").html() +
+                                                    "&start=" + $("#start").html() +
+                                                    "&end=" + $("#end").html();
+                
                 $.get(path, function(data){console.log("deleted")});
                 
                 fix_table_height();
@@ -538,7 +518,7 @@
                 $("#last_login").html(user.last_login);
             }
             
-            function add_data_to_pending(jason){
+            function add_data_to_pending(json){
                 /*
                     Receives JSON object, format is as follows:
                     {
@@ -551,9 +531,10 @@
                     }
                 */
                 
-                console.log(jason);
+                console.log(json);
+                var jason = json[0];
                 
-                if(jason!=undefined){
+                if(jason != undefined){
                     $(".reserveInfoNone").css("display","none");
                     $(".reservationInfo").css("display",'block');
                     $(".cancel").css('visibility', 'visible');
@@ -602,20 +583,45 @@
                     for(var key in jason){
                         var col = $("<td>");
                         col.addClass("tableCell");
-
+                        
                         if(jason.hasOwnProperty(key)){
                             col.html(jason[key]);
                         }
-                        row.append(col);
+                        if(key!='confirmed')
+                            row.append(col);
                     }
 
                     $("#tbody").after(row);
                 }
 
-                add_data_to_pending(jasonarr[0]);
                 console.log(jasonarr[0]);
             }
+            $.get("getPendingReservationOfUser", function(data){add_data_to_pending(data)});
             $.get("requestUserDetails",function(data){add_data_to_user_info(data);});
             $.get("requestUserReservations",function(data){add_data_to_reserve_table(data);});
         </script>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
