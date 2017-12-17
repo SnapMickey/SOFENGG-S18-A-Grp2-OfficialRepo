@@ -211,7 +211,7 @@ public class SystemService {
 
 		return pr;
 	}
-	
+
 	/**
 	 * @param date
 	 * @param startTime
@@ -225,11 +225,10 @@ public class SystemService {
 		EntityTransaction trans = em.getTransaction();
 
 		PcReservation pr = null;
-		String statement = "select pr from pc_reservations pr "
-				+ "where pr.pcID = " + pcID + " and HOUR(pr.dateTimeStart) = " + startTime.getHours()
-				+ " and HOUR(pr.dateTimeEnd) = " + endTime.getHours() + " and DATE(pr.dateTimeStart) = " + "\'"
-				+ (startTime.getYear() + 1900) + "-" + (startTime.getMonth()+2) + "-" + startTime.getDate() + "\'"
-				;
+		String statement = "select pr from pc_reservations pr " + "where pr.pcID = " + pcID
+				+ " and HOUR(pr.dateTimeStart) = " + startTime.getHours() + " and HOUR(pr.dateTimeEnd) = "
+				+ endTime.getHours() + " and DATE(pr.dateTimeStart) = " + "\'" + (startTime.getYear() + 1900) + "-"
+				+ (startTime.getMonth() + 2) + "-" + startTime.getDate() + "\'";
 
 		System.out.println(statement);
 		try {
@@ -249,10 +248,9 @@ public class SystemService {
 				emf.close();
 			}
 		}
-		
+
 		return pr;
 	}
-
 
 	/**
 	 * 
@@ -280,20 +278,21 @@ public class SystemService {
 
 		return lr;
 	}
-	
+
 	public static LabReservation getLabReservation(Date date, Date startTime, Date endTime, String name) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction trans = em.getTransaction();
 
 		LabReservation lr = null;
-		String statement = "select lr from lab_reservations lr, lab l" + " where lr.locationID = l.locationID and l.name = " + name + " and HOUR(lr.dateTimeStart) = "
+		String statement = "select lr from lab_reservations lr, lab l"
+				+ " where lr.locationID = l.locationID and l.name like %" + name + "% and HOUR(lr.dateTimeStart) = "
 				+ startTime.getHours() + " and HOUR(lr.dateTimeEnd) = " + endTime.getHours()
 				+ " and DATE(lr.dateTimeStart) = " + "\'" + (startTime.getYear() + 1900) + "-"
 				+ (startTime.getMonth() + 2) + "-" + startTime.getDate() + "\'";
 
 		System.out.println(statement);
-		
+
 		try {
 			trans.begin();
 
@@ -311,7 +310,7 @@ public class SystemService {
 				emf.close();
 			}
 		}
-		
+
 		return lr;
 	}
 
@@ -330,7 +329,7 @@ public class SystemService {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction trans = em.getTransaction();
 
-		String statement = "select pr from pc_reservations pr where pr.userID = " + id;
+		String statement = "select pr from pc_reservations pr where pr.userID = " + id + " and pr.adminConfirmed = 1";
 
 		try {
 			trans.begin();
@@ -355,6 +354,43 @@ public class SystemService {
 
 	/**
 	 * 
+	 * Method returns a pending PcReservation of a specific User based on a userID.
+	 * If User does not exist, returns null.
+	 * 
+	 * @param id
+	 *            - userID
+	 * @return PcReservation
+	 */
+	public static PcReservation getUserPendingPcReservations(int id) {
+		PcReservation reservation = null;
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction trans = em.getTransaction();
+
+		String statement = "select pr from pc_reservations pr where pr.userID = " + id + " and pr.adminConfirmed = 1";
+
+		try {
+			trans.begin();
+
+			TypedQuery<PcReservation> query = em.createQuery(statement, PcReservation.class);
+			reservation = query.getResultList().get(0);
+
+			trans.commit();
+		} catch (Exception e) {
+			if (trans != null) {
+				trans.rollback();
+			}
+		} finally {
+			if (em != null) {
+				em.close();
+				emf.close();
+			}
+		}
+		return reservation;
+	}
+
+	/**
+	 * 
 	 * Method returns an ArrayList of LabReservations of a specific User based on a
 	 * userID. If Lab does not exist, returns an empty ArrayList.
 	 * 
@@ -368,7 +404,7 @@ public class SystemService {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction trans = em.getTransaction();
 
-		String statement = "select lr from lab_reservations lr where lr.userID = " + id;
+		String statement = "select lr from lab_reservations lr where lr.userID = " + id + " and lr.adminConfirmed = 1";
 
 		try {
 			trans.begin();
@@ -389,6 +425,44 @@ public class SystemService {
 			}
 		}
 		return reservations;
+	}
+
+	/**
+	 * 
+	 * Method returns a pending LabReservations of a specific User based on a
+	 * userID. If Lab does not exist, returns null.
+	 * 
+	 * @param id
+	 *            - userID
+	 * @return LabReservation
+	 */
+	public static LabReservation getUserPendingLabReservations(int id) {
+		LabReservation reservation = null;
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction trans = em.getTransaction();
+
+		String statement = "select lr from lab_reservations lr where lr.userID = " + id + " and lr.adminConfirmed = 0";
+
+		try {
+			trans.begin();
+
+			TypedQuery<LabReservation> query = em.createQuery(statement, LabReservation.class);
+			reservation = query.getResultList().get(0);
+
+			trans.commit();
+		} catch (Exception e) {
+			if (trans != null) {
+				trans.rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			if (em != null) {
+				em.close();
+				emf.close();
+			}
+		}
+		return reservation;
 	}
 
 	/**
@@ -535,14 +609,13 @@ public class SystemService {
 		statement += " and pc.pcID not in (select pc.pcID from pc_info pc, pc_reservations pr "
 				+ "where pc.pcID = pr.pcID and HOUR(pr.dateTimeStart) = " + startTime.getHours()
 				+ " and HOUR(pr.dateTimeEnd) = " + endTime.getHours() + " and DATE(pr.dateTimeStart) = " + "\'"
-				+ (date.getYear() + 1900) + "-" + (date.getMonth() + 1) + "-" + date.getDate() + "\'"
-				+ ")";
+				+ (date.getYear() + 1900) + "-" + (date.getMonth() + 1) + "-" + date.getDate() + "\'" + ")";
 
 		statement += " and pc.locationID = lb.locationID and lb.locationID not in"
 				+ "(select lr.locationID from lab_reservations lr" + " where HOUR(lr.dateTimeStart) = "
 				+ startTime.getHours() + " and HOUR(lr.dateTimeEnd) = " + endTime.getHours()
-				+ " and DATE(lr.dateTimeStart) = " + "\'" + (date.getYear() + 1900) + "-"
-				+ (date.getMonth() + 1) + "-" + date.getDate() + "\'" + ")";
+				+ " and DATE(lr.dateTimeStart) = " + "\'" + (date.getYear() + 1900) + "-" + (date.getMonth() + 1) + "-"
+				+ date.getDate() + "\'" + ")";
 
 		try {
 			trans.begin();
@@ -631,11 +704,16 @@ public class SystemService {
 	 * @param location
 	 * @return ArrayList<PcReservation>
 	 */
-	public static ArrayList<PcReservation> getAllPcReservations(String location) {
+	public static ArrayList<PcReservation> getAllPcReservations(String startDate, String endDate, String location) {
 		ArrayList<PcReservation> reservations = new ArrayList<>();
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction trans = em.getTransaction();
+
+		Date curD = new Date();
+
+		String cur = "'" + (curD.getYear() + 1900) + "-" + curD.getMonth() + "-" + curD.getDate() + " "
+				+ curD.getHours() + ":" + curD.getMinutes() + ":" + curD.getSeconds() + "'";
 
 		try {
 			trans.begin();
@@ -644,7 +722,17 @@ public class SystemService {
 
 			if (location != null)
 				statement += " where pr.pcID = pc.pcID and pc.locationID = lb.locationID and lb.building like '%"
-						+ location + "%'";
+						+ location + "%' and";
+			else
+				statement += " where";
+
+			if (startDate != null && endDate != null) {
+				statement += " date(pr.dateTimeStart) between date(" + startDate + ") and date(" + endDate + ")"
+						+ " and time(pr.dateTimeStart) < time(" + cur + ")";
+			} else {
+				statement += " date(pr.dateTimeStart) >= date(" + cur + ")" + " and time(pr.dateTimeStart) >= time("
+						+ cur + ")";
+			}
 
 			statement += " order by reserveTime";
 
@@ -672,11 +760,16 @@ public class SystemService {
 	 * @param location
 	 * @return ArrayList<LabReservation>
 	 */
-	public static ArrayList<LabReservation> getAllLabReservations(String location) {
+	public static ArrayList<LabReservation> getAllLabReservations(String startDate, String endDate, String location) {
 		ArrayList<LabReservation> reservations = new ArrayList<>();
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction trans = em.getTransaction();
+
+		Date curD = new Date();
+
+		String cur = "'" + (curD.getYear() + 1900) + "-" + curD.getMonth() + "-" + curD.getDate() + " "
+				+ curD.getHours() + ":" + curD.getMinutes() + ":" + curD.getSeconds() + "'";
 
 		try {
 			trans.begin();
@@ -684,7 +777,17 @@ public class SystemService {
 			String statement = "select distinct lr from lab_reservations lr, lab lb";
 
 			if (location != null)
-				statement += " where lr.locationID = lb.locationID and lb.building like '%" + location + "%'";
+				statement += " where lr.locationID = lb.locationID and lb.building like '%" + location + "%' and";
+			else
+				statement += " where";
+
+			if (startDate != null && endDate != null) {
+				statement += " date(lr.dateTimeStart) between date(" + startDate + ") and date(" + endDate + ")"
+						+ " and time(lr.dateTimeStart) < time(" + cur + ")";
+			} else {
+				statement += " date(lr.dateTimeStart) >= date(" + cur + ")" + " and time(lr.dateTimeStart) >= time("
+						+ cur + ")";
+			}
 
 			statement += " order by reserveTime";
 
@@ -762,7 +865,8 @@ public class SystemService {
 	 * This method deletes a PcReservation in the database based on a
 	 * pcreservationid.
 	 * 
-	 * @param id - pcreservationid
+	 * @param id
+	 *            - pcreservationid
 	 */
 	public static void removePcReservation(int id) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
@@ -790,7 +894,8 @@ public class SystemService {
 	 * This method deletes a LabReservation in the database based on a
 	 * labreservationid.
 	 * 
-	 * @param id - labreservationid
+	 * @param id
+	 *            - labreservationid
 	 */
 	public static void removeLabReservation(int id) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
@@ -813,7 +918,6 @@ public class SystemService {
 		em.close();
 		emf.close();
 	}
-
 
 	/**
 	 * Method toggles the adminConfirmed status of a PcReservation
@@ -861,6 +965,69 @@ public class SystemService {
 
 		em.close();
 		emf.close();
+	}
+
+	public static ArrayList<String> getReservationDates() {
+		ArrayList<String> dates = new ArrayList<>();
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction trans = em.getTransaction();
+
+		try {
+			trans.begin();
+
+			String statement = "select distinct DATE(lr.dateTimeEnd)\r\n" + "from lab_reservations lr \r\n" + "\r\n"
+					+ "union \r\n" + "\r\n" + "select distinct DATE(pr.dateTimeEnd)\r\n" + "from pc_reservations pr";
+
+			TypedQuery<String> query = em.createQuery(statement, String.class);
+			dates.addAll(query.getResultList());
+
+			trans.commit();
+		} catch (Exception e) {
+			if (trans != null) {
+				trans.rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}
+
+		for (String s : dates) {
+			String date[] = s.split("-");
+			s = date[1] + "/" + date[2] + "/" + date[0];
+		}
+
+		return dates;
+	}
+
+	public Lab findLab(String location, String name) {
+		Lab lab = null;
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction trans = em.getTransaction();
+
+		try {
+			trans.begin();
+
+			String statement = "from lab where building = " + location + " and name like %" + name + "%";
+
+			TypedQuery<Lab> query = em.createQuery(statement, Lab.class);
+			lab = query.getResultList().get(0);
+
+			trans.commit();
+		} catch (Exception e) {
+			if (trans != null) {
+				trans.rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			em.close();
+			emf.close();
+		}
+
+
+		return lab;
 	}
 
 }

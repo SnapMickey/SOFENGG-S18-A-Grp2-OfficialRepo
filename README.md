@@ -1,5 +1,19 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Rivera, Jared December 17, 2017
+Changes Made:
+- created methods in SystemController: 
+	*getHistory() - returns all previous reservations both lab and pc 
+	*getPendingReservationOfUser - returns PcReservation with adminConfirmed = 0. If none, returns nothing.
+	*requestDates - returns all dates where a reservation is present
+- updated methods in SystemController:
+	*cancelLabReservation - takes a location instead of pcID, and cancels LabReservation with that location.
+	*confirmLabReservation - takes a location instead of pcID, and confirms LabReservation with that location.
+	*getAllLabReservations - only returns current or future lab reservations 
+	*getAllPcReservations - only returns current or future pc reservations 
+	*getUserPcReservations - only returns user reservations that have been confirmed.
+
+
 Rivera, Jared December 15, 2017
 Changes Made:
 - fixed confirm and cancel reservation action, by changing the date and time formats for parsing in admin and user front page
