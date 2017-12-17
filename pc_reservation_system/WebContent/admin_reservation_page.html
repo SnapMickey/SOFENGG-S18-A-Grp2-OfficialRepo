@@ -965,7 +965,7 @@
                 sTime = selectedSTime;
                 eTime = selectedETime;
                 
-                $.get("requestUserReservationsByAdmin?id=" + id, function(data){
+                $.get("getPendingReservationOfUser", function(data){
                 
                     if(data.length == 0){
                         var rawSTime, rawETime, suffixSTime, suffixETime, finalSTime, finalETime;
