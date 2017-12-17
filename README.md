@@ -1,5 +1,9 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
 
+Lominoque, Jerome December 18, 2017
+Changes Made:
+- History page is now working
+
 Bornales, Amiel James December 17, 2017
 Changes Made:
 - updated user home, user reserve in checking of the pending thing
