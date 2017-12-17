@@ -1,4 +1,8 @@
 # SOFENGG-S18-A-Grp2-OfficialRepo
+Bornales, Amiel James December 18, 2017
+Changes made:
+- added functionality to layout buttons in admin / user reserve
+- rooms are now based on real rooms
 
 Lominoque, Jerome December 18, 2017
 Changes Made:
