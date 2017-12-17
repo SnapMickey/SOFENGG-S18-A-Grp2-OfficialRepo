@@ -286,7 +286,7 @@ public class SystemService {
 
 		LabReservation lr = null;
 		String statement = "select lr from lab_reservations lr, lab l"
-				+ " where lr.locationID = l.locationID and l.name like %" + name + "% and HOUR(lr.dateTimeStart) = "
+				+ " where lr.locationID = l.locationID and l.name like '%" + name + "%' and HOUR(lr.dateTimeStart) = "
 				+ startTime.getHours() + " and HOUR(lr.dateTimeEnd) = " + endTime.getHours()
 				+ " and DATE(lr.dateTimeStart) = " + "\'" + (startTime.getYear() + 1900) + "-"
 				+ (startTime.getMonth() + 2) + "-" + startTime.getDate() + "\'";
@@ -304,6 +304,7 @@ public class SystemService {
 			if (trans != null) {
 				trans.rollback();
 			}
+			e.printStackTrace();
 		} finally {
 			if (em != null) {
 				em.close();
@@ -705,72 +706,70 @@ public class SystemService {
 	 * @return ArrayList<PcReservation>
 	 */
 	public static ArrayList<PcReservation> getAllPcReservations(String startDate, String endDate, String location) {
-		ArrayList<PcReservation> reservations = new ArrayList<>();
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction trans = em.getTransaction();
+        ArrayList<PcReservation> reservations = new ArrayList<>();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction trans = em.getTransaction();
 
-		Date curD = new Date();
+        Date curD = new Date();
 
-		String curDate = "'" + (curD.getYear() + 1900) + "-" + (curD.getMonth()+1) + "-" + curD.getDate() + "'";
-		String curTime;
-		//String curTime = "'" + curD.getHours() + ":" + curD.getMinutes() + ":" + curD.getSeconds() + "'";
-		if(curD.getHours() < 10){
-			curTime = "'0" + curD.getHours();
-		}else{
-			curTime = "'" + curD.getHours();
-		}
-		
-		if(curD.getMinutes() < 10){
-			curTime += ":0" + curD.getMinutes();
-		}else{
-			curTime += ":"+ curD.getMinutes();
-		}
-		
-		if(curD.getSeconds() < 10){
-			curTime += ":0" + curD.getSeconds() + "'";
-		}else{
-			curTime += ":" + curD.getSeconds() + "'";
-		}
-		
+        String curDate = "'" + (curD.getYear() + 1900) + "-" + (curD.getMonth()+1) + "-" + curD.getDate() + "'";
+        String curTime;
+        //String curTime = "'" + curD.getHours() + ":" + curD.getMinutes() + ":" + curD.getSeconds() + "'";
+        if(curD.getHours() < 10){
+        	curTime = "'0" + curD.getHours();
+        		}else{
+       			curTime = "'" + curD.getHours();
+        		}
+        		
+        	if(curD.getMinutes() < 10){
+        		curTime += ":0" + curD.getMinutes();
+        		}else{
+        			curTime += ":"+ curD.getMinutes();
+        		}
+        		
+        		if(curD.getSeconds() < 10){
+        			curTime += ":0" + curD.getSeconds() + "'";
+        		}else{
+        			curTime += ":" + curD.getSeconds() + "'";
+        		}
 
-		try {
-			trans.begin();
+        try {
+            trans.begin();
 
-			String statement = "select distinct pr from pc_reservations pr, pc_info pc, lab lb";
+            String statement = "select distinct pr from pc_reservations pr, pc_info pc, lab lb";
 
-			if (location != null)
-				statement += " where pr.pcID = pc.pcID and pc.locationID = lb.locationID and lb.building like '%"
-						+ location + "%' and";
-			else
-				statement += " where";
+            if (location != null)
+                statement += " where pr.pcID = pc.pcID and pc.locationID = lb.locationID and lb.building like '%"
+                        + location + "%' and";
+            else
+                statement += " where";
 
-			if (startDate != null && endDate != null) {
-				statement += " date(pr.dateTimeStart) between date(" + startDate + ") and date(" + endDate + ")"
-						+ " and time(pr.dateTimeStart) < time(" + curTime + ")";
-			} else {
-				statement += " date(pr.dateTimeStart) <= date(" + curDate + ")" + " or time(pr.dateTimeStart) >= time("
-						+ curTime + ")";
-			}
+            if (startDate != null && endDate != null) {
+                statement += " date(pr.dateTimeStart) between date(" + startDate + ") and date(" + endDate + ")"
+                		+ " and time(pr.dateTimeStart) < time(" + curTime + ")";
+            } else {
+            	statement += " date(pr.dateTimeStart) <= date(" + curDate + ")" + " or time(pr.dateTimeStart) >= time("
+            						+ curTime + ")";
+            }
 
-			statement += " order by reserveTime";
+            statement += " order by reserveTime";
 
-			System.out.println(statement);
-			TypedQuery<PcReservation> query = em.createQuery(statement, PcReservation.class);
-			reservations.addAll(query.getResultList());
+            TypedQuery<PcReservation> query = em.createQuery(statement, PcReservation.class);
+            reservations.addAll(query.getResultList());
 
-			trans.commit();
-		} catch (Exception e) {
-			if (trans != null) {
-				trans.rollback();
-			}
-			e.printStackTrace();
-		} finally {
-			em.close();
-			emf.close();
-		}
-		return reservations;
-	}
+            trans.commit();
+        } catch (Exception e) {
+            if (trans != null) {
+                trans.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+            emf.close();
+        }
+        return reservations;
+    }
 
 	/**
 	 * This method returns an ArrayList of LabReservation objects for all existing
@@ -781,72 +780,71 @@ public class SystemService {
 	 * @return ArrayList<LabReservation>
 	 */
 	public static ArrayList<LabReservation> getAllLabReservations(String startDate, String endDate, String location) {
-		ArrayList<LabReservation> reservations = new ArrayList<>();
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction trans = em.getTransaction();
+        ArrayList<LabReservation> reservations = new ArrayList<>();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("db");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction trans = em.getTransaction();
 
-		Date curD = new Date();
+        Date curD = new Date();
 
-		//String cur = "'" + (curD.getYear() + 1900) + "-" + curD.getMonth() + "-" + curD.getDate() + " "
-				//+ curD.getHours() + ":" + curD.getMinutes() + ":" + curD.getSeconds() + "'";
+      //String cur = "'" + (curD.getYear() + 1900) + "-" + curD.getMonth() + "-" + curD.getDate() + " "
+      //+ curD.getHours() + ":" + curD.getMinutes() + ":" + curD.getSeconds() + "'";
+       
+      		String curDate = "'" + (curD.getYear() + 1900) + "-" + (curD.getMonth()+1) + "-" + curD.getDate() + "'";
+      		String curTime;
+      		if(curD.getHours() < 10){
+      			curTime = "'0" + curD.getHours();
+      		}else{
+      			curTime = "'" + curD.getHours();
+      		}
+      		
+      		if(curD.getMinutes() < 10){
+      			curTime += ":0" + curD.getMinutes();
+      		}else{
+      			curTime += ":"+ curD.getMinutes();
+     		}
+      		
+      		if(curD.getSeconds() < 10){
+      			curTime += ":0" + curD.getSeconds() + "'";
+      		}else{
+      			curTime += ":" + curD.getSeconds() + "'";
+      		}
 
-		String curDate = "'" + (curD.getYear() + 1900) + "-" + (curD.getMonth()+1) + "-" + curD.getDate() + "'";
-		String curTime;
-		if(curD.getHours() < 10){
-			curTime = "'0" + curD.getHours();
-		}else{
-			curTime = "'" + curD.getHours();
-		}
-		
-		if(curD.getMinutes() < 10){
-			curTime += ":0" + curD.getMinutes();
-		}else{
-			curTime += ":"+ curD.getMinutes();
-		}
-		
-		if(curD.getSeconds() < 10){
-			curTime += ":0" + curD.getSeconds() + "'";
-		}else{
-			curTime += ":" + curD.getSeconds() + "'";
-		}
-		
-		try {
-			trans.begin();
+        try {
+            trans.begin();
 
-			String statement = "select distinct lr from lab_reservations lr, lab lb";
+            String statement = "select distinct lr from lab_reservations lr, lab lb";
 
-			if (location != null)
-				statement += " where lr.locationID = lb.locationID and lb.building like '%" + location + "%' and";
-			else
-				statement += " where";
+            if (location != null)
+                statement += " where lr.locationID = lb.locationID and lb.building like '%" + location + "%' and";
+            else
+                statement += " where";
 
-			if (startDate != null && endDate != null) {
-				statement += " date(lr.dateTimeStart) between date(" + startDate + ") and date(" + endDate + ")"
-						+ " and time(lr.dateTimeStart) < time(" + curTime + ")";
-			} else {
-				statement += " date(lr.dateTimeStart) <= date(" + curDate + ")" + " or time(lr.dateTimeStart) >= time("
-						+ curTime + ")";
-			}
+            if (startDate != null && endDate != null) {
+                statement += " date(lr.dateTimeStart) between date(" + startDate + ") and date(" + endDate + ")"
+                        + " and time(lr.dateTimeStart) < time(" + curDate + ")";
+            } else {
+            	statement += " date(lr.dateTimeStart) <= date(" + curDate + ")" + " or time(lr.dateTimeStart) >= time("
+            				+ curTime + ")";
+            }
 
-			statement += " order by reserveTime";
+            statement += " order by reserveTime";
 
-			System.out.println(statement);
-			TypedQuery<LabReservation> query = em.createQuery(statement, LabReservation.class);
-			reservations.addAll(query.getResultList());
+            TypedQuery<LabReservation> query = em.createQuery(statement, LabReservation.class);
+            reservations.addAll(query.getResultList());
 
-			trans.commit();
-		} catch (Exception e) {
-			if (trans != null) {
-				trans.rollback();
-			}
-			e.printStackTrace();
-		} finally {
-			em.close();
-			emf.close();
-		}
-		return reservations;
-	}
+            trans.commit();
+        } catch (Exception e) {
+            if (trans != null) {
+                trans.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+            emf.close();
+        }
+        return reservations;
+    }
 
 	/**
 	 * This method inserts a new PcReservation into the database.
