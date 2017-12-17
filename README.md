@@ -3,6 +3,7 @@
 Bornales, Amiel James December 17, 2017
 Changes Made:
 - updated user home, user reserve in checking of the pending thing
+- updated admin home cancel / cfm
 
 Problems / Errors:
 - admin home reservation data not showing anything
