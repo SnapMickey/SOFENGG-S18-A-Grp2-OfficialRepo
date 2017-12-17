@@ -670,11 +670,12 @@ public class SystemController extends HttpServlet {
 
 			JsonObject json = new JsonObject();
 
-			json.addProperty("userid", lr.getUserID());
-			json.addProperty("id", lab.getLocationID());
+			String name[] = SystemService.getUser(lr.getUserID()).getName().split(" ");
+			json.addProperty("name", name[1].toUpperCase() + ", " + name[0]);
+			json.addProperty("id", lr.getUserID());
 			json.addProperty("location", lab.getName());
 			json.addProperty("event", lr.getEventName());
-			json.addProperty("date", "" + endT.getDate() + "/" + endT.getMonth() + "/" + (endT.getYear() + 1900));
+			json.addProperty("date", ""  +  (endT.getMonth()+1) + "/" + endT.getDate() + "/" + (endT.getYear() + 1900));
 			json.addProperty("start", sTime);
 			json.addProperty("end", eTime);
 			json.addProperty("confirmed", lr.isAdminConfirmed());
@@ -760,11 +761,13 @@ public class SystemController extends HttpServlet {
 				eTime += "PM";
 			}
 
-			json.addProperty("name", user.getName());
+			
+			String name[] = user.getName().split(" ");
+			json.addProperty("name", name[1].toUpperCase() + ", " + name[0]);
 			json.addProperty("id", user.getUserID());
 			json.addProperty("location", lab.getBuilding());
 			json.addProperty("pcnum", "" + pr.getPcID());
-			json.addProperty("date", "" + endT.getDate() + "/" + endT.getMonth() + "/" + (endT.getYear() + 1900));
+			json.addProperty("date", "" + (endT.getMonth() + 1) + "/" +  endT.getDate()+ "/" + (endT.getYear() + 1900));
 			json.addProperty("start", sTime);
 			json.addProperty("end", eTime);
 			json.addProperty("confirmed", pr.isAdminConfirmed());
@@ -930,7 +933,7 @@ public class SystemController extends HttpServlet {
 			}
 
 			
-			json.addProperty("date", "" + endT.getDate() + "/" + endT.getMonth() + "/" + (endT.getYear() + 1900));
+			json.addProperty("date", "" + endT.getMonth() + "/" +  endT.getDate() + "/" + (endT.getYear() + 1900));
 			json.addProperty("end", eTime);
 			
 
@@ -1034,7 +1037,7 @@ public class SystemController extends HttpServlet {
 			json.addProperty("room", lab.getName());
 			;
 			json.addProperty("pcnum", "" + pr.getPcID());
-			json.addProperty("date", "" + endT.getDate() + "/" + (endT.getMonth() + 1) + "/" + (endT.getYear() + 1900));
+			json.addProperty("date", "" + (endT.getMonth()+1) + "/" + endT.getDate() + "/" + (endT.getYear() + 1900));
 			json.addProperty("start", sTime);
 			json.addProperty("end", eTime);
 			json.addProperty("confirmed", pr.isAdminConfirmed());
@@ -1123,7 +1126,7 @@ public class SystemController extends HttpServlet {
 					json.addProperty("room", lab.getName());
 					;
 					json.addProperty("pcnum", "" + pr.getPcID());
-					json.addProperty("date", "" + endT.getDate() + "/" + (endT.getMonth() + 1) + "/" + (endT.getYear() + 1900));
+					json.addProperty("date", "" + (endT.getMonth() + 1) + "/" + endT.getDate() + "/" + (endT.getYear() + 1900));
 					json.addProperty("start", sTime);
 					json.addProperty("end", eTime);
 					json.addProperty("confirmed", pr.isAdminConfirmed());
@@ -1379,6 +1382,8 @@ public class SystemController extends HttpServlet {
 		int pID;
 		Date date, sTime, eTime;
 
+		System.out.println("ENTERED");
+		
 		pcID = request.getParameter("pcID");
 		reservationDate = request.getParameter("date");
 		startTime = request.getParameter("start");
@@ -1397,8 +1402,14 @@ public class SystemController extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		System.out.println(pcID);
 
 		if (pcID != null) {
+			System.out.println(date);
+			System.out.println(sTime);
+			System.out.println(eTime);
+			System.out.println(pID);
 			PcReservation pr = SystemService.getPcReservation(date, sTime, eTime, pID);
 			SystemService.removePcReservation(pr.getPcReservationID());
 		} 
@@ -1664,7 +1675,7 @@ public class SystemController extends HttpServlet {
 			json.addProperty("location", lab.getBuilding());
 			json.addProperty("room", lab.getName());
 			json.addProperty("pcnum", "" + pr.getPcID());
-			json.addProperty("date", "" + endT.getDate() + "/" + (endT.getMonth() + 1) + "/" + (endT.getYear() + 1900));
+			json.addProperty("date", "" + (endT.getMonth() + 1) + "/" + endT.getDate() + "/" + (endT.getYear() + 1900));
 			json.addProperty("start", sTime);
 			json.addProperty("end", eTime);
 			json.addProperty("confirmed", pr.isAdminConfirmed());
