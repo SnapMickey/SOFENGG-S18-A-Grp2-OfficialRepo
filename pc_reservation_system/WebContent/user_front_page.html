@@ -247,7 +247,7 @@
     </head>
     <body>
         <div class = "container-fluid mainDiv">
-       
+            
             <!-- Header start-->
             <div class = "row header">
                 <div class = "col-xs-1" style = "padding:0px;">
@@ -444,7 +444,7 @@
         crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
         <script>
-            
+                
             $(document).ready(fix_table_height());
             
             function fix_table_height(){
@@ -455,7 +455,6 @@
             
             $("#modalNo").click(function(){
                 
-
             });
             
             $("#modalYes").click(function(){
@@ -466,10 +465,11 @@
                 var temp = null;
                 
                 //TODO do $.get to remove the reservation
-                var path = "cancelPcReservation?" + "pcid=" + $("#pcnum").html() + 
+                var path = "cancelPcReservation?" + "pcID=" + $("#pcnum").html() + 
                                                     "&date=" + $("#date").html() +
                                                     "&start=" + $("#start").html() +
                                                     "&end=" + $("#end").html();
+                
                 $.get(path, function(data){console.log("deleted")});
                 
                 fix_table_height();
@@ -518,7 +518,7 @@
                 $("#last_login").html(user.last_login);
             }
             
-            function add_data_to_pending(jason){
+            function add_data_to_pending(json){
                 /*
                     Receives JSON object, format is as follows:
                     {
@@ -531,9 +531,10 @@
                     }
                 */
                 
-                console.log(jason);
+                console.log(json);
+                var jason = json[0];
                 
-                if(jason!=undefined){
+                if(jason != undefined){
                     $(".reserveInfoNone").css("display","none");
                     $(".reservationInfo").css("display",'block');
                     $(".cancel").css('visibility', 'visible');
@@ -582,20 +583,45 @@
                     for(var key in jason){
                         var col = $("<td>");
                         col.addClass("tableCell");
-
+                        
                         if(jason.hasOwnProperty(key)){
                             col.html(jason[key]);
                         }
-                        row.append(col);
+                        if(key!='confirmed')
+                            row.append(col);
                     }
 
                     $("#tbody").after(row);
                 }
 
-                add_data_to_pending(jasonarr[0]);
                 console.log(jasonarr[0]);
             }
+            $.get("getPendingReservationOfUser", function(data){add_data_to_pending(data)});
             $.get("requestUserDetails",function(data){add_data_to_user_info(data);});
             $.get("requestUserReservations",function(data){add_data_to_reserve_table(data);});
         </script>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
