@@ -190,6 +190,16 @@
             font-family:'Avenir Next',sans-serif;
             font-size: 18px;
         }
+        #red{
+            width:25px;
+            color:red;
+            margin:0px;
+            padding:0px;
+            cursor:default;
+        }
+        #red:hover{
+            cursor:default;
+        }
         #deleteReserve{
             width:25px;
             color:red;
@@ -493,7 +503,7 @@
 
               <!-- Modal content-->
                 <div class="modal-content">
-                        <h3 class = "modalText">Confirm this reservation?</h3>
+                        <h3 class = "modalText">Are you sure you want to confirm this reservation? This action cannot be undone.</h3>
                         <div class = "row">
                             <div class = "col">
                                 <button type="button" id = "modalNoCfm" class="btn btn-default" data-dismiss="modal">No</button>
@@ -657,11 +667,12 @@
                     
                     $(".selected_lab").remove();
                     //TODO Delete row from db, selected_lab json has all details
-                    path = 'cancelPcReservation?';
-                    path += "pcid=" + selected_lab.pcno + 
-                            "&date=" + date +
-                            "&start=" + startTime +
-                            "&end=" + endTime;
+                    path = 'cancelLabReservation?';
+                    path += "location=" + selected_lab.location + 
+                            "&eventName=" + selected_lab.event
+		                    "&date=" + date +
+		                    "&start=" + startTime +
+		                    "&end=" + endTime;
                 }else{
                     $(".selected_pc").remove();
                     dates = selected_reserve.date.split('/');
@@ -684,11 +695,12 @@
                         endTime = (endTimeCompute + 1) + ":00:00";
                     }
                     //TODO Delete row from db, selected_reserve json has all details
-                    path = 'cancelLabReservation?';
-                    path += "pcid=" + selected_reserve.pcno + 
-		                    "&date=" + date +
-		                    "&start=" + startTime +
-		                    "&end=" + endTime;
+                    
+                    path = 'cancelPcReservation?';
+                    path += "pcID=" + selected_lab.pcno + 
+                            "&date=" + date +
+                            "&start=" + startTime +
+                            "&end=" + endTime;
                 }
                 console.log(path);
                 $.get(path,function(data){console.log("removed reservation")});
@@ -831,8 +843,11 @@
                         }
                 }
                 
-                console.log(reserveType);
+                console.log(temp);
                 console.log(selected_reserve);
+                
+                
+                
                 $("#myModal").modal('show');
             });
             
@@ -872,8 +887,7 @@
                             start:temp[6].innerHTML,
                             end:temp[7].innerHTML
                         }
-                    }
-                    console.log(reserveType);
+                    }   
                     console.log(selected_lab);
                     $("#otherModal").modal('show');
                 }
@@ -1150,17 +1164,16 @@
                     for(var key in jason){
                         var col = $("<td>");
                         col.addClass("tableCell");
-                        console.log(key);
+                        console.log(key + ":" + jason[key]);
                         if(jason.hasOwnProperty(key)){
                             col.html(jason[key]);
                         }
                         if(key!="confirmed")
                             row.append(col);
                     }
-                    //append the [] and X thing on table
                     
-                    if(jason.confirmed == true){
-                        row.append("<td class = 'tableCell' id = 'cfmReserve'><div class = 'checkinBox'><input type = 'checkbox' id = 'checkBox' class = 'checkBox' onclick='return false;' checked></div></td>");
+                    if(jason.confirmed == true || jason.confirmed == 'true'){
+                        row.append("<td class = 'tableCell' id = 'cfmReserve'><div class = 'checkinBox'><input type = 'checkbox' id = 'checkBox' class = 'checkBox' onclick='return false;' checked disabled></div></td>");
                     }else{
                         row.append("<td class = 'tableCell' id = 'cfmReserve'><div class = 'checkinBox'><input type = 'checkbox' id = 'checkBox' class = 'checkBox'></div></td>");
                     }
@@ -1192,13 +1205,18 @@
                 for(var i = jasonarr.length - 1  ; i >= 0 ; i--){
                     var jason = jasonarr[i];
                     var row = $("<tr>");
-                    row.append("<td class = 'tableCell' id = 'xCell'><p id = 'deleteReserve'>X</p></td>");
+                    if(jason.confirmed == true || jason.confirmed == 'true'){
+                        row.append("<td class = 'tableCell' id = 'xCell'><p id = 'red'>X</p></td>");   
+                    }else{
+                        row.append("<td class = 'tableCell' id = 'xCell'><p id = 'deleteReserve'>X</p></td>");    
+                    }
+                    
                     
                     //Prints all the things, in the order that they came
                     for(var key in jason){
                         var col = $("<td>");
                         col.addClass("tableCell");
-                        console.log(key);
+                        console.log(key + ":" + jason[key]);
                         if(jason.hasOwnProperty(key)){
                             col.html(jason[key]);
                         }
@@ -1206,7 +1224,12 @@
                             row.append(col);
                     }
                     //append the [] and X thing on table
-                    row.append("<td class = 'tableCell' id = 'cfmReserve'><div class = 'checkinBox'><input type = 'checkbox' id = 'checkBox' class = 'checkBox'></div></td>");
+                    
+                    if(jason.confirmed == true || jason.confirmed == 'true'){
+                        row.append("<td class = 'tableCell' id = 'cfmReserve'><div class = 'checkinBox'><input type = 'checkbox' id = 'checkBox' class = 'checkBox' onclick='return false;' checked disabled></div></td>");
+                    }else{
+                        row.append("<td class = 'tableCell' id = 'cfmReserve'><div class = 'checkinBox'><input type = 'checkbox' id = 'checkBox' class = 'checkBox'></div></td>");
+                    }
                     
                     $("#recentTable").after(row);
                 }
