@@ -645,7 +645,7 @@
 
                 path = "";
                 if(labSelected){
-                	dates = selected_pc.date.split('/');
+                	dates = selected_lab.date.split('/');
                 	date = dates[2] + "-" + dates[1] + "-" + dates[0];
                 	
                 	startTimeCompute = parseInt(selected_lab.start); 
@@ -669,7 +669,7 @@
                     //TODO Delete row from db, selected_lab json has all details
                     path = 'cancelLabReservation?';
                     path += "location=" + selected_lab.location + 
-                            "&eventName=" + selected_lab.event
+                            "&eventName=" + selected_lab.event +
 		                    "&date=" + date +
 		                    "&start=" + startTime +
 		                    "&end=" + endTime;
@@ -714,6 +714,8 @@
             });
             $("#modalYesCfm").click(function(){
                 var checkbox = null;
+                var xBtn = null;
+                
                 var path = "";
                 
                 var dates;
@@ -744,14 +746,14 @@
                     else{
                         endTime = (endTimeCompute + 1) + ":00:00";
                     }
-                    
+                    xBtn = $(".selected_lab").children().first();
                     checkbox = $(".selected_lab").children().last().children().first().children().first();
-                    path = "confirmLabReservation";
+                    path = "confirmLabReservation?";
                     path+=  
                             "name=" + selected_lab.name +
                             "&eventName=" + selected_lab.event +
                             "&userID=" + selected_lab.id +
-                            "&locationID=" + selected_lab.location +
+                            "&location=" + selected_lab.location +
                             "&date=" + date +
                             "&start=" + startTime +
                             "&end=" + endTime;
@@ -775,6 +777,7 @@
                     }
                 	dates = selected_reserve.date.split('/');
                 	date = dates[2] + "-" + dates[1] + "-" + dates[0];
+                    xBtn = $(".selected_pc").children().first();
                     checkbox = $(".selected_pc").children().last().children().first().children().first();
                     path = "confirmPcReservation?";
                     path+=
@@ -787,6 +790,7 @@
                     "&end=" + endTime;
                     console.log(selected_reserve);
                 }
+                xBtn.html("<p id = 'red'>X</p>");
                 console.log(path);
                 checkbox.prop('checked',true);
                 checkbox.prop('disabled', 'disabled');
@@ -1158,8 +1162,12 @@
                 for(var i = jasonarr.length - 1  ; i >= 0 ; i--){
                     var jason = jasonarr[i];
                     var row = $("<tr>");
-                    row.append("<td class = 'tableCell' id = 'xCell'><p id = 'deleteReserve'>X</p></td>");
                     
+                    if(jason.confirmed == true || jason.confirmed == 'true'){
+                        row.append("<td class = 'tableCell' id = 'xCell'><p id = 'red'>X</p></td>");   
+                    }else{
+                        row.append("<td class = 'tableCell' id = 'xCell'><p id = 'deleteReserve'>X</p></td>");    
+                    }
                     //Prints all the things, in the order that they came
                     for(var key in jason){
                         var col = $("<td>");
