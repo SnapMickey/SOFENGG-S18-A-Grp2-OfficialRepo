@@ -406,6 +406,10 @@
                                     <p class = "boxHeader details">Building</p>
                                     <select class = "dropdown" id = "bldgList">
                                         <option value = "default">All</option>
+                                        <option value = "A">Andrew</option>
+                                        <option value = "Y">Yuchengco</option>
+                                        <option value = "LS">LS</option>
+                                        <option value = "SJ">SJ</option>
                                         <option value = "G">Gokongwei</option>
                                         <option value = "V">Velasco</option>
                                         <option value = "M">Miguel</option>
@@ -693,6 +697,7 @@
             //End of header stuff
             $("#layout").click(function(){
                 var room = $("#floorDropdown").val();
+                var bldg = $("#bldgList").val();
                 
                 if(!isLayout && room != "All"){
                     isLayout = true;
@@ -701,7 +706,7 @@
                     $(".reserveTable").css("display","none");
             
                     //set image src to room num
-                    $(".labImage").attr("src", room + ".png");
+                    $(".labImage").attr("src", "labLayouts/" + bldg + "/" + room + ".png");
                     
                     //show image and center it
                     $(".labImage").css("display", "block");
@@ -726,15 +731,22 @@
                 dropdown = document.getElementById("bldgList");
                 bldg = dropdown.value;
                 switch(bldg){
-                    case "G":   bldg = "Gokongwei"
+                    case "G":   bldg = "Gokongwei";
                                 break;
-                    case "V":   bldg = "Velasco"
+                    case "V":   bldg = "Velasco";
                                 break;
-                    case "HS":  bldg = "Henry Sy"
+                    case "HS":  bldg = "Henry Sy";
                                 break;
-                    case "M":   bldg = "Miguel"
+                    case "M":   bldg = "Miguel";
                                 break;
-                        
+                    case "A":   bldg = "Andrew";
+                                break;
+                    case "Y":   bldg = "Yuchengco";
+                                break;
+                    case "LS":  bldg = "LS";
+                                break;
+                    case "SJ":  bldg = "SJ";
+                                break;
                     default:    break;
                 }
                 
@@ -844,29 +856,43 @@
                 }
             }
             
-            var listGoks = [{text:'G201',value:'G201'},
-                           {text:'G202',value:'G202'},
-                           {text:'G203',value:'G203'},
-                           {text:'G301',value:'G301'},
-                           {text:'G302',value:'G302'}];
+            var listAndrew = [{text:'ANook',value:'ANook'},
+                             {text:'A1706',value:'A1706'}];
             
-            var listVel = [{text:'V201',value:'V201'},
-                          {text:'V202',value:'V202'},
-                          {text:'V203',value:'V203'},
+            var listGoks = [{text:'G301',value:'G301'},
+                           {text:'G302A',value:'G302A'},
+                           {text:'G302B',value:'G302B'},
+                           {text:'G304A',value:'G304A'},
+                           {text:'G304B',value:'G304B'},
+                           {text:'G306A',value:'G306A'},
+                           {text:'G306B',value:'G306B'},
+                           {text:'G404',value:'G404'}];
+            
+            var listSJ = [{text:'J212',value:'J212'},
+                         {text:'J308',value:'J308'},];
+            
+            var listVel = [{text:'V101',value:'V101'},
+                          {text:'V103',value:'V103'},
+                          {text:'V107',value:'V107'},
+                          {text:'V208',value:'V208'},
                           {text:'V301',value:'V301'},
-                          {text:'V302',value:'V302'}];
+                          {text:'V310',value:'V310'},
+                          {text:'V313',value:'V313'},
+                          {text:'V505',value:'V505'}];
             
-            var listMig = [{text:'M201',value:'M201'},
-                          {text:'M202',value:'M202'},
-                          {text:'M203',value:'M203'},
-                          {text:'M301',value:'M301'},
-                          {text:'M302',value:'M302'}];
+            var listLS = [{text:'L212',value:'L212'},
+                         {text:'L229',value:'L229'},
+                         {text:'L320',value:'L320'},
+                         {text:'L335',value:'L335'}]
             
-            var listHenry = [{text:'6th Floor',value:'6th'},
-                            {text:'7th Floor',value:'7th'},
-                            {text:'8th Floor',value:'8th'},
-                            {text:'9th Floor',value:'9th'},
-                            {text:'10th Floor',value:'10th'}];
+            var listMig = [{text:'M303',value:'M303'}];
+                
+            var listYuch = [{text:'Y602',value:'Y602'}];
+            
+            var listHenry = [{text:'7th Floor',value:'7th'},
+                            {text:'10th Floor',value:'10th'},
+                            {text:'7th Floor',value:'12th'},
+                            {text:'14th Floor',value:'14th'}];
             
             $("#bldgList").change(function(){
                 console.log("bldgList changed");
@@ -893,7 +919,20 @@
                 else if(bldgList.value == "HS"){
                     console.log("Henry Sy Selected");
                     tempArr = listHenry;
+                }else if(bldgList.value == "A"){
+                    console.log("Andrew Selected");
+                    tempArr = listAndrew;
+                }else if(bldgList.value == "Y"){
+                    console.log("Yuch Selected");
+                    tempArr = listYuch;
+                }else if(bldgList.value == "LS"){
+                    console.log("LS Selected");
+                    tempArr = listLS;
+                }else if(bldgList.value == "SJ"){
+                    console.log("SJ Selected");
+                    tempArr = listSJ;
                 }
+
                 var len = tempArr.length;
                 console.log(tempArr);
                 var i = -1;
